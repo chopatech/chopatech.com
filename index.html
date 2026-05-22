@@ -536,7 +536,45 @@ body{
 
 @media(max-width:920px){
   #social-floating{
-    display:none
+    display:flex;
+    left:12px;
+    bottom:12px;
+    gap:8px;
+    z-index:1300;
+    flex-wrap:nowrap;
+    max-width:calc(100vw - 24px);
+    overflow-x:auto;
+    padding-bottom:2px;
+    -webkit-overflow-scrolling:touch;
+  }
+
+  .social-btn{
+    width:44px;
+    height:44px;
+    flex:0 0 auto;
+  }
+
+  .social-btn svg{
+    width:24px;
+    height:24px;
+  }
+}
+
+@media(max-width:420px){
+  #social-floating{
+    left:10px;
+    bottom:10px;
+    gap:6px;
+  }
+
+  .social-btn{
+    width:40px;
+    height:40px;
+  }
+
+  .social-btn svg{
+    width:22px;
+    height:22px;
   }
 }
 
