@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FutureTech Hub</title>
+
+  <!-- React -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+  <!-- Babel -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Three.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <style>
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background: #000;
+      overflow-x: hidden;
+    }
+
+    #planet-canvas{
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    #three-canvas{
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    #root{
+      position: relative;
+      z-index: 2;
+    }
+
+    .click-ripple{
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      animation: ripple 0.9s ease-out forwards;
+    }
+
+    @keyframes ripple{
+      0%{width:0;height:0;opacity:.9;}
+      100%{width:220px;height:220px;opacity:0;}
+    }
+
+    .ai-flash{
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9998;
+      animation: flash .7s ease-out forwards;
+    }
+
+    @keyframes flash{
+      0%{opacity:.18}
+      100%{opacity:0}
+    }
+
+    .ai-popup{
+      position: fixed;
+      z-index: 9999;
+      pointer-events: none;
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      color: #67e8f9;
+      background: rgba(0,0,0,.75);
+      border: 1px solid rgba(6,182,212,.45);
+      padding: 6px 12px;
+      border-radius: 8px;
+      backdrop-filter: blur(10px);
+      white-space: nowrap;
+      animation: popup 2.8s ease-out forwards;
+    }
+
+    @keyframes popup{
+      0%{opacity:0;transform:translateY(0px)}
+      15%{opacity:1;transform:translateY(-10px)}
+      70%{opacity:1;transform:translateY(-20px)}
+      100%{opacity:0;transform:translateY(-34px)}
+    }
+  </style>
+</head>
+
+<body class="bg-black">
+
+  <canvas id="planet-canvas"></canvas>
+  <canvas id="three-canvas"></canvas>
+
+  <div id="root"></div>
+
+  <!-- =========================
+       CINEMATIC SOLAR SYSTEM
+  ========================== -->
+  <script>
+    (function () {
+      const canvas = document.getElementById("planet-canvas");
+      const renderer = new THREE.WebGLRenderer({
+        canvas,
+        alpha: true,
+        antialias: true
+      });
+
+      renderer.setPixelRatio(window.devicePixelRatio);
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setClearColor(0x000000, 0);
+
+      const scene = new THREE.Scene();
+      scene.fog = new THREE.FogExp2(0x000000, 0.006);
+
+      const camera = new THREE.PerspectiveCamera(
+        60,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        1000
+      );
+      camera.position.set(0, 1, 13);
+
+      const mouse = { x: 0, y: 0 };
+      window.addEventListener("mousemove", (e) => {
+        mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+      });
+
+      const loader = new THREE.TextureLoader();
+
+      const textures = {
+        sun: loader.load("https://threejs.org/examples/textures/planets/sun.jpg"),
+        mercury: loader.load("https://threejs.org/examples/textures/planets/mercury.jpg"),
+        venus: loader.load("https://threejs.org/examples/textures/planets/venus.jpg"),
+        earth: loader.load("https://threejs.org/examples/textures/planets/earth_atmos_2048.jpg"),
+        mars: loader.load("https://threejs.org/examples/textures/planets/mars_1024.jpg"),
+        jupiter: loader.load("https://threejs.org/examples/textures/planets/jupiter2_1024.jpg"),
+        saturn: loader.load("https://threejs.org/examples/textures/planets/saturn.jpg"),
+        saturnRing: loader.load("https://threejs.org/examples/textures/planets/saturnringcolor.jpg")
+      };
+
+      function makeGlowTexture(innerColor, outerColor) {
+        const size = 256;
+        const c = document.createElement("canvas");
+        c.width = c.height = size;
+        const ctx = c.getContext("2d");
+
+        const grad = ctx.createRadialGradient(
+          size / 2, size / 2, 0,
+          size / 2, size / 2, size / 2
+        );
+        grad.addColorStop(0, innerColor);
+        grad.addColorStop(0.35, outerColor);
+        grad.addColorStop(1, "rgba(0,0,0,0)");
+
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, size, size);
+
+        const tex = new THREE.CanvasTexture(c);
+        tex.needsUpdate = true;
+        return tex;
+      }
+
+      // Lights
+      const ambient = new THREE.AmbientLight(0xffffff, 0.7);
+      scene.add(ambient);
+
+      const sunLight = new THREE.PointLight(0xfff1cc, 3.5, 100);
+      sunLight.position.set(0, 0, 0);
+      scene.add(sunLight);
+
+      const fillLight = new THREE.DirectionalLight(0x9bdcff, 0.8);
+      fillLight.position.set(8, 4, 10);
+      scene.add(fillLight);
+
+      // Subtle nebula haze
+      const nebulaTextures = [
+        makeGlowTexture("rgba(120, 119, 198, 0.65)", "rgba(120, 119, 198, 0.10)"),
+        makeGlowTexture("rgba(34, 211, 238, 0.45)", "rgba(34, 211, 238, 0.06)"),
+        makeGlowTexture("rgba(236, 72, 153, 0.35)", "rgba(236, 72, 153, 0.05)")
+      ];
+
+      const nebulaPositions = [
+        [-6,  2, -18],
+        [ 5, -3, -22],
+        [ 0,  5, -24],
+        [ 8,  2, -20]
+      ];
+
+      nebulaPositions.forEach((pos, i) => {
+        const sprite = new THREE.Sprite(
+          new THREE.SpriteMaterial({
+            map: nebulaTextures[i % nebulaTextures.length],
+            color: 0xffffff,
+            transparent: true,
+            opacity: 0.65,
+            depthWrite: false,
+            blending: THREE.AdditiveBlending
+          })
+        );
+        sprite.position.set(pos[0], pos[1], pos[2]);
+        sprite.scale.set(12 + i * 2, 12 + i * 2, 1);
+        scene.add(sprite);
+      });
+
+      // Sun
+      const sun = new THREE.Mesh(
+        new THREE.SphereGeometry(1.35, 64, 64),
+        new THREE.MeshBasicMaterial({ map: textures.sun })
+      );
+      scene.add(sun);
+
+      // Glowing sun bloom
+      const sunBloom = new THREE.Sprite(
+        new THREE.SpriteMaterial({
+          map: makeGlowTexture("rgba(255, 215, 130, 0.85)", "rgba(255, 120, 20, 0.18)"),
+          color: 0xffffff,
+          transparent: true,
+          opacity: 0.95,
+          depthWrite: false,
+          blending: THREE.AdditiveBlending
+        })
+      );
+      sunBloom.scale.set(8, 8, 1);
+      sunBloom.position.set(0, 0, 0);
+      scene.add(sunBloom);
+
+      // Sun glow shell
+      const sunGlow = new THREE.Mesh(
+        new THREE.SphereGeometry(1.55, 64, 64),
+        new THREE.MeshBasicMaterial({
+          color: 0xffd27d,
+          transparent: true,
+          opacity: 0.10,
+          side: THREE.BackSide
+        })
+      );
+      scene.add(sunGlow);
+
+      function createOrbit(radius, opacity = 0.16) {
+        const curve = new THREE.EllipseCurve(
+          0, 0,
+          radius, radius,
+          0, Math.PI * 2,
+          false,
+          0
+        );
+        const points = curve.getPoints(160);
+        const geometry = new THREE.BufferGeometry().setFromPoints(points);
+        const material = new THREE.LineBasicMaterial({
+          color: 0xffffff,
+          transparent: true,
+          opacity
+        });
+        const line = new THREE.LineLoop(geometry, material);
+        line.rotation.x = Math.PI / 2;
+        scene.add(line);
+        return line;
+      }
+
+      function createPlanet({ size, distance, speed, texture, emissive = 0x000000, opacity = 1 }) {
+        const mesh = new THREE.Mesh(
+          new THREE.SphereGeometry(size, 48, 48),
+          new THREE.MeshStandardMaterial({
+            map: texture,
+            emissive,
+            emissiveIntensity: 0.18,
+            roughness: 1,
+            metalness: 0.02,
+            transparent: opacity < 1,
+            opacity
+          })
+        );
+        scene.add(mesh);
+
+        const orbit = createOrbit(distance, 0.12);
+
+        return {
+          mesh,
+          orbit,
+          distance,
+          speed,
+          angle: Math.random() * Math.PI * 2
+        };
+      }
+
+      const planets = [
+        createPlanet({ size: 0.18, distance: 2.1, speed: 0.020, texture: textures.mercury }),
+        createPlanet({ size: 0.30, distance: 3.0, speed: 0.015, texture: textures.venus }),
+        createPlanet({ size: 0.33, distance: 4.1, speed: 0.012, texture: textures.earth }),
+        createPlanet({ size: 0.25, distance: 5.1, speed: 0.010, texture: textures.mars }),
+        createPlanet({ size: 0.95, distance: 7.1, speed: 0.006, texture: textures.jupiter }),
+        createPlanet({ size: 0.78, distance: 9.2, speed: 0.0045, texture: textures.saturn })
+      ];
+
+      // Saturn ring
+      const saturnRing = new THREE.Mesh(
+        new THREE.RingGeometry(1.0, 1.7, 64),
+        new THREE.MeshBasicMaterial({
+          map: textures.saturnRing,
+          side: THREE.DoubleSide,
+          transparent: true,
+          opacity: 0.9
+        })
+      );
+      saturnRing.rotation.x = Math.PI / 2.1;
+      scene.add(saturnRing);
+
+      // Clean starfield
+      const starGeo = new THREE.BufferGeometry();
+      const starCount = 1400;
+      const starPos = new Float32Array(starCount * 3);
+
+      for (let i = 0; i < starPos.length; i++) {
+        starPos[i] = (Math.random() - 0.5) * 120;
+      }
+
+      starGeo.setAttribute("position", new THREE.BufferAttribute(starPos, 3));
+      const stars = new THREE.Points(
+        starGeo,
+        new THREE.PointsMaterial({
+          color: 0xffffff,
+          size: 0.03,
+          transparent: true,
+          opacity: 0.6,
+          sizeAttenuation: true
+        })
+      );
+      scene.add(stars);
+
+      // Tiny drifting dust
+      const dustGeo = new THREE.BufferGeometry();
+      const dustCount = 500;
+      const dustPos = new Float32Array(dustCount * 3);
+
+      for (let i = 0; i < dustPos.length; i++) {
+        dustPos[i] = (Math.random() - 0.5) * 60;
+      }
+
+      dustGeo.setAttribute("position", new THREE.BufferAttribute(dustPos, 3));
+      const dust = new THREE.Points(
+        dustGeo,
+        new THREE.PointsMaterial({
+          color: 0x93c5fd,
+          size: 0.02,
+          transparent: true,
+          opacity: 0.3,
+          sizeAttenuation: true
+        })
+      );
+      scene.add(dust);
+
+      let zoomTarget = 10.6;
+
+      function animate() {
+        requestAnimationFrame(animate);
+
+        // cinematic slow zoom-in fly-through
+        zoomTarget = 10.6;
+        camera.position.z += (zoomTarget - camera.position.z) * 0.002;
+
+        sun.rotation.y += 0.002;
+        sunGlow.rotation.y += 0.001;
+        stars.rotation.y += 0.00012;
+        dust.rotation.y -= 0.00008;
+
+        camera.position.x += (mouse.x * 0.45 - camera.position.x) * 0.03;
+        camera.position.y += (mouse.y * 0.28 - camera.position.y) * 0.03;
+        camera.lookAt(0, 0, 0);
+
+        planets.forEach((p, index) => {
+          p.angle += p.speed;
+          p.mesh.position.x = Math.cos(p.angle) * p.distance;
+          p.mesh.position.z = Math.sin(p.angle) * p.distance;
+          p.mesh.position.y = Math.sin(p.angle * 0.7) * 0.15;
+          p.mesh.rotation.y += 0.01;
+
+          if (index === 5) {
+            saturnRing.position.copy(p.mesh.position);
+            saturnRing.rotation.z += 0.001;
+          }
+        });
+
+        renderer.render(scene, camera);
+      }
+
+      animate();
+
+      window.addEventListener("resize", () => {
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+      });
+    })();
+  </script>
+
+  <!-- =========================
+       THREE.JS PARTICLES + DEPTH + MOUSE CAMERA
+  ========================== -->
+  <script>
+    (function () {
+      const canvas = document.getElementById("three-canvas");
+      const renderer = new THREE.WebGLRenderer({
+        canvas,
+        alpha: true,
+        antialias: true
+      });
+
+      renderer.setPixelRatio(window.devicePixelRatio);
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setClearColor(0x000000, 0);
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(
+        75,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        1000
+      );
+      camera.position.z = 5;
+
+      const mouse = { x: 0, y: 0 };
+      const target = { x: 0, y: 0 };
+
+      window.addEventListener("mousemove", (e) => {
+        mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+      });
+
+      const starGeo = new THREE.BufferGeometry();
+      const starCount = 700;
+      const starPos = new Float32Array(starCount * 3);
+
+      for (let i = 0; i < starPos.length; i++) {
+        starPos[i] = (Math.random() - 0.5) * 50;
+      }
+
+      starGeo.setAttribute("position", new THREE.BufferAttribute(starPos, 3));
+      const stars = new THREE.Points(
+        starGeo,
+        new THREE.PointsMaterial({
+          color: 0x8ab4f8,
+          size: 0.03,
+          transparent: true,
+          opacity: 0.45,
+          sizeAttenuation: true
+        })
+      );
+      scene.add(stars);
+
+      const midCount = 300;
+      const midGeo = new THREE.BufferGeometry();
+      const midPos = new Float32Array(midCount * 3);
+      const midVel = [];
+
+      for (let i = 0; i < midCount; i++) {
+        midPos[i * 3] = (Math.random() - 0.5) * 20;
+        midPos[i * 3 + 1] = (Math.random() - 0.5) * 20;
+        midPos[i * 3 + 2] = (Math.random() - 0.5) * 14;
+        midVel.push({
+          vx: (Math.random() - 0.5) * 0.002,
+          vy: (Math.random() - 0.5) * 0.002
+        });
+      }
+
+      midGeo.setAttribute("position", new THREE.BufferAttribute(midPos, 3));
+      const midPts = new THREE.Points(
+        midGeo,
+        new THREE.PointsMaterial({
+          color: 0x22d3ee,
+          size: 0.05,
+          transparent: true,
+          opacity: 0.55,
+          sizeAttenuation: true
+        })
+      );
+      scene.add(midPts);
+
+      const fgCount = 180;
+      const fgGeo = new THREE.BufferGeometry();
+      const fgPos = new Float32Array(fgCount * 3);
+      const fgOrig = [];
+      const fgVel = [];
+
+      for (let i = 0; i < fgCount; i++) {
+        const x = (Math.random() - 0.5) * 12;
+        const y = (Math.random() - 0.5) * 10;
+        const z = (Math.random() - 0.5) * 4 + 1;
+
+        fgPos[i * 3] = x;
+        fgPos[i * 3 + 1] = y;
+        fgPos[i * 3 + 2] = z;
+
+        fgOrig.push({ x, y, z });
+        fgVel.push({ vx: 0, vy: 0 });
+      }
+
+      fgGeo.setAttribute("position", new THREE.BufferAttribute(fgPos, 3));
+      const fgPts = new THREE.Points(
+        fgGeo,
+        new THREE.PointsMaterial({
+          color: 0xa78bfa,
+          size: 0.07,
+          transparent: true,
+          opacity: 0.7,
+          sizeAttenuation: true
+        })
+      );
+      scene.add(fgPts);
+
+      const bursts = [];
+
+      window.addEventListener("click", (e) => {
+        const geo = new THREE.BufferGeometry();
+        const count = 60;
+        const pos = new Float32Array(count * 3);
+        const vel = [];
+
+        const x = (e.clientX / window.innerWidth) * 2 - 1;
+        const y = -(e.clientY / window.innerHeight) * 2 + 1;
+
+        for (let i = 0; i < count; i++) {
+          pos[i * 3] = x * 6;
+          pos[i * 3 + 1] = y * 4;
+          pos[i * 3 + 2] = 0;
+
+          const a = Math.random() * Math.PI * 2;
+          const s = 0.05 + Math.random() * 0.05;
+
+          vel.push({
+            vx: Math.cos(a) * s,
+            vy: Math.sin(a) * s,
+            life: 1
+          });
+        }
+
+        geo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+
+        const pts = new THREE.Points(
+          geo,
+          new THREE.PointsMaterial({
+            color: 0x22d3ee,
+            size: 0.08,
+            transparent: true,
+            opacity: 1,
+            sizeAttenuation: true
+          })
+        );
+
+        scene.add(pts);
+        bursts.push({ pts, geo, pos, vel });
+      });
+
+      const clock = new THREE.Clock();
+
+      function animate() {
+        requestAnimationFrame(animate);
+        const t = clock.getElapsedTime();
+
+        target.x += (mouse.x - target.x) * 0.05;
+        target.y += (mouse.y - target.y) * 0.05;
+
+        stars.position.x = target.x * 0.25;
+        stars.position.y = target.y * 0.25;
+        stars.rotation.y = t * 0.008;
+
+        for (let i = 0; i < midCount; i++) {
+          midPos[i * 3] += midVel[i].vx;
+          midPos[i * 3 + 1] += midVel[i].vy;
+
+          if (midPos[i * 3] > 11) midPos[i * 3] = -11;
+          if (midPos[i * 3] < -11) midPos[i * 3] = 11;
+          if (midPos[i * 3 + 1] > 11) midPos[i * 3 + 1] = -11;
+          if (midPos[i * 3 + 1] < -11) midPos[i * 3 + 1] = 11;
+        }
+
+        midGeo.attributes.position.needsUpdate = true;
+        midPts.position.x = target.x * 0.75;
+        midPts.position.y = target.y * 0.75;
+
+        const mx = target.x * 6;
+        const my = target.y * 4;
+
+        for (let i = 0; i < fgCount; i++) {
+          const dx = mx - fgPos[i * 3];
+          const dy = my - fgPos[i * 3 + 1];
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          const inf = Math.max(0, 1 - dist / 6);
+
+          fgVel[i].vx += dx * 0.0009 * inf + (fgOrig[i].x - fgPos[i * 3]) * 0.003;
+          fgVel[i].vy += dy * 0.0009 * inf + (fgOrig[i].y - fgPos[i * 3 + 1]) * 0.003;
+
+          fgVel[i].vx *= 0.93;
+          fgVel[i].vy *= 0.93;
+
+          fgPos[i * 3] += fgVel[i].vx + Math.sin(t * 0.45 + i * 0.28) * 0.0005;
+          fgPos[i * 3 + 1] += fgVel[i].vy + Math.cos(t * 0.38 + i * 0.22) * 0.0005;
+        }
+
+        fgGeo.attributes.position.needsUpdate = true;
+        fgPts.position.x = target.x * 1.2;
+        fgPts.position.y = target.y * 1.2;
+
+        camera.position.x += (target.x * 0.4 - camera.position.x) * 0.03;
+        camera.position.y += (target.y * 0.3 - camera.position.y) * 0.03;
+        camera.lookAt(scene.position);
+
+        for (let b = bursts.length - 1; b >= 0; b--) {
+          const B = bursts[b];
+          let dead = true;
+
+          for (let i = 0; i < B.vel.length; i++) {
+            B.vel[i].life -= 0.022;
+            if (B.vel[i].life > 0) {
+              dead = false;
+              B.pos[i * 3] += B.vel[i].vx;
+              B.pos[i * 3 + 1] += B.vel[i].vy;
+              B.vel[i].vx *= 0.97;
+              B.vel[i].vy *= 0.97;
+            }
+          }
+
+          B.geo.attributes.position.needsUpdate = true;
+          B.pts.material.opacity = Math.max(0, B.vel[0].life);
+
+          if (dead) {
+            scene.remove(B.pts);
+            B.geo.dispose();
+            B.pts.material.dispose();
+            bursts.splice(b, 1);
+          }
+        }
+
+        renderer.render(scene, camera);
+      }
+
+      animate();
+
+      window.addEventListener("resize", () => {
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+      });
+    })();
+  </script>
+
+  <!-- =========================
+       AI CLICK INTERACTION
+  ========================== -->
+  <script>
+    (function () {
+      const msgs = [
+        "AI activated",
+        "Neural sync",
+        "Signal detected",
+        "Quantum event",
+        "System awake",
+        "Data stream opened",
+        "Inference running"
+      ];
+
+      const colors = ["#22d3ee", "#a78bfa", "#3b82f6", "#67e8f9"];
+
+      window.addEventListener("click", (e) => {
+        const c = colors[Math.floor(Math.random() * colors.length)];
+
+        const ring = document.createElement("div");
+        ring.className = "click-ripple";
+        ring.style.left = e.clientX + "px";
+        ring.style.top = e.clientY + "px";
+        ring.style.border = `2px solid ${c}`;
+        ring.style.boxShadow = `0 0 18px ${c}66`;
+        document.body.appendChild(ring);
+        ring.addEventListener("animationend", () => ring.remove());
+
+        const flash = document.createElement("div");
+        flash.className = "ai-flash";
+        flash.style.background = `radial-gradient(circle at ${e.clientX}px ${e.clientY}px, ${c}33, transparent 55%)`;
+        document.body.appendChild(flash);
+        flash.addEventListener("animationend", () => flash.remove());
+
+        const popup = document.createElement("div");
+        popup.className = "ai-popup";
+        popup.textContent = "⚡ " + msgs[Math.floor(Math.random() * msgs.length)];
+        popup.style.left = (e.clientX + 15) + "px";
+        popup.style.top = (e.clientY - 10) + "px";
+        document.body.appendChild(popup);
+        popup.addEventListener("animationend", () => popup.remove());
+      });
+    })();
+  </script>
+
+  <!-- =========================
+       REACT UI
+  ========================== -->
+  <script type="text/babel">
+    const { useState } = React;
+
+    function FutureTechProjectsPage() {
+      const [menuOpen, setMenuOpen] = useState(false);
+
+      return (
+        <div className="min-h-screen text-white relative overflow-hidden">
+
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,#1e3a8a22,transparent_40%),radial-gradient(circle_at_bottom_left,#06b6d422,transparent_40%)]"></div>
+          <div className="absolute top-20 left-20 w-72 h-72 bg-cyan-500/20 blur-3xl rounded-full animate-pulse"></div>
+          <div className="absolute bottom-20 right-20 w-80 h-80 bg-blue-500/20 blur-3xl rounded-full animate-pulse"></div>
+
+          <header className="relative z-50 border-b border-white/10 backdrop-blur-xl bg-white/5 sticky top-0">
+            <div className="max-w-7xl mx-auto flex items-center justify-between px-4 md:px-6 py-4">
+
+              <div className="flex items-center gap-4">
+                <button
+                  onClick={() => setMenuOpen(!menuOpen)}
+                  className="flex flex-col gap-[5px] md:hidden"
+                  aria-label="Open menu"
+                >
+                  <span className="w-7 h-[3px] bg-white rounded-full"></span>
+                  <span className="w-7 h-[3px] bg-white rounded-full"></span>
+                  <span className="w-7 h-[3px] bg-white rounded-full"></span>
+                </button>
+
+                <h1 className="text-2xl md:text-3xl font-extrabold tracking-wide bg-gradient-to-r from-cyan-400 to-blue-500 text-transparent bg-clip-text">
+                  FutureTech Hub
+                </h1>
+              </div>
+
+              <nav className="hidden md:flex gap-8 text-sm font-medium text-gray-300">
+                <a href="#" className="hover:text-cyan-400 transition">Home</a>
+                <a href="#projects" className="hover:text-cyan-400 transition">Projects</a>
+                <a href="#innovation" className="hover:text-cyan-400 transition">Innovation</a>
+                <a href="#contact" className="hover:text-cyan-400 transition">Contact</a>
+              </nav>
+
+              <button className="bg-gradient-to-r from-cyan-500 to-blue-600 px-5 py-2 rounded-full hover:scale-105 transition shadow-lg shadow-cyan-500/30">
+                Explore
+              </button>
+            </div>
+
+            {menuOpen && (
+              <div className="md:hidden px-6 pb-6 flex flex-col gap-5 text-gray-300 bg-black/80 backdrop-blur-xl border-t border-white/10">
+                <a href="#" className="hover:text-cyan-400 transition">Home</a>
+                <a href="#projects" className="hover:text-cyan-400 transition">Projects</a>
+                <a href="#innovation" className="hover:text-cyan-400 transition">Innovation</a>
+                <a href="#contact" className="hover:text-cyan-400 transition">Contact</a>
+              </div>
+            )}
+          </header>
+
+          <section className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 pt-20 md:pt-24 pb-16 text-center">
+            <div className="inline-block px-4 py-2 rounded-full border border-cyan-500/30 bg-cyan-500/10 text-cyan-300 text-xs md:text-sm mb-6 backdrop-blur-xl">
+              Modern Design • Creativity • Engineering
+            </div>
+
+            <h2 className="text-4xl sm:text-5xl md:text-7xl font-black leading-tight max-w-5xl mx-auto">
+              Building The
+              <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">
+                {" "}Future of Technology
+              </span>
+            </h2>
+
+            <p className="max-w-3xl mx-auto mt-6 md:mt-8 text-base md:text-lg text-gray-300 leading-relaxed">
+              Explore modern innovation, creative engineering, artificial intelligence,
+              futuristic systems, and advanced computer science experiences designed for
+              the next generation.
+            </p>
+
+            <div className="mt-10 flex flex-col sm:flex-row flex-wrap justify-center gap-4 md:gap-5">
+              <button className="px-8 py-4 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 font-semibold hover:scale-105 transition shadow-2xl shadow-cyan-500/30">
+                Start Journey
+              </button>
+
+              <button className="px-8 py-4 rounded-2xl border border-white/20 bg-white/5 backdrop-blur-xl hover:bg-white/10 transition">
+                Watch Demo
+              </button>
+            </div>
+          </section>
+
+          <section
+            id="projects"
+            className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 py-16 md:py-24 grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-10"
+          >
+            <div className="group relative overflow-hidden rounded-[2rem] border border-cyan-500/20 bg-white/5 backdrop-blur-2xl p-5 md:p-8 hover:scale-[1.02] transition duration-500 shadow-2xl shadow-cyan-500/10">
+              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-transparent opacity-70"></div>
+
+              <div className="relative z-10">
+                <div className="flex items-center justify-between mb-6 md:mb-8">
+                  <h3 className="text-2xl md:text-4xl font-extrabold bg-gradient-to-r from-cyan-300 to-blue-500 bg-clip-text text-transparent">
+                    LetDiscussTech
+                  </h3>
+
+                  <div className="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-cyan-500/20 border border-cyan-400/20 flex items-center justify-center text-xl md:text-2xl">
+                    💡
+                  </div>
+                </div>
+
+                <div className="relative h-[300px] md:h-[320px] rounded-[2rem] overflow-hidden border border-cyan-400/20 bg-black/60 backdrop-blur-2xl shadow-inner">
+                  <div className="absolute top-0 left-0 right-0 h-10 bg-white/5 border-b border-white/10 flex items-center gap-2 px-4">
+                    <div className="w-3 h-3 rounded-full bg-red-400"></div>
+                    <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
+                    <div className="w-3 h-3 rounded-full bg-green-400"></div>
+                  </div>
+
+                  <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 md:px-6">
+                    <div className="w-28 h-28 md:w-32 md:h-32 rounded-full bg-gradient-to-r from-cyan-500 to-blue-600 blur-2xl opacity-50 absolute"></div>
+
+                    <h4 className="relative text-2xl md:text-3xl font-bold mb-4">
+                      Interactive Tech Discussions
+                    </h4>
+
+                    <p className="relative text-sm md:text-base text-gray-300 leading-relaxed max-w-md">
+                      A futuristic platform where developers, engineers,
+                      students and innovators connect to share ideas,
+                      projects and modern technology experiences.
+                    </p>
+
+                    <button className="relative mt-8 px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:scale-105 transition">
+                      Explore Platform
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="group relative overflow-hidden rounded-[2rem] border border-purple-500/20 bg-white/5 backdrop-blur-2xl p-5 md:p-8 hover:scale-[1.02] transition duration-500 shadow-2xl shadow-purple-500/10">
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-transparent opacity-70"></div>
+
+              <div className="relative z-10">
+                <div className="flex items-center justify-between mb-6 md:mb-8">
+                  <h3 className="text-2xl md:text-4xl font-extrabold bg-gradient-to-r from-purple-300 to-pink-500 bg-clip-text text-transparent">
+                    Tech21Century
+                  </h3>
+
+                  <div className="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-purple-500/20 border border-purple-400/20 flex items-center justify-center text-xl md:text-2xl">
+                    🚀
+                  </div>
+                </div>
+
+                <div className="relative h-[300px] md:h-[320px] rounded-[2rem] overflow-hidden border border-purple-400/20 bg-black/60 backdrop-blur-2xl shadow-inner">
+                  <div className="absolute top-0 left-0 right-0 h-10 bg-white/5 border-b border-white/10 flex items-center gap-2 px-4">
+                    <div className="w-3 h-3 rounded-full bg-red-400"></div>
+                    <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
+                    <div className="w-3 h-3 rounded-full bg-green-400"></div>
+                  </div>
+
+                  <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 md:px-6">
+                    <div className="w-28 h-28 md:w-32 md:h-32 rounded-full bg-gradient-to-r from-purple-500 to-pink-600 blur-2xl opacity-50 absolute"></div>
+
+                    <h4 className="relative text-2xl md:text-3xl font-bold mb-4">
+                      Next Generation Engineering
+                    </h4>
+
+                    <p className="relative text-sm md:text-base text-gray-300 leading-relaxed max-w-md">
+                      A modern engineering and computer science ecosystem
+                      focused on AI, robotics, innovation and futuristic systems.
+                    </p>
+
+                    <button className="relative mt-8 px-6 py-3 rounded-xl bg-gradient-to-r from-purple-500 to-pink-600 hover:scale-105 transition">
+                      Discover Innovation
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section id="innovation" className="relative z-10 py-16 md:py-24 px-4 md:px-6">
+            <div className="max-w-7xl mx-auto text-center">
+              <h2 className="text-4xl md:text-5xl font-black mb-6 bg-gradient-to-r from-cyan-400 to-purple-500 text-transparent bg-clip-text">
+                Innovation Beyond Limits
+              </h2>
+
+              <p className="max-w-3xl mx-auto text-gray-300 text-base md:text-lg leading-relaxed mb-12 md:mb-16">
+                This futuristic platform combines creativity, advanced user interface design,
+                engineering excellence, AI systems and immersive experiences.
+              </p>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+                <div className="rounded-[2rem] border border-white/10 bg-white/5 backdrop-blur-xl p-6 md:p-8 hover:-translate-y-2 transition duration-500">
+                  <div className="text-5xl mb-5">🧠</div>
+                  <h3 className="text-xl md:text-2xl font-bold mb-3">
+                    Artificial Intelligence
+                  </h3>
+                  <p className="text-gray-300 text-sm md:text-base">
+                    Smart systems powered by modern AI technology.
+                  </p>
+                </div>
+
+                <div className="rounded-[2rem] border border-white/10 bg-white/5 backdrop-blur-xl p-6 md:p-8 hover:-translate-y-2 transition duration-500">
+                  <div className="text-5xl mb-5">🌐</div>
+                  <h3 className="text-xl md:text-2xl font-bold mb-3">
+                    3D Web Experience
+                  </h3>
+                  <p className="text-gray-300 text-sm md:text-base">
+                    Immersive interfaces inspired by Three.js technologies.
+                  </p>
+                </div>
+
+                <div className="rounded-[2rem] border border-white/10 bg-white/5 backdrop-blur-xl p-6 md:p-8 hover:-translate-y-2 transition duration-500">
+                  <div className="text-5xl mb-5">⚙️</div>
+                  <h3 className="text-xl md:text-2xl font-bold mb-3">
+                    Engineering Systems
+                  </h3>
+                  <p className="text-gray-300 text-sm md:text-base">
+                    Modern engineering solutions for future transformation.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <footer
+            id="contact"
+            className="relative z-10 border-t border-white/10 bg-white/5 backdrop-blur-xl mt-10 md:mt-20"
+          >
+            <div className="max-w-7xl mx-auto px-4 md:px-6 py-10 flex flex-col md:flex-row items-center justify-between gap-6">
+              <div className="text-center md:text-left">
+                <h3 className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">
+                  FutureTech Hub
+                </h3>
+                <p className="text-gray-400 mt-2 text-sm md:text-base">
+                  Designing the future of technology and innovation.
+                </p>
+              </div>
+
+              <div className="flex flex-wrap justify-center gap-4 text-gray-300">
+                <a href="#" className="hover:text-cyan-400 transition">
+                  Instagram
+                </a>
+                <a href="#" className="hover:text-cyan-400 transition">
+                  LinkedIn
+                </a>
+                <a href="#" className="hover:text-cyan-400 transition">
+                  GitHub
+                </a>
+              </div>
+            </div>
+          </footer>
+
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(
+      <FutureTechProjectsPage />
+    );
+  </script>
+</body>
+</html>

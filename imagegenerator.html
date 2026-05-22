@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>ChopaTech AI Image Generator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+
+  <style>
+    :root { color-scheme: dark; }
+    * { box-sizing: border-box; }
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background: radial-gradient(circle at top, #0f1b33 0%, #06111f 55%, #030814 100%);
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    #bg3d {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .glass {
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.10);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-thumb { background: #8b5cf6; border-radius: 10px; }
+  </style>
+</head>
+
+<body class="text-white">
+
+<canvas id="bg3d"></canvas>
+
+<div class="relative z-10 flex h-[100dvh]">
+
+  <!-- Sidebar -->
+  <aside id="sidebar"
+    class="fixed lg:relative z-50 lg:z-auto left-0 top-0 w-72 h-full glass border-r border-white/10 p-5 md:p-6 flex flex-col transition-transform duration-300 -translate-x-full lg:translate-x-0">
+    <div class="flex items-center justify-between mb-8">
+      <h1 class="text-2xl md:text-3xl font-black leading-tight">
+        🎨 <span class="text-purple-400">ChopaTech</span> Image AI
+      </h1>
+      <button onclick="toggleSidebar()" class="lg:hidden bg-white/10 hover:bg-white/20 w-10 h-10 rounded-xl text-xl flex items-center justify-center">✕</button>
+    </div>
+
+    <nav class="space-y-3 text-sm">
+      <button onclick="showSection('generator')" class="w-full text-left p-4 rounded-2xl bg-white/10 hover:bg-white/20 transition">✨ Generate Image</button>
+      <button onclick="showSection('gallery')" class="w-full text-left p-4 rounded-2xl hover:bg-white/10 transition">🖼 Gallery</button>
+      <button onclick="showSection('styles')" class="w-full text-left p-4 rounded-2xl hover:bg-white/10 transition">🎭 AI Styles</button>
+      <button onclick="showSection('settings')" class="w-full text-left p-4 rounded-2xl hover:bg-white/10 transition">⚙ Settings</button>
+    </nav>
+
+    <div class="mt-auto glass rounded-3xl p-5">
+      <p class="text-gray-400 text-xs">Image Credits</p>
+      <h2 class="text-3xl md:text-4xl font-black text-purple-400 mt-2">820</h2>
+      <p class="text-gray-300 text-sm mt-2">Modern AI gallery studio</p>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="flex-1 min-w-0 h-full overflow-y-auto">
+
+    <!-- Top bar -->
+    <header class="sticky top-0 z-40 glass border-b border-white/10">
+      <div class="flex justify-between items-center gap-3 p-4 md:p-5">
+        <div class="flex items-center gap-3 min-w-0">
+          <button onclick="toggleSidebar()" class="lg:hidden bg-white/10 hover:bg-white/20 w-11 h-11 rounded-xl text-xl flex items-center justify-center shrink-0">☰</button>
+          <div class="min-w-0">
+            <h2 class="text-xl md:text-3xl font-bold truncate">AI Image Generator</h2>
+            <p class="text-gray-400 text-xs md:text-sm mt-1 truncate">Create modern AI art with a cinematic interface</p>
+          </div>
+        </div>
+        <button class="bg-purple-500 hover:bg-purple-400 px-4 md:px-5 py-2 md:py-3 rounded-2xl font-bold transition shrink-0">Upgrade Pro</button>
+      </div>
+    </header>
+
+    <section class="p-4 md:p-8 space-y-8">
+
+      <!-- Generator -->
+      <section id="generator" class="section">
+        <div class="flex flex-col lg:flex-row lg:justify-between lg:items-end gap-4 mb-6 md:mb-8">
+          <div>
+            <h2 class="text-3xl md:text-5xl font-black leading-tight">✨ AI Image Generator</h2>
+            <p class="text-gray-400 mt-2 text-sm md:text-base max-w-2xl">A modern image generator studio with glass UI, smooth motion, and a 3D background that reacts to your mouse.</p>
+          </div>
+          <button onclick="randomPrompt()" class="bg-white/10 hover:bg-white/20 px-5 md:px-6 py-3 rounded-2xl font-bold transition">🎲 Random Prompt</button>
+        </div>
+
+        <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 md:gap-8">
+          <!-- Left panel -->
+          <div class="glass border border-white/10 rounded-3xl p-4 md:p-6">
+            <h3 class="text-xl md:text-2xl font-bold mb-4">Prompt</h3>
+
+            <textarea id="prompt" rows="8"
+              class="w-full p-4 md:p-5 rounded-2xl bg-white/10 border border-white/10 outline-none text-base md:text-lg resize-none"
+              placeholder="Describe your image..."></textarea>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-5">
+              <select id="style" class="p-4 rounded-2xl bg-white/10 border border-white/10 outline-none">
+                <option>Realistic</option>
+                <option>Anime</option>
+                <option>Cyberpunk</option>
+                <option>3D Render</option>
+                <option>Fantasy</option>
+                <option>Cartoon</option>
+                <option>Minimal</option>
+                <option>Studio Portrait</option>
+              </select>
+
+              <select id="size" class="p-4 rounded-2xl bg-white/10 border border-white/10 outline-none">
+                <option>1024 x 1024</option>
+                <option>1920 x 1080</option>
+                <option>Portrait</option>
+                <option>Landscape</option>
+                <option>Square</option>
+              </select>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-5">
+              <button onclick="generateImage()" class="bg-purple-500 hover:bg-purple-400 py-4 rounded-2xl font-bold text-lg transition">✨ Generate</button>
+              <button onclick="downloadImage()" class="bg-blue-500 hover:bg-blue-400 py-4 rounded-2xl font-bold text-lg transition">📦 Download</button>
+            </div>
+
+            <div class="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <input id="seed" type="text" placeholder="Seed (optional)" class="p-4 rounded-2xl bg-white/10 border border-white/10 outline-none" />
+              <input id="negative" type="text" placeholder="Negative prompt (optional)" class="p-4 rounded-2xl bg-white/10 border border-white/10 outline-none" />
+            </div>
+          </div>
+
+          <!-- Preview -->
+          <div class="glass border border-white/10 rounded-3xl p-4 md:p-6">
+            <div class="flex justify-between items-center mb-4 md:mb-6 gap-3">
+              <h3 class="text-xl md:text-2xl font-bold">Generated Preview</h3>
+              <span class="text-xs md:text-sm text-gray-300 bg-white/10 px-3 py-2 rounded-full">3D Motion Enabled</span>
+            </div>
+
+            <div id="imagePreview"
+              class="relative h-[420px] md:h-[560px] rounded-3xl overflow-hidden glass border border-white/10 flex items-center justify-center">
+
+              <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(168,85,247,.45),transparent_35%),radial-gradient(circle_at_bottom_left,rgba(236,72,153,.35),transparent_35%),linear-gradient(135deg,rgba(59,130,246,.2),rgba(255,255,255,.03))]"></div>
+
+              <div class="relative z-10 text-center p-6">
+                <div class="text-5xl mb-4">🖼️</div>
+                <p class="text-2xl font-bold text-white/80">AI Image Preview</p>
+                <p class="text-gray-300 mt-3 max-w-md">Your generated image will appear here with a modern studio-style presentation.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Gallery -->
+      <section id="gallery" class="section hidden">
+        <h2 class="text-3xl md:text-4xl font-black mb-6 md:mb-8">🖼 Generated Gallery</h2>
+        <div id="galleryGrid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5"></div>
+      </section>
+
+      <!-- Styles -->
+      <section id="styles" class="section hidden">
+        <h2 class="text-3xl md:text-4xl font-black mb-6 md:mb-8">🎭 AI Art Styles</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+          <div class="glass border border-white/10 rounded-3xl p-6">
+            <h3 class="text-2xl font-bold">Anime</h3>
+            <p class="text-gray-400 mt-3">Japanese anime style artwork with vibrant expression.</p>
+          </div>
+          <div class="glass border border-white/10 rounded-3xl p-6">
+            <h3 class="text-2xl font-bold">Cyberpunk</h3>
+            <p class="text-gray-400 mt-3">Futuristic neon sci-fi visuals with city glow.</p>
+          </div>
+          <div class="glass border border-white/10 rounded-3xl p-6">
+            <h3 class="text-2xl font-bold">Realistic</h3>
+            <p class="text-gray-400 mt-3">Ultra realistic studio-quality AI images.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Settings -->
+      <section id="settings" class="section hidden">
+        <h2 class="text-3xl md:text-4xl font-black mb-6 md:mb-8">⚙ Generator Settings</h2>
+        <div class="glass border border-white/10 rounded-3xl p-4 md:p-6 space-y-5">
+          <input type="text" placeholder="OpenAI API Key" class="w-full p-4 md:p-5 rounded-2xl bg-white/10 border border-white/10 outline-none" />
+          <input type="text" placeholder="Stability AI API Key" class="w-full p-4 md:p-5 rounded-2xl bg-white/10 border border-white/10 outline-none" />
+          <select class="w-full p-4 md:p-5 rounded-2xl bg-white/10 border border-white/10 outline-none">
+            <option>Default Export = PNG</option>
+            <option>Default Export = JPG</option>
+            <option>Default Export = WebP</option>
+          </select>
+        </div>
+      </section>
+
+    </section>
+  </main>
+</div>
+
+<script>
+  function showSection(id){
+    document.querySelectorAll('.section').forEach(sec => sec.classList.add('hidden'));
+    document.getElementById(id).classList.remove('hidden');
+    closeSidebarOnMobile();
+  }
+
+  function toggleSidebar(){
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+    const isHidden = sidebar.classList.contains('-translate-x-full');
+
+    if(isHidden){
+      sidebar.classList.remove('-translate-x-full');
+      overlay.classList.remove('hidden');
+    } else {
+      sidebar.classList.add('-translate-x-full');
+      overlay.classList.add('hidden');
+    }
+  }
+
+  function closeSidebarOnMobile(){
+    if(window.innerWidth < 1024){
+      document.getElementById('sidebar').classList.add('-translate-x-full');
+      document.getElementById('overlay').classList.add('hidden');
+    }
+  }
+
+  function randomPrompt(){
+    const prompts = [
+      "Cyberpunk city at night with neon reflections",
+      "African futuristic queen with glowing jewelry",
+      "Robot samurai standing in a storm",
+      "Fantasy jungle temple with magical light",
+      "Ultra realistic lion portrait, dramatic lighting",
+      "Anime girl in Tokyo, cinematic street scene",
+      "Luxury product mockup on a sleek studio background",
+      "Space explorer walking through a purple nebula"
+    ];
+    document.getElementById('prompt').value = prompts[Math.floor(Math.random() * prompts.length)];
+  }
+
+  function gradientForStyle(style){
+    const map = {
+      "Realistic": "from-slate-900 via-gray-700 to-slate-900",
+      "Anime": "from-fuchsia-600 via-pink-500 to-amber-400",
+      "Cyberpunk": "from-cyan-500 via-fuchsia-500 to-purple-700",
+      "3D Render": "from-blue-500 via-indigo-500 to-slate-900",
+      "Fantasy": "from-emerald-500 via-violet-600 to-pink-500",
+      "Cartoon": "from-yellow-400 via-orange-500 to-rose-500",
+      "Minimal": "from-zinc-200 via-slate-400 to-zinc-800",
+      "Studio Portrait": "from-rose-500 via-purple-500 to-slate-900"
+    };
+    return map[style] || "from-purple-500 via-pink-500 to-blue-500";
+  }
+
+  function generateImage(){
+    const prompt = document.getElementById('prompt').value.trim();
+    const style = document.getElementById('style').value;
+    const size = document.getElementById('size').value;
+    const seed = document.getElementById('seed').value.trim();
+    const negative = document.getElementById('negative').value.trim();
+
+    if(!prompt){
+      alert("Please enter a prompt.");
+      return;
+    }
+
+    const preview = document.getElementById('imagePreview');
+    const grad = gradientForStyle(style);
+
+    preview.innerHTML = `
+      <div class="absolute inset-0 bg-gradient-to-br ${grad}"></div>
+      <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,.18),transparent_25%),radial-gradient(circle_at_bottom_left,rgba(255,255,255,.10),transparent_35%)]"></div>
+
+      <div class="relative z-10 w-full h-full p-6 md:p-8 flex flex-col justify-between">
+        <div class="flex items-center justify-between gap-3">
+          <span class="bg-black/30 border border-white/10 px-3 py-1.5 rounded-full text-xs md:text-sm">Style: ${style}</span>
+          <span class="bg-black/30 border border-white/10 px-3 py-1.5 rounded-full text-xs md:text-sm">${size}</span>
+        </div>
+
+        <div class="text-center">
+          <div class="inline-flex items-center justify-center w-24 h-24 rounded-3xl bg-white/10 border border-white/10 shadow-2xl mb-5">
+            <span class="text-4xl">✨</span>
+          </div>
+          <h3 class="text-2xl md:text-4xl font-black leading-tight">${prompt}</h3>
+          <p class="text-gray-100/80 mt-4 max-w-2xl mx-auto">
+            ${negative ? `Negative prompt: ${negative}` : "High-detail AI visual concept with cinematic lighting and modern composition."}
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3 text-xs md:text-sm">
+          <div class="bg-black/30 border border-white/10 rounded-2xl p-3">
+            <p class="text-gray-300">Seed</p>
+            <p class="font-semibold">${seed || "Auto"}</p>
+          </div>
+          <div class="bg-black/30 border border-white/10 rounded-2xl p-3">
+            <p class="text-gray-300">Render</p>
+            <p class="font-semibold">Modern Studio</p>
+          </div>
+        </div>
+      </div>
+    `;
+
+    saveToGallery(prompt, style, size);
+    showSection('generator');
+  }
+
+  function downloadImage(){
+    alert('📦 Real image download can be connected later with an actual image generation backend.');
+  }
+
+  function saveToGallery(prompt, style, size){
+    const gallery = document.getElementById('galleryGrid');
+    const item = document.createElement('div');
+    item.className = "glass border border-white/10 rounded-3xl overflow-hidden";
+
+    item.innerHTML = `
+      <div class="h-56 bg-gradient-to-br ${gradientForStyle(style)} relative">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,.15),transparent_25%),radial-gradient(circle_at_bottom_left,rgba(255,255,255,.12),transparent_35%)]"></div>
+        <div class="absolute inset-0 flex items-center justify-center">
+          <div class="text-center p-4">
+            <div class="text-4xl mb-3">🖼️</div>
+            <p class="font-bold text-lg">${style}</p>
+            <p class="text-sm text-white/80 mt-2">${size}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-5">
+        <h3 class="text-xl font-bold line-clamp-2">${prompt}</h3>
+        <p class="text-gray-400 mt-2 text-sm">${style} • ${size}</p>
+      </div>
+    `;
+
+    gallery.prepend(item);
+  }
+
+  // Three.js background
+  let scene, camera, renderer, particles, glow1, glow2;
+  let mouseX = 0, mouseY = 0;
+  let targetX = 0, targetY = 0;
+
+  function init3D(){
+    const canvas = document.getElementById('bg3d');
+    scene = new THREE.Scene();
+    camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 7;
+
+    renderer = new THREE.WebGLRenderer({
+      canvas,
+      alpha: true,
+      antialias: true
+    });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    const geometry = new THREE.BufferGeometry();
+    const count = 1800;
+    const positions = new Float32Array(count * 3);
+
+    for(let i = 0; i < count; i++){
+      positions[i * 3 + 0] = (Math.random() - 0.5) * 40;
+      positions[i * 3 + 1] = (Math.random() - 0.5) * 25;
+      positions[i * 3 + 2] = (Math.random() - 0.5) * 30;
+    }
+
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    const material = new THREE.PointsMaterial({
+      color: 0xa855f7,
+      size: 0.03,
+      transparent: true,
+      opacity: 0.9,
+      depthWrite: false
+    });
+    particles = new THREE.Points(geometry, material);
+    scene.add(particles);
+
+    const torusGeo = new THREE.TorusGeometry(1.8, 0.08, 10, 100);
+    const torusMat1 = new THREE.MeshBasicMaterial({ color: 0x8b5cf6, wireframe: true, transparent: true, opacity: 0.4 });
+    const torusMat2 = new THREE.MeshBasicMaterial({ color: 0xec4899, wireframe: true, transparent: true, opacity: 0.25 });
+
+    glow1 = new THREE.Mesh(torusGeo, torusMat1);
+    glow1.position.set(-3.5, 0.8, -3);
+    glow1.rotation.x = 0.8;
+    glow1.rotation.y = 1.2;
+    scene.add(glow1);
+
+    glow2 = new THREE.Mesh(torusGeo, torusMat2);
+    glow2.position.set(3, -1.4, -2);
+    glow2.rotation.x = 0.2;
+    glow2.rotation.y = -0.8;
+    scene.add(glow2);
+
+    const ambient = new THREE.AmbientLight(0xffffff, 0.8);
+    scene.add(ambient);
+
+    animate3D();
+  }
+
+  function animate3D(){
+    requestAnimationFrame(animate3D);
+
+    targetX = mouseX * 0.0018;
+    targetY = mouseY * 0.0018;
+
+    particles.rotation.y += 0.0007;
+    particles.rotation.x += 0.0002;
+
+    glow1.rotation.z += 0.004;
+    glow2.rotation.z -= 0.003;
+
+    camera.position.x += (targetX - camera.position.x) * 0.05;
+    camera.position.y += (-targetY - camera.position.y) * 0.05;
+    camera.lookAt(scene.position);
+
+    renderer.render(scene, camera);
+  }
+
+  window.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX - window.innerWidth / 2;
+    mouseY = e.clientY - window.innerHeight / 2;
+  });
+
+  window.addEventListener('touchmove', (e) => {
+    if(e.touches && e.touches[0]){
+      mouseX = e.touches[0].clientX - window.innerWidth / 2;
+      mouseY = e.touches[0].clientY - window.innerHeight / 2;
+    }
+  }, { passive: true });
+
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    if(window.innerWidth >= 1024){
+      document.getElementById('overlay').classList.add('hidden');
+      document.getElementById('sidebar').classList.remove('-translate-x-full');
+    }
+  });
+
+  // init
+  createWave = () => {};
+  loadGalleryPlaceholder = () => {};
+  showSection('generator');
+  init3D();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1200 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>ChopaMobilePhone | Android Flash Tool Help Center</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:'Inter',sans-serif;
+    background:#0a0f1a;
+    color:white;
+    overflow-x:hidden;
+}
+
+::-webkit-scrollbar{
+    width:10px;
+}
+
+::-webkit-scrollbar-thumb{
+    background:#1f2937;
+    border-radius:20px;
+}
+
+.glow{
+    box-shadow:0 0 30px rgba(59,130,246,.25);
+}
+
+.card{
+    background:#111827;
+    border:1px solid #1f2937;
+}
+
+.card:hover{
+    border-color:#2563eb;
+    transform:translateY(-4px);
+    transition:.3s;
+}
+
+.mono{
+    font-family:'JetBrains Mono',monospace;
+}
+
+.hero-grid{
+    background-image:
+    linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size:40px 40px;
+}
+
+.status-online{
+    background:#16a34a;
+}
+
+.status-warning{
+    background:#f59e0b;
+}
+
+.status-error{
+    background:#dc2626;
+}
+
+.terminal{
+    background:#020617;
+    border:1px solid #1e293b;
+}
+
+.download-btn{
+    animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(37,99,235,.5);}
+    70%{box-shadow:0 0 0 20px rgba(37,99,235,0);}
+    100%{box-shadow:0 0 0 0 rgba(37,99,235,0);}
+}
+
+.sidebar-item:hover{
+    background:#1e293b;
+}
+
+.sidebar-item.active{
+    background:#2563eb;
+}
+
+.glass{
+    backdrop-filter:blur(12px);
+    background:rgba(17,24,39,.8);
+}
+
+.badge{
+    border:1px solid #334155;
+}
+
+.light-mode{
+    background:#f8fafc;
+    color:#0f172a;
+}
+
+.light-mode .card{
+    background:white;
+    border:1px solid #e2e8f0;
+}
+
+.light-mode .terminal{
+    background:#f1f5f9;
+}
+
+.light-mode .glass{
+    background:rgba(255,255,255,.85);
+}
+
+.progress-bar{
+    position:relative;
+    overflow:hidden;
+}
+
+.progress-bar::after{
+    content:'';
+    position:absolute;
+    top:0;
+    left:-40%;
+    width:40%;
+    height:100%;
+    background:rgba(255,255,255,.2);
+    animation:shine 2s infinite;
+}
+
+@keyframes shine{
+    100%{
+        left:120%;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- DISCLAIMER -->
+<div id="disclaimerModal" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-5">
+    <div class="bg-[#111827] border border-slate-700 max-w-2xl w-full rounded-3xl p-8">
+        
+        <div class="flex items-center gap-4 mb-6">
+            <div class="w-14 h-14 rounded-2xl bg-blue-600 flex items-center justify-center text-2xl">
+                ⚠️
+            </div>
+
+            <div>
+                <h2 class="text-3xl font-bold">Authorized Use Disclaimer</h2>
+                <p class="text-slate-400">ChopaMobilePhone</p>
+            </div>
+        </div>
+
+        <div class="space-y-4 text-slate-300 leading-relaxed">
+            <p>
+                This platform is designed for educational purposes, device recovery,
+                authorized repair services, and firmware management only.
+            </p>
+
+            <p>
+                Unauthorized device modification, unlocking, or account removal may violate
+                manufacturer terms and local laws.
+            </p>
+
+            <p>
+                ChopaMobilePhone does NOT provide FRP bypass tools, lock bypass tools,
+                or unauthorized account removal utilities.
+            </p>
+
+            <p class="text-amber-400 font-semibold">
+                Always ensure you have authorization from the device owner before servicing any device.
+            </p>
+        </div>
+
+        <button onclick="closeModal()"
+        class="mt-8 w-full bg-blue-600 hover:bg-blue-700 transition rounded-2xl py-4 font-semibold text-lg">
+            I Understand & Continue
+        </button>
+
+    </div>
+</div>
+
+<!-- MAIN -->
+<div class="flex min-h-screen">
+
+    <!-- SIDEBAR -->
+    <aside class="w-[280px] hidden lg:flex flex-col border-r border-slate-800 bg-[#0f172a] fixed h-full">
+
+        <div class="p-6 border-b border-slate-800">
+            <div class="flex items-center gap-4">
+                <div class="w-14 h-14 rounded-2xl bg-blue-600 flex items-center justify-center text-2xl glow">
+                    📱
+                </div>
+
+                <div>
+                    <h1 class="text-2xl font-extrabold">ChopaMobilePhone</h1>
+                    <p class="text-slate-400 text-sm">Android Flash Center</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex-1 p-4 space-y-2 overflow-y-auto">
+
+            <a href="#home" class="sidebar-item active flex items-center gap-3 px-4 py-3 rounded-xl transition">
+                🏠 Dashboard
+            </a>
+
+            <a href="#downloads" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-xl transition">
+                ⬇️ Downloads
+            </a>
+
+            <a href="#flash" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-xl transition">
+                ⚡ Flash Tools
+            </a>
+
+            <a href="#adb" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-xl transition">
+                🔧 ADB Toolkit
+            </a>
+
+            <a href="#firmware" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-xl transition">
+                📦 Firmware Finder
+            </a>
+
+            <a href="#wizard" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-xl transition">
+                📋 Flash Wizard
+            </a>
+
+            <a href="#unlock" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-xl transition">
+                🔓 Unlock Guide
+            </a>
+
+            <a href="#frp" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-xl transition">
+                🏥 FRP Info
+            </a>
+
+            <a href="#help" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-xl transition">
+                📚 Help Center
+            </a>
+
+            <a href="#settings" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-xl transition">
+                ⚙️ Settings
+            </a>
+
+        </div>
+
+        <div class="p-5 border-t border-slate-800 text-sm text-slate-400">
+            For Authorized Use Only
+        </div>
+
+    </aside>
+
+    <!-- CONTENT -->
+    <main class="flex-1 lg:ml-[280px]">
+
+        <!-- HEADER -->
+        <header class="sticky top-0 z-40 glass border-b border-slate-800">
+
+            <div class="px-6 py-4 flex flex-col lg:flex-row gap-5 lg:items-center justify-between">
+
+                <div class="flex items-center gap-4">
+
+                    <div class="w-12 h-12 rounded-xl bg-blue-600 flex items-center justify-center text-xl lg:hidden">
+                        📱
+                    </div>
+
+                    <div>
+                        <h2 class="text-2xl font-bold">
+                            ChopaMobilePhone Help Center
+                        </h2>
+
+                        <p class="text-slate-400">
+                            Professional Android Flashing Resource Portal
+                        </p>
+                    </div>
+
+                </div>
+
+                <div class="flex flex-wrap gap-3">
+
+                    <div class="badge rounded-xl px-4 py-2 flex items-center gap-2">
+                        <div class="w-3 h-3 rounded-full status-online"></div>
+                        Device Connected
+                    </div>
+
+                    <div class="badge rounded-xl px-4 py-2">
+                        Fastboot Mode
+                    </div>
+
+                    <button onclick="toggleTheme()"
+                    class="bg-slate-800 hover:bg-slate-700 px-4 rounded-xl">
+                        🌙
+                    </button>
+
+                </div>
+
+            </div>
+
+        </header>
+
+        <!-- HERO -->
+        <section id="home" class="hero-grid relative overflow-hidden">
+
+            <div class="px-6 py-20 max-w-7xl mx-auto">
+
+                <div class="grid lg:grid-cols-2 gap-16 items-center">
+
+                    <div>
+
+                        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-blue-500/30 bg-blue-500/10 text-blue-400 mb-6">
+                            ⚡ Professional Android Flash Platform
+                        </div>
+
+                        <h1 class="text-5xl lg:text-7xl font-black leading-tight">
+                            ChopaMobilePhone
+                            <span class="text-blue-500">
+                                Pro
+                            </span>
+                        </h1>
+
+                        <p class="text-slate-400 text-xl mt-8 leading-relaxed">
+                            Professional Android flashing help center for Qualcomm,
+                            MediaTek, Samsung, Xiaomi, Fastboot, Recovery,
+                            ADB, and firmware management.
+                        </p>
+
+                        <div class="mt-10 flex flex-wrap gap-4">
+
+                            <a href="#downloads"
+                            class="download-btn bg-blue-600 hover:bg-blue-700 transition px-10 py-5 rounded-2xl font-bold text-xl flex items-center gap-3">
+                                ⬇️ DOWNLOAD PC TOOL
+                            </a>
+
+                            <a href="#firmware"
+                            class="bg-slate-800 hover:bg-slate-700 transition px-10 py-5 rounded-2xl font-semibold text-xl">
+                                Browse Firmware
+                            </a>
+
+                        </div>
+
+                        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-12">
+
+                            <div class="card rounded-2xl p-5">
+                                <h3 class="text-3xl font-black text-blue-500">
+                                    15K+
+                                </h3>
+
+                                <p class="text-slate-400 mt-2">
+                                    Supported Devices
+                                </p>
+                            </div>
+
+                            <div class="card rounded-2xl p-5">
+                                <h3 class="text-3xl font-black text-green-500">
+                                    250+
+                                </h3>
+
+                                <p class="text-slate-400 mt-2">
+                                    Firmware Sources
+                                </p>
+                            </div>
+
+                            <div class="card rounded-2xl p-5">
+                                <h3 class="text-3xl font-black text-amber-500">
+                                    24/7
+                                </h3>
+
+                                <p class="text-slate-400 mt-2">
+                                    Help Center
+                                </p>
+                            </div>
+
+                            <div class="card rounded-2xl p-5">
+                                <h3 class="text-3xl font-black text-red-500">
+                                    v4.9
+                                </h3>
+
+                                <p class="text-slate-400 mt-2">
+                                    Tool Version
+                                </p>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div>
+
+                        <div class="card rounded-3xl p-6 glow">
+
+                            <div class="flex items-center justify-between mb-6">
+                                <h3 class="text-2xl font-bold">
+                                    Flash Session
+                                </h3>
+
+                                <div class="text-green-400">
+                                    ACTIVE
+                                </div>
+                            </div>
+
+                            <div class="space-y-5">
+
+                                <div>
+                                    <div class="flex justify-between mb-2">
+                                        <span>Firmware Extraction</span>
+                                        <span>100%</span>
+                                    </div>
+
+                                    <div class="h-3 bg-slate-800 rounded-full overflow-hidden">
+                                        <div class="h-full w-full bg-green-500 progress-bar"></div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="flex justify-between mb-2">
+                                        <span>Partition Verification</span>
+                                        <span>78%</span>
+                                    </div>
+
+                                    <div class="h-3 bg-slate-800 rounded-full overflow-hidden">
+                                        <div class="h-full w-[78%] bg-blue-500 progress-bar"></div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="flex justify-between mb-2">
+                                        <span>Flashing super.img</span>
+                                        <span>55%</span>
+                                    </div>
+
+                                    <div class="h-3 bg-slate-800 rounded-full overflow-hidden">
+                                        <div class="h-full w-[55%] bg-amber-500 progress-bar"></div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="terminal rounded-2xl p-4 mt-8 mono text-sm space-y-2">
+
+                                <div class="text-green-400">
+                                    [OK] Device detected: Redmi Note 12
+                                </div>
+
+                                <div class="text-blue-400">
+                                    [INFO] Fastboot connection established
+                                </div>
+
+                                <div class="text-amber-400">
+                                    [WARN] Battery level: 53%
+                                </div>
+
+                                <div class="text-slate-400">
+                                    &gt; flashing vendor.img...
+                                </div>
+
+                                <div class="text-green-400">
+                                    [SUCCESS] vbmeta flashed successfully
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- DOWNLOADS -->
+        <section id="downloads" class="px-6 py-20">
+
+            <div class="max-w-7xl mx-auto">
+
+                <div class="flex items-center justify-between mb-12 flex-wrap gap-5">
+
+                    <div>
+                        <h2 class="text-4xl font-black">
+                            Downloads Center
+                        </h2>
+
+                        <p class="text-slate-400 mt-3">
+                            Download drivers, tools, firmware utilities, and PC packages
+                        </p>
+                    </div>
+
+                    <button class="bg-blue-600 px-8 py-4 rounded-2xl font-bold text-lg">
+                        Download Latest Build
+                    </button>
+
+                </div>
+
+                <div class="grid lg:grid-cols-3 gap-6">
+
+                    <div class="card rounded-3xl p-7">
+                        <div class="text-5xl mb-5">💻</div>
+
+                        <h3 class="text-2xl font-bold">
+                            ChopaMobilePhone PC
+                        </h3>
+
+                        <p class="text-slate-400 mt-4 leading-relaxed">
+                            Main Windows desktop tool with integrated flash engine support.
+                        </p>
+
+                        <div class="mt-6 space-y-3 text-sm">
+                            <div>Version: v4.9.2</div>
+                            <div>Platform: Windows 10/11</div>
+                            <div>Size: 214MB</div>
+                        </div>
+
+                        <button class="mt-8 w-full bg-blue-600 hover:bg-blue-700 transition py-4 rounded-2xl font-semibold">
+                            Download EXE
+                        </button>
+                    </div>
+
+                    <div class="card rounded-3xl p-7">
+                        <div class="text-5xl mb-5">🔌</div>
+
+                        <h3 class="text-2xl font-bold">
+                            USB Drivers Pack
+                        </h3>
+
+                        <p class="text-slate-400 mt-4 leading-relaxed">
+                            Qualcomm, MTK, Samsung, Xiaomi, and Google USB drivers.
+                        </p>
+
+                        <div class="mt-6 space-y-3 text-sm">
+                            <div>Qualcomm HS-USB QDLoader</div>
+                            <div>Samsung USB Driver</div>
+                            <div>MediaTek VCOM Drivers</div>
+                        </div>
+
+                        <button class="mt-8 w-full bg-slate-800 hover:bg-slate-700 transition py-4 rounded-2xl font-semibold">
+                            Download Drivers
+                        </button>
+                    </div>
+
+                    <div class="card rounded-3xl p-7">
+                        <div class="text-5xl mb-5">📦</div>
+
+                        <h3 class="text-2xl font-bold">
+                            Platform Tools
+                        </h3>
+
+                        <p class="text-slate-400 mt-4 leading-relaxed">
+                            Official Android ADB & Fastboot binaries for all platforms.
+                        </p>
+
+                        <div class="mt-6 space-y-3 text-sm">
+                            <div>ADB Toolkit</div>
+                            <div>Fastboot Tools</div>
+                            <div>Latest SDK Platform Tools</div>
+                        </div>
+
+                        <button class="mt-8 w-full bg-slate-800 hover:bg-slate-700 transition py-4 rounded-2xl font-semibold">
+                            Download ZIP
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- FLASH MODULES -->
+        <section id="flash" class="px-6 py-20 bg-[#0f172a]">
+
+            <div class="max-w-7xl mx-auto">
+
+                <h2 class="text-4xl font-black mb-4">
+                    Flash Engine Modules
+                </h2>
+
+                <p class="text-slate-400 mb-12">
+                    Multi-chipset support for professional Android servicing
+                </p>
+
+                <div class="grid lg:grid-cols-2 gap-6">
+
+                    <div class="card rounded-3xl p-7">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-2xl font-bold">
+                                Qualcomm EDL
+                            </h3>
+
+                            <div class="text-blue-500 text-3xl">
+                                ⚡
+                            </div>
+                        </div>
+
+                        <ul class="mt-6 space-y-3 text-slate-300">
+                            <li>• QFIL-style flashing interface</li>
+                            <li>• Firehose programmer support</li>
+                            <li>• EDL 9008 detection</li>
+                            <li>• .mbn / .elf / .hex support</li>
+                            <li>• Partition selection</li>
+                        </ul>
+
+                    </div>
+
+                    <div class="card rounded-3xl p-7">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-2xl font-bold">
+                                MediaTek MTK
+                            </h3>
+
+                            <div class="text-green-500 text-3xl">
+                                🔋
+                            </div>
+                        </div>
+
+                        <ul class="mt-6 space-y-3 text-slate-300">
+                            <li>• Scatter file support</li>
+                            <li>• DA loader support</li>
+                            <li>• Partition map viewer</li>
+                            <li>• Flash .img & .bin</li>
+                            <li>• Preloader detection</li>
+                        </ul>
+
+                    </div>
+
+                    <div class="card rounded-3xl p-7">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-2xl font-bold">
+                                Samsung Odin
+                            </h3>
+
+                            <div class="text-amber-500 text-3xl">
+                                📱
+                            </div>
+                        </div>
+
+                        <ul class="mt-6 space-y-3 text-slate-300">
+                            <li>• BL / AP / CP / CSC slots</li>
+                            <li>• Download mode guide</li>
+                            <li>• PIT file support</li>
+                            <li>• .tar.md5 flashing</li>
+                            <li>• Variant auto-detection</li>
+                        </ul>
+
+                    </div>
+
+                    <div class="card rounded-3xl p-7">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-2xl font-bold">
+                                Xiaomi Fastboot
+                            </h3>
+
+                            <div class="text-red-500 text-3xl">
+                                🚀
+                            </div>
+                        </div>
+
+                        <ul class="mt-6 space-y-3 text-slate-300">
+                            <li>• Fastboot ROM flashing</li>
+                            <li>• EDL support</li>
+                            <li>• Clean flash mode</li>
+                            <li>• Save user data option</li>
+                            <li>• Anti-rollback checker</li>
+                        </ul>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ADB -->
+        <section id="adb" class="px-6 py-20">
+
+            <div class="max-w-7xl mx-auto">
+
+                <h2 class="text-4xl font-black mb-4">
+                    ADB & Fastboot Toolkit
+                </h2>
+
+                <p class="text-slate-400 mb-12">
+                    Professional Android debugging utilities
+                </p>
+
+                <div class="grid lg:grid-cols-4 gap-5">
+
+                    <div class="card rounded-2xl p-6">
+                        <div class="text-4xl">🔄</div>
+                        <h3 class="mt-5 text-xl font-bold">Reboot Tools</h3>
+                        <p class="text-slate-400 mt-3">
+                            Recovery, Fastboot, EDL, Bootloader
+                        </p>
+                    </div>
+
+                    <div class="card rounded-2xl p-6">
+                        <div class="text-4xl">📤</div>
+                        <h3 class="mt-5 text-xl font-bold">ADB Push/Pull</h3>
+                        <p class="text-slate-400 mt-3">
+                            Transfer files securely
+                        </p>
+                    </div>
+
+                    <div class="card rounded-2xl p-6">
+                        <div class="text-4xl">📸</div>
+                        <h3 class="mt-5 text-xl font-bold">Screen Capture</h3>
+                        <p class="text-slate-400 mt-3">
+                            Screenshot & recording tools
+                        </p>
+                    </div>
+
+                    <div class="card rounded-2xl p-6">
+                        <div class="text-4xl">📋</div>
+                        <h3 class="mt-5 text-xl font-bold">Logcat Viewer</h3>
+                        <p class="text-slate-400 mt-3">
+                            Filter Android logs in real-time
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- FIRMWARE -->
+        <section id="firmware" class="px-6 py-20 bg-[#0f172a]">
+
+            <div class="max-w-7xl mx-auto">
+
+                <h2 class="text-4xl font-black mb-5">
+                    Firmware Finder
+                </h2>
+
+                <div class="grid lg:grid-cols-3 gap-6 mt-12">
+
+                    <div class="card rounded-3xl p-7">
+                        <h3 class="text-2xl font-bold">
+                            Xiaomi / Redmi
+                        </h3>
+
+                        <p class="text-slate-400 mt-4">
+                            Official MIUI & HyperOS ROMs
+                        </p>
+
+                        <button class="mt-8 bg-blue-600 px-6 py-3 rounded-xl">
+                            Browse Firmware
+                        </button>
+                    </div>
+
+                    <div class="card rounded-3xl p-7">
+                        <h3 class="text-2xl font-bold">
+                            Samsung
+                        </h3>
+
+                        <p class="text-slate-400 mt-4">
+                            Odin firmware packages & OTA
+                        </p>
+
+                        <button class="mt-8 bg-blue-600 px-6 py-3 rounded-xl">
+                            Browse Firmware
+                        </button>
+                    </div>
+
+                    <div class="card rounded-3xl p-7">
+                        <h3 class="text-2xl font-bold">
+                            MediaTek
+                        </h3>
+
+                        <p class="text-slate-400 mt-4">
+                            Scatter firmware collection
+                        </p>
+
+                        <button class="mt-8 bg-blue-600 px-6 py-3 rounded-xl">
+                            Browse Firmware
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- WIZARD -->
+        <section id="wizard" class="px-6 py-20">
+
+            <div class="max-w-7xl mx-auto">
+
+                <h2 class="text-4xl font-black mb-4">
+                    Step-by-Step Flash Wizard
+                </h2>
+
+                <p class="text-slate-400 mb-12">
+                    Guided flashing workflow
+                </p>
+
+                <div class="grid lg:grid-cols-6 gap-4">
+
+                    <div class="card rounded-2xl p-5 text-center">
+                        <div class="w-14 h-14 rounded-full bg-blue-600 mx-auto flex items-center justify-center text-2xl font-bold">
+                            1
+                        </div>
+
+                        <h3 class="mt-5 font-bold">
+                            Detect Device
+                        </h3>
+                    </div>
+
+                    <div class="card rounded-2xl p-5 text-center">
+                        <div class="w-14 h-14 rounded-full bg-blue-600 mx-auto flex items-center justify-center text-2xl font-bold">
+                            2
+                        </div>
+
+                        <h3 class="mt-5 font-bold">
+                            Select Operation
+                        </h3>
+                    </div>
+
+                    <div class="card rounded-2xl p-5 text-center">
+                        <div class="w-14 h-14 rounded-full bg-blue-600 mx-auto flex items-center justify-center text-2xl font-bold">
+                            3
+                        </div>
+
+                        <h3 class="mt-5 font-bold">
+                            Select Files
+                        </h3>
+                    </div>
+
+                    <div class="card rounded-2xl p-5 text-center">
+                        <div class="w-14 h-14 rounded-full bg-blue-600 mx-auto flex items-center justify-center text-2xl font-bold">
+                            4
+                        </div>
+
+                        <h3 class="mt-5 font-bold">
+                            Checklist
+                        </h3>
+                    </div>
+
+                    <div class="card rounded-2xl p-5 text-center">
+                        <div class="w-14 h-14 rounded-full bg-blue-600 mx-auto flex items-center justify-center text-2xl font-bold">
+                            5
+                        </div>
+
+                        <h3 class="mt-5 font-bold">
+                            Execute
+                        </h3>
+                    </div>
+
+                    <div class="card rounded-2xl p-5 text-center">
+                        <div class="w-14 h-14 rounded-full bg-green-600 mx-auto flex items-center justify-center text-2xl font-bold">
+                            6
+                        </div>
+
+                        <h3 class="mt-5 font-bold">
+                            Finish
+                        </h3>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- UNLOCK -->
+        <section id="unlock" class="px-6 py-20 bg-[#0f172a]">
+
+            <div class="max-w-7xl mx-auto">
+
+                <h2 class="text-4xl font-black mb-4">
+                    Bootloader Unlock Guides
+                </h2>
+
+                <div class="grid lg:grid-cols-3 gap-6 mt-12">
+
+                    <div class="card rounded-3xl p-7">
+                        <h3 class="text-2xl font-bold">
+                            Xiaomi Unlock
+                        </h3>
+
+                        <p class="text-slate-400 mt-4">
+                            Mi Unlock Tool official guide
+                        </p>
+                    </div>
+
+                    <div class="card rounded-3xl p-7">
+                        <h3 class="text-2xl font-bold">
+                            Google Pixel
+                        </h3>
+
+                        <p class="text-slate-400 mt-4">
+                            Fastboot flashing unlock guide
+                        </p>
+                    </div>
+
+                    <div class="card rounded-3xl p-7">
+                        <h3 class="text-2xl font-bold">
+                            Motorola
+                        </h3>
+
+                        <p class="text-slate-400 mt-4">
+                            Official unlock portal walkthrough
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- FRP -->
+        <section id="frp" class="px-6 py-20">
+
+            <div class="max-w-7xl mx-auto">
+
+                <div class="card rounded-3xl p-8">
+
+                    <h2 class="text-4xl font-black mb-6">
+                        FRP Information Center
+                    </h2>
+
+                    <div class="space-y-5 text-slate-300 leading-relaxed">
+
+                        <p>
+                            Factory Reset Protection (FRP) is a security feature by Google
+                            designed to prevent unauthorized device access after a factory reset.
+                        </p>
+
+                        <p>
+                            ChopaMobilePhone does not provide FRP bypass tools or account removal tools.
+                        </p>
+
+                        <p>
+                            Official recovery methods include signing in with the original
+                            Google account linked to the device.
+                        </p>
+
+                        <p>
+                            Professional technicians should use licensed hardware solutions
+                            and maintain customer authorization records.
+                        </p>
+
+                    </div>
+
+                    <div class="grid lg:grid-cols-3 gap-5 mt-10">
+
+                        <div class="bg-slate-900 rounded-2xl p-5">
+                            <h3 class="font-bold text-lg">
+                                Licensed Tools
+                            </h3>
+
+                            <p class="text-slate-400 mt-3">
+                                Octoplus, Z3X, UMT Pro, CM2
+                            </p>
+                        </div>
+
+                        <div class="bg-slate-900 rounded-2xl p-5">
+                            <h3 class="font-bold text-lg">
+                                Google Recovery
+                            </h3>
+
+                            <p class="text-slate-400 mt-3">
+                                accounts.google.com
+                            </p>
+                        </div>
+
+                        <div class="bg-slate-900 rounded-2xl p-5">
+                            <h3 class="font-bold text-lg">
+                                Samsung Recovery
+                            </h3>
+
+                            <p class="text-slate-400 mt-3">
+                                Samsung Find My Mobile
+                            </p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- HELP -->
+        <section id="help" class="px-6 py-20 bg-[#0f172a]">
+
+            <div class="max-w-7xl mx-auto">
+
+                <h2 class="text-4xl font-black mb-4">
+                    Help & Documentation
+                </h2>
+
+                <div class="grid lg:grid-cols-2 gap-6 mt-12">
+
+                    <div class="card rounded-3xl p-7">
+                        <h3 class="text-2xl font-bold">
+                            Common Errors
+                        </h3>
+
+                        <div class="mt-6 space-y-4">
+
+                            <div class="bg-slate-900 rounded-xl p-4">
+                                <div class="text-red-400 font-bold">
+                                    Error 4004
+                                </div>
+
+                                <p class="text-slate-400 mt-2">
+                                    Usually caused by bad USB connection or incompatible DA file.
+                                </p>
+                            </div>
+
+                            <div class="bg-slate-900 rounded-xl p-4">
+                                <div class="text-amber-400 font-bold">
+                                    AUTH Failed
+                                </div>
+
+                                <p class="text-slate-400 mt-2">
+                                    Device requires authorized flashing account.
+                                </p>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="card rounded-3xl p-7">
+                        <h3 class="text-2xl font-bold">
+                            Tutorials & Guides
+                        </h3>
+
+                        <div class="mt-6 space-y-4">
+
+                            <div class="bg-slate-900 rounded-xl p-4">
+                                Qualcomm EDL Flashing Guide
+                            </div>
+
+                            <div class="bg-slate-900 rounded-xl p-4">
+                                Samsung Odin Complete Tutorial
+                            </div>
+
+                            <div class="bg-slate-900 rounded-xl p-4">
+                                MTK Scatter Flashing Guide
+                            </div>
+
+                            <div class="bg-slate-900 rounded-xl p-4">
+                                Xiaomi Fastboot ROM Flashing
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- SETTINGS -->
+        <section id="settings" class="px-6 py-20">
+
+            <div class="max-w-7xl mx-auto">
+
+                <h2 class="text-4xl font-black mb-10">
+                    Settings
+                </h2>
+
+                <div class="grid lg:grid-cols-2 gap-6">
+
+                    <div class="card rounded-3xl p-7">
+
+                        <h3 class="text-2xl font-bold mb-6">
+                            Tool Configuration
+                        </h3>
+
+                        <div class="space-y-5">
+
+                            <div>
+                                <label class="block mb-2 text-slate-400">
+                                    ADB Binary Path
+                                </label>
+
+                                <input type="text"
+                                value="C:\platform-tools\adb.exe"
+                                class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 outline-none">
+                            </div>
+
+                            <div>
+                                <label class="block mb-2 text-slate-400">
+                                    Download Folder
+                                </label>
+
+                                <input type="text"
+                                value="D:\Firmware"
+                                class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 outline-none">
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="card rounded-3xl p-7">
+
+                        <h3 class="text-2xl font-bold mb-6">
+                            Preferences
+                        </h3>
+
+                        <div class="space-y-5">
+
+                            <div class="flex items-center justify-between">
+                                <span>Checksum Verification</span>
+                                <input type="checkbox" checked>
+                            </div>
+
+                            <div class="flex items-center justify-between">
+                                <span>Dark Theme</span>
+                                <input type="checkbox" checked>
+                            </div>
+
+                            <div class="flex items-center justify-between">
+                                <span>Export Logs</span>
+                                <button class="bg-blue-600 px-5 py-2 rounded-lg">
+                                    Export
+                                </button>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="border-t border-slate-800 px-6 py-8">
+
+            <div class="max-w-7xl mx-auto flex flex-col lg:flex-row gap-5 justify-between items-center">
+
+                <div>
+                    <h3 class="text-2xl font-black">
+                        ChopaMobilePhone
+                    </h3>
+
+                    <p class="text-slate-400 mt-2">
+                        Professional Android Flash Tool Help Center
+                    </p>
+                </div>
+
+                <div class="text-slate-500 text-sm">
+                    © 2026 ChopaMobilePhone — For Authorized Use Only
+                </div>
+
+            </div>
+
+        </footer>
+
+    </main>
+
+</div>
+
+<script>
+
+function closeModal(){
+    document.getElementById('disclaimerModal').style.display='none';
+}
+
+function toggleTheme(){
+    document.body.classList.toggle('light-mode');
+}
+
+</script>
+
+</body>
+</html>
+

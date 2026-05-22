@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ChopaTech Premium Services</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#02040d;
+  --glass:rgba(10,16,30,.46);
+  --glass2:rgba(8,14,26,.72);
+  --line:rgba(255,255,255,.08);
+  --text:#eef4ff;
+  --muted:#c9d7f5;
+  --accent:#00d4ff;
+  --accent2:#7c4dff;
+  --accent3:#d26bff;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{
+  width:100%;
+  min-height:100%;
+  overflow-x:hidden;
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Inter',sans-serif;
+  scroll-behavior:smooth;
+}
+
+body.loading{overflow:hidden}
+
+/* Background */
+#space-bg{
+  position:fixed;
+  inset:0;
+  width:100%;
+  height:100%;
+  z-index:-10;
+  display:block;
+}
+.space-overlay{
+  position:fixed;
+  inset:0;
+  z-index:-9;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at top left, rgba(0,140,255,.18), transparent 28%),
+    radial-gradient(circle at bottom right, rgba(120,0,255,.16), transparent 34%),
+    radial-gradient(circle at center, rgba(255,255,255,.03), transparent 45%),
+    linear-gradient(to bottom, rgba(255,255,255,.02), rgba(0,0,0,.24));
+}
+
+/* Loader */
+#loader{
+  position:fixed;
+  inset:0;
+  z-index:5000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:
+    radial-gradient(circle at center, rgba(0,212,255,.10), transparent 30%),
+    linear-gradient(135deg, #02040d, #050816 60%, #02040d);
+  overflow:hidden;
+}
+.loader-inner{
+  width:min(92vw,520px);
+  text-align:center;
+}
+.loader-brand{
+  font-size:clamp(2rem,6vw,3.5rem);
+  font-weight:900;
+  letter-spacing:.5px;
+  margin-bottom:18px;
+  background:linear-gradient(90deg, #fff, #7fe7ff, #8e7bff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.loader-sub{
+  color:#c9d7f5;
+  margin-bottom:26px;
+  line-height:1.7;
+}
+.loader-bar{
+  height:10px;
+  background:rgba(255,255,255,.08);
+  border-radius:999px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.08);
+}
+.loader-bar span{
+  display:block;
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg, var(--accent), #6fd1ff, var(--accent2));
+  box-shadow:0 0 24px rgba(0,212,255,.35);
+  border-radius:999px;
+  transition:width .2s ease;
+}
+.loader-percent{
+  margin-top:14px;
+  color:#eaf3ff;
+  font-weight:700;
+  letter-spacing:.8px;
+}
+.loader-stars{
+  position:absolute;
+  inset:0;
+  background-image:radial-gradient(rgba(255,255,255,.9) 1px, transparent 1px);
+  background-size:42px 42px;
+  opacity:.14;
+  animation:drift 36s linear infinite;
+}
+@keyframes drift{from{transform:translateY(0)}to{transform:translateY(-800px)}}
+
+/* Nav */
+nav{
+  position:fixed;
+  top:0;left:0;
+  width:100%;
+  z-index:1200;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:18px 7%;
+  background:rgba(7,12,24,.46);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.logo{
+  font-size:30px;
+  font-weight:900;
+  background:linear-gradient(90deg, var(--accent), #4f8cff, var(--accent3));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.nav-actions{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+.menu-toggle{
+  width:50px;height:50px;
+  border-radius:16px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  gap:6px;
+  cursor:pointer;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.08);
+  transition:.25s ease;
+}
+.menu-toggle:hover{background:rgba(255,255,255,.12);transform:translateY(-2px)}
+.menu-toggle span{
+  width:22px;height:2px;background:#fff;border-radius:999px;
+}
+
+/* Sidebar */
+.sidebar{
+  position:fixed;
+  top:0;
+  right:-380px;
+  width:360px;
+  height:100vh;
+  z-index:2200;
+  padding:92px 28px 28px;
+  background:rgba(8,14,26,.9);
+  backdrop-filter:blur(24px);
+  border-left:1px solid rgba(255,255,255,.08);
+  transition:.45s ease;
+}
+.sidebar.active{right:0}
+.sidebar-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:26px;
+}
+.sidebar h2{
+  font-size:32px;
+  background:linear-gradient(90deg, #fff, #7fe7ff, #8e7bff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.close-btn{
+  width:42px;height:42px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.08);
+  font-size:20px;
+}
+.sidebar-links{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+.sidebar-links a{
+  text-decoration:none;
+  color:#fff;
+  padding:15px 16px;
+  border-radius:16px;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.06);
+  transition:.25s ease;
+}
+.sidebar-links a:hover{
+  transform:translateX(-4px);
+  background:linear-gradient(135deg, rgba(0,212,255,.16), rgba(124,77,255,.16));
+}
+.sidebar-note{
+  margin-top:22px;
+  color:#bfd0f2;
+  line-height:1.7;
+  font-size:.96rem;
+}
+
+/* Hero */
+.hero{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:140px 7% 60px;
+  perspective:1200px;
+}
+.hero-box{
+  width:min(100%,1100px);
+  padding:58px 42px;
+  border-radius:34px;
+  background:var(--glass);
+  border:1px solid rgba(255,255,255,.08);
+  backdrop-filter:blur(20px);
+  box-shadow:0 30px 80px rgba(0,0,0,.42), inset 0 0 40px rgba(255,255,255,.02);
+  transform-style:preserve-3d;
+  transition:transform .12s linear;
+}
+.hero-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding:12px 20px;
+  border-radius:999px;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.08);
+  color:#dff4ff;
+  margin-bottom:26px;
+}
+.hero h1{
+  font-size:clamp(3rem,7vw,6.4rem);
+  line-height:1.02;
+  margin-bottom:22px;
+  font-weight:900;
+  background:linear-gradient(90deg,#fff,#b8e8ff,#66dbff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.hero p{
+  max-width:860px;
+  margin:0 auto 34px;
+  color:#d8e5ff;
+  line-height:1.9;
+  font-size:1.08rem;
+}
+.hero-buttons{
+  display:flex;
+  justify-content:center;
+  gap:16px;
+  flex-wrap:wrap;
+}
+.btn{
+  padding:15px 28px;
+  border:none;
+  border-radius:999px;
+  cursor:pointer;
+  font-weight:800;
+  transition:.25s ease;
+  letter-spacing:.2px;
+}
+.primary-btn{
+  color:#fff;
+  background:linear-gradient(135deg, var(--accent), #0072ff);
+  box-shadow:0 14px 38px rgba(0,198,255,.24);
+}
+.secondary-btn{
+  color:#fff;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.12);
+}
+.btn:hover{transform:translateY(-4px) scale(1.03)}
+
+/* Scroll cue */
+.scroll-cue{
+  margin-top:26px;
+  color:#bfd0f2;
+  font-size:.92rem;
+  opacity:.88;
+}
+.scroll-cue span{
+  display:inline-block;
+  margin-left:8px;
+  animation:bounce 1.4s infinite;
+}
+@keyframes bounce{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(6px)}
+}
+
+/* Featured orbit strip */
+.orbit-strip{
+  width:min(100%,1100px);
+  margin:0 auto 36px;
+  padding:22px 22px 26px;
+  border-radius:28px;
+  background:rgba(10,16,30,.34);
+  border:1px solid rgba(255,255,255,.08);
+  backdrop-filter:blur(16px);
+  box-shadow:0 16px 42px rgba(0,0,0,.2);
+}
+.orbit-strip-head{
+  display:flex;
+  justify-content:space-between;
+  gap:14px;
+  align-items:flex-end;
+  margin-bottom:20px;
+}
+.orbit-strip-head h2{
+  font-size:clamp(1.6rem,3vw,2.5rem);
+}
+.orbit-strip-head p{
+  color:#c9d7f5;
+  line-height:1.6;
+  max-width:560px;
+}
+.planet-hint{
+  color:#9ecfff;
+  font-size:.92rem;
+  align-self:center;
+  white-space:nowrap;
+}
+.planet-canvas-wrap{
+  position:relative;
+  height:300px;
+  border-radius:24px;
+  overflow:hidden;
+  background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
+  border:1px solid rgba(255,255,255,.06);
+}
+#planet-label{
+  position:absolute;
+  left:18px;
+  bottom:18px;
+  z-index:4;
+  padding:10px 14px;
+  border-radius:999px;
+  background:rgba(0,0,0,.35);
+  border:1px solid rgba(255,255,255,.1);
+  color:#fff;
+  font-size:.92rem;
+  backdrop-filter:blur(10px);
+}
+
+/* Services */
+.services{
+  padding:10px 7% 96px;
+}
+.section-title{
+  text-align:center;
+  margin-bottom:54px;
+}
+.section-title h2{
+  font-size:clamp(2.1rem,4vw,4rem);
+  margin-bottom:12px;
+}
+.section-title p{
+  color:var(--muted);
+  max-width:760px;
+  margin:0 auto;
+  line-height:1.75;
+}
+
+.service-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+  gap:28px;
+}
+.service-card{
+  position:relative;
+  border-radius:26px;
+  overflow:hidden;
+  background:rgba(8,14,26,.48);
+  border:1px solid rgba(255,255,255,.08);
+  backdrop-filter:blur(16px);
+  box-shadow:0 25px 70px rgba(0,0,0,.4);
+  transform-style:preserve-3d;
+  transition:.22s ease;
+}
+.service-card:hover{
+  border-color:rgba(0,212,255,.4);
+  box-shadow:0 35px 90px rgba(0,0,0,.5), 0 0 40px rgba(0,212,255,.08);
+}
+.card-top{
+  height:45px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:0 18px;
+  background:rgba(255,255,255,.03);
+  border-bottom:1px solid rgba(255,255,255,.05);
+}
+.card-top span{width:12px;height:12px;border-radius:50%}
+.card-top span:nth-child(1){background:#ff5f57}
+.card-top span:nth-child(2){background:#febc2e}
+.card-top span:nth-child(3){background:#28c840}
+
+.video-container{
+  position:relative;
+  height:390px;
+  overflow:hidden;
+}
+.video-container video{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transform:scale(1.05);
+  filter:saturate(1.08) contrast(1.02);
+}
+.video-overlay{
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(to top, rgba(0,0,0,.93), rgba(0,0,0,.34), rgba(0,0,0,.08)),
+    radial-gradient(circle at top, rgba(0,212,255,.14), transparent 42%);
+}
+.card-content{
+  position:absolute;
+  left:24px;
+  right:24px;
+  bottom:24px;
+  z-index:5;
+}
+.card-icon{
+  font-size:58px;
+  margin-bottom:12px;
+  filter:drop-shadow(0 10px 18px rgba(0,0,0,.3));
+}
+.card-content h3{
+  font-size:2rem;
+  margin-bottom:12px;
+}
+.card-content p{
+  color:#dce7ff;
+  line-height:1.75;
+  margin-bottom:18px;
+}
+.card-actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.card-content button{
+  padding:12px 22px;
+  border:none;
+  border-radius:999px;
+  background:linear-gradient(135deg, var(--accent), #0072ff);
+  color:#fff;
+  font-weight:800;
+  cursor:pointer;
+  transition:.25s ease;
+}
+.card-content button:hover{transform:translateY(-2px); box-shadow:0 14px 28px rgba(0,198,255,.18)}
+.card-content .ghost{
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.1);
+}
+
+/* Story sections */
+.story{
+  padding:0 7% 110px;
+}
+.story-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+  gap:24px;
+}
+.story-panel{
+  min-height:280px;
+  border-radius:30px;
+  background:rgba(10,16,30,.42);
+  border:1px solid rgba(255,255,255,.08);
+  padding:30px;
+  backdrop-filter:blur(18px);
+  box-shadow:0 20px 60px rgba(0,0,0,.32);
+}
+.story-panel h3{
+  font-size:1.8rem;
+  margin-bottom:14px;
+}
+.story-panel p{
+  color:#d9e5ff;
+  line-height:1.8;
+}
+.stats{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px;
+}
+.stat{
+  padding:24px;
+  border-radius:22px;
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.06);
+}
+.stat strong{
+  display:block;
+  font-size:2rem;
+  color:#79ddff;
+  margin-bottom:8px;
+}
+.stat span{color:#dbe6ff}
+
+/* Footer */
+footer{
+  padding:40px 20px 56px;
+  text-align:center;
+  color:#cbd9ff;
+}
+
+/* Modal */
+#videoModal{
+  position:fixed;
+  inset:0;
+  z-index:4000;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:22px;
+  background:rgba(0,0,0,.74);
+  backdrop-filter:blur(14px);
+}
+#videoModal.active{display:flex}
+.modal-card{
+  width:min(96vw,1180px);
+  max-height:92vh;
+  border-radius:30px;
+  overflow:hidden;
+  background:rgba(8,14,26,.96);
+  border:1px solid rgba(255,255,255,.10);
+  box-shadow:0 34px 100px rgba(0,0,0,.6);
+  display:grid;
+  grid-template-columns:1.35fr .95fr;
+}
+.modal-video{
+  position:relative;
+  min-height:420px;
+  background:#000;
+}
+.modal-video video{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+.modal-info{
+  padding:28px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:14px;
+}
+.modal-info h2{
+  font-size:clamp(1.8rem,3vw,3rem);
+}
+.modal-info p{
+  color:#dbe7ff;
+  line-height:1.8;
+}
+.modal-info ul{
+  padding-left:18px;
+  color:#dbe7ff;
+  line-height:1.8;
+}
+.modal-close{
+  position:absolute;
+  top:16px;
+  right:16px;
+  width:44px;height:44px;
+  border-radius:50%;
+  border:none;
+  cursor:pointer;
+  background:rgba(255,255,255,.08);
+  color:#fff;
+  font-size:24px;
+  z-index:2;
+}
+.modal-actions{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-top:8px;
+}
+.modal-actions button{
+  padding:12px 20px;
+  border:none;
+  border-radius:999px;
+  cursor:pointer;
+  font-weight:800;
+  background:linear-gradient(135deg, var(--accent), #0072ff);
+  color:#fff;
+}
+.modal-actions .ghost{
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.10);
+}
+
+/* Reveals */
+.reveal{
+  opacity:0;
+  transform:translateY(28px) scale(.985);
+  transition:opacity .8s ease, transform .8s ease;
+}
+.reveal.visible{
+  opacity:1;
+  transform:translateY(0) scale(1);
+}
+
+/* Responsive */
+@media (max-width: 980px){
+  .modal-card{grid-template-columns:1fr}
+  .modal-video{min-height:320px}
+}
+
+@media (max-width: 900px){
+  nav ul{display:none}
+  .hero{padding-top:116px}
+  .hero-box{padding:38px 18px}
+  .orbit-strip{padding:18px}
+}
+
+@media (max-width: 640px){
+  nav{padding:16px 5%}
+  .logo{font-size:24px}
+  .sidebar{width:100%;right:-100%}
+  .service-grid{grid-template-columns:1fr}
+  .stats{grid-template-columns:1fr}
+  .video-container{height:340px}
+  .card-content h3{font-size:1.55rem}
+}
+</style>
+</head>
+<body class="loading">
+
+<div id="loader">
+  <div class="loader-stars"></div>
+  <div class="loader-inner">
+    <div class="loader-brand">ChopaTech</div>
+    <div class="loader-sub">Initializing premium solar system interface, service planets, and immersive video experiences.</div>
+    <div class="loader-bar"><span id="loaderBar"></span></div>
+    <div class="loader-percent" id="loaderPercent">0%</div>
+  </div>
+</div>
+
+<canvas id="space-bg"></canvas>
+<div class="space-overlay"></div>
+
+<nav>
+  <div class="logo">ChopaTech</div>
+  <div class="nav-actions">
+    <div class="menu-toggle" id="menuToggle" aria-label="Open menu" role="button" tabindex="0">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-head">
+    <h2>ChopaTech</h2>
+    <div class="close-btn" id="closeBtn">✕</div>
+  </div>
+  <div class="sidebar-links" id="sidebarLinks"></div>
+  <div class="sidebar-note">
+    Tap any service to open its full-screen video modal, or click a planet in the solar system to jump straight to that service.
+  </div>
+</aside>
+
+<section class="hero">
+  <div class="hero-box reveal" id="heroBox">
+    <div class="hero-badge">✨ Futuristic Digital Service Platform</div>
+    <h1>Smart Technology For The Future</h1>
+    <p>
+      ChopaTech delivers modern website development, app development, AI solutions, network solutions,
+      computer maintenance, cyber security, and mobile phone solutions with a premium cinematic experience.
+    </p>
+    <div class="hero-buttons">
+      <button class="btn primary-btn" id="exploreBtn">Explore Services</button>
+      <button class="btn secondary-btn" id="menuBtn">Open Menu</button>
+    </div>
+    <div class="scroll-cue">Scroll to explore the services <span>↓</span></div>
+  </div>
+</section>
+
+<section class="orbit-strip reveal">
+  <div class="orbit-strip-head">
+    <div>
+      <h2>Service Planets</h2>
+      <p>Click a planet to open its fullscreen video modal. The orbiting planets mirror the services below.</p>
+    </div>
+    <div class="planet-hint">3D solar navigation</div>
+  </div>
+  <div class="planet-canvas-wrap">
+    <div id="planet-label">Hover a planet to see its service</div>
+  </div>
+</section>
+
+<section class="services" id="services">
+  <div class="section-title reveal">
+    <h2>Premium Services</h2>
+    <p>Each service is presented as a cinematic video card with a full-screen modal, matching 3D planet in the background, and a button for instant action.</p>
+  </div>
+
+  <div class="service-grid" id="serviceGrid"></div>
+</section>
+
+<section class="story">
+  <div class="story-grid">
+    <div class="story-panel reveal">
+      <h3>Modern landing-page motion</h3>
+      <p>Scroll motion, soft parallax, glassmorphism layers, and smooth reveal animations create a polished Apple-like feel while keeping the layout clear and fast.</p>
+    </div>
+    <div class="story-panel reveal">
+      <h3>Built for premium presentation</h3>
+      <p>Every service has its own video preview, action button, and fullscreen modal so your visitors can explore the offering without leaving the page.</p>
+    </div>
+    <div class="story-panel reveal">
+      <h3>Futuristic service map</h3>
+      <div class="stats">
+        <div class="stat"><strong>7</strong><span>services</span></div>
+        <div class="stat"><strong>3D</strong><span>planets</span></div>
+        <div class="stat"><strong>∞</strong><span>motion</span></div>
+        <div class="stat"><strong>24/7</strong><span>support feel</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer id="footer">
+  © 2026 ChopaTech | Premium Digital Services
+</footer>
+
+<div id="videoModal" aria-hidden="true">
+  <div class="modal-card">
+    <div class="modal-video">
+      <button class="modal-close" id="modalClose" aria-label="Close video">✕</button>
+      <video id="modalVideo" autoplay muted loop playsinline></video>
+    </div>
+    <div class="modal-info">
+      <h2 id="modalTitle"></h2>
+      <p id="modalDesc"></p>
+      <ul id="modalList"></ul>
+      <div class="modal-actions">
+        <button id="modalAction">Start Project</button>
+        <button class="ghost" id="modalSecondary">Back to Services</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+<script>
+const services = [
+  {
+    title: "Website Development",
+    icon: "🌐",
+    video: "https://cdn.coverr.co/videos/coverr-programming-on-screen-1567847706519?download=1080p",
+    desc: "Modern responsive websites with futuristic UI, performance-first structure, and interactive motion.",
+    bullets: ["Responsive layouts", "Modern UI/UX", "SEO-ready structure", "Fast loading experience"],
+    color: 0x7fe7ff
+  },
+  {
+    title: "App Development",
+    icon: "📱",
+    video: "https://cdn.coverr.co/videos/coverr-app-development-5176/1080p.mp4",
+    desc: "Android and iOS applications with polished interfaces, reliable architecture, and smooth user flow.",
+    bullets: ["Android apps", "iOS apps", "Cross-platform approach", "Clean interface design"],
+    color: 0x6d8cff
+  },
+  {
+    title: "AI Solutions",
+    icon: "🤖",
+    video: "https://cdn.coverr.co/videos/coverr-artificial-intelligence-1567847710662?download=1080p",
+    desc: "Smart automation, AI assistants, and machine learning tools for modern business growth.",
+    bullets: ["AI chatbots", "Automation", "Smart workflows", "Business intelligence"],
+    color: 0xd26bff
+  },
+  {
+    title: "Network Solutions",
+    icon: "🌍",
+    video: "https://cdn.coverr.co/videos/coverr-server-room-1571241245444?download=1080p",
+    desc: "Reliable network infrastructure, server setup, wireless design, and enterprise connectivity support.",
+    bullets: ["Server setup", "LAN / WAN design", "Wireless solutions", "Connectivity support"],
+    color: 0x59d7a7
+  },
+  {
+    title: "Computer Maintenance",
+    icon: "🛠️",
+    video: "https://cdn.coverr.co/videos/coverr-working-on-laptop-5177/1080p.mp4",
+    desc: "Hardware repair, troubleshooting, optimization, and dependable computer maintenance services.",
+    bullets: ["Hardware repair", "Software install", "Speed optimization", "System diagnosis"],
+    color: 0xffb35c
+  },
+  {
+    title: "Cyber Security",
+    icon: "🔐",
+    video: "https://cdn.coverr.co/videos/coverr-cyber-security-1608228860883?download=1080p",
+    desc: "Security monitoring, ethical testing, and defense strategies to keep systems and data protected.",
+    bullets: ["Ethical testing", "Firewall protection", "Risk monitoring", "Data defense"],
+    color: 0xff6f91
+  },
+  {
+    title: "Mobile Phone Solutions",
+    icon: "📲",
+    video: "https://cdn.coverr.co/videos/coverr-mobile-phone-1567847715898?download=1080p",
+    desc: "Smartphone repair, flashing, unlocking, and optimization services for mobile devices.",
+    bullets: ["Phone repair", "Unlocking", "Flashing", "Performance tuning"],
+    color: 0x7cf0ff
+  }
+];
+
+const serviceGrid = document.getElementById('serviceGrid');
+const sidebarLinks = document.getElementById('sidebarLinks');
+const modal = document.getElementById('videoModal');
+const modalClose = document.getElementById('modalClose');
+const modalVideo = document.getElementById('modalVideo');
+const modalTitle = document.getElementById('modalTitle');
+const modalDesc = document.getElementById('modalDesc');
+const modalList = document.getElementById('modalList');
+const modalAction = document.getElementById('modalAction');
+const modalSecondary = document.getElementById('modalSecondary');
+const loader = document.getElementById('loader');
+const loaderBar = document.getElementById('loaderBar');
+const loaderPercent = document.getElementById('loaderPercent');
+
+const menuToggle = document.getElementById('menuToggle');
+const sidebar = document.getElementById('sidebar');
+const closeBtn = document.getElementById('closeBtn');
+const menuBtn = document.getElementById('menuBtn');
+const exploreBtn = document.getElementById('exploreBtn');
+const heroBox = document.getElementById('heroBox');
+
+function openSidebar(){ sidebar.classList.add('active'); }
+function closeSidebar(){ sidebar.classList.remove('active'); }
+menuToggle.addEventListener('click', openSidebar);
+menuToggle.addEventListener('keydown', e => { if(e.key === 'Enter' || e.key === ' ') openSidebar(); });
+closeBtn.addEventListener('click', closeSidebar);
+menuBtn.addEventListener('click', openSidebar);
+exploreBtn.addEventListener('click', () => document.getElementById('services').scrollIntoView({behavior:'smooth'}));
+
+document.addEventListener('click', (e) => {
+  if(sidebar.classList.contains('active') && !sidebar.contains(e.target) && !menuToggle.contains(e.target)) {
+    closeSidebar();
+  }
+});
+
+function openModal(index){
+  const s = services[index];
+  modal.classList.add('active');
+  modal.setAttribute('aria-hidden', 'false');
+  modalTitle.textContent = s.title;
+  modalDesc.textContent = s.desc;
+  modalList.innerHTML = s.bullets.map(item => `<li>${item}</li>`).join('');
+  modalAction.textContent = `Start ${s.title}`;
+  modalVideo.src = s.video;
+  modalVideo.load();
+  modalVideo.play().catch(()=>{});
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(){
+  modal.classList.remove('active');
+  modal.setAttribute('aria-hidden', 'true');
+  modalVideo.pause();
+  modalVideo.removeAttribute('src');
+  modalVideo.load();
+  document.body.style.overflow = '';
+}
+
+modalClose.addEventListener('click', closeModal);
+modalSecondary.addEventListener('click', closeModal);
+modal.addEventListener('click', (e) => { if(e.target === modal) closeModal(); });
+modalAction.addEventListener('click', () => {
+  const el = document.getElementById('services');
+  closeModal();
+  el.scrollIntoView({behavior:'smooth'});
+});
+document.addEventListener('keydown', (e) => {
+  if(e.key === 'Escape' && modal.classList.contains('active')) closeModal();
+});
+
+/* Build service cards and sidebar items */
+serviceGrid.innerHTML = services.map((s, i) => `
+  <article class="service-card reveal" data-index="${i}">
+    <div class="card-top"><span></span><span></span><span></span></div>
+    <div class="video-container">
+      <video autoplay muted loop playsinline preload="metadata">
+        <source src="${s.video}" type="video/mp4">
+      </video>
+      <div class="video-overlay"></div>
+      <div class="card-content">
+        <div class="card-icon">${s.icon}</div>
+        <h3>${s.title}</h3>
+        <p>${s.desc}</p>
+        <div class="card-actions">
+          <button class="open-service">Open Fullscreen</button>
+          <button class="ghost">Details</button>
+        </div>
+      </div>
+    </div>
+  </article>
+`).join('');
+
+sidebarLinks.innerHTML = `
+  <a href="#heroBox">🏠 Home</a>
+  ${services.map((s, i) => `<a href="#services" data-sid="${i}">${s.icon} ${s.title}</a>`).join('')}
+  <a href="#services">✨ Premium Story</a>
+  <a href="#footer">📞 Contact</a>
+`;
+
+document.querySelectorAll('.service-card').forEach(card => {
+  const i = Number(card.dataset.index);
+  card.querySelector('.open-service').addEventListener('click', () => openModal(i));
+  card.querySelector('.ghost').addEventListener('click', () => openModal(i));
+
+  card.addEventListener('mousemove', (e) => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const rotateX = (y - centerY) / 22;
+    const rotateY = (centerX - x) / 22;
+    card.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.03)`;
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = `perspective(1200px) rotateX(0deg) rotateY(0deg) scale(1)`;
+  });
+});
+
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting) entry.target.classList.add('visible');
+  });
+}, {threshold: .18});
+
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+/* Hero parallax */
+document.addEventListener('mousemove', (e) => {
+  const x = (window.innerWidth / 2 - e.pageX) / 44;
+  const y = (window.innerHeight / 2 - e.pageY) / 44;
+  heroBox.style.transform = `rotateY(${x}deg) rotateX(${-y}deg)`;
+});
+
+/* Removed the scroll-follow translate effect from the hero box */
+window.addEventListener('scroll', () => {
+  const y = window.scrollY || 0;
+  heroBox.style.transform = `rotateY(0deg) rotateX(0deg)`;
+});
+
+/* Loader */
+let loaderProgress = 0;
+const loaderTimer = setInterval(() => {
+  loaderProgress += Math.min(8, Math.max(1, Math.round(Math.random() * 9)));
+  if(loaderProgress >= 100) loaderProgress = 100;
+  loaderBar.style.width = loaderProgress + '%';
+  loaderPercent.textContent = loaderProgress + '%';
+  if(loaderProgress === 100) clearInterval(loaderTimer);
+}, 110);
+
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    loader.style.opacity = '0';
+    loader.style.transition = 'opacity .6s ease';
+    document.body.classList.remove('loading');
+    setTimeout(() => loader.remove(), 650);
+  }, 900);
+});
+
+/* Three.js solar system with clickable service planets */
+const canvas = document.getElementById('space-bg');
+const scene = new THREE.Scene();
+scene.fog = new THREE.Fog(0x02040d, 70, 300);
+
+const camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 1000);
+camera.position.set(0, 18, 86);
+
+const renderer = new THREE.WebGLRenderer({ canvas, antialias:true, alpha:true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.1;
+
+const ambient = new THREE.AmbientLight(0x6886ff, 0.42);
+scene.add(ambient);
+
+const sunLight = new THREE.PointLight(0xffddaa, 5, 400);
+scene.add(sunLight);
+
+const sun = new THREE.Mesh(
+  new THREE.SphereGeometry(5.6, 64, 64),
+  new THREE.MeshStandardMaterial({
+    color: 0xff7a00,
+    emissive: 0xffaa22,
+    emissiveIntensity: 3.1,
+    roughness: 0.35
+  })
+);
+scene.add(sun);
+
+const sunGlow = new THREE.Mesh(
+  new THREE.SphereGeometry(8.8, 64, 64),
+  new THREE.MeshBasicMaterial({
+    color: 0xffa000,
+    transparent:true,
+    opacity:0.16
+  })
+);
+scene.add(sunGlow);
+
+/* stars */
+const starCount = 6500;
+const starPositions = new Float32Array(starCount * 3);
+for(let i=0;i<starCount*3;i+=3){
+  const radius = 250 + Math.random() * 520;
+  const theta = Math.random() * Math.PI * 2;
+  const phi = Math.acos(2 * Math.random() - 1);
+  starPositions[i] = radius * Math.sin(phi) * Math.cos(theta);
+  starPositions[i+1] = radius * Math.sin(phi) * Math.sin(theta);
+  starPositions[i+2] = radius * Math.cos(phi);
+}
+const starsGeo = new THREE.BufferGeometry();
+starsGeo.setAttribute('position', new THREE.BufferAttribute(starPositions, 3));
+const stars = new THREE.Points(
+  starsGeo,
+  new THREE.PointsMaterial({ color:0xffffff, size:0.55, transparent:true, opacity:0.92 })
+);
+scene.add(stars);
+
+/* asteroid belt */
+const beltCount = 1800;
+const beltPos = new Float32Array(beltCount * 3);
+for(let i=0;i<beltCount;i++){
+  const a = Math.random() * Math.PI * 2;
+  const r = 26 + Math.random() * 3.2;
+  beltPos[i*3] = Math.cos(a) * r;
+  beltPos[i*3+1] = (Math.random() - 0.5) * 1.3;
+  beltPos[i*3+2] = Math.sin(a) * r;
+}
+const belt = new THREE.Points(
+  new THREE.BufferGeometry(),
+  new THREE.PointsMaterial({ color:0xaab7c9, size:0.18, transparent:true, opacity:0.72 })
+);
+belt.geometry.setAttribute('position', new THREE.BufferAttribute(beltPos, 3));
+scene.add(belt);
+
+function createPlanet(cfg){
+  const group = new THREE.Group();
+  scene.add(group);
+
+  const planet = new THREE.Mesh(
+    new THREE.SphereGeometry(cfg.size, 48, 48),
+    new THREE.MeshStandardMaterial({
+      color: cfg.color,
+      roughness: 0.82,
+      metalness: 0.08
+    })
+  );
+  planet.position.x = cfg.distance;
+  planet.userData = { index: cfg.index, title: cfg.title };
+  group.add(planet);
+
+  if(cfg.ring){
+    const ring = new THREE.Mesh(
+      new THREE.RingGeometry(cfg.ringInner, cfg.ringOuter, 96),
+      new THREE.MeshBasicMaterial({
+        color: cfg.ringColor || 0xffffff,
+        side: THREE.DoubleSide,
+        transparent: true,
+        opacity: 0.48
+      })
+    );
+    ring.rotation.x = Math.PI / 2.2;
+    planet.add(ring);
+  }
+
+  return {
+    group,
+    planet,
+    orbitSpeed: cfg.orbitSpeed,
+    rotationSpeed: cfg.rotationSpeed,
+    distance: cfg.distance,
+    title: cfg.title
+  };
+}
+
+const planetData = [
+  { size:0.82, distance:10, color:services[0].color, orbitSpeed:0.030, rotationSpeed:0.012, index:0, title:services[0].title },
+  { size:1.08, distance:14, color:services[1].color, orbitSpeed:0.022, rotationSpeed:0.011, index:1, title:services[1].title },
+  { size:1.20, distance:19, color:services[2].color, orbitSpeed:0.018, rotationSpeed:0.014, index:2, title:services[2].title },
+  { size:1.02, distance:24, color:services[3].color, orbitSpeed:0.015, rotationSpeed:0.012, index:3, title:services[3].title },
+  { size:1.42, distance:30, color:services[4].color, orbitSpeed:0.011, rotationSpeed:0.016, index:4, title:services[4].title },
+  { size:1.28, distance:37, color:services[5].color, orbitSpeed:0.009, rotationSpeed:0.016, index:5, title:services[5].title, ring:true, ringInner:1.7, ringOuter:2.5, ringColor:0xff8ab0 },
+  { size:1.05, distance:44, color:services[6].color, orbitSpeed:0.007, rotationSpeed:0.015, index:6, title:services[6].title }
+];
+
+const planets = planetData.map(createPlanet);
+
+function addOrbit(radius){
+  const points = [];
+  for(let i=0;i<=160;i++){
+    const a = (i / 160) * Math.PI * 2;
+    points.push(new THREE.Vector3(Math.cos(a)*radius, 0, Math.sin(a)*radius));
+  }
+  const orbit = new THREE.LineLoop(
+    new THREE.BufferGeometry().setFromPoints(points),
+    new THREE.LineBasicMaterial({ color:0x35577a, transparent:true, opacity:0.24 })
+  );
+  scene.add(orbit);
+}
+planets.forEach(p => addOrbit(p.distance));
+
+/* moon */
+const moon = new THREE.Mesh(
+  new THREE.SphereGeometry(0.24, 16, 16),
+  new THREE.MeshStandardMaterial({ color:0xd7e0ef, roughness:0.92 })
+);
+scene.add(moon);
+
+/* label */
+const planetLabel = document.getElementById('planet-label');
+
+/* raycaster */
+const raycaster = new THREE.Raycaster();
+const pointer = new THREE.Vector2(-10, -10);
+let hoveredPlanet = null;
+
+function setPointerFromEvent(e){
+  const rect = renderer.domElement.getBoundingClientRect();
+  pointer.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+  pointer.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+}
+
+renderer.domElement.style.cursor = 'grab';
+renderer.domElement.addEventListener('pointermove', (e) => {
+  setPointerFromEvent(e);
+});
+renderer.domElement.addEventListener('pointerleave', () => {
+  pointer.x = -10; pointer.y = -10;
+  hoveredPlanet = null;
+  planetLabel.textContent = 'Hover a planet to see its service';
+  renderer.domElement.style.cursor = 'grab';
+});
+renderer.domElement.addEventListener('click', () => {
+  if(hoveredPlanet !== null) openModal(hoveredPlanet);
+});
+
+const mouse = { x:0, y:0 };
+window.addEventListener('mousemove', (e) => {
+  mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+  setPointerFromEvent(e);
+});
+
+/* camera orbit + scroll */
+function smoothstep(min, max, value){
+  const x = Math.max(0, Math.min(1, (value - min) / (max - min)));
+  return x * x * (3 - 2 * x);
+}
+let scrollProgress = 0;
+function updateScroll(){
+  const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+  scrollProgress = window.scrollY / maxScroll;
+}
+window.addEventListener('scroll', updateScroll);
+updateScroll();
+
+const clock = new THREE.Clock();
+
+function animate(){
+  requestAnimationFrame(animate);
+  const t = clock.getElapsedTime();
+
+  sun.rotation.y += 0.0022;
+  sunGlow.scale.setScalar(1 + Math.sin(t * 2.0) * 0.03);
+
+  planets.forEach((p, index) => {
+    p.group.rotation.y += p.orbitSpeed;
+    p.planet.rotation.y += p.rotationSpeed;
+    p.group.rotation.z = Math.sin(t * 0.10 + index) * 0.02;
+  });
+
+  stars.rotation.y += 0.00014;
+  belt.rotation.y += 0.0011;
+
+  const moonAngle = t * 1.8;
+  moon.position.set(
+    Math.cos(moonAngle) * 3.0 + 19,
+    Math.sin(moonAngle * 0.7) * 0.7,
+    Math.sin(moonAngle) * 3.0
+  );
+
+  const orbitAngle = t * 0.08 + scrollProgress * Math.PI * 2.6;
+  const orbitRadius = 82 - scrollProgress * 12;
+  const targetX = Math.cos(orbitAngle) * orbitRadius + mouse.x * 6;
+  const targetZ = Math.sin(orbitAngle) * orbitRadius + 6;
+  const targetY = 18 + Math.sin(t * 0.22) * 1.3 + mouse.y * 4;
+
+  camera.position.x += (targetX - camera.position.x) * 0.03;
+  camera.position.y += (targetY - camera.position.y) * 0.03;
+  camera.position.z += (targetZ - camera.position.z) * 0.03;
+  camera.lookAt(0,0,0);
+
+  raycaster.setFromCamera(pointer, camera);
+  const planetMeshes = planets.map(p => p.planet);
+  const hits = raycaster.intersectObjects(planetMeshes, true);
+  if(hits.length){
+    const idx = hits[0].object.userData.index ?? hits[0].object.parent?.userData?.index;
+    if(typeof idx === 'number'){
+      hoveredPlanet = idx;
+      planetLabel.textContent = `Open: ${services[idx].title}`;
+      renderer.domElement.style.cursor = 'pointer';
+    }
+  }else{
+    hoveredPlanet = null;
+    planetLabel.textContent = 'Hover a planet to see its service';
+    renderer.domElement.style.cursor = 'grab';
+  }
+
+  renderer.render(scene, camera);
+}
+animate();
+
+/* Resize */
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth/window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+});
+
+/* Fill sidebar with services */
+sidebarLinks.innerHTML = `
+  <a href="#heroBox">🏠 Home</a>
+  ${services.map((s, i) => `<a href="#services" data-sid="${i}">${s.icon} ${s.title}</a>`).join('')}
+  <a href="#services">✨ Premium Story</a>
+  <a href="#footer">📞 Contact</a>
+`;
+
+/* Open modal from sidebar items */
+document.querySelectorAll('[data-sid]').forEach(link => {
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+    const i = Number(link.dataset.sid);
+    closeSidebar();
+    document.getElementById('services').scrollIntoView({behavior:'smooth'});
+    setTimeout(() => openModal(i), 600);
+  });
+});
+
+/* Close modal when clicking overlay */
+document.getElementById('modalSecondary').addEventListener('click', () => {
+  closeModal();
+  document.getElementById('services').scrollIntoView({behavior:'smooth'});
+});
+
+/* Explore button opens first service modal */
+exploreBtn.addEventListener('click', () => openModal(0));
+
+/* Keyboard accessibility for sidebar toggle */
+menuToggle.addEventListener('keydown', (e) => {
+  if(e.key === 'Enter' || e.key === ' ') {
+    e.preventDefault();
+    openSidebar();
+  }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ChopaTech Tutorials</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    :root{
+      --bg:#050816;
+      --card:#0f172a;
+      --primary:#00e5ff;
+      --secondary:#8b5cf6;
+      --text:#ffffff;
+      --muted:#9ca3af;
+      --border:rgba(255,255,255,0.08);
+    }
+
+    body{
+      font-family:'Inter',sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      overflow-x:hidden;
+    }
+
+    canvas{
+      position:fixed;
+      top:0;
+      left:0;
+      width:100%;
+      height:100%;
+      z-index:-2;
+    }
+
+    .overlay{
+      position:fixed;
+      inset:0;
+      background:linear-gradient(to bottom, rgba(5,8,22,0.5), rgba(5,8,22,0.95));
+      z-index:-1;
+    }
+
+    .container{
+      width:min(1200px,92%);
+      margin:auto;
+    }
+
+    header{
+      padding:30px 0;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      position:sticky;
+      top:0;
+      backdrop-filter:blur(12px);
+      z-index:100;
+    }
+
+    .mobile-menu-btn{
+      display:none;
+      flex-direction:column;
+      gap:5px;
+      cursor:pointer;
+      position:absolute;
+      left:0;
+      top:50%;
+      transform:translateY(-50%);
+      z-index:200;
+    }
+
+    .mobile-menu-btn span{
+      width:28px;
+      height:3px;
+      background:#fff;
+      border-radius:20px;
+      transition:0.3s;
+    }
+
+    .logo{
+      font-size:1.7rem;
+      font-weight:800;
+      background:linear-gradient(90deg,var(--primary),var(--secondary));
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+    }
+
+    nav{
+      display:flex;
+      gap:20px;
+    }
+
+    nav a{
+      color:#fff;
+      text-decoration:none;
+      font-weight:500;
+      transition:0.3s;
+    }
+
+    nav a:hover{
+      color:var(--primary);
+    }
+
+    .hero{
+      min-height:90vh;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      text-align:center;
+      gap:25px;
+    }
+
+    .hero h1{
+      font-size:clamp(2.8rem,6vw,5rem);
+      line-height:1.1;
+      font-weight:800;
+      max-width:900px;
+    }
+
+    .hero p{
+      max-width:750px;
+      color:var(--muted);
+      font-size:1.1rem;
+      line-height:1.8;
+    }
+
+    .hero-buttons{
+      display:flex;
+      gap:15px;
+      flex-wrap:wrap;
+      justify-content:center;
+    }
+
+    .btn{
+      padding:15px 28px;
+      border-radius:14px;
+      border:none;
+      cursor:pointer;
+      font-size:1rem;
+      font-weight:700;
+      transition:0.3s;
+      text-decoration:none;
+    }
+
+    .btn-primary{
+      background:linear-gradient(90deg,var(--primary),var(--secondary));
+      color:#fff;
+      box-shadow:0 0 30px rgba(0,229,255,0.3);
+    }
+
+    .btn-secondary{
+      background:rgba(255,255,255,0.05);
+      border:1px solid var(--border);
+      color:#fff;
+      backdrop-filter:blur(10px);
+    }
+
+    .btn:hover{
+      transform:translateY(-4px);
+    }
+
+    .tutorials{
+      padding:80px 0 120px;
+    }
+
+    .section-title{
+      text-align:center;
+      margin-bottom:60px;
+    }
+
+    .section-title h2{
+      font-size:3rem;
+      margin-bottom:15px;
+    }
+
+    .section-title p{
+      color:var(--muted);
+      max-width:700px;
+      margin:auto;
+      line-height:1.8;
+    }
+
+    .cards{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(350px,1fr));
+      gap:35px;
+    }
+
+    .card{
+      position:relative;
+      background:rgba(255,255,255,0.05);
+      border:1px solid rgba(255,255,255,0.08);
+      border-radius:28px;
+      overflow:hidden;
+      backdrop-filter:blur(18px);
+      transition:0.4s;
+      box-shadow:0 10px 40px rgba(0,0,0,0.35);
+    }
+
+    .card:hover{
+      transform:translateY(-10px) scale(1.01);
+      border-color:rgba(0,229,255,0.4);
+    }
+
+    .video-wrapper{
+      position:relative;
+      width:100%;
+      height:250px;
+      overflow:hidden;
+    }
+
+    .video-wrapper iframe{
+      width:100%;
+      height:100%;
+      border:none;
+    }
+
+    .video-overlay{
+      position:absolute;
+      inset:0;
+      background:linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+      pointer-events:none;
+    }
+
+    .content{
+      padding:30px;
+    }
+
+    .tag{
+      display:inline-block;
+      padding:8px 14px;
+      background:rgba(0,229,255,0.12);
+      color:var(--primary);
+      border-radius:100px;
+      font-size:0.8rem;
+      font-weight:700;
+      margin-bottom:18px;
+    }
+
+    .content h3{
+      font-size:2rem;
+      margin-bottom:15px;
+    }
+
+    .content p{
+      color:var(--muted);
+      line-height:1.8;
+      margin-bottom:25px;
+    }
+
+    .features{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      margin-bottom:25px;
+    }
+
+    .feature{
+      padding:10px 14px;
+      border-radius:12px;
+      background:rgba(255,255,255,0.05);
+      border:1px solid rgba(255,255,255,0.08);
+      font-size:0.9rem;
+    }
+
+    footer{
+      padding:50px 0;
+      text-align:center;
+      color:var(--muted);
+      border-top:1px solid rgba(255,255,255,0.08);
+      background:rgba(255,255,255,0.02);
+      backdrop-filter:blur(12px);
+    }
+
+    .glow{
+      position:absolute;
+      width:250px;
+      height:250px;
+      border-radius:50%;
+      background:radial-gradient(circle, rgba(0,229,255,0.25), transparent 70%);
+      filter:blur(20px);
+      z-index:-1;
+    }
+
+    .glow.one{
+      top:-80px;
+      left:-80px;
+    }
+
+    .glow.two{
+      bottom:-100px;
+      right:-80px;
+      background:radial-gradient(circle, rgba(139,92,246,0.3), transparent 70%);
+    }
+
+    @media(max-width:992px){
+      .cards{
+        grid-template-columns:1fr;
+      }
+
+      .hero h1{
+        font-size:3rem;
+      }
+    }
+
+    @media(max-width:768px){
+      .mobile-menu-btn{
+        display:flex;
+      }
+
+      header{
+        position:relative;
+      }
+
+      .logo{
+        width:100%;
+        text-align:center;
+        font-size:1.4rem;
+      }
+
+      nav{
+        position:absolute;
+        top:100%;
+        left:0;
+        width:100%;
+        background:rgba(15,23,42,0.95);
+        backdrop-filter:blur(15px);
+        padding:20px;
+        border-radius:20px;
+        display:none;
+        flex-direction:column;
+        align-items:center;
+        border:1px solid rgba(255,255,255,0.08);
+      }
+
+      nav.active{
+        display:flex;
+      }
+
+      header{
+        flex-direction:column;
+        gap:20px;
+        padding:20px 0;
+      }
+
+      nav{
+        flex-wrap:wrap;
+        justify-content:center;
+        gap:12px;
+      }
+
+      nav a{
+        font-size:0.95rem;
+      }
+
+      .hero{
+        padding-top:80px;
+        min-height:80vh;
+      }
+
+      .hero h1{
+        font-size:2.3rem;
+      }
+
+      .hero p{
+        font-size:1rem;
+        line-height:1.7;
+      }
+
+      .hero-buttons{
+        width:100%;
+        flex-direction:column;
+        align-items:center;
+      }
+
+      .btn{
+        width:100%;
+        max-width:320px;
+        text-align:center;
+      }
+
+      .section-title h2{
+        font-size:2rem;
+      }
+
+      .cards{
+        grid-template-columns:1fr;
+        gap:25px;
+      }
+
+      .card{
+        border-radius:22px;
+      }
+
+      .video-wrapper{
+        height:220px;
+      }
+
+      .content{
+        padding:22px;
+      }
+
+      .content h3{
+        font-size:1.5rem;
+      }
+
+      .features{
+        gap:10px;
+      }
+
+      .feature{
+        font-size:0.8rem;
+      }
+    }
+
+    @media(max-width:480px){
+      .container{
+        width:94%;
+      }
+
+      .hero h1{
+        font-size:2rem;
+      }
+
+      .hero p{
+        font-size:0.95rem;
+      }
+
+      .section-title h2{
+        font-size:1.7rem;
+      }
+
+      .video-wrapper{
+        height:200px;
+      }
+
+      .content h3{
+        font-size:1.3rem;
+      }
+
+      .btn{
+        padding:14px 18px;
+        font-size:0.95rem;
+      }
+    }
+
+      nav{
+        flex-wrap:wrap;
+        justify-content:center;
+      }
+
+      .hero{
+        padding-top:80px;
+      }
+
+      .section-title h2{
+        font-size:2.2rem;
+      }
+
+      .content h3{
+        font-size:1.6rem;
+      }
+  </style>
+</head>
+<body>
+
+  <canvas id="bg"></canvas>
+  <div class="overlay"></div>
+
+  <div class="container">
+
+    <header>
+      <div class="mobile-menu-btn" id="menuBtn">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+
+      <div class="logo">ChopaTech Tutorials</div>
+
+      <nav>
+        <a href="#">Home</a>
+        <a href="#tutorials">Tutorials</a>
+        <a href="myschoolportal.html">MySchoolPortal</a>
+        <a href="#computerdeep">ComputerDeepTutorial</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <h1>Modern Learning Experience With Three.js Visual Effects</h1>
+
+      <p>
+        Learn technology, web development, AI, computer tutorials and digital systems through an advanced futuristic tutorial platform built with modern HTML, CSS, JavaScript and Three.js animations.
+      </p>
+
+      <div class="hero-buttons">
+        <a href="#tutorials" class="btn btn-primary">Explore Tutorials</a>
+        <a href="#" class="btn btn-secondary">Start Learning</a>
+      </div>
+    </section>
+
+    <section class="tutorials" id="tutorials">
+
+      <div class="section-title">
+        <h2>Featured Tutorial Platforms</h2>
+        <p>
+          Two powerful learning sections with modern video interfaces, futuristic design and responsive layouts for desktop, tablet and mobile devices.
+        </p>
+      </div>
+
+      <div class="cards">
+
+        <div class="card" id="tanzaniatutorialhub">
+          <div class="glow one"></div>
+
+          <div class="video-wrapper">
+            <iframe src="https://www.youtube.com/embed/mJgBOIoGihA" allowfullscreen></iframe>
+            <div class="video-overlay"></div>
+          </div>
+
+          <div class="content">
+            <div class="tag">TanzaniaTutorialHub</div>
+
+            <h3>Tanzania Digital Learning Hub</h3>
+
+            <p>
+              Explore modern tutorials from Tanzania including technology, business systems, AI tools, graphics design, website development and digital entrepreneurship lessons.
+            </p>
+
+            <div class="features">
+              <div class="feature">Tech Tutorials</div>
+              <div class="feature">Business Skills</div>
+              <div class="feature">Digital Learning</div>
+            </div>
+
+            <a href="#" class="btn btn-primary">Explore Hub</a>
+          </div>
+        </div>
+
+        <div class="card" id="myschoolportal">
+          <div class="glow one"></div>
+
+          <div class="video-wrapper">
+            <iframe src="https://www.youtube.com/embed/Ke90Tje7VS0" allowfullscreen></iframe>
+            <div class="video-overlay"></div>
+          </div>
+
+          <div class="content">
+            <div class="tag">MySchoolPortal</div>
+
+            <h3>Student Portal Tutorials</h3>
+
+            <p>
+              Learn how to manage school systems, student portals, online results, digital registration and modern educational platforms through step-by-step tutorials.
+            </p>
+
+            <div class="features">
+              <div class="feature">Portal Setup</div>
+              <div class="feature">Student Dashboard</div>
+              <div class="feature">Responsive UI</div>
+            </div>
+
+            <a href="#" class="btn btn-primary">Watch Tutorials</a>
+          </div>
+        </div>
+
+        <div class="card" id="computerdeep">
+          <div class="glow two"></div>
+
+          <div class="video-wrapper">
+            <iframe src="https://www.youtube.com/embed/ZxKM3DCV2kE" allowfullscreen></iframe>
+            <div class="video-overlay"></div>
+          </div>
+
+          <div class="content">
+            <div class="tag">ComputerDeepTutorial</div>
+
+            <h3>Advanced Computer Lessons</h3>
+
+            <p>
+              Master programming, networking, graphic design, AI tools, coding systems and computer maintenance using modern visual tutorials.
+            </p>
+
+            <div class="features">
+              <div class="feature">Coding</div>
+              <div class="feature">Networking</div>
+              <div class="feature">AI Tutorials</div>
+            </div>
+
+            <a href="#" class="btn btn-primary">Start Learning</a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+
+  <footer>
+    © 2026 ChopaTech Tutorials • Modern Three.js Learning Platform
+  </footer>
+
+  <script type="module">
+    import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
+
+    const scene = new THREE.Scene();
+
+    const camera = new THREE.PerspectiveCamera(
+      75,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      1000
+    );
+
+    const renderer = new THREE.WebGLRenderer({
+      canvas: document.getElementById('bg'),
+      antialias:true,
+      alpha:true
+    });
+
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+    camera.position.z = 30;
+
+    const particlesGeometry = new THREE.BufferGeometry();
+    const particlesCount = 3000;
+
+    const posArray = new Float32Array(particlesCount * 3);
+
+    for(let i = 0; i < particlesCount * 3; i++){
+      posArray[i] = (Math.random() - 0.5) * 120;
+    }
+
+    particlesGeometry.setAttribute(
+      'position',
+      new THREE.BufferAttribute(posArray,3)
+    );
+
+    const particlesMaterial = new THREE.PointsMaterial({
+      size:0.08,
+      color:'#00e5ff'
+    });
+
+    const particlesMesh = new THREE.Points(
+      particlesGeometry,
+      particlesMaterial
+    );
+
+    scene.add(particlesMesh);
+
+    const sphereGeometry = new THREE.IcosahedronGeometry(8,1);
+
+    const sphereMaterial = new THREE.MeshStandardMaterial({
+      color:'#8b5cf6',
+      wireframe:true
+    });
+
+    const sphere = new THREE.Mesh(sphereGeometry,sphereMaterial);
+    scene.add(sphere);
+
+    const light = new THREE.PointLight('#00e5ff',2);
+    light.position.set(20,20,20);
+    scene.add(light);
+
+    const ambient = new THREE.AmbientLight('#ffffff',0.5);
+    scene.add(ambient);
+
+    function animate(){
+      requestAnimationFrame(animate);
+
+      particlesMesh.rotation.y += 0.0008;
+      particlesMesh.rotation.x += 0.0002;
+
+      sphere.rotation.x += 0.003;
+      sphere.rotation.y += 0.004;
+
+      renderer.render(scene,camera);
+    }
+
+    animate();
+
+    window.addEventListener('resize',()=>{
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    document.addEventListener('mousemove',(event)=>{
+      const mouseX = event.clientX / window.innerWidth - 0.5;
+      const mouseY = event.clientY / window.innerHeight - 0.5;
+
+      sphere.rotation.y = mouseX * 2;
+      sphere.rotation.x = mouseY * 2;
+    });
+
+    const menuBtn = document.getElementById('menuBtn');
+    const nav = document.querySelector('nav');
+
+    menuBtn.addEventListener('click',()=>{
+      nav.classList.toggle('active');
+    });
+  </script>
+
+</body>
+</html>

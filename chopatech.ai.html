@@ -1,0 +1,469 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>ChopaTech AI</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    :root{
+      color-scheme: dark;
+    }
+
+    *{
+      box-sizing: border-box;
+    }
+
+    html, body{
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background: linear-gradient(to bottom right, #06111f, #0b1729);
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    ::-webkit-scrollbar{
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-thumb{
+      background: #10b981;
+      border-radius: 10px;
+    }
+
+    @media (max-width: 768px){
+      #chatBox{
+        padding: 16px;
+      }
+
+      textarea{
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+
+<body class="text-white overflow-hidden">
+
+<div class="flex h-[100dvh]">
+
+  <!-- SIDEBAR -->
+  <aside
+    id="sidebar"
+    class="fixed lg:relative z-50 lg:z-auto w-72 h-full bg-black/30 border-r border-white/10 p-6 backdrop-blur-xl flex flex-col transition-transform duration-300 -translate-x-full lg:translate-x-0">
+
+    <div class="flex items-center justify-between mb-10">
+      <h1 class="text-3xl font-black">
+        🤖 <span class="text-emerald-400">ChopaTech</span> AI
+      </h1>
+
+      <button
+        onclick="toggleSidebar()"
+        class="lg:hidden bg-white/10 hover:bg-white/20 w-10 h-10 rounded-xl transition text-xl flex items-center justify-center">
+        ✕
+      </button>
+    </div>
+
+    <nav class="space-y-4 text-sm">
+
+      <button
+        onclick="newChat()"
+        class="w-full text-left p-4 rounded-2xl bg-white/10 hover:bg-white/20 transition">
+        💬 New Chat
+      </button>
+
+      <label
+        class="w-full block text-left p-4 rounded-2xl hover:bg-white/10 transition cursor-pointer">
+        📎 Upload File
+        <input
+          type="file"
+          hidden
+          onchange="uploadFile(event)"
+        />
+      </label>
+
+      <button
+        onclick="startVoice()"
+        class="w-full text-left p-4 rounded-2xl hover:bg-white/10 transition">
+        🎤 Voice Talk
+      </button>
+
+      <button
+        class="w-full text-left p-4 rounded-2xl hover:bg-white/10 transition">
+        ⚙ Settings
+      </button>
+
+    </nav>
+
+    <div class="mt-auto bg-white/5 border border-white/10 rounded-3xl p-5">
+      <p class="text-gray-400 text-xs">
+        AI Status
+      </p>
+      <h2 class="text-2xl font-bold text-emerald-400 mt-2">
+        Online
+      </h2>
+    </div>
+
+  </aside>
+
+  <!-- MAIN -->
+  <main class="flex-1 flex flex-col min-w-0">
+
+    <!-- HEADER -->
+    <header class="border-b border-white/10 p-4 md:p-5 bg-black/20 backdrop-blur-xl flex justify-between items-center gap-4">
+
+      <div class="flex items-center gap-4 min-w-0">
+        <button
+          onclick="toggleSidebar()"
+          class="lg:hidden bg-white/10 hover:bg-white/20 w-11 h-11 rounded-xl transition text-xl flex items-center justify-center shrink-0">
+          ☰
+        </button>
+
+        <div class="min-w-0">
+          <h2 class="text-xl md:text-2xl font-bold truncate">
+            ChopaTech AI
+          </h2>
+          <p class="text-gray-400 text-xs md:text-sm mt-1 truncate">
+            AI powered by ChopaTech
+          </p>
+        </div>
+      </div>
+
+      <button
+        class="bg-emerald-500 hover:bg-emerald-400 px-4 md:px-5 py-2 md:py-3 rounded-2xl font-bold transition shrink-0">
+        Login
+      </button>
+
+    </header>
+
+    <!-- CHAT -->
+    <div
+      id="chatBox"
+      class="flex-1 overflow-y-auto p-4 md:p-8 space-y-6">
+
+      <div class="flex">
+        <div class="bg-white/10 border border-white/10 rounded-3xl p-5 max-w-[85%] md:max-w-[70%]">
+          👋 Welcome to ChopaTech AI
+          <br><br>
+          🚀 Ask anything
+          <br>
+          🎤 Voice support
+          <br>
+          📎 File upload
+          <br>
+          🤖 Multi AI Models
+        </div>
+      </div>
+
+    </div>
+
+    <!-- UPLOAD PREVIEW -->
+    <div id="uploadPreview" class="px-4 md:px-8 py-2 hidden">
+      <div class="bg-white/10 border border-white/10 rounded-2xl p-4 flex justify-between items-center">
+        <span id="fileName" class="truncate pr-3">file.pdf</span>
+        <button onclick="removeUpload()" class="text-red-400 text-xl shrink-0">✖</button>
+      </div>
+    </div>
+
+    <!-- INPUT AREA -->
+    <div class="border-t border-white/10 p-3 md:p-5 bg-black/20 backdrop-blur-xl pb-[calc(12px+env(safe-area-inset-bottom))]">
+
+      <!-- MODEL + LANGUAGE -->
+      <div class="flex gap-2 mb-3">
+        <select
+          id="modelSelect"
+          class="flex-1 min-w-0 px-3 py-2 rounded-xl bg-[#111827] border border-white/10 text-[11px] md:text-xs text-white outline-none">
+
+          <option value="@cf/meta/llama-3.1-8b-instruct">Llama 3.1</option>
+          <option value="@cf/meta/llama-3-8b-instruct">Llama 3 8B</option>
+          <option value="@cf/mistralai/mistral-7b-instruct-v0.1">Mistral 7B</option>
+          <option value="@cf/qwen/qwen1.5-14b-chat-awq">Qwen 14B</option>
+          <option value="@cf/google/gemma-7b-it">Gemma 7B</option>
+          <option value="gpt-style">GPT Style Assistant</option>
+
+        </select>
+
+        <select
+          id="languageSelect"
+          class="flex-1 min-w-0 px-3 py-2 rounded-xl bg-[#111827] border border-white/10 text-[11px] md:text-xs text-white outline-none">
+
+          <option value="auto">Auto Detect</option>
+          <option value="english">English Only</option>
+          <option value="swahili">Kiswahili Only</option>
+
+        </select>
+      </div>
+
+      <!-- INPUT ROW -->
+      <div class="flex gap-2 md:gap-3 items-end">
+
+        <!-- INPUT WRAPPER -->
+        <div class="relative flex-1 min-w-0">
+
+          <!-- ADD BUTTON INSIDE MESSAGE BOX (LEFT) -->
+          <label
+            class="absolute left-2 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 w-9 h-9 md:w-10 md:h-10 rounded-xl cursor-pointer transition flex items-center justify-center text-lg z-10">
+            ➕
+
+            <input
+              type="file"
+              hidden
+              onchange="uploadFile(event)"
+            />
+          </label>
+
+          <!-- TEXTAREA -->
+          <textarea
+            id="messageInput"
+            rows="1"
+            placeholder="Message ChopaTech AI..."
+            class="w-full min-h-[52px] max-h-40 pl-14 pr-24 py-4 rounded-2xl bg-white/10 border border-white/10 outline-none resize-none overflow-y-auto"></textarea>
+
+          <!-- SEND INSIDE INPUT -->
+          <button
+            onclick="sendMessage()"
+            class="absolute right-2 top-1/2 -translate-y-1/2 bg-emerald-500 hover:bg-emerald-400 px-3 md:px-4 h-9 md:h-10 rounded-xl font-bold transition text-sm">
+            Send
+          </button>
+
+        </div>
+
+        <!-- MIC OUTSIDE INPUT ON RIGHT -->
+        <button
+          onclick="startVoice()"
+          class="shrink-0 bg-white/10 hover:bg-white/20 w-11 h-11 md:w-12 md:h-12 rounded-2xl transition text-xl flex items-center justify-center">
+          🎤
+        </button>
+
+      </div>
+
+    </div>
+
+  </main>
+
+</div>
+
+<script>
+
+// SIDEBAR TOGGLE
+function toggleSidebar(){
+  const sidebar = document.getElementById('sidebar');
+  sidebar.classList.toggle('-translate-x-full');
+}
+
+// NEW CHAT
+function newChat(){
+  document.getElementById('chatBox').innerHTML = `
+    <div class="flex">
+      <div class="bg-white/10 border border-white/10 rounded-3xl p-5 max-w-[85%] md:max-w-[70%]">
+        👋 Karibu ChopaTech AI
+        <br><br>
+        🚀 Uliza chochote
+        <br>
+        🤖 AI Smart Assistant
+        <br>
+        🎤 Voice Support
+        <br>
+        📎 File Upload
+      </div>
+    </div>
+  `;
+}
+
+// SEND MESSAGE
+async function sendMessage(){
+
+  const input = document.getElementById('messageInput');
+  const text = input.value.trim();
+  if(!text) return;
+
+  const chatBox = document.getElementById('chatBox');
+
+  // USER MESSAGE
+  const user = document.createElement('div');
+  user.className = 'flex justify-end';
+  user.innerHTML = `
+    <div class="bg-emerald-500 text-black rounded-3xl p-5 max-w-[85%] md:max-w-[70%] break-words">
+      ${text}
+    </div>
+  `;
+  chatBox.appendChild(user);
+  input.value = '';
+
+  // LOADING
+  const loading = document.createElement('div');
+  loading.className = 'flex';
+  loading.innerHTML = `
+    <div class="bg-white/10 border border-white/10 rounded-3xl p-5 max-w-[85%] md:max-w-[70%] animate-pulse">
+      🤖 ChopaTech AI inaandika...
+    </div>
+  `;
+  chatBox.appendChild(loading);
+  chatBox.scrollTop = chatBox.scrollHeight;
+
+  try{
+
+    const response = await fetch(
+      "https://chopatech-ai.chopatechtz.workers.dev/",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          message: text,
+          model: document.getElementById('modelSelect').value,
+          language: document.getElementById('languageSelect').value
+        })
+      }
+    );
+
+    if(!response.ok){
+      throw new Error("Server Error");
+    }
+
+    const data = await response.json();
+    loading.remove();
+
+    const aiResponse = data.response || "No response";
+
+    // AI BOX
+    const ai = document.createElement('div');
+    ai.className = 'flex';
+    ai.innerHTML = `
+      <div class="bg-white/10 border border-white/10 rounded-3xl p-5 max-w-[85%] md:max-w-[70%] break-words">
+        <div class="typing"></div>
+      </div>
+    `;
+    chatBox.appendChild(ai);
+
+    // TYPE EFFECT
+    typeWriterEffect(ai.querySelector('.typing'), aiResponse);
+
+    // IMAGE REFERENCES
+    const imageKeywords = [
+      "image",
+      "picture",
+      "photo",
+      "design",
+      "logo",
+      "website",
+      "ui",
+      "car",
+      "house",
+      "fashion",
+      "technology",
+      "computer",
+      "phone",
+      "nature",
+      "robot",
+      "ai",
+      "anime"
+    ];
+
+    const matched = imageKeywords.find(
+      keyword => text.toLowerCase().includes(keyword)
+    );
+
+    if(matched){
+      const image = document.createElement('img');
+      image.src = `https://source.unsplash.com/900x500/?${matched}`;
+      image.className = "rounded-3xl mt-4 border border-white/10 w-full";
+      ai.querySelector('.bg-white\\/10').appendChild(image);
+    }
+
+    chatBox.scrollTop = chatBox.scrollHeight;
+
+  }
+
+  catch(error){
+
+    loading.remove();
+
+    const err = document.createElement('div');
+    err.className = 'flex';
+    err.innerHTML = `
+      <div class="bg-red-500/20 border border-red-500 rounded-3xl p-5 max-w-[85%] md:max-w-[70%]">
+        ❌ AI haijaunganishwa vizuri.
+      </div>
+    `;
+    chatBox.appendChild(err);
+
+    console.error(error);
+
+  }
+
+}
+
+// TYPE EFFECT
+function typeWriterEffect(element, text){
+  let i = 0;
+  const speed = 15;
+
+  function typing(){
+    if(i < text.length){
+      element.innerHTML += text.charAt(i);
+      i++;
+      setTimeout(typing, speed);
+    }
+  }
+
+  typing();
+}
+
+// VOICE INPUT
+function startVoice(){
+
+  if(!('webkitSpeechRecognition' in window)){
+    alert("Browser yako haisupport voice.");
+    return;
+  }
+
+  const recognition = new webkitSpeechRecognition();
+  recognition.lang = 'en-US';
+  recognition.start();
+
+  recognition.onresult = function(event){
+    const transcript = event.results[0][0].transcript;
+    document.getElementById('messageInput').value = transcript;
+    sendMessage();
+  };
+
+  recognition.onerror = function(){
+    alert("Voice error.");
+  };
+
+}
+
+// FILE UPLOAD
+function uploadFile(event){
+  const file = event.target.files[0];
+  if(!file) return;
+
+  document.getElementById('uploadPreview').classList.remove('hidden');
+  document.getElementById('fileName').innerText = file.name;
+}
+
+// REMOVE FILE
+function removeUpload(){
+  document.getElementById('uploadPreview').classList.add('hidden');
+}
+
+// ENTER SEND
+document.getElementById('messageInput').addEventListener('keydown', function(event){
+  if(event.key === 'Enter' && !event.shiftKey){
+    event.preventDefault();
+    sendMessage();
+  }
+});
+
+// START
+newChat();
+
+</script>
+
+</body>
+</html>

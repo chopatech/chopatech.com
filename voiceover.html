@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  />
+  <title>ChopaTech Beatron Voice Pro+</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    :root{
+      color-scheme: dark;
+    }
+
+    *{
+      box-sizing: border-box;
+    }
+
+    html, body{
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background: linear-gradient(to bottom right, #06111f, #0b1729);
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    ::-webkit-scrollbar{
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-thumb{
+      background: #10b981;
+      border-radius: 10px;
+    }
+
+    @media (max-width: 768px){
+      textarea{
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+
+<body class="text-white overflow-hidden">
+
+<div class="w-full h-[100dvh] flex">
+
+  <!-- OVERLAY -->
+  <div
+    id="overlay"
+    onclick="toggleSidebar()"
+    class="fixed inset-0 bg-black/60 z-40 hidden lg:hidden">
+  </div>
+
+  <!-- SIDEBAR -->
+  <aside
+    id="sidebar"
+    class="fixed lg:relative z-50 lg:z-auto left-0 top-0 w-72 h-full bg-black/30 border-r border-white/10 p-5 md:p-6 backdrop-blur-xl flex flex-col transition-transform duration-300 -translate-x-full lg:translate-x-0">
+
+    <div class="flex items-center justify-between mb-8 md:mb-10">
+      <h1 class="text-2xl md:text-3xl font-black leading-tight">
+        🎧 <span class="text-emerald-400">ChopaTech</span> Voice+
+      </h1>
+
+      <button
+        onclick="toggleSidebar()"
+        class="lg:hidden bg-white/10 hover:bg-white/20 w-10 h-10 rounded-xl transition text-xl flex items-center justify-center">
+        ✕
+      </button>
+    </div>
+
+    <nav class="space-y-4 text-sm">
+      <button
+        onclick="showSection('studio')"
+        class="w-full text-left p-4 rounded-2xl bg-white/10 hover:bg-white/20 transition">
+        🎤 Voice Studio
+      </button>
+
+      <button
+        onclick="showSection('projects')"
+        class="w-full text-left p-4 rounded-2xl hover:bg-white/10 transition">
+        📁 Saved Projects
+      </button>
+
+      <button
+        onclick="showSection('export')"
+        class="w-full text-left p-4 rounded-2xl hover:bg-white/10 transition">
+        📦 Export Center
+      </button>
+
+      <button
+        onclick="showSection('settings')"
+        class="w-full text-left p-4 rounded-2xl hover:bg-white/10 transition">
+        ⚙ Voice Settings
+      </button>
+    </nav>
+
+    <div class="mt-auto bg-white/5 border border-white/10 rounded-3xl p-5">
+      <p class="text-gray-400 text-xs">Voice Credits</p>
+      <h2 class="text-3xl md:text-4xl font-black text-emerald-400 mt-2">2,450</h2>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="flex-1 min-w-0 h-full overflow-y-auto">
+
+    <!-- HEADER -->
+    <header class="sticky top-0 z-30 border-b border-white/10 bg-black/30 backdrop-blur-xl">
+      <div class="flex justify-between items-center gap-3 p-4 md:p-5">
+        <div class="flex items-center gap-3 min-w-0">
+          <button
+            onclick="toggleSidebar()"
+            class="lg:hidden bg-white/10 hover:bg-white/20 w-11 h-11 rounded-xl transition text-xl flex items-center justify-center shrink-0">
+            ☰
+          </button>
+
+          <div class="min-w-0">
+            <h2 class="text-xl md:text-3xl font-bold truncate">ChopaTech Voice Pro+</h2>
+            <p class="text-gray-400 text-xs md:text-sm mt-1 truncate">
+              Professional AI voice over creator
+            </p>
+          </div>
+        </div>
+
+        <button class="bg-emerald-500 hover:bg-emerald-400 px-4 md:px-5 py-2 md:py-3 rounded-2xl font-bold transition shrink-0">
+          Login
+        </button>
+      </div>
+    </header>
+
+    <!-- CONTENT -->
+    <section class="p-4 md:p-8">
+
+      <!-- STUDIO -->
+      <section id="studio" class="section">
+        <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4 mb-6 md:mb-8">
+          <div>
+            <h2 class="text-3xl md:text-5xl font-black leading-tight">🎤 Beatron Voice Studio</h2>
+            <p class="text-gray-400 mt-2 text-sm md:text-base">Professional AI voice over creator.</p>
+          </div>
+
+          <button class="bg-emerald-500 hover:bg-emerald-400 px-5 md:px-6 py-3 rounded-2xl font-bold transition w-full lg:w-auto">
+            Upgrade Pro+
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
+
+          <!-- Voice Controls -->
+          <div class="bg-white/5 border border-white/10 rounded-3xl p-4 md:p-6 backdrop-blur-xl">
+            <h3 class="text-xl md:text-2xl font-bold mb-4">Voice Generator</h3>
+
+            <textarea
+              id="voiceText"
+              rows="8"
+              class="w-full p-4 md:p-5 rounded-2xl bg-white/10 border border-white/10 outline-none text-base md:text-lg resize-none"
+              placeholder="Write your script here..."></textarea>
+
+            <!-- Controls -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4 mt-5">
+              <select class="p-4 rounded-2xl bg-white/10 border border-white/10 outline-none">
+                <option>Natural AI Voice</option>
+                <option>Deep Male Voice</option>
+                <option>Soft Female Voice</option>
+                <option>Swahili Voice</option>
+              </select>
+
+              <select class="p-4 rounded-2xl bg-white/10 border border-white/10 outline-none">
+                <option>Normal Speed</option>
+                <option>Fast Speed</option>
+                <option>Slow Speed</option>
+              </select>
+            </div>
+
+            <!-- Buttons -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4 mt-5">
+              <button onclick="generateVoice()"
+                class="bg-emerald-500 hover:bg-emerald-400 py-4 rounded-2xl font-bold text-base md:text-lg transition">
+                ▶ Generate Voice
+              </button>
+
+              <button onclick="stopVoice()"
+                class="bg-red-500 hover:bg-red-400 py-4 rounded-2xl font-bold text-base md:text-lg transition">
+                ⏹ Stop Voice
+              </button>
+            </div>
+
+            <button onclick="downloadAudio()"
+              class="mt-4 w-full bg-blue-500 hover:bg-blue-400 py-4 rounded-2xl font-bold text-base md:text-lg transition">
+              📦 Export Audio
+            </button>
+          </div>
+
+          <!-- Waveform -->
+          <div class="bg-black/30 border border-white/10 rounded-3xl p-4 md:p-6">
+            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-5 md:mb-6">
+              <h3 class="text-xl md:text-2xl font-bold">Live Waveform</h3>
+
+              <button onclick="toggleBeat()"
+                class="bg-white/10 hover:bg-white/20 px-4 py-2 rounded-2xl transition w-full sm:w-auto">
+                🎵 Beat Mode
+              </button>
+            </div>
+
+            <div id="waveform" class="flex items-end gap-1 h-48 md:h-72 overflow-hidden"></div>
+
+            <audio id="audioPlayer" controls class="w-full mt-6"></audio>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- PROJECTS -->
+      <section id="projects" class="section hidden">
+        <h2 class="text-3xl md:text-4xl font-black mb-6 md:mb-8">📁 Saved Voice Projects</h2>
+        <div id="projectsList" class="space-y-4"></div>
+      </section>
+
+      <!-- EXPORT -->
+      <section id="export" class="section hidden">
+        <h2 class="text-3xl md:text-4xl font-black mb-6 md:mb-8">📦 Export Center</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+          <div class="bg-white/5 border border-white/10 rounded-3xl p-6">
+            <h3 class="text-2xl font-bold">MP3 Export</h3>
+            <p class="text-gray-400 mt-3">Studio-quality audio export.</p>
+          </div>
+
+          <div class="bg-white/5 border border-white/10 rounded-3xl p-6">
+            <h3 class="text-2xl font-bold">WAV Export</h3>
+            <p class="text-gray-400 mt-3">Lossless professional format.</p>
+          </div>
+
+          <div class="bg-white/5 border border-white/10 rounded-3xl p-6">
+            <h3 class="text-2xl font-bold">Cloud Backup</h3>
+            <p class="text-gray-400 mt-3">Save projects online later.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SETTINGS -->
+      <section id="settings" class="section hidden">
+        <h2 class="text-3xl md:text-4xl font-black mb-6 md:mb-8">⚙ Voice Settings</h2>
+
+        <div class="bg-white/5 border border-white/10 rounded-3xl p-4 md:p-6 space-y-4 md:space-y-5">
+          <input
+            type="text"
+            placeholder="ElevenLabs API Key"
+            class="w-full p-4 md:p-5 rounded-2xl bg-white/10 border border-white/10 outline-none" />
+
+          <input
+            type="text"
+            placeholder="OpenAI Voice API Key"
+            class="w-full p-4 md:p-5 rounded-2xl bg-white/10 border border-white/10 outline-none" />
+
+          <select class="w-full p-4 md:p-5 rounded-2xl bg-white/10 border border-white/10 outline-none">
+            <option>Default Export = MP3</option>
+            <option>Default Export = WAV</option>
+          </select>
+        </div>
+      </section>
+
+    </section>
+  </main>
+</div>
+
+<script>
+  // Navigation
+  function showSection(id){
+    document.querySelectorAll('.section').forEach(sec => sec.classList.add('hidden'));
+    document.getElementById(id).classList.remove('hidden');
+    closeSidebarOnMobile();
+  }
+
+  // Sidebar toggle
+  function toggleSidebar(){
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+    const isHidden = sidebar.classList.contains('-translate-x-full');
+
+    if(isHidden){
+      sidebar.classList.remove('-translate-x-full');
+      overlay.classList.remove('hidden');
+    } else {
+      sidebar.classList.add('-translate-x-full');
+      overlay.classList.add('hidden');
+    }
+  }
+
+  function closeSidebarOnMobile(){
+    if(window.innerWidth < 1024){
+      document.getElementById('sidebar').classList.add('-translate-x-full');
+      document.getElementById('overlay').classList.add('hidden');
+    }
+  }
+
+  // Create waveform bars
+  function createWave(){
+    const wave = document.getElementById('waveform');
+
+    for(let i = 0; i < 80; i++){
+      const bar = document.createElement('div');
+      bar.className = 'w-1 bg-emerald-400 rounded-full';
+      bar.style.height = Math.random() * 150 + 'px';
+      wave.appendChild(bar);
+    }
+  }
+
+  // Animate waveform
+  function animateWave(){
+    const bars = document.querySelectorAll('#waveform div');
+
+    setInterval(() => {
+      bars.forEach(bar => {
+        bar.style.height = (Math.random() * 180 + 20) + 'px';
+      });
+    }, 120);
+  }
+
+  // Voice generation
+  function generateVoice(){
+    const text = document.getElementById('voiceText').value;
+    if(!text) return;
+
+    const speech = new SpeechSynthesisUtterance(text);
+    speech.rate = 1;
+    speech.pitch = 1;
+
+    window.speechSynthesis.speak(speech);
+
+    animateWave();
+    saveProject(text);
+  }
+
+  // Stop voice
+  function stopVoice(){
+    window.speechSynthesis.cancel();
+  }
+
+  // Beat mode
+  let beat = false;
+  function toggleBeat(){
+    beat = !beat;
+    alert(beat ? '🎵 Beat Mode ON' : '🎵 Beat Mode OFF');
+  }
+
+  // Export placeholder
+  function downloadAudio(){
+    alert('📦 Real MP3 export can be connected later using ElevenLabs/OpenAI API backend.');
+  }
+
+  // Save projects
+  function saveProject(text){
+    let projects = JSON.parse(localStorage.getItem('voiceProjects') || '[]');
+    projects.push(text);
+    localStorage.setItem('voiceProjects', JSON.stringify(projects));
+    loadProjects();
+  }
+
+  // Load projects
+  function loadProjects(){
+    const projects = JSON.parse(localStorage.getItem('voiceProjects') || '[]');
+    const list = document.getElementById('projectsList');
+
+    list.innerHTML = projects.map(item => `
+      <div class="bg-white/10 border border-white/10 rounded-2xl p-5 break-words">
+        ${item}
+      </div>
+    `).join('');
+  }
+
+  // Close overlay/sidebar if window resized to desktop
+  window.addEventListener('resize', () => {
+    if(window.innerWidth >= 1024){
+      document.getElementById('overlay').classList.add('hidden');
+      document.getElementById('sidebar').classList.remove('-translate-x-full');
+    }
+  });
+
+  createWave();
+  loadProjects();
+</script>
+
+</body>
+</html>

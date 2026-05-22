@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>ChopaTech Tools Hub</title>
+
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Three.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<!-- GSAP -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+<!-- Font -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Inter',sans-serif;
+scroll-behavior:smooth;
+}
+
+html, body{
+width:100%;
+max-width:100%;
+overflow-x:hidden;
+}
+
+body{
+background:#020617;
+color:white;
+position:relative;
+}
+
+/* THREE BG */
+#bgCanvas{
+position:fixed;
+top:0;
+left:0;
+width:100vw;
+height:100vh;
+z-index:-5;
+pointer-events:none;
+}
+
+/* NAVBAR */
+nav{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+max-width:100%;
+z-index:1000;
+padding:18px 7%;
+display:flex;
+justify-content:flex-start;
+align-items:center;
+gap:24px;
+backdrop-filter:blur(20px);
+background:rgba(5,10,20,0.45);
+border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+.logo{
+font-size:28px;
+font-weight:800;
+background:linear-gradient(to right,#00d4ff,#8b5cf6);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+margin-right:auto;
+white-space:nowrap;
+}
+
+nav ul{
+display:flex;
+gap:35px;
+list-style:none;
+}
+
+nav ul li a{
+text-decoration:none;
+color:white;
+font-weight:500;
+transition:0.3s;
+}
+
+nav ul li a:hover{
+color:#00d4ff;
+}
+
+.menu-btn{
+display:none;
+font-size:34px;
+cursor:pointer;
+user-select:none;
+color:#ffffff !important;
+line-height:1;
+-webkit-text-fill-color:#ffffff;
+text-shadow:none;
+}
+
+/* HERO */
+.hero{
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:120px 8%;
+position:relative;
+width:100%;
+max-width:100%;
+overflow:hidden;
+}
+
+.hero-content{
+width:100%;
+max-width:1100px;
+text-align:center;
+z-index:2;
+}
+
+.hero h1{
+font-size:clamp(3rem,7vw,7rem);
+font-weight:900;
+line-height:1;
+margin-bottom:25px;
+background:linear-gradient(to right,#ffffff,#00d4ff,#8b5cf6);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+.hero p{
+font-size:1.15rem;
+line-height:1.8;
+color:#cbd5e1;
+max-width:850px;
+margin:auto;
+}
+
+.hero-buttons{
+margin-top:45px;
+display:flex;
+justify-content:center;
+gap:20px;
+flex-wrap:wrap;
+width:100%;
+}
+
+.hero-buttons a{
+padding:16px 34px;
+border-radius:999px;
+text-decoration:none;
+font-weight:700;
+transition:0.4s;
+}
+
+.btn-primary{
+background:linear-gradient(to right,#00d4ff,#8b5cf6);
+color:white;
+box-shadow:0 0 35px rgba(0,212,255,0.5);
+}
+
+.btn-primary:hover{
+transform:translateY(-5px) scale(1.03);
+}
+
+.btn-secondary{
+border:1px solid rgba(255,255,255,0.15);
+color:white;
+backdrop-filter:blur(10px);
+}
+
+.btn-secondary:hover{
+background:rgba(255,255,255,0.07);
+}
+
+/* SECTION */
+.section{
+padding:120px 8%;
+position:relative;
+width:100%;
+max-width:100%;
+overflow:hidden;
+}
+
+.section-title{
+font-size:3rem;
+font-weight:800;
+margin-bottom:20px;
+text-align:center;
+}
+
+.section-sub{
+text-align:center;
+max-width:800px;
+margin:auto;
+color:#94a3b8;
+line-height:1.8;
+margin-bottom:80px;
+}
+
+/* TOOL CARDS */
+.tools-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(0,1fr));
+gap:35px;
+width:100%;
+max-width:100%;
+}
+
+.tool-card{
+position:relative;
+background:rgba(255,255,255,0.04);
+backdrop-filter:blur(20px);
+border:1px solid rgba(255,255,255,0.08);
+border-radius:30px;
+overflow:hidden;
+transition:0.5s;
+box-shadow:0 15px 50px rgba(0,0,0,0.3);
+min-width:0;
+}
+
+.tool-card:hover{
+transform:translateY(-12px) scale(1.02);
+box-shadow:0 20px 70px rgba(0,212,255,0.2);
+}
+
+.slider{
+position:relative;
+height:250px;
+overflow:hidden;
+width:100%;
+}
+
+.slides{
+display:flex;
+width:300%;
+height:100%;
+animation:slide 12s infinite;
+}
+
+.slides img{
+width:100%;
+height:100%;
+object-fit:cover;
+display:block;
+}
+
+@keyframes slide{
+0%{transform:translateX(0%);}
+30%{transform:translateX(0%);}
+35%{transform:translateX(-33.333%);}
+65%{transform:translateX(-33.333%);}
+70%{transform:translateX(-66.666%);}
+100%{transform:translateX(-66.666%);}
+}
+
+.tool-content{
+padding:30px;
+}
+
+.tool-content h3{
+font-size:2rem;
+margin-bottom:15px;
+font-weight:800;
+}
+
+.tool-content p{
+color:#cbd5e1;
+line-height:1.8;
+margin-bottom:25px;
+}
+
+.tool-content button{
+padding:14px 24px;
+border:none;
+border-radius:999px;
+background:linear-gradient(to right,#00d4ff,#8b5cf6);
+color:white;
+font-weight:700;
+cursor:pointer;
+transition:0.3s;
+}
+
+.tool-content button:hover{
+transform:scale(1.05);
+}
+
+/* FLOATING */
+.glow{
+position:absolute;
+width:500px;
+height:500px;
+border-radius:50%;
+background:radial-gradient(circle,#00d4ff33,transparent 70%);
+filter:blur(40px);
+animation:float 8s ease-in-out infinite;
+pointer-events:none;
+}
+
+.glow2{
+right:-200px;
+top:100px;
+}
+
+.glow1{
+left:-200px;
+bottom:100px;
+}
+
+@keyframes float{
+0%,100%{transform:translateY(0px);}
+50%{transform:translateY(-40px);}
+}
+
+/* FOOTER */
+footer{
+padding:50px 8%;
+text-align:center;
+border-top:1px solid rgba(255,255,255,0.08);
+color:#94a3b8;
+width:100%;
+max-width:100%;
+overflow:hidden;
+}
+
+/* MOBILE */
+@media(max-width:900px){
+
+nav{
+padding:16px 5%;
+}
+
+.logo{
+margin-right:auto;
+font-size:22px;
+max-width:70%;
+overflow:hidden;
+text-overflow:ellipsis;
+}
+
+.menu-btn{
+display:block;
+order:0;
+color:#ffffff !important;
+-webkit-text-fill-color:#ffffff;
+}
+
+nav ul{
+position:absolute;
+top:74px;
+left:-100%;
+width:100%;
+max-width:100%;
+height:calc(100vh - 74px);
+background:#020617;
+flex-direction:column;
+padding:36px 24px;
+transition:0.45s ease;
+gap:22px;
+border-top:1px solid rgba(255,255,255,0.08);
+overflow-y:auto;
+overflow-x:hidden;
+}
+
+nav ul.active{
+left:0;
+}
+
+.hero{
+padding:120px 5% 80px;
+}
+
+.hero p{
+font-size:1rem;
+}
+
+.section{
+padding:90px 5%;
+}
+
+.section-title{
+font-size:2.2rem;
+}
+
+.section-sub{
+margin-bottom:45px;
+font-size:0.98rem;
+}
+
+.tools-grid{
+grid-template-columns:1fr;
+gap:22px;
+}
+
+.slider{
+height:220px;
+}
+
+.tool-content{
+padding:24px;
+}
+
+.tool-content h3{
+font-size:1.6rem;
+}
+
+.tool-content p{
+font-size:0.98rem;
+}
+
+.hero-buttons{
+flex-direction:column;
+align-items:center;
+}
+
+.hero-buttons a{
+width:100%;
+max-width:320px;
+text-align:center;
+}
+
+.glow{
+width:320px;
+height:320px;
+filter:blur(30px);
+}
+
+.glow1{
+left:-140px;
+bottom:40px;
+}
+
+.glow2{
+right:-140px;
+top:120px;
+}
+
+}
+
+@media(max-width:420px){
+
+nav{
+padding:14px 4%;
+}
+
+.logo{
+font-size:19px;
+}
+
+.menu-btn{
+font-size:32px;
+color:#ffffff !important;
+-webkit-text-fill-color:#ffffff;
+}
+
+.hero{
+padding-top:110px;
+}
+
+.hero h1{
+font-size:2.6rem;
+}
+
+.hero p{
+font-size:0.96rem;
+line-height:1.7;
+}
+
+.section-title{
+font-size:1.9rem;
+}
+
+.tool-content button{
+width:100%;
+}
+
+}
+</style>
+</head>
+<body>
+
+<canvas id="bgCanvas"></canvas>
+
+<div class="glow glow1"></div>
+<div class="glow glow2"></div>
+
+<!-- NAVBAR -->
+<nav>
+<div class="menu-btn" onclick="toggleMenu()">☰</div>
+<div class="logo">ChopaTech Tools</div>
+
+<ul id="menu">
+<li><a href="#">Home</a></li>
+<li><a href="#tools">Tools</a></li>
+<li><a href="#future">Future</a></li>
+<li><a href="#contact">Contact</a></li>
+</ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+<div class="hero-content">
+<h1>Future Tools Experience</h1>
+
+<p>
+Welcome to the futuristic ChopaTech Tools Hub where all modern editing tools,
+repair systems, AI utilities, design platforms and creative technologies
+are found in one beautiful cinematic environment.
+Built with Three.js motion system, modern glassmorphism UI,
+camera movement effects and advanced futuristic interaction.
+</p>
+
+<div class="hero-buttons">
+<a href="#tools" class="btn-primary">Explore Tools</a>
+<a href="#" class="btn-secondary">Launch Platform</a>
+</div>
+</div>
+</section>
+
+<!-- TOOLS -->
+<section class="section" id="tools">
+<h2 class="section-title">Our Creative Tools</h2>
+
+<p class="section-sub">
+Modern systems designed by ChopaTech for creativity, repairing,
+editing, AI generation and futuristic engineering experience.
+</p>
+
+<div class="tools-grid">
+
+<!-- CHOPAEDITOR -->
+<div class="tool-card">
+<div class="slider">
+<div class="slides">
+<img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1600&auto=format&fit=crop" alt="ChopaEditor 1">
+<img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1600&auto=format&fit=crop" alt="ChopaEditor 2">
+<img src="https://images.unsplash.com/photo-1558655146-d09347e92766?q=80&w=1600&auto=format&fit=crop" alt="ChopaEditor 3">
+</div>
+</div>
+
+<div class="tool-content">
+<h3>ChopaEditor</h3>
+<p>
+Advanced editing platform with AI image processing,
+video editing systems, futuristic transitions,
+motion graphics and modern creator tools.
+</p>
+<button type="button" onclick="window.location.href='ChopaEditor.html';">
+  Open Tool
+</button>
+</div>
+</div>
+
+<!-- MYPHONEDOCTOR -->
+<div class="tool-card">
+<div class="slider">
+<div class="slides">
+<img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=1600&auto=format&fit=crop" alt="MyPhoneDoctor 1">
+<img src="https://images.unsplash.com/photo-1580910051074-3eb694886505?q=80&w=1600&auto=format&fit=crop" alt="MyPhoneDoctor 2">
+<img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=1600&auto=format&fit=crop" alt="MyPhoneDoctor 3">
+</div>
+</div>
+
+<div class="tool-content">
+<h3>MyPhoneDoctor</h3>
+<p>
+Smart repair and diagnostics system for mobile devices,
+software fixing, hardware monitoring and AI powered phone optimization.
+</p>
+<button type="button" onclick="window.location.href='MyPhoneDoctor.html';">
+  Launch Repair
+</button>
+</div>
+</div>
+
+<!-- CHOPACARTOON3D -->
+<div class="tool-card">
+<div class="slider">
+<div class="slides">
+<img src="https://images.unsplash.com/photo-1633419461186-7d40a38105ec?q=80&w=1600&auto=format&fit=crop" alt="ChopaCartoon3D 1">
+<img src="https://images.unsplash.com/photo-1635322966219-b75ed372eb01?q=80&w=1600&auto=format&fit=crop" alt="ChopaCartoon3D 2">
+<img src="https://images.unsplash.com/photo-1638803040283-7a5ffd48dad5?q=80&w=1600&auto=format&fit=crop" alt="ChopaCartoon3D 3">
+</div>
+</div>
+
+<div class="tool-content">
+<h3>ChopaCartoon3D</h3>
+<p>
+Create futuristic cartoon characters, cinematic avatars,
+3D animation scenes and AI generated digital worlds
+with modern rendering effects.
+</p>
+<button type="button" onclick="window.location.href='ChopaCartoon3D.html';">
+  Create 3D Art
+</button>
+</div>
+</div>
+
+</div>
+</section>
+
+<!-- FUTURE -->
+<section class="section" id="future">
+<h2 class="section-title">Future Innovation</h2>
+
+<p class="section-sub">
+ChopaTech is building futuristic technologies that combine
+AI, engineering, design and immersive digital experience
+into one connected ecosystem.
+</p>
+
+<div class="tools-grid">
+<div class="tool-card">
+<div class="tool-content">
+<h3>AI Integration</h3>
+<p>
+Advanced AI automation with smart interaction systems,
+voice intelligence and future machine learning technology.
+</p>
+<button type="button" onclick="window.location.href='AIIntegration.html';">
+  Read More
+</button>
+</div>
+</div>
+
+<div class="tool-card">
+<div class="tool-content">
+<h3>3D Experience</h3>
+<p>
+Modern cinematic environments using Three.js,
+camera motion systems and futuristic UI transitions.
+</p>
+<button>Explore</button>
+</div>
+</div>
+
+<div class="tool-card">
+<div class="tool-content">
+<h3>Cloud Technology</h3>
+<p>
+Fast cloud systems, online storage integration,
+future hosting and advanced platform scalability.
+</p>
+<button>Connect</button>
+</div>
+</div>
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contact">
+<h2 style="font-size:2rem;font-weight:800;margin-bottom:20px;">
+ChopaTech Future Systems
+</h2>
+
+<p>
+Designing Future Technology With Innovation & Creativity
+</p>
+</footer>
+
+<script>
+function toggleMenu(){
+document.getElementById("menu").classList.toggle("active");
+}
+
+/* THREE JS */
+const scene = new THREE.Scene();
+
+const camera = new THREE.PerspectiveCamera(
+75,
+window.innerWidth/window.innerHeight,
+0.1,
+1000
+);
+
+const renderer = new THREE.WebGLRenderer({
+canvas:document.getElementById("bgCanvas"),
+alpha:true,
+antialias:true
+});
+
+renderer.setSize(window.innerWidth,window.innerHeight);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+camera.position.z = 15;
+
+/* PARTICLES */
+const particlesGeometry = new THREE.BufferGeometry();
+const particlesCount = 2500;
+const posArray = new Float32Array(particlesCount * 3);
+
+for(let i=0;i<particlesCount * 3;i++){
+posArray[i] = (Math.random() - 0.5) * 100;
+}
+
+particlesGeometry.setAttribute(
+'position',
+new THREE.BufferAttribute(posArray,3)
+);
+
+const particlesMaterial = new THREE.PointsMaterial({
+size:0.06,
+color:"#00d4ff"
+});
+
+const particlesMesh = new THREE.Points(
+particlesGeometry,
+particlesMaterial
+);
+
+scene.add(particlesMesh);
+
+/* GEOMETRY */
+const sphereGeo = new THREE.TorusKnotGeometry(3,0.8,120,16);
+
+const sphereMat = new THREE.MeshStandardMaterial({
+color:"#8b5cf6",
+wireframe:true
+});
+
+const sphere = new THREE.Mesh(sphereGeo,sphereMat);
+scene.add(sphere);
+
+/* LIGHT */
+const light = new THREE.PointLight("#00d4ff",2);
+light.position.set(10,10,10);
+scene.add(light);
+
+/* MOUSE CAMERA */
+document.addEventListener("mousemove",(e)=>{
+const x = (e.clientX / window.innerWidth - 0.5) * 2;
+const y = (e.clientY / window.innerHeight - 0.5) * 2;
+
+gsap.to(camera.position,{
+x:x * 3,
+y:-y * 3,
+duration:1
+});
+});
+
+/* ANIMATION */
+function animate(){
+requestAnimationFrame(animate);
+
+sphere.rotation.x += 0.002;
+sphere.rotation.y += 0.003;
+
+particlesMesh.rotation.y += 0.0008;
+
+renderer.render(scene,camera);
+}
+
+animate();
+
+/* RESIZE */
+window.addEventListener("resize",()=>{
+camera.aspect = window.innerWidth/window.innerHeight;
+camera.updateProjectionMatrix();
+renderer.setSize(window.innerWidth,window.innerHeight);
+});
+</script>
+
+</body>
+</html>

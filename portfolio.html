@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Amran Kisaga | ChopaTech Portfolio</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:'Inter',sans-serif;
+    background:#050816;
+    color:white;
+    overflow-x:hidden;
+}
+
+/* ===== Background ===== */
+
+body::before{
+    content:"";
+    position:fixed;
+    width:100%;
+    height:100%;
+    background:
+    radial-gradient(circle at top right, rgba(0,119,255,0.15), transparent 25%),
+    radial-gradient(circle at bottom left, rgba(0,255,200,0.12), transparent 25%),
+    #050816;
+    z-index:-2;
+}
+
+.stars{
+    position:fixed;
+    width:100%;
+    height:100%;
+    z-index:-1;
+    overflow:hidden;
+}
+
+.star{
+    position:absolute;
+    width:2px;
+    height:2px;
+    background:white;
+    border-radius:50%;
+    animation: twinkle 5s infinite;
+}
+
+@keyframes twinkle{
+    0%,100%{opacity:.2;}
+    50%{opacity:1;}
+}
+
+/* ===== Navbar ===== */
+
+nav{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    padding:20px 8%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    backdrop-filter:blur(15px);
+    background:rgba(255,255,255,0.03);
+    z-index:1000;
+    border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+.logo{
+    font-size:28px;
+    font-weight:800;
+    background:linear-gradient(90deg,#00e5ff,#6a5cff);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+/* ===== Desktop Menu ===== */
+
+nav ul{
+    display:flex;
+    gap:35px;
+    list-style:none;
+}
+
+nav ul li a{
+    color:white;
+    text-decoration:none;
+    font-weight:500;
+    transition:.3s;
+}
+
+nav ul li a:hover{
+    color:#00e5ff;
+}
+
+/* ===== Hamburger ===== */
+
+.menu-toggle{
+    display:none;
+    flex-direction:column;
+    cursor:pointer;
+    gap:6px;
+}
+
+.menu-toggle span{
+    width:30px;
+    height:3px;
+    background:white;
+    border-radius:10px;
+    transition:.4s;
+}
+
+/* ===== Mobile Menu ===== */
+
+.mobile-menu{
+    position:fixed;
+    top:0;
+    right:-100%;
+    width:280px;
+    height:100vh;
+    background:rgba(5,8,22,0.95);
+    backdrop-filter:blur(20px);
+    padding:120px 40px;
+    transition:.5s;
+    z-index:999;
+}
+
+.mobile-menu.active{
+    right:0;
+}
+
+.mobile-menu ul{
+    list-style:none;
+    display:flex;
+    flex-direction:column;
+    gap:30px;
+}
+
+.mobile-menu ul li a{
+    color:white;
+    text-decoration:none;
+    font-size:20px;
+    transition:.3s;
+}
+
+.mobile-menu ul li a:hover{
+    color:#00e5ff;
+}
+
+/* ===== Hero ===== */
+
+.hero{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:130px 8% 60px;
+    gap:50px;
+    flex-wrap:wrap;
+}
+
+.hero-text{
+    flex:1;
+    min-width:300px;
+}
+
+.hero-text h3{
+    font-size:24px;
+    color:#00e5ff;
+    margin-bottom:10px;
+}
+
+.hero-text h1{
+    font-size:70px;
+    line-height:1.1;
+    margin-bottom:20px;
+}
+
+.hero-text p{
+    font-size:18px;
+    line-height:1.8;
+    color:#b5b5b5;
+    max-width:650px;
+}
+
+.hero-buttons{
+    margin-top:35px;
+    display:flex;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+.btn{
+    padding:16px 34px;
+    border-radius:50px;
+    text-decoration:none;
+    font-weight:600;
+    transition:.4s;
+}
+
+.primary{
+    background:linear-gradient(90deg,#00e5ff,#6a5cff);
+    color:white;
+}
+
+.secondary{
+    border:1px solid rgba(255,255,255,0.2);
+    color:white;
+}
+
+.btn:hover{
+    transform:translateY(-5px);
+}
+
+/* ===== Hero Image ===== */
+
+.hero-image{
+    flex:1;
+    min-width:300px;
+    display:flex;
+    justify-content:center;
+}
+
+.image-box{
+    position:relative;
+    width:430px;
+    height:530px;
+    border-radius:30px;
+    overflow:hidden;
+    background:linear-gradient(145deg,#11152d,#0a0f20);
+    box-shadow:
+    0 0 60px rgba(0,229,255,.25),
+    0 0 120px rgba(106,92,255,.15);
+    animation:float 5s ease-in-out infinite;
+}
+
+.image-box img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.image-box::before{
+    content:"";
+    position:absolute;
+    inset:-3px;
+    border-radius:30px;
+    padding:3px;
+    background:linear-gradient(45deg,#00e5ff,#6a5cff,#00ffcc);
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite:xor;
+    mask-composite:exclude;
+}
+
+@keyframes float{
+    0%,100%{transform:translateY(0px);}
+    50%{transform:translateY(-15px);}
+}
+
+/* ===== Section ===== */
+
+section{
+    padding:100px 8%;
+}
+
+.section-title{
+    text-align:center;
+    margin-bottom:70px;
+}
+
+.section-title h2{
+    font-size:48px;
+    margin-bottom:15px;
+}
+
+.section-title p{
+    color:#a0a0a0;
+}
+
+/* ===== About ===== */
+
+.about-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:30px;
+}
+
+.about-card{
+    background:rgba(255,255,255,0.04);
+    border:1px solid rgba(255,255,255,0.08);
+    padding:35px;
+    border-radius:25px;
+    transition:.4s;
+    backdrop-filter:blur(15px);
+}
+
+.about-card:hover{
+    transform:translateY(-10px);
+    border-color:#00e5ff;
+}
+
+.about-card h3{
+    margin-bottom:18px;
+    font-size:24px;
+}
+
+.about-card p{
+    color:#bdbdbd;
+    line-height:1.8;
+}
+
+/* ===== Skills ===== */
+
+.skills{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:25px;
+}
+
+.skill{
+    background:rgba(255,255,255,0.04);
+    border-radius:20px;
+    padding:25px;
+    text-align:center;
+    border:1px solid rgba(255,255,255,0.08);
+    transition:.4s;
+}
+
+.skill:hover{
+    transform:scale(1.05);
+    border-color:#00e5ff;
+}
+
+.skill h3{
+    margin-bottom:10px;
+}
+
+/* ===== Projects ===== */
+
+.projects-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+    gap:30px;
+}
+
+.project{
+    position:relative;
+    overflow:hidden;
+    border-radius:25px;
+    background:#10172d;
+    border:1px solid rgba(255,255,255,0.08);
+    transition:.4s;
+}
+
+.project:hover{
+    transform:translateY(-10px);
+}
+
+.project-content{
+    padding:35px;
+}
+
+.project-content h3{
+    margin-bottom:15px;
+    font-size:28px;
+}
+
+.project-content p{
+    color:#b5b5b5;
+    line-height:1.8;
+}
+
+/* ===== Contact ===== */
+
+.contact-box{
+    text-align:center;
+    background:rgba(255,255,255,0.04);
+    border:1px solid rgba(255,255,255,0.08);
+    padding:60px;
+    border-radius:30px;
+}
+
+.contact-box h2{
+    font-size:45px;
+    margin-bottom:20px;
+}
+
+.contact-box p{
+    color:#b5b5b5;
+    margin-bottom:35px;
+    line-height:1.8;
+}
+
+/* ===== Footer ===== */
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#8f8f8f;
+}
+
+/* ===== Responsive ===== */
+
+@media(max-width:900px){
+
+.hero{
+    flex-direction:column-reverse;
+    text-align:center;
+}
+
+.hero-text h1{
+    font-size:52px;
+}
+
+.hero-buttons{
+    justify-content:center;
+}
+
+.image-box{
+    width:340px;
+    height:440px;
+}
+
+nav ul{
+    display:none;
+}
+
+.menu-toggle{
+    display:flex;
+}
+
+}
+
+@media(max-width:600px){
+
+nav{
+    padding:18px 5%;
+}
+
+.hero{
+    padding:120px 5% 50px;
+}
+
+.hero-text h1{
+    font-size:42px;
+}
+
+.hero-text p{
+    font-size:16px;
+}
+
+.image-box{
+    width:300px;
+    height:390px;
+}
+
+.section-title h2{
+    font-size:36px;
+}
+
+.contact-box{
+    padding:40px 25px;
+}
+
+.contact-box h2{
+    font-size:35px;
+}
+
+}
+</style>
+</head>
+
+<body>
+
+<div class="stars" id="stars"></div>
+
+<!-- MOBILE MENU -->
+
+<div class="mobile-menu" id="mobileMenu">
+    <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+</div>
+
+<!-- NAVBAR -->
+
+<nav>
+
+    <div class="logo">ChopaTech</div>
+
+    <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+
+    <!-- THREE LINE RIGHT SIDE -->
+
+    <div class="menu-toggle" id="menuToggle">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+</nav>
+
+<!-- HERO -->
+
+<section class="hero">
+
+    <div class="hero-text">
+        <h3>Hello, I'm</h3>
+        <h1>Amran Kisaga</h1>
+
+        <p>
+            I am a modern UI/UX Designer, Full Stack Developer and Computer Engineering Specialist working on ChopaTech.
+            I create futuristic websites, innovative digital systems, modern interfaces and advanced technology solutions
+            with creativity, innovation and engineering excellence.
+        </p>
+
+        <div class="hero-buttons">
+            <a href="#projects" class="btn primary">View Projects</a>
+            <a href="#contact" class="btn secondary">Contact Me</a>
+        </div>
+    </div>
+
+    <div class="hero-image">
+        <div class="image-box">
+            <img src="ChatGPT Image May 19, 2026, 02_25_07 PM.png" alt="Amran Kisaga">
+        </div>
+    </div>
+
+</section>
+
+<!-- ABOUT -->
+
+<section id="about">
+
+    <div class="section-title">
+        <h2>About Me</h2>
+        <p>Designer • Developer • Engineer</p>
+    </div>
+
+    <div class="about-grid">
+
+        <div class="about-card">
+            <h3>ChopaTech Vision</h3>
+            <p>
+                At ChopaTech, I focus on building futuristic digital experiences,
+                modern technology solutions and creative innovations that help businesses
+                and individuals move into the future of technology.
+            </p>
+        </div>
+
+        <div class="about-card">
+            <h3>Design Expertise</h3>
+            <p>
+                I design premium user interfaces with modern animations,
+                glassmorphism, 3D effects, responsive layouts and immersive user experiences
+                inspired by world-class modern websites.
+            </p>
+        </div>
+
+        <div class="about-card">
+            <h3>Development Skills</h3>
+            <p>
+                I develop advanced websites, systems and interactive applications using
+                HTML, CSS, JavaScript, modern frontend technologies and innovative engineering techniques.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- SKILLS -->
+
+<section id="skills">
+
+    <div class="section-title">
+        <h2>My Skills</h2>
+        <p>Technology & Creativity</p>
+    </div>
+
+    <div class="skills">
+
+        <div class="skill">
+            <h3>UI/UX Design</h3>
+            <p>Modern interface creation and user experience design.</p>
+        </div>
+
+        <div class="skill">
+            <h3>Frontend Development</h3>
+            <p>Responsive and futuristic website development.</p>
+        </div>
+
+        <div class="skill">
+            <h3>Computer Engineering</h3>
+            <p>Technical systems and engineering innovation.</p>
+        </div>
+
+        <div class="skill">
+            <h3>Creative Branding</h3>
+            <p>Modern digital branding and visual identity.</p>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- PROJECTS -->
+
+<section id="projects">
+
+    <div class="section-title">
+        <h2>Projects</h2>
+        <p>Innovation & Technology</p>
+    </div>
+
+    <div class="projects-grid">
+
+        <div class="project">
+            <div class="project-content">
+                <h3>ChopaTech Platform</h3>
+                <p>
+                    A futuristic digital technology platform focused on innovation,
+                    web development, engineering and modern creative solutions.
+                </p>
+            </div>
+        </div>
+
+        <div class="project">
+            <div class="project-content">
+                <h3>Modern Portfolio Systems</h3>
+                <p>
+                    Building premium interactive portfolio websites with advanced
+                    animation effects, immersive UI and responsive experiences.
+                </p>
+            </div>
+        </div>
+
+        <div class="project">
+            <div class="project-content">
+                <h3>Engineering Solutions</h3>
+                <p>
+                    Designing and developing smart engineering systems
+                    that combine technology, creativity and innovation.
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- CONTACT -->
+
+<section id="contact">
+
+    <div class="contact-box">
+
+        <h2>Let's Build The Future</h2>
+
+        <p>
+            Interested in working together, building a modern website,
+            innovative system or creative digital project?
+            Let's connect and create something amazing.
+        </p>
+
+        <a href="mailto:your@email.com" class="btn primary">Contact Me</a>
+
+    </div>
+
+</section>
+
+<footer>
+    © 2026 Amran Kisaga • ChopaTech Portfolio
+</footer>
+
+<script>
+
+/* Stars Background */
+
+const starsContainer = document.getElementById('stars');
+
+for(let i = 0; i < 120; i++){
+
+    const star = document.createElement('div');
+    star.classList.add('star');
+
+    star.style.top = Math.random() * 100 + '%';
+    star.style.left = Math.random() * 100 + '%';
+
+    star.style.animationDuration = (Math.random() * 5 + 3) + 's';
+
+    starsContainer.appendChild(star);
+}
+
+/* Mobile Menu */
+
+const menuToggle = document.getElementById('menuToggle');
+const mobileMenu = document.getElementById('mobileMenu');
+
+menuToggle.addEventListener('click', () => {
+    mobileMenu.classList.toggle('active');
+});
+
+/* Scroll Animation */
+
+const sections = document.querySelectorAll('section');
+
+window.addEventListener('scroll',()=>{
+
+    sections.forEach(section=>{
+
+        const top = window.scrollY;
+        const offset = section.offsetTop - 500;
+        const height = section.offsetHeight;
+
+        if(top > offset && top < offset + height){
+            section.style.opacity = 1;
+            section.style.transform = 'translateY(0px)';
+        }
+
+    });
+
+});
+
+sections.forEach(section=>{
+    section.style.opacity = 0;
+    section.style.transform = 'translateY(80px)';
+    section.style.transition = '1s ease';
+});
+
+setTimeout(()=>{
+    document.querySelector('.hero').style.opacity = 1;
+},200);
+
+</script>
+
+</body>
+</html>
