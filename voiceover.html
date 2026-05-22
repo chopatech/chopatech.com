@@ -1,767 +1,387 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<title>ChopaTech | Web Development, AI Solutions & IT Services Tanzania</title>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  />
+  <title>ChopaTech Beatron Voice Pro+</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    :root{
+      color-scheme: dark;
+    }
 
-<meta name="description"
-content="ChopaTech provides web development, AI solutions, networking, software development and digital services in Tanzania.">
+    *{
+      box-sizing: border-box;
+    }
 
-<meta name="keywords"
-content="ChopaTech, web design Tanzania, AI development, networking services, software company Tanzania">
+    html, body{
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background: linear-gradient(to bottom right, #06111f, #0b1729);
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
 
-<meta name="robots" content="index, follow">
-<meta name="author" content="ChopaTech">
+    ::-webkit-scrollbar{
+      width: 6px;
+    }
 
-<link rel="canonical" href="https://chopatech.com">
-<link rel="icon" type="image/png" href="/favicon.png">
+    ::-webkit-scrollbar-thumb{
+      background: #10b981;
+      border-radius: 10px;
+    }
 
-<meta property="og:title" content="ChopaTech">
-<meta property="og:description" content="Web Development, AI Solutions and IT Services">
-<meta property="og:url" content="https://chopatech.com">
-<meta property="og:type" content="website">
-<meta property="og:image" content="https://chopatech.com/favicon.png">
-
-<script type="importmap">
-{
-  "imports": {
-    "three": "https://unpkg.com/three@0.165.0/build/three.module.js",
-    "three/addons/": "https://unpkg.com/three@0.165.0/examples/jsm/"
-  }
-}
-</script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-
-<style>
-:root{
-  --bg:#05050f;
-  --accent:#6644ff;
-  --accent2:#00ffcc;
-  --text:#f0f0ff;
-}
-
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:Inter,Arial,sans-serif;
-}
-
-body{
-  min-height:100vh;
-  overflow-x:hidden;
-  background:
-  radial-gradient(circle at top, rgba(102,68,255,.12), transparent 22%),
-  linear-gradient(180deg,#05050f 0%,#070819 55%,#090b16 100%);
-  color:white;
-}
-
-#canvas{
-  position:fixed;
-  inset:0;
-  width:100%;
-  height:100%;
-  z-index:0;
-}
-
-.content{
-  position:relative;
-  z-index:2;
-}
-
-.loading{
-  position:fixed;
-  inset:0;
-  background:#05050f;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  flex-direction:column;
-  z-index:9999;
-  transition:.6s;
-}
-
-.loading-bar{
-  width:min(350px,90vw);
-  height:10px;
-  background:rgba(255,255,255,.08);
-  border-radius:100px;
-  overflow:hidden;
-  margin-bottom:20px;
-}
-
-.loading-bar span{
-  display:block;
-  height:100%;
-  width:100%;
-  background:linear-gradient(90deg,var(--accent),var(--accent2));
-  animation:load 2s linear forwards;
-}
-
-@keyframes load{
-  from{width:0}
-  to{width:100%}
-}
-
-.navbar{
-  position:sticky;
-  top:0;
-  z-index:1000;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:20px 8%;
-  background:rgba(8,20,40,.65);
-  backdrop-filter:blur(18px);
-}
-
-.logo{
-  font-size:1.4rem;
-  font-weight:800;
-  letter-spacing:2px;
-  background:linear-gradient(90deg,#00ffff,#7f7fff);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-}
-
-.main-nav{
-  display:flex;
-  gap:30px;
-}
-
-.main-nav a{
-  color:white;
-  text-decoration:none;
-  transition:.3s;
-}
-
-.main-nav a:hover{
-  color:#00ffff;
-}
-
-.menu-btn{
-  display:none;
-  flex-direction:column;
-  gap:5px;
-  border:none;
-  background:none;
-  cursor:pointer;
-}
-
-.menu-btn span{
-  width:28px;
-  height:3px;
-  border-radius:50px;
-  background:white;
-}
-
-.hero{
-  min-height:90vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  padding:120px 8%;
-}
-
-.hero-content{
-  max-width:900px;
-  width:100%;
-  padding:45px;
-  text-align:center;
-  border-radius:30px;
-  border:1px solid rgba(255,255,255,.08);
-  background:rgba(8,14,34,.72);
-  backdrop-filter:blur(20px);
-}
-
-.hero h1{
-  font-size:clamp(3rem,7vw,5.5rem);
-  line-height:1.05;
-  background:linear-gradient(135deg,#fff,#64ecff,#8d8cff);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-}
-
-.hero p{
-  margin-top:20px;
-  color:#b5c6ff;
-  font-size:1.1rem;
-}
-
-.hero-buttons{
-  margin-top:40px;
-  display:flex;
-  justify-content:center;
-  flex-wrap:wrap;
-  gap:20px;
-}
-
-.hero-btn{
-  padding:18px 30px;
-  border-radius:18px;
-  text-decoration:none;
-  color:white;
-  background:rgba(255,255,255,.05);
-  border:1px solid rgba(255,255,255,.08);
-  transition:.35s;
-}
-
-.hero-btn:hover{
-  transform:translateY(-5px);
-  border-color:#00ffff;
-  box-shadow:0 20px 40px rgba(0,255,255,.18);
-}
-
-.section{
-  padding:90px 8%;
-}
-
-.section-title{
-  text-align:center;
-  font-size:2.7rem;
-  margin-bottom:45px;
-  background:linear-gradient(90deg,#fff,#64ecff,#8d8cff);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-}
-
-.cards{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:25px;
-  max-width:1200px;
-  margin:auto;
-}
-
-.card{
-  padding:35px;
-  border-radius:24px;
-  background:linear-gradient(
-  135deg,
-  rgba(8,20,40,.9),
-  rgba(15,35,60,.8)
-  );
-  border:1px solid rgba(0,255,255,.12);
-  transition:.35s;
-  text-align:center;
-}
-
-.card:hover{
-  transform:translateY(-8px);
-  border-color:rgba(0,255,255,.4);
-  box-shadow:
-  0 20px 45px rgba(0,0,0,.45),
-  0 0 25px rgba(0,255,255,.15);
-}
-
-.card h3{
-  margin-bottom:15px;
-  color:#64ecff;
-}
-
-.card p{
-  color:#a7b6d8;
-}
-
-.stats{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:25px;
-  max-width:1200px;
-  margin:auto;
-}
-
-.stat{
-  padding:35px;
-  border-radius:24px;
-  text-align:center;
-  background:linear-gradient(
-  135deg,
-  rgba(8,20,40,.9),
-  rgba(15,35,60,.8)
-  );
-  border:1px solid rgba(0,255,255,.12);
-}
-
-.num{
-  display:block;
-  font-size:3rem;
-  font-weight:800;
-  margin-bottom:10px;
-  background:linear-gradient(90deg,#00ffff,#7f7fff);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-}
-
-.bot-toggle{
-  position:fixed;
-  right:25px;
-  bottom:25px;
-  width:70px;
-  height:70px;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-decoration:none;
-  font-size:2rem;
-  background:rgba(8,20,40,.9);
-  border:2px solid rgba(0,255,255,.35);
-  z-index:1200;
-}
-
-footer{
-  padding:30px;
-  text-align:center;
-  color:#a7b6d8;
-  background:rgba(8,20,40,.75);
-  border-top:1px solid rgba(255,255,255,.08);
-}
-
-@media(max-width:900px){
-
-  .menu-btn{
-    display:flex;
-  }
-
-  .main-nav{
-    position:absolute;
-    top:80px;
-    left:0;
-    right:0;
-    background:#081428;
-    padding:25px;
-    flex-direction:column;
-    display:none;
-  }
-
-  .main-nav.is-open{
-    display:flex;
-  }
-
-}
-</style>
+    @media (max-width: 768px){
+      textarea{
+        font-size: 16px;
+      }
+    }
+  </style>
 </head>
 
-<body>
+<body class="text-white overflow-hidden">
 
-<div class="loading" id="loading">
-  <div class="loading-bar">
-    <span></span>
+<div class="w-full h-[100dvh] flex">
+
+  <!-- OVERLAY -->
+  <div
+    id="overlay"
+    onclick="toggleSidebar()"
+    class="fixed inset-0 bg-black/60 z-40 hidden lg:hidden">
   </div>
-  <p>Loading ChopaTech Experience...</p>
+
+  <!-- SIDEBAR -->
+  <aside
+    id="sidebar"
+    class="fixed lg:relative z-50 lg:z-auto left-0 top-0 w-72 h-full bg-black/30 border-r border-white/10 p-5 md:p-6 backdrop-blur-xl flex flex-col transition-transform duration-300 -translate-x-full lg:translate-x-0">
+
+    <div class="flex items-center justify-between mb-8 md:mb-10">
+      <h1 class="text-2xl md:text-3xl font-black leading-tight">
+        🎧 <span class="text-emerald-400">ChopaTech</span> Voice+
+      </h1>
+
+      <button
+        onclick="toggleSidebar()"
+        class="lg:hidden bg-white/10 hover:bg-white/20 w-10 h-10 rounded-xl transition text-xl flex items-center justify-center">
+        ✕
+      </button>
+    </div>
+
+    <nav class="space-y-4 text-sm">
+      <button
+        onclick="showSection('studio')"
+        class="w-full text-left p-4 rounded-2xl bg-white/10 hover:bg-white/20 transition">
+        🎤 Voice Studio
+      </button>
+
+      <button
+        onclick="showSection('projects')"
+        class="w-full text-left p-4 rounded-2xl hover:bg-white/10 transition">
+        📁 Saved Projects
+      </button>
+
+      <button
+        onclick="showSection('export')"
+        class="w-full text-left p-4 rounded-2xl hover:bg-white/10 transition">
+        📦 Export Center
+      </button>
+
+      <button
+        onclick="showSection('settings')"
+        class="w-full text-left p-4 rounded-2xl hover:bg-white/10 transition">
+        ⚙ Voice Settings
+      </button>
+    </nav>
+
+    <div class="mt-auto bg-white/5 border border-white/10 rounded-3xl p-5">
+      <p class="text-gray-400 text-xs">Voice Credits</p>
+      <h2 class="text-3xl md:text-4xl font-black text-emerald-400 mt-2">2,450</h2>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="flex-1 min-w-0 h-full overflow-y-auto">
+
+    <!-- HEADER -->
+    <header class="sticky top-0 z-30 border-b border-white/10 bg-black/30 backdrop-blur-xl">
+      <div class="flex justify-between items-center gap-3 p-4 md:p-5">
+        <div class="flex items-center gap-3 min-w-0">
+          <button
+            onclick="toggleSidebar()"
+            class="lg:hidden bg-white/10 hover:bg-white/20 w-11 h-11 rounded-xl transition text-xl flex items-center justify-center shrink-0">
+            ☰
+          </button>
+
+          <div class="min-w-0">
+            <h2 class="text-xl md:text-3xl font-bold truncate">ChopaTech Voice Pro+</h2>
+            <p class="text-gray-400 text-xs md:text-sm mt-1 truncate">
+              Professional AI voice over creator
+            </p>
+          </div>
+        </div>
+
+        <button class="bg-emerald-500 hover:bg-emerald-400 px-4 md:px-5 py-2 md:py-3 rounded-2xl font-bold transition shrink-0">
+          Login
+        </button>
+      </div>
+    </header>
+
+    <!-- CONTENT -->
+    <section class="p-4 md:p-8">
+
+      <!-- STUDIO -->
+      <section id="studio" class="section">
+        <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4 mb-6 md:mb-8">
+          <div>
+            <h2 class="text-3xl md:text-5xl font-black leading-tight">🎤 Beatron Voice Studio</h2>
+            <p class="text-gray-400 mt-2 text-sm md:text-base">Professional AI voice over creator.</p>
+          </div>
+
+          <button class="bg-emerald-500 hover:bg-emerald-400 px-5 md:px-6 py-3 rounded-2xl font-bold transition w-full lg:w-auto">
+            Upgrade Pro+
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
+
+          <!-- Voice Controls -->
+          <div class="bg-white/5 border border-white/10 rounded-3xl p-4 md:p-6 backdrop-blur-xl">
+            <h3 class="text-xl md:text-2xl font-bold mb-4">Voice Generator</h3>
+
+            <textarea
+              id="voiceText"
+              rows="8"
+              class="w-full p-4 md:p-5 rounded-2xl bg-white/10 border border-white/10 outline-none text-base md:text-lg resize-none"
+              placeholder="Write your script here..."></textarea>
+
+            <!-- Controls -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4 mt-5">
+              <select class="p-4 rounded-2xl bg-white/10 border border-white/10 outline-none">
+                <option>Natural AI Voice</option>
+                <option>Deep Male Voice</option>
+                <option>Soft Female Voice</option>
+                <option>Swahili Voice</option>
+              </select>
+
+              <select class="p-4 rounded-2xl bg-white/10 border border-white/10 outline-none">
+                <option>Normal Speed</option>
+                <option>Fast Speed</option>
+                <option>Slow Speed</option>
+              </select>
+            </div>
+
+            <!-- Buttons -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4 mt-5">
+              <button onclick="generateVoice()"
+                class="bg-emerald-500 hover:bg-emerald-400 py-4 rounded-2xl font-bold text-base md:text-lg transition">
+                ▶ Generate Voice
+              </button>
+
+              <button onclick="stopVoice()"
+                class="bg-red-500 hover:bg-red-400 py-4 rounded-2xl font-bold text-base md:text-lg transition">
+                ⏹ Stop Voice
+              </button>
+            </div>
+
+            <button onclick="downloadAudio()"
+              class="mt-4 w-full bg-blue-500 hover:bg-blue-400 py-4 rounded-2xl font-bold text-base md:text-lg transition">
+              📦 Export Audio
+            </button>
+          </div>
+
+          <!-- Waveform -->
+          <div class="bg-black/30 border border-white/10 rounded-3xl p-4 md:p-6">
+            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-5 md:mb-6">
+              <h3 class="text-xl md:text-2xl font-bold">Live Waveform</h3>
+
+              <button onclick="toggleBeat()"
+                class="bg-white/10 hover:bg-white/20 px-4 py-2 rounded-2xl transition w-full sm:w-auto">
+                🎵 Beat Mode
+              </button>
+            </div>
+
+            <div id="waveform" class="flex items-end gap-1 h-48 md:h-72 overflow-hidden"></div>
+
+            <audio id="audioPlayer" controls class="w-full mt-6"></audio>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- PROJECTS -->
+      <section id="projects" class="section hidden">
+        <h2 class="text-3xl md:text-4xl font-black mb-6 md:mb-8">📁 Saved Voice Projects</h2>
+        <div id="projectsList" class="space-y-4"></div>
+      </section>
+
+      <!-- EXPORT -->
+      <section id="export" class="section hidden">
+        <h2 class="text-3xl md:text-4xl font-black mb-6 md:mb-8">📦 Export Center</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+          <div class="bg-white/5 border border-white/10 rounded-3xl p-6">
+            <h3 class="text-2xl font-bold">MP3 Export</h3>
+            <p class="text-gray-400 mt-3">Studio-quality audio export.</p>
+          </div>
+
+          <div class="bg-white/5 border border-white/10 rounded-3xl p-6">
+            <h3 class="text-2xl font-bold">WAV Export</h3>
+            <p class="text-gray-400 mt-3">Lossless professional format.</p>
+          </div>
+
+          <div class="bg-white/5 border border-white/10 rounded-3xl p-6">
+            <h3 class="text-2xl font-bold">Cloud Backup</h3>
+            <p class="text-gray-400 mt-3">Save projects online later.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SETTINGS -->
+      <section id="settings" class="section hidden">
+        <h2 class="text-3xl md:text-4xl font-black mb-6 md:mb-8">⚙ Voice Settings</h2>
+
+        <div class="bg-white/5 border border-white/10 rounded-3xl p-4 md:p-6 space-y-4 md:space-y-5">
+          <input
+            type="text"
+            placeholder="ElevenLabs API Key"
+            class="w-full p-4 md:p-5 rounded-2xl bg-white/10 border border-white/10 outline-none" />
+
+          <input
+            type="text"
+            placeholder="OpenAI Voice API Key"
+            class="w-full p-4 md:p-5 rounded-2xl bg-white/10 border border-white/10 outline-none" />
+
+          <select class="w-full p-4 md:p-5 rounded-2xl bg-white/10 border border-white/10 outline-none">
+            <option>Default Export = MP3</option>
+            <option>Default Export = WAV</option>
+          </select>
+        </div>
+      </section>
+
+    </section>
+  </main>
 </div>
-
-<canvas id="canvas"></canvas>
-
-<div class="content">
-
-<header class="navbar">
-
-<button class="menu-btn" id="menuBtn">
-  <span></span>
-  <span></span>
-  <span></span>
-</button>
-
-<div class="logo">CHOPATECH</div>
-
-<nav class="main-nav" id="mainNav">
-  <a href="#">Home</a>
-  <a href="#">Services</a>
-  <a href="#">Projects</a>
-  <a href="#">Portfolio</a>
-  <a href="#">Tools</a>
-  <a href="#">Contact</a>
-</nav>
-
-</header>
-
-<section class="hero">
-
-<div class="hero-content">
-
-<h1>We Care About Digital Innovation</h1>
-
-<p>
-AI Solutions • Web Development • Networking • Cyber Security
-</p>
-
-<div class="hero-buttons">
-
-<a href="#" class="hero-btn">
-🚀 Explore Services
-</a>
-
-<a href="#" class="hero-btn">
-🤖 Talk to AI
-</a>
-
-</div>
-
-</div>
-
-</section>
-
-<section class="section">
-
-<h2 class="section-title">
-Core Services
-</h2>
-
-<div class="cards">
-
-<div class="card">
-<h3>🤖 AI & Automation</h3>
-<p>Smart assistants, AI systems and automation tools.</p>
-</div>
-
-<div class="card">
-<h3>💻 Web Development</h3>
-<p>Modern websites, SaaS platforms and web apps.</p>
-</div>
-
-<div class="card">
-<h3>🌐 Networking</h3>
-<p>Wi-Fi infrastructure and network deployment.</p>
-</div>
-
-<div class="card">
-<h3>🛠️ IT Support</h3>
-<p>Technical maintenance and business support.</p>
-</div>
-
-</div>
-
-</section>
-
-<section class="section">
-
-<h2 class="section-title">
-Live Metrics
-</h2>
-
-<div class="stats">
-
-<div class="stat">
-<span class="num">120+</span>
-🚀 Projects
-</div>
-
-<div class="stat">
-<span class="num">80+</span>
-💻 Systems
-</div>
-
-<div class="stat">
-<span class="num">50+</span>
-🌐 Networks
-</div>
-
-<div class="stat">
-<span class="num">98%</span>
-⭐ Satisfaction
-</div>
-
-</div>
-
-</section>
-
-<a href="#" class="bot-toggle">
-🤖
-</a>
-
-<footer>
-© 2026 ChopaTech
-</footer>
-
-</div>
-
-<script type="module">
-import * as THREE from 'three';
-import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
-import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
-import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
-import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
-
-const canvas = document.getElementById('canvas');
-const loading = document.getElementById('loading');
-
-const scene = new THREE.Scene();
-scene.fog = new THREE.FogExp2(0x05050f, 0.035);
-
-const camera = new THREE.PerspectiveCamera(
-  35,
-  window.innerWidth / window.innerHeight,
-  0.1,
-  100
-);
-camera.position.set(0, 2, 10);
-
-const renderer = new THREE.WebGLRenderer({
-  canvas,
-  antialias: true,
-  alpha: true,
-  powerPreference: 'high-performance'
-});
-
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-renderer.outputColorSpace = THREE.SRGBColorSpace;
-
-const composer = new EffectComposer(renderer);
-composer.addPass(new RenderPass(scene, camera));
-composer.addPass(new UnrealBloomPass(
-  new THREE.Vector2(window.innerWidth, window.innerHeight),
-  1.0,
-  0.5,
-  0.15
-));
-composer.addPass(new OutputPass());
-
-// Lights
-scene.add(new THREE.AmbientLight(0xffffff, 0.35));
-
-const sunLight = new THREE.PointLight(0xfff4cc, 3.5, 80);
-sunLight.position.set(0, 0, 0);
-scene.add(sunLight);
-
-const rimLight = new THREE.DirectionalLight(0x88aaff, 1.2);
-rimLight.position.set(8, 6, 10);
-scene.add(rimLight);
-
-// Stars
-const starsGeometry = new THREE.BufferGeometry();
-const starCount = 7000;
-const starPositions = new Float32Array(starCount * 3);
-
-for (let i = 0; i < starCount * 3; i++) {
-  starPositions[i] = (Math.random() - 0.5) * 220;
-}
-
-starsGeometry.setAttribute(
-  'position',
-  new THREE.BufferAttribute(starPositions, 3)
-);
-
-const starsMaterial = new THREE.PointsMaterial({
-  color: 0x8da8ff,
-  size: 0.06,
-  transparent: true,
-  opacity: 0.8,
-  depthWrite: false
-});
-
-const stars = new THREE.Points(starsGeometry, starsMaterial);
-scene.add(stars);
-
-// Solar system group
-const solarSystem = new THREE.Group();
-scene.add(solarSystem);
-
-// Sun
-const sun = new THREE.Mesh(
-  new THREE.SphereGeometry(1.35, 48, 48),
-  new THREE.MeshStandardMaterial({
-    color: 0xffcc66,
-    emissive: 0xffaa33,
-    emissiveIntensity: 2.8,
-    roughness: 0.35,
-    metalness: 0.05
-  })
-);
-solarSystem.add(sun);
-
-// Sun glow
-const sunGlow = new THREE.Mesh(
-  new THREE.SphereGeometry(2.15, 48, 48),
-  new THREE.MeshBasicMaterial({
-    color: 0xffaa33,
-    transparent: true,
-    opacity: 0.14
-  })
-);
-solarSystem.add(sunGlow);
-
-function createOrbit(radius, segments = 128) {
-  const points = [];
-  for (let i = 0; i <= segments; i++) {
-    const a = (i / segments) * Math.PI * 2;
-    points.push(new THREE.Vector3(Math.cos(a) * radius, 0, Math.sin(a) * radius));
-  }
-  const geometry = new THREE.BufferGeometry().setFromPoints(points);
-  const material = new THREE.LineBasicMaterial({
-    color: 0x334155,
-    transparent: true,
-    opacity: 0.5
-  });
-  const line = new THREE.Line(geometry, material);
-  return line;
-}
-
-function createPlanet({
-  size,
-  distance,
-  speed,
-  color,
-  tilt = 0,
-  ring = false
-}) {
-  const orbit = new THREE.Group();
-  solarSystem.add(orbit);
-
-  const planetGroup = new THREE.Group();
-  planetGroup.rotation.z = tilt;
-  orbit.add(planetGroup);
-
-  const planet = new THREE.Mesh(
-    new THREE.SphereGeometry(size, 40, 40),
-    new THREE.MeshStandardMaterial({
-      color,
-      roughness: 0.7,
-      metalness: 0.08
-    })
-  );
-  planet.position.x = distance;
-  planetGroup.add(planet);
-
-  if (ring) {
-    const ringMesh = new THREE.Mesh(
-      new THREE.TorusGeometry(size * 1.7, 0.06, 16, 100),
-      new THREE.MeshStandardMaterial({
-        color: 0xb8b8b8,
-        roughness: 0.8,
-        metalness: 0.1,
-        transparent: true,
-        opacity: 0.8
-      })
-    );
-    ringMesh.rotation.x = Math.PI * 0.5;
-    ringMesh.position.x = distance;
-    planetGroup.add(ringMesh);
-  }
-
-  solarSystem.add(createOrbit(distance));
-
-  return { orbit, planetGroup, planet, speed };
-}
-
-const planets = [
-  createPlanet({ size: 0.18, distance: 2.2, speed: 0.038, color: 0xb5b5b5, tilt: 0.25 }),
-  createPlanet({ size: 0.30, distance: 3.1, speed: 0.028, color: 0xd8b18a, tilt: 0.12 }),
-  createPlanet({ size: 0.32, distance: 4.1, speed: 0.022, color: 0x4f8cff, tilt: 0.05 }),
-  createPlanet({ size: 0.24, distance: 5.0, speed: 0.018, color: 0xff6b4a, tilt: 0.18 }),
-  createPlanet({ size: 0.90, distance: 6.8, speed: 0.010, color: 0xd8a25f, tilt: 0.04 }),
-  createPlanet({ size: 0.75, distance: 8.5, speed: 0.008, color: 0xe7d5a8, tilt: 0.03, ring: true }),
-  createPlanet({ size: 0.55, distance: 10.1, speed: 0.006, color: 0x7ee0ff, tilt: 0.28 }),
-  createPlanet({ size: 0.52, distance: 11.7, speed: 0.0045, color: 0x5d7cff, tilt: 0.31 }),
-];
-
-const moonOrbit = new THREE.Group();
-solarSystem.add(moonOrbit);
-moonOrbit.position.set(4.1, 0, 0);
-
-const moon = new THREE.Mesh(
-  new THREE.SphereGeometry(0.08, 24, 24),
-  new THREE.MeshStandardMaterial({
-    color: 0xd9d9d9,
-    roughness: 0.9,
-    metalness: 0.02
-  })
-);
-moon.position.set(0.45, 0, 0);
-moonOrbit.add(moon);
-moonOrbit.add(createOrbit(0.45, 64));
-
-// Optional subtle foreground wireframe sphere to keep the “tech” feel
-const techShell = new THREE.Mesh(
-  new THREE.SphereGeometry(14, 48, 48),
-  new THREE.MeshBasicMaterial({
-    color: 0x223355,
-    wireframe: true,
-    transparent: true,
-    opacity: 0.09
-  })
-);
-scene.add(techShell);
-
-// Mouse camera effect
-const mouse = { x: 0, y: 0 };
-const targetCamera = { x: 0, y: 2, z: 10 };
-
-window.addEventListener('pointermove', (e) => {
-  mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-  mouse.y = -((e.clientY / window.innerHeight) * 2 - 1);
-});
-
-window.addEventListener('resize', () => {
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  composer.setSize(window.innerWidth, window.innerHeight);
-});
-
-const clock = new THREE.Clock();
-
-function animate() {
-  requestAnimationFrame(animate);
-
-  const elapsed = clock.getElapsedTime();
-
-  // Solar system movement
-  solarSystem.rotation.y = elapsed * 0.02;
-  sun.rotation.y += 0.003;
-  sunGlow.rotation.y += 0.0015;
-
-  planets.forEach((item, index) => {
-    item.orbit.rotation.y += item.speed;
-    item.planet.rotation.y += 0.01 + index * 0.001;
-  });
-
-  moonOrbit.rotation.y += 0.032;
-
-  // Background stars
-  stars.rotation.y += 0.0002;
-  stars.rotation.x += 0.00005;
-
-  // Mouse camera parallax
-  targetCamera.x += ((mouse.x * 1.8) - targetCamera.x) * 0.03;
-  targetCamera.y += ((2 + mouse.y * 1.2) - targetCamera.y) * 0.03;
-  targetCamera.z += ((10 + Math.abs(mouse.x) * 0.5) - targetCamera.z) * 0.03;
-
-  camera.position.x += (targetCamera.x - camera.position.x) * 0.04;
-  camera.position.y += (targetCamera.y - camera.position.y) * 0.04;
-  camera.position.z += (targetCamera.z - camera.position.z) * 0.04;
-  camera.lookAt(0, 0, 0);
-
-  composer.render();
-}
-
-animate();
-
-window.addEventListener('load', () => {
-  setTimeout(() => {
-    loading.style.opacity = '0';
-    setTimeout(() => {
-      loading.style.display = 'none';
-    }, 700);
-  }, 1500);
-});
-
-</script>
 
 <script>
-const menuBtn = document.getElementById('menuBtn');
-const mainNav = document.getElementById('mainNav');
+  // Navigation
+  function showSection(id){
+    document.querySelectorAll('.section').forEach(sec => sec.classList.add('hidden'));
+    document.getElementById(id).classList.remove('hidden');
+    closeSidebarOnMobile();
+  }
 
-menuBtn.addEventListener('click', () => {
-  mainNav.classList.toggle('is-open');
-});
+  // Sidebar toggle
+  function toggleSidebar(){
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+    const isHidden = sidebar.classList.contains('-translate-x-full');
+
+    if(isHidden){
+      sidebar.classList.remove('-translate-x-full');
+      overlay.classList.remove('hidden');
+    } else {
+      sidebar.classList.add('-translate-x-full');
+      overlay.classList.add('hidden');
+    }
+  }
+
+  function closeSidebarOnMobile(){
+    if(window.innerWidth < 1024){
+      document.getElementById('sidebar').classList.add('-translate-x-full');
+      document.getElementById('overlay').classList.add('hidden');
+    }
+  }
+
+  // Create waveform bars
+  function createWave(){
+    const wave = document.getElementById('waveform');
+
+    for(let i = 0; i < 80; i++){
+      const bar = document.createElement('div');
+      bar.className = 'w-1 bg-emerald-400 rounded-full';
+      bar.style.height = Math.random() * 150 + 'px';
+      wave.appendChild(bar);
+    }
+  }
+
+  // Animate waveform
+  function animateWave(){
+    const bars = document.querySelectorAll('#waveform div');
+
+    setInterval(() => {
+      bars.forEach(bar => {
+        bar.style.height = (Math.random() * 180 + 20) + 'px';
+      });
+    }, 120);
+  }
+
+  // Voice generation
+  function generateVoice(){
+    const text = document.getElementById('voiceText').value;
+    if(!text) return;
+
+    const speech = new SpeechSynthesisUtterance(text);
+    speech.rate = 1;
+    speech.pitch = 1;
+
+    window.speechSynthesis.speak(speech);
+
+    animateWave();
+    saveProject(text);
+  }
+
+  // Stop voice
+  function stopVoice(){
+    window.speechSynthesis.cancel();
+  }
+
+  // Beat mode
+  let beat = false;
+  function toggleBeat(){
+    beat = !beat;
+    alert(beat ? '🎵 Beat Mode ON' : '🎵 Beat Mode OFF');
+  }
+
+  // Export placeholder
+  function downloadAudio(){
+    alert('📦 Real MP3 export can be connected later using ElevenLabs/OpenAI API backend.');
+  }
+
+  // Save projects
+  function saveProject(text){
+    let projects = JSON.parse(localStorage.getItem('voiceProjects') || '[]');
+    projects.push(text);
+    localStorage.setItem('voiceProjects', JSON.stringify(projects));
+    loadProjects();
+  }
+
+  // Load projects
+  function loadProjects(){
+    const projects = JSON.parse(localStorage.getItem('voiceProjects') || '[]');
+    const list = document.getElementById('projectsList');
+
+    list.innerHTML = projects.map(item => `
+      <div class="bg-white/10 border border-white/10 rounded-2xl p-5 break-words">
+        ${item}
+      </div>
+    `).join('');
+  }
+
+  // Close overlay/sidebar if window resized to desktop
+  window.addEventListener('resize', () => {
+    if(window.innerWidth >= 1024){
+      document.getElementById('overlay').classList.add('hidden');
+      document.getElementById('sidebar').classList.remove('-translate-x-full');
+    }
+  });
+
+  createWave();
+  loadProjects();
 </script>
 
 </body>

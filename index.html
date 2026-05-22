@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <title>ChopaTech | Web Development, AI Solutions & IT Services Tanzania</title>
@@ -117,6 +117,7 @@ body{
   padding:20px 8%;
   background:rgba(8,20,40,.65);
   backdrop-filter:blur(18px);
+  gap:18px;
 }
 
 .logo{
@@ -126,11 +127,13 @@ body{
   background:linear-gradient(90deg,#00ffff,#7f7fff);
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
+  flex-shrink:0;
 }
 
 .main-nav{
   display:flex;
   gap:30px;
+  align-items:center;
 }
 
 .main-nav a{
@@ -150,6 +153,8 @@ body{
   border:none;
   background:none;
   cursor:pointer;
+  margin-left:auto;
+  order:3;
 }
 
 .menu-btn span{
@@ -168,14 +173,57 @@ body{
 }
 
 .hero-content{
+  position:relative;
+  overflow:hidden;
   max-width:900px;
   width:100%;
-  padding:45px;
-  text-align:center;
+  min-height:640px;
   border-radius:30px;
   border:1px solid rgba(255,255,255,.08);
   background:rgba(8,14,34,.72);
   backdrop-filter:blur(20px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.hero-slider{
+  position:absolute;
+  inset:0;
+  z-index:0;
+}
+
+.hero-slide{
+  position:absolute;
+  inset:0;
+  background-size:cover;
+  background-position:center;
+  opacity:0;
+  transform:scale(1.08);
+  transition:opacity 1.2s ease, transform 8s ease;
+  filter:saturate(1.05);
+}
+
+.hero-slide.active{
+  opacity:1;
+  transform:scale(1);
+}
+
+.hero-overlay{
+  position:absolute;
+  inset:0;
+  z-index:1;
+  background:
+  linear-gradient(135deg, rgba(5,5,15,.35), rgba(5,5,15,.72)),
+  radial-gradient(circle at top, rgba(0,255,255,.10), transparent 38%);
+}
+
+.hero-inner{
+  position:relative;
+  z-index:2;
+  width:100%;
+  padding:45px;
+  text-align:center;
 }
 
 .hero h1{
@@ -267,6 +315,125 @@ body{
   color:#a7b6d8;
 }
 
+/* Live project showcase */
+.showcase-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:25px;
+  max-width:1200px;
+  margin:auto;
+}
+
+.showcase-card{
+  position:relative;
+  padding:22px;
+  border-radius:24px;
+  background:linear-gradient(135deg, rgba(8,20,40,.95), rgba(15,35,60,.82));
+  border:1px solid rgba(0,255,255,.12);
+  overflow:hidden;
+  transition:.35s;
+}
+
+.showcase-card:hover{
+  transform:translateY(-8px);
+  border-color:rgba(0,255,255,.45);
+  box-shadow:0 20px 45px rgba(0,0,0,.45), 0 0 25px rgba(0,255,255,.15);
+}
+
+.showcase-preview{
+  height:180px;
+  border-radius:18px;
+  background:
+  radial-gradient(circle at top left, rgba(0,255,255,.25), transparent 38%),
+  radial-gradient(circle at bottom right, rgba(127,127,255,.22), transparent 35%),
+  linear-gradient(135deg, rgba(255,255,255,.07), rgba(255,255,255,.02));
+  border:1px solid rgba(255,255,255,.08);
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  padding:18px;
+}
+
+.preview-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
+
+.live-pill{
+  padding:7px 12px;
+  border-radius:999px;
+  background:rgba(34,197,94,.15);
+  color:#4ade80;
+  border:1px solid rgba(74,222,128,.25);
+  font-size:.85rem;
+  font-weight:700;
+}
+
+.preview-title{
+  font-size:1.15rem;
+  font-weight:800;
+  color:white;
+}
+
+.preview-meta{
+  color:#b5c6ff;
+  font-size:.92rem;
+  line-height:1.6;
+}
+
+.preview-bars{
+  display:grid;
+  gap:8px;
+}
+
+.preview-bar{
+  height:8px;
+  border-radius:999px;
+  background:rgba(255,255,255,.08);
+  overflow:hidden;
+}
+
+.preview-bar span{
+  display:block;
+  height:100%;
+  border-radius:999px;
+  background:linear-gradient(90deg, #00ffff, #7f7fff);
+}
+
+.showcase-info{
+  margin-top:18px;
+}
+
+.showcase-info h3{
+  color:#64ecff;
+  font-size:1.2rem;
+  margin-bottom:8px;
+}
+
+.showcase-info p{
+  color:#a7b6d8;
+  line-height:1.7;
+  font-size:.98rem;
+}
+
+.showcase-tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:16px;
+}
+
+.tag{
+  padding:7px 12px;
+  border-radius:999px;
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.08);
+  color:#d6e4ff;
+  font-size:.84rem;
+}
+
 .stats{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
@@ -314,6 +481,65 @@ body{
   z-index:1200;
 }
 
+/* Left floating social buttons */
+#social-floating{
+  position:fixed;
+  left:20px;
+  bottom:24px;
+  display:flex;
+  flex-direction:row;
+  gap:12px;
+  align-items:center;
+  z-index:1300;
+}
+
+.social-btn{
+  width:56px;
+  height:56px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-decoration:none;
+  color:#fff;
+  background:#111;
+  box-shadow:0 8px 20px rgba(0,0,0,.5);
+  transition:transform .18s, box-shadow .18s, background .18s;
+}
+
+.social-btn svg{
+  width:32px;
+  height:32px;
+  display:block
+}
+
+.social-btn:hover{
+  transform:translateY(-6px);
+  box-shadow:0 14px 30px rgba(0,0,0,.55);
+}
+
+.social-btn.whatsapp{
+  background:#25D366
+}
+
+.social-btn.facebook{
+  background:#1877f2
+}
+
+.social-btn.instagram{
+  background:linear-gradient(45deg,#feda75,#d62976,#962fbf)
+}
+
+.social-btn.youtube{
+  background:#FF0000
+}
+
+@media(max-width:920px){
+  #social-floating{
+    display:none
+  }
+}
+
 footer{
   padding:30px;
   text-align:center;
@@ -323,6 +549,10 @@ footer{
 }
 
 @media(max-width:900px){
+
+  .navbar{
+    padding:18px 6%;
+  }
 
   .menu-btn{
     display:flex;
@@ -337,10 +567,59 @@ footer{
     padding:25px;
     flex-direction:column;
     display:none;
+    gap:20px;
+    border-top:1px solid rgba(255,255,255,.08);
   }
 
   .main-nav.is-open{
     display:flex;
+  }
+
+  .hero{
+    padding:100px 6%;
+    min-height:85vh;
+  }
+
+  .hero-content{
+    min-height:520px;
+    padding:0;
+  }
+
+  .hero-inner{
+    padding:28px 22px;
+  }
+
+  .hero h1{
+    font-size:clamp(2.4rem,10vw,4.2rem);
+  }
+
+  .hero-buttons{
+    flex-direction:column;
+    align-items:center;
+  }
+
+  .hero-btn{
+    width:100%;
+    max-width:320px;
+    text-align:center;
+  }
+
+  .cards,
+  .showcase-grid,
+  .stats{
+    grid-template-columns:1fr;
+  }
+
+  .section{
+    padding:80px 6%;
+  }
+
+  .bot-toggle{
+    width:60px;
+    height:60px;
+    font-size:1.7rem;
+    right:18px;
+    bottom:18px;
   }
 
 }
@@ -362,7 +641,7 @@ footer{
 
 <header class="navbar">
 
-<button class="menu-btn" id="menuBtn">
+<button class="menu-btn" id="menuBtn" aria-label="Open menu">
   <span></span>
   <span></span>
   <span></span>
@@ -385,23 +664,39 @@ footer{
 
 <div class="hero-content">
 
-<h1>We Care About Digital Innovation</h1>
+  <div class="hero-slider">
+    <div class="hero-slide active" style="background-image:url('https://picsum.photos/seed/chopa1/1600/900');"></div>
+    <div class="hero-slide" style="background-image:url('https://picsum.photos/seed/chopa2/1600/900');"></div>
+    <div class="hero-slide" style="background-image:url('https://picsum.photos/seed/chopa3/1600/900');"></div>
+    <div class="hero-slide" style="background-image:url('https://picsum.photos/seed/chopa4/1600/900');"></div>
+    <div class="hero-slide" style="background-image:url('https://picsum.photos/seed/chopa5/1600/900');"></div>
+    <div class="hero-slide" style="background-image:url('https://picsum.photos/seed/chopa6/1600/900');"></div>
+    <div class="hero-slide" style="background-image:url('https://picsum.photos/seed/chopa7/1600/900');"></div>
+    <div class="hero-slide" style="background-image:url('https://picsum.photos/seed/chopa8/1600/900');"></div>
+    <div class="hero-slide" style="background-image:url('https://picsum.photos/seed/chopa9/1600/900');"></div>
+    <div class="hero-slide" style="background-image:url('https://picsum.photos/seed/chopa10/1600/900');"></div>
+    <div class="hero-overlay"></div>
+  </div>
 
-<p>
-AI Solutions • Web Development • Networking • Cyber Security
-</p>
+  <div class="hero-inner">
+    <h1>We Care About Digital Innovation</h1>
 
-<div class="hero-buttons">
+    <p>
+    AI Solutions • Web Development • Networking • Cyber Security
+    </p>
 
-<a href="#" class="hero-btn">
-🚀 Explore Services
-</a>
+    <div class="hero-buttons">
 
-<a href="#" class="hero-btn">
-🤖 Talk to AI
-</a>
+      <a href="#" class="hero-btn">
+      🚀 Explore Services
+      </a>
 
-</div>
+      <a href="#" class="hero-btn">
+      🤖 Talk to AI
+      </a>
+
+    </div>
+  </div>
 
 </div>
 
@@ -433,6 +728,96 @@ Core Services
 <div class="card">
 <h3>🛠️ IT Support</h3>
 <p>Technical maintenance and business support.</p>
+</div>
+
+</div>
+
+</section>
+
+<section class="section">
+
+<h2 class="section-title">
+Live Project Showcase
+</h2>
+
+<div class="showcase-grid">
+
+<div class="showcase-card">
+  <div class="showcase-preview">
+    <div class="preview-top">
+      <div class="preview-title">ChopaTech Business Site</div>
+      <div class="live-pill">LIVE</div>
+    </div>
+    <div class="preview-meta">
+      Modern corporate website with service pages, contact flow, and fast mobile experience.
+    </div>
+    <div class="preview-bars">
+      <div class="preview-bar"><span style="width:92%"></span></div>
+      <div class="preview-bar"><span style="width:78%"></span></div>
+      <div class="preview-bar"><span style="width:64%"></span></div>
+    </div>
+  </div>
+  <div class="showcase-info">
+    <h3>Web Design & Branding</h3>
+    <p>Built for company presence, lead capture, and premium online identity.</p>
+    <div class="showcase-tags">
+      <span class="tag">Responsive</span>
+      <span class="tag">SEO Ready</span>
+      <span class="tag">Fast Loading</span>
+    </div>
+  </div>
+</div>
+
+<div class="showcase-card">
+  <div class="showcase-preview">
+    <div class="preview-top">
+      <div class="preview-title">Chopa AI Assistant</div>
+      <div class="live-pill">ACTIVE</div>
+    </div>
+    <div class="preview-meta">
+      Intelligent assistant for customer support, service guidance, and quick answers.
+    </div>
+    <div class="preview-bars">
+      <div class="preview-bar"><span style="width:88%"></span></div>
+      <div class="preview-bar"><span style="width:71%"></span></div>
+      <div class="preview-bar"><span style="width:58%"></span></div>
+    </div>
+  </div>
+  <div class="showcase-info">
+    <h3>AI & Automation</h3>
+    <p>Designed to improve support speed, user engagement, and smart workflows.</p>
+    <div class="showcase-tags">
+      <span class="tag">Chatbot</span>
+      <span class="tag">Automation</span>
+      <span class="tag">Support</span>
+    </div>
+  </div>
+</div>
+
+<div class="showcase-card">
+  <div class="showcase-preview">
+    <div class="preview-top">
+      <div class="preview-title">Network Deployment</div>
+      <div class="live-pill">DEPLOYED</div>
+    </div>
+    <div class="preview-meta">
+      Reliable network planning, router setup, monitoring, and business connectivity support.
+    </div>
+    <div class="preview-bars">
+      <div class="preview-bar"><span style="width:84%"></span></div>
+      <div class="preview-bar"><span style="width:69%"></span></div>
+      <div class="preview-bar"><span style="width:81%"></span></div>
+    </div>
+  </div>
+  <div class="showcase-info">
+    <h3>Networking & IT Support</h3>
+    <p>Stable infrastructure for offices, schools, and small businesses.</p>
+    <div class="showcase-tags">
+      <span class="tag">Wi-Fi</span>
+      <span class="tag">Routing</span>
+      <span class="tag">Maintenance</span>
+    </div>
+  </div>
 </div>
 
 </div>
@@ -479,289 +864,666 @@ Live Metrics
 © 2026 ChopaTech
 </footer>
 
+<div id="social-floating" aria-hidden="false">
+  <a href="https://wa.me/" class="social-btn whatsapp" aria-label="WhatsApp" target="_blank" rel="noopener noreferrer">
+    <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path fill="#ffffff" d="M19.11 17.24c-.27-.14-1.61-.79-1.86-.88-.25-.09-.43-.14-.61.14-.18.27-.7.88-.86 1.06-.16.18-.31.2-.58.07-.27-.14-1.13-.42-2.15-1.35-.8-.71-1.34-1.59-1.5-1.86-.16-.27-.02-.42.12-.56.12-.12.27-.31.41-.47.14-.16.18-.27.27-.45.09-.18.05-.34-.02-.47-.07-.14-.61-1.47-.84-2.01-.22-.54-.44-.46-.61-.47h-.52c-.18 0-.47.07-.72.34-.25.27-.95.93-.95 2.27s.97 2.63 1.11 2.81c.14.18 1.91 2.92 4.62 4.1.64.27 1.14.43 1.53.55.64.2 1.22.17 1.68.1.51-.08 1.61-.66 1.84-1.3.23-.64.23-1.19.16-1.3-.07-.11-.25-.18-.52-.32z"/>
+      <path fill="#ffffff" d="M16.01 3C8.83 3 3 8.82 3 16c0 2.53.74 4.99 2.14 7.09L3 29l6.08-2.08A12.95 12.95 0 0016.01 29C23.18 29 29 23.18 29 16S23.18 3 16.01 3zm0 23.64c-2.1 0-4.16-.56-5.97-1.63l-.43-.25-3.61 1.23 1.18-3.52-.28-.46a10.6 10.6 0 01-1.63-5.67c0-5.88 4.79-10.67 10.67-10.67 2.85 0 5.52 1.11 7.53 3.12A10.58 10.58 0 0126.68 16c0 5.88-4.79 10.64-10.67 10.64z"/>
+    </svg>
+  </a>
+
+  <a href="https://facebook.com" class="social-btn facebook" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12.07C22 6.48 17.52 2 11.93 2S2 6.48 2 12.07C2 17.09 5.66 21.25 10.44 21.95v-6.92H8.07v-2.96h2.37V9.41c0-2.34 1.4-3.63 3.55-3.63 1.03 0 2.1.18 2.1.18v2.31h-1.19c-1.17 0-1.53.73-1.53 1.48v1.78h2.6l-.42 2.96h-2.18V21.95C18.34 21.25 22 17.09 22 12.07z"/></svg>
+  </a>
+
+  <a href="https://instagram.com" class="social-btn instagram" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.6"/><path d="M12 7.5a4.5 4.5 0 100 9 4.5 4.5 0 000-9z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="17.5" cy="6.5" r="0.8" fill="currentColor"/></svg>
+  </a>
+
+  <a href="https://www.youtube.com" class="social-btn youtube" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path fill="#ffffff" d="M23.5 6.2a3 3 0 00-2.1-2.1C19.6 3.5 12 3.5 12 3.5s-7.6 0-9.4.6A3 3 0 00.5 6.2 31.7 31.7 0 000 12a31.7 31.7 0 00.5 5.8 3 3 0 002.1 2.1c1.8.5 9.4.5 9.4.5s7.6 0 9.4-.5a3 3 0 002.1-2.1A31.7 31.7 0 0024 12a31.7 31.7 0 00-.5-5.8z"/>
+      <path fill="#FF0000" d="M10 15.5v-7l6 3.5-6 3.5z"/>
+    </svg>
+  </a>
+</div>
+
 </div>
 
 <script type="module">
+
 import * as THREE from 'three';
-import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
-import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
-import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
-import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+
+import { EffectComposer }
+from 'three/addons/postprocessing/EffectComposer.js';
+
+import { RenderPass }
+from 'three/addons/postprocessing/RenderPass.js';
+
+import { UnrealBloomPass }
+from 'three/addons/postprocessing/UnrealBloomPass.js';
+
+import { OutputPass }
+from 'three/addons/postprocessing/OutputPass.js';
 
 const canvas = document.getElementById('canvas');
 const loading = document.getElementById('loading');
 
 const scene = new THREE.Scene();
-scene.fog = new THREE.FogExp2(0x05050f, 0.035);
+
+scene.fog = new THREE.FogExp2(
+  0x05050f,
+  0.03
+);
 
 const camera = new THREE.PerspectiveCamera(
   35,
-  window.innerWidth / window.innerHeight,
+  window.innerWidth/window.innerHeight,
   0.1,
   100
 );
-camera.position.set(0, 2, 10);
+
+camera.position.set(0,2,9);
 
 const renderer = new THREE.WebGLRenderer({
   canvas,
-  antialias: true,
-  alpha: true,
-  powerPreference: 'high-performance'
+  antialias:true,
+  alpha:true,
+  powerPreference:'high-performance'
 });
 
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.setSize(
+  window.innerWidth,
+  window.innerHeight
+);
+
+renderer.setPixelRatio(
+  Math.min(window.devicePixelRatio,2)
+);
+
+renderer.outputColorSpace =
+THREE.SRGBColorSpace;
 
 const composer = new EffectComposer(renderer);
-composer.addPass(new RenderPass(scene, camera));
-composer.addPass(new UnrealBloomPass(
-  new THREE.Vector2(window.innerWidth, window.innerHeight),
-  1.0,
-  0.5,
-  0.15
-));
+
+composer.addPass(
+  new RenderPass(scene,camera)
+);
+
+composer.addPass(
+  new UnrealBloomPass(
+    new THREE.Vector2(
+      window.innerWidth,
+      window.innerHeight
+    ),
+    .55,
+    .3,
+    .2
+  )
+);
+
 composer.addPass(new OutputPass());
 
-// Lights
-scene.add(new THREE.AmbientLight(0xffffff, 0.35));
+// ===== SPACE LIGHTING =====
 
-const sunLight = new THREE.PointLight(0xfff4cc, 3.5, 80);
-sunLight.position.set(0, 0, 0);
-scene.add(sunLight);
+scene.add(
+  new THREE.AmbientLight(
+    0x88aaff,
+    0.15
+  )
+);
 
-const rimLight = new THREE.DirectionalLight(0x88aaff, 1.2);
-rimLight.position.set(8, 6, 10);
+const blueLight =
+new THREE.PointLight(
+  0x4f7cff,
+  2.5,
+  100
+);
+
+blueLight.position.set(0,0,0);
+scene.add(blueLight);
+
+const cyanLight =
+new THREE.PointLight(
+  0x00ffff,
+  1.2,
+  80
+);
+
+cyanLight.position.set(
+  10,
+  8,
+  10
+);
+
+scene.add(cyanLight);
+
+const rimLight =
+new THREE.DirectionalLight(
+  0xffffff,
+  .8
+);
+
+rimLight.position.set(
+  -8,
+  5,
+  12
+);
+
 scene.add(rimLight);
 
-// Stars
-const starsGeometry = new THREE.BufferGeometry();
-const starCount = 7000;
-const starPositions = new Float32Array(starCount * 3);
+// ===== STARS =====
 
-for (let i = 0; i < starCount * 3; i++) {
-  starPositions[i] = (Math.random() - 0.5) * 220;
+const starsGeometry =
+new THREE.BufferGeometry();
+
+const starCount = 9000;
+
+const starPositions =
+new Float32Array(starCount*3);
+
+for(let i=0;i<starCount*3;i++){
+
+  starPositions[i] =
+  (Math.random()-.5)*250;
+
 }
 
 starsGeometry.setAttribute(
   'position',
-  new THREE.BufferAttribute(starPositions, 3)
+  new THREE.BufferAttribute(
+    starPositions,
+    3
+  )
 );
 
-const starsMaterial = new THREE.PointsMaterial({
-  color: 0x8da8ff,
-  size: 0.06,
-  transparent: true,
-  opacity: 0.8,
-  depthWrite: false
+const starsMaterial =
+new THREE.PointsMaterial({
+  color:0x8da8ff,
+  size:.05,
+  transparent:true,
+  opacity:.9,
+  depthWrite:false
 });
 
-const stars = new THREE.Points(starsGeometry, starsMaterial);
+const stars =
+new THREE.Points(
+  starsGeometry,
+  starsMaterial
+);
+
 scene.add(stars);
 
-// Solar system group
-const solarSystem = new THREE.Group();
+// ===== SOLAR SYSTEM =====
+
+const solarSystem =
+new THREE.Group();
+
 scene.add(solarSystem);
 
-// Sun
+// ===== CENTER PLANET =====
+
 const sun = new THREE.Mesh(
-  new THREE.SphereGeometry(1.35, 48, 48),
-  new THREE.MeshStandardMaterial({
-    color: 0xffcc66,
-    emissive: 0xffaa33,
-    emissiveIntensity: 2.8,
-    roughness: 0.35,
-    metalness: 0.05
+
+  new THREE.SphereGeometry(
+    1.35,
+    48,
+    48
+  ),
+
+  new THREE.MeshPhysicalMaterial({
+
+    color:0x7aa2ff,
+    emissive:0x3355ff,
+    emissiveIntensity:.8,
+    roughness:.2,
+    metalness:.9,
+    clearcoat:1,
+    clearcoatRoughness:.1
+
   })
+
 );
+
 solarSystem.add(sun);
 
-// Sun glow
-const sunGlow = new THREE.Mesh(
-  new THREE.SphereGeometry(2.15, 48, 48),
-  new THREE.MeshBasicMaterial({
-    color: 0xffaa33,
-    transparent: true,
-    opacity: 0.14
-  })
-);
-solarSystem.add(sunGlow);
+// ===== ORBITS =====
 
-function createOrbit(radius, segments = 128) {
+function createOrbit(
+  radius,
+  segments=128
+){
+
   const points = [];
-  for (let i = 0; i <= segments; i++) {
-    const a = (i / segments) * Math.PI * 2;
-    points.push(new THREE.Vector3(Math.cos(a) * radius, 0, Math.sin(a) * radius));
+
+  for(let i=0;i<=segments;i++){
+
+    const a =
+    (i/segments)*Math.PI*2;
+
+    points.push(
+      new THREE.Vector3(
+        Math.cos(a)*radius,
+        0,
+        Math.sin(a)*radius
+      )
+    );
+
   }
-  const geometry = new THREE.BufferGeometry().setFromPoints(points);
-  const material = new THREE.LineBasicMaterial({
-    color: 0x334155,
-    transparent: true,
-    opacity: 0.5
+
+  const geometry =
+  new THREE.BufferGeometry()
+  .setFromPoints(points);
+
+  const material =
+  new THREE.LineBasicMaterial({
+    color:0x334155,
+    transparent:true,
+    opacity:.4
   });
-  const line = new THREE.Line(geometry, material);
-  return line;
+
+  return new THREE.Line(
+    geometry,
+    material
+  );
+
 }
+
+// ===== PLANETS =====
 
 function createPlanet({
   size,
   distance,
   speed,
   color,
-  tilt = 0,
-  ring = false
-}) {
-  const orbit = new THREE.Group();
+  tilt=0,
+  ring=false
+}){
+
+  const orbit =
+  new THREE.Group();
+
   solarSystem.add(orbit);
 
-  const planetGroup = new THREE.Group();
+  const planetGroup =
+  new THREE.Group();
+
   planetGroup.rotation.z = tilt;
+
   orbit.add(planetGroup);
 
-  const planet = new THREE.Mesh(
-    new THREE.SphereGeometry(size, 40, 40),
+  const planet =
+  new THREE.Mesh(
+
+    new THREE.SphereGeometry(
+      size,
+      40,
+      40
+    ),
+
     new THREE.MeshStandardMaterial({
       color,
-      roughness: 0.7,
-      metalness: 0.08
+      roughness:.7,
+      metalness:.15
     })
+
   );
+
   planet.position.x = distance;
+
   planetGroup.add(planet);
 
-  if (ring) {
-    const ringMesh = new THREE.Mesh(
-      new THREE.TorusGeometry(size * 1.7, 0.06, 16, 100),
+  if(ring){
+
+    const ringMesh =
+    new THREE.Mesh(
+
+      new THREE.TorusGeometry(
+        size*1.7,
+        .05,
+        16,
+        100
+      ),
+
       new THREE.MeshStandardMaterial({
-        color: 0xb8b8b8,
-        roughness: 0.8,
-        metalness: 0.1,
-        transparent: true,
-        opacity: 0.8
+        color:0xdadada,
+        transparent:true,
+        opacity:.7
       })
+
     );
-    ringMesh.rotation.x = Math.PI * 0.5;
-    ringMesh.position.x = distance;
+
+    ringMesh.rotation.x =
+    Math.PI*.5;
+
+    ringMesh.position.x =
+    distance;
+
     planetGroup.add(ringMesh);
+
   }
 
-  solarSystem.add(createOrbit(distance));
+  solarSystem.add(
+    createOrbit(distance)
+  );
 
-  return { orbit, planetGroup, planet, speed };
+  return {
+    orbit,
+    planetGroup,
+    planet,
+    speed
+  };
+
 }
 
 const planets = [
-  createPlanet({ size: 0.18, distance: 2.2, speed: 0.038, color: 0xb5b5b5, tilt: 0.25 }),
-  createPlanet({ size: 0.30, distance: 3.1, speed: 0.028, color: 0xd8b18a, tilt: 0.12 }),
-  createPlanet({ size: 0.32, distance: 4.1, speed: 0.022, color: 0x4f8cff, tilt: 0.05 }),
-  createPlanet({ size: 0.24, distance: 5.0, speed: 0.018, color: 0xff6b4a, tilt: 0.18 }),
-  createPlanet({ size: 0.90, distance: 6.8, speed: 0.010, color: 0xd8a25f, tilt: 0.04 }),
-  createPlanet({ size: 0.75, distance: 8.5, speed: 0.008, color: 0xe7d5a8, tilt: 0.03, ring: true }),
-  createPlanet({ size: 0.55, distance: 10.1, speed: 0.006, color: 0x7ee0ff, tilt: 0.28 }),
-  createPlanet({ size: 0.52, distance: 11.7, speed: 0.0045, color: 0x5d7cff, tilt: 0.31 }),
+
+  createPlanet({
+    size:.18,
+    distance:2.2,
+    speed:.038,
+    color:0xb5b5b5,
+    tilt:.25
+  }),
+
+  createPlanet({
+    size:.30,
+    distance:3.1,
+    speed:.028,
+    color:0xd8b18a,
+    tilt:.12
+  }),
+
+  createPlanet({
+    size:.32,
+    distance:4.1,
+    speed:.022,
+    color:0x4f8cff,
+    tilt:.05
+  }),
+
+  createPlanet({
+    size:.24,
+    distance:5.0,
+    speed:.018,
+    color:0xff6b4a,
+    tilt:.18
+  }),
+
+  createPlanet({
+    size:.90,
+    distance:6.8,
+    speed:.010,
+    color:0xd8a25f,
+    tilt:.04
+  }),
+
+  createPlanet({
+    size:.75,
+    distance:8.5,
+    speed:.008,
+    color:0xe7d5a8,
+    tilt:.03,
+    ring:true
+  }),
+
+  createPlanet({
+    size:.55,
+    distance:10.1,
+    speed:.006,
+    color:0x7ee0ff,
+    tilt:.28
+  }),
+
+  createPlanet({
+    size:.52,
+    distance:11.7,
+    speed:.0045,
+    color:0x5d7cff,
+    tilt:.31
+  })
+
 ];
 
-const moonOrbit = new THREE.Group();
+// ===== MOON =====
+
+const moonOrbit =
+new THREE.Group();
+
 solarSystem.add(moonOrbit);
-moonOrbit.position.set(4.1, 0, 0);
 
-const moon = new THREE.Mesh(
-  new THREE.SphereGeometry(0.08, 24, 24),
+moonOrbit.position.set(
+  4.1,
+  0,
+  0
+);
+
+const moon =
+new THREE.Mesh(
+
+  new THREE.SphereGeometry(
+    .08,
+    24,
+    24
+  ),
+
   new THREE.MeshStandardMaterial({
-    color: 0xd9d9d9,
-    roughness: 0.9,
-    metalness: 0.02
+    color:0xd9d9d9,
+    roughness:.9
   })
-);
-moon.position.set(0.45, 0, 0);
-moonOrbit.add(moon);
-moonOrbit.add(createOrbit(0.45, 64));
 
-// Optional subtle foreground wireframe sphere to keep the “tech” feel
-const techShell = new THREE.Mesh(
-  new THREE.SphereGeometry(14, 48, 48),
-  new THREE.MeshBasicMaterial({
-    color: 0x223355,
-    wireframe: true,
-    transparent: true,
-    opacity: 0.09
-  })
 );
+
+moon.position.set(.45,0,0);
+
+moonOrbit.add(moon);
+
+moonOrbit.add(
+  createOrbit(.45,64)
+);
+
+// ===== TECH SPHERE =====
+
+const techShell =
+new THREE.Mesh(
+
+  new THREE.SphereGeometry(
+    14,
+    48,
+    48
+  ),
+
+  new THREE.MeshBasicMaterial({
+    color:0x223355,
+    wireframe:true,
+    transparent:true,
+    opacity:.08
+  })
+
+);
+
 scene.add(techShell);
 
-// Mouse camera effect
-const mouse = { x: 0, y: 0 };
-const targetCamera = { x: 0, y: 2, z: 10 };
+// ===== MODERN CAMERA EFFECT =====
 
-window.addEventListener('pointermove', (e) => {
-  mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-  mouse.y = -((e.clientY / window.innerHeight) * 2 - 1);
-});
+const mouse = {
+  x:0,
+  y:0
+};
 
-window.addEventListener('resize', () => {
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  composer.setSize(window.innerWidth, window.innerHeight);
-});
+window.addEventListener(
+  'mousemove',
+  (e)=>{
 
-const clock = new THREE.Clock();
+    mouse.x =
+    (e.clientX /
+    window.innerWidth -.5);
 
-function animate() {
-  requestAnimationFrame(animate);
+    mouse.y =
+    (e.clientY /
+    window.innerHeight -.5);
 
-  const elapsed = clock.getElapsedTime();
+  }
+);
 
-  // Solar system movement
-  solarSystem.rotation.y = elapsed * 0.02;
-  sun.rotation.y += 0.003;
-  sunGlow.rotation.y += 0.0015;
+window.addEventListener(
+  'resize',
+  ()=>{
 
-  planets.forEach((item, index) => {
-    item.orbit.rotation.y += item.speed;
-    item.planet.rotation.y += 0.01 + index * 0.001;
-  });
+    camera.aspect =
+    window.innerWidth /
+    window.innerHeight;
 
-  moonOrbit.rotation.y += 0.032;
+    camera.updateProjectionMatrix();
 
-  // Background stars
-  stars.rotation.y += 0.0002;
-  stars.rotation.x += 0.00005;
+    renderer.setSize(
+      window.innerWidth,
+      window.innerHeight
+    );
 
-  // Mouse camera parallax
-  targetCamera.x += ((mouse.x * 1.8) - targetCamera.x) * 0.03;
-  targetCamera.y += ((2 + mouse.y * 1.2) - targetCamera.y) * 0.03;
-  targetCamera.z += ((10 + Math.abs(mouse.x) * 0.5) - targetCamera.z) * 0.03;
+    composer.setSize(
+      window.innerWidth,
+      window.innerHeight
+    );
 
-  camera.position.x += (targetCamera.x - camera.position.x) * 0.04;
-  camera.position.y += (targetCamera.y - camera.position.y) * 0.04;
-  camera.position.z += (targetCamera.z - camera.position.z) * 0.04;
-  camera.lookAt(0, 0, 0);
+  }
+);
+
+const clock =
+new THREE.Clock();
+
+// ===== ANIMATION =====
+
+function animate(){
+
+  requestAnimationFrame(
+    animate
+  );
+
+  const elapsed =
+  clock.getElapsedTime();
+
+  solarSystem.rotation.y =
+  elapsed*.02;
+
+  sun.rotation.y += .003;
+
+  planets.forEach(
+    (item,index)=>{
+
+      item.orbit.rotation.y +=
+      item.speed;
+
+      item.planet.rotation.y +=
+      .01 + index*.001;
+
+    }
+  );
+
+  moonOrbit.rotation.y +=
+  .03;
+
+  stars.rotation.y +=
+  .00015;
+
+  stars.rotation.x +=
+  .00003;
+
+  techShell.rotation.y +=
+  .0005;
+
+  techShell.rotation.x +=
+  .00008;
+
+  const targetX =
+  mouse.x * 6;
+
+  const targetY =
+  mouse.y * 3;
+
+  camera.position.x +=
+  (targetX -
+  camera.position.x)*.03;
+
+  camera.position.y +=
+  ((2 + targetY) -
+  camera.position.y)*.03;
+
+  camera.position.z +=
+  ((8.5 +
+  Math.abs(mouse.x*2)) -
+  camera.position.z)*.025;
+
+  camera.position.y +=
+  Math.sin(
+    elapsed*.7
+  )*.003;
+
+  camera.lookAt(0,0,0);
 
   composer.render();
+
 }
 
 animate();
 
-window.addEventListener('load', () => {
-  setTimeout(() => {
-    loading.style.opacity = '0';
-    setTimeout(() => {
-      loading.style.display = 'none';
-    }, 700);
-  }, 1500);
-});
+// ===== HERO SLIDER =====
+
+const heroSlides = document.querySelectorAll('.hero-slide');
+let currentHeroSlide = 0;
+
+setInterval(() => {
+  heroSlides[currentHeroSlide].classList.remove('active');
+  currentHeroSlide = (currentHeroSlide + 1) % heroSlides.length;
+  heroSlides[currentHeroSlide].classList.add('active');
+}, 4500);
+
+// ===== LOADER =====
+
+window.addEventListener(
+  'load',
+  ()=>{
+
+    setTimeout(()=>{
+
+      loading.style.opacity='0';
+
+      setTimeout(()=>{
+
+        loading.style.display='none';
+
+      },700);
+
+    },1500);
+
+  }
+);
 
 </script>
 
 <script>
-const menuBtn = document.getElementById('menuBtn');
-const mainNav = document.getElementById('mainNav');
 
-menuBtn.addEventListener('click', () => {
-  mainNav.classList.toggle('is-open');
-});
+const menuBtn =
+document.getElementById(
+  'menuBtn'
+);
+
+const mainNav =
+document.getElementById(
+  'mainNav'
+);
+
+menuBtn.addEventListener(
+  'click',
+  ()=>{
+
+    mainNav.classList.toggle(
+      'is-open'
+    );
+
+  }
+);
+
 </script>
 
 </body>
