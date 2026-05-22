@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
 <title>ChopaTech | Web Development, AI Solutions & IT Services Tanzania</title>
@@ -482,191 +482,286 @@ Live Metrics
 </div>
 
 <script type="module">
-
 import * as THREE from 'three';
-
-import { EffectComposer }
-from 'three/addons/postprocessing/EffectComposer.js';
-
-import { RenderPass }
-from 'three/addons/postprocessing/RenderPass.js';
-
-import { UnrealBloomPass }
-from 'three/addons/postprocessing/UnrealBloomPass.js';
-
-import { OutputPass }
-from 'three/addons/postprocessing/OutputPass.js';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 
 const canvas = document.getElementById('canvas');
+const loading = document.getElementById('loading');
 
 const scene = new THREE.Scene();
+scene.fog = new THREE.FogExp2(0x05050f, 0.035);
 
 const camera = new THREE.PerspectiveCamera(
   35,
-  window.innerWidth/window.innerHeight,
+  window.innerWidth / window.innerHeight,
   0.1,
   100
 );
-
-camera.position.z = 8;
+camera.position.set(0, 2, 10);
 
 const renderer = new THREE.WebGLRenderer({
   canvas,
-  antialias:true,
-  alpha:true
+  antialias: true,
+  alpha: true,
+  powerPreference: 'high-performance'
 });
 
-renderer.setSize(window.innerWidth,window.innerHeight);
-renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
-
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 
-scene.fog = new THREE.FogExp2(0x05050f,.05);
-
-const ambient = new THREE.AmbientLight(0xffffff,.6);
-scene.add(ambient);
-
-const point = new THREE.PointLight(0x00ffff,4,30);
-point.position.set(4,4,4);
-scene.add(point);
-
-const geometry = new THREE.TorusKnotGeometry(
-  1.5,
-  .35,
-  180,
-  32
-);
-
-const material = new THREE.MeshPhysicalMaterial({
-  color:0x88aaff,
-  metalness:.7,
-  roughness:.1,
-  transmission:.8,
-  transparent:true,
-  opacity:.95
-});
-
-const torus = new THREE.Mesh(
-  geometry,
-  material
-);
-
-scene.add(torus);
-
-const particlesGeo = new THREE.BufferGeometry();
-
-const count = 5000;
-
-const positions = new Float32Array(count*3);
-
-for(let i=0;i<count*3;i++){
-  positions[i] = (Math.random()-.5)*30;
-}
-
-particlesGeo.setAttribute(
-  'position',
-  new THREE.BufferAttribute(positions,3)
-);
-
-const particles = new THREE.Points(
-  particlesGeo,
-  new THREE.PointsMaterial({
-    color:0x8866ff,
-    size:.04,
-    transparent:true,
-    opacity:.8
-  })
-);
-
-scene.add(particles);
-
 const composer = new EffectComposer(renderer);
-
-composer.addPass(
-  new RenderPass(scene,camera)
-);
-
-composer.addPass(
-  new UnrealBloomPass(
-    new THREE.Vector2(
-      window.innerWidth,
-      window.innerHeight
-    ),
-    .8,
-    .4,
-    .1
-  )
-);
-
+composer.addPass(new RenderPass(scene, camera));
+composer.addPass(new UnrealBloomPass(
+  new THREE.Vector2(window.innerWidth, window.innerHeight),
+  1.0,
+  0.5,
+  0.15
+));
 composer.addPass(new OutputPass());
 
-window.addEventListener('resize',()=>{
+// Lights
+scene.add(new THREE.AmbientLight(0xffffff, 0.35));
 
-  camera.aspect =
-  window.innerWidth/window.innerHeight;
+const sunLight = new THREE.PointLight(0xfff4cc, 3.5, 80);
+sunLight.position.set(0, 0, 0);
+scene.add(sunLight);
 
-  camera.updateProjectionMatrix();
+const rimLight = new THREE.DirectionalLight(0x88aaff, 1.2);
+rimLight.position.set(8, 6, 10);
+scene.add(rimLight);
 
-  renderer.setSize(
-    window.innerWidth,
-    window.innerHeight
-  );
+// Stars
+const starsGeometry = new THREE.BufferGeometry();
+const starCount = 7000;
+const starPositions = new Float32Array(starCount * 3);
 
-  composer.setSize(
-    window.innerWidth,
-    window.innerHeight
-  );
+for (let i = 0; i < starCount * 3; i++) {
+  starPositions[i] = (Math.random() - 0.5) * 220;
+}
 
+starsGeometry.setAttribute(
+  'position',
+  new THREE.BufferAttribute(starPositions, 3)
+);
+
+const starsMaterial = new THREE.PointsMaterial({
+  color: 0x8da8ff,
+  size: 0.06,
+  transparent: true,
+  opacity: 0.8,
+  depthWrite: false
 });
 
-function animate(){
+const stars = new THREE.Points(starsGeometry, starsMaterial);
+scene.add(stars);
 
+// Solar system group
+const solarSystem = new THREE.Group();
+scene.add(solarSystem);
+
+// Sun
+const sun = new THREE.Mesh(
+  new THREE.SphereGeometry(1.35, 48, 48),
+  new THREE.MeshStandardMaterial({
+    color: 0xffcc66,
+    emissive: 0xffaa33,
+    emissiveIntensity: 2.8,
+    roughness: 0.35,
+    metalness: 0.05
+  })
+);
+solarSystem.add(sun);
+
+// Sun glow
+const sunGlow = new THREE.Mesh(
+  new THREE.SphereGeometry(2.15, 48, 48),
+  new THREE.MeshBasicMaterial({
+    color: 0xffaa33,
+    transparent: true,
+    opacity: 0.14
+  })
+);
+solarSystem.add(sunGlow);
+
+function createOrbit(radius, segments = 128) {
+  const points = [];
+  for (let i = 0; i <= segments; i++) {
+    const a = (i / segments) * Math.PI * 2;
+    points.push(new THREE.Vector3(Math.cos(a) * radius, 0, Math.sin(a) * radius));
+  }
+  const geometry = new THREE.BufferGeometry().setFromPoints(points);
+  const material = new THREE.LineBasicMaterial({
+    color: 0x334155,
+    transparent: true,
+    opacity: 0.5
+  });
+  const line = new THREE.Line(geometry, material);
+  return line;
+}
+
+function createPlanet({
+  size,
+  distance,
+  speed,
+  color,
+  tilt = 0,
+  ring = false
+}) {
+  const orbit = new THREE.Group();
+  solarSystem.add(orbit);
+
+  const planetGroup = new THREE.Group();
+  planetGroup.rotation.z = tilt;
+  orbit.add(planetGroup);
+
+  const planet = new THREE.Mesh(
+    new THREE.SphereGeometry(size, 40, 40),
+    new THREE.MeshStandardMaterial({
+      color,
+      roughness: 0.7,
+      metalness: 0.08
+    })
+  );
+  planet.position.x = distance;
+  planetGroup.add(planet);
+
+  if (ring) {
+    const ringMesh = new THREE.Mesh(
+      new THREE.TorusGeometry(size * 1.7, 0.06, 16, 100),
+      new THREE.MeshStandardMaterial({
+        color: 0xb8b8b8,
+        roughness: 0.8,
+        metalness: 0.1,
+        transparent: true,
+        opacity: 0.8
+      })
+    );
+    ringMesh.rotation.x = Math.PI * 0.5;
+    ringMesh.position.x = distance;
+    planetGroup.add(ringMesh);
+  }
+
+  solarSystem.add(createOrbit(distance));
+
+  return { orbit, planetGroup, planet, speed };
+}
+
+const planets = [
+  createPlanet({ size: 0.18, distance: 2.2, speed: 0.038, color: 0xb5b5b5, tilt: 0.25 }),
+  createPlanet({ size: 0.30, distance: 3.1, speed: 0.028, color: 0xd8b18a, tilt: 0.12 }),
+  createPlanet({ size: 0.32, distance: 4.1, speed: 0.022, color: 0x4f8cff, tilt: 0.05 }),
+  createPlanet({ size: 0.24, distance: 5.0, speed: 0.018, color: 0xff6b4a, tilt: 0.18 }),
+  createPlanet({ size: 0.90, distance: 6.8, speed: 0.010, color: 0xd8a25f, tilt: 0.04 }),
+  createPlanet({ size: 0.75, distance: 8.5, speed: 0.008, color: 0xe7d5a8, tilt: 0.03, ring: true }),
+  createPlanet({ size: 0.55, distance: 10.1, speed: 0.006, color: 0x7ee0ff, tilt: 0.28 }),
+  createPlanet({ size: 0.52, distance: 11.7, speed: 0.0045, color: 0x5d7cff, tilt: 0.31 }),
+];
+
+const moonOrbit = new THREE.Group();
+solarSystem.add(moonOrbit);
+moonOrbit.position.set(4.1, 0, 0);
+
+const moon = new THREE.Mesh(
+  new THREE.SphereGeometry(0.08, 24, 24),
+  new THREE.MeshStandardMaterial({
+    color: 0xd9d9d9,
+    roughness: 0.9,
+    metalness: 0.02
+  })
+);
+moon.position.set(0.45, 0, 0);
+moonOrbit.add(moon);
+moonOrbit.add(createOrbit(0.45, 64));
+
+// Optional subtle foreground wireframe sphere to keep the “tech” feel
+const techShell = new THREE.Mesh(
+  new THREE.SphereGeometry(14, 48, 48),
+  new THREE.MeshBasicMaterial({
+    color: 0x223355,
+    wireframe: true,
+    transparent: true,
+    opacity: 0.09
+  })
+);
+scene.add(techShell);
+
+// Mouse camera effect
+const mouse = { x: 0, y: 0 };
+const targetCamera = { x: 0, y: 2, z: 10 };
+
+window.addEventListener('pointermove', (e) => {
+  mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -((e.clientY / window.innerHeight) * 2 - 1);
+});
+
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  composer.setSize(window.innerWidth, window.innerHeight);
+});
+
+const clock = new THREE.Clock();
+
+function animate() {
   requestAnimationFrame(animate);
 
-  torus.rotation.x += .003;
-  torus.rotation.y += .004;
+  const elapsed = clock.getElapsedTime();
 
-  particles.rotation.y += .0005;
+  // Solar system movement
+  solarSystem.rotation.y = elapsed * 0.02;
+  sun.rotation.y += 0.003;
+  sunGlow.rotation.y += 0.0015;
+
+  planets.forEach((item, index) => {
+    item.orbit.rotation.y += item.speed;
+    item.planet.rotation.y += 0.01 + index * 0.001;
+  });
+
+  moonOrbit.rotation.y += 0.032;
+
+  // Background stars
+  stars.rotation.y += 0.0002;
+  stars.rotation.x += 0.00005;
+
+  // Mouse camera parallax
+  targetCamera.x += ((mouse.x * 1.8) - targetCamera.x) * 0.03;
+  targetCamera.y += ((2 + mouse.y * 1.2) - targetCamera.y) * 0.03;
+  targetCamera.z += ((10 + Math.abs(mouse.x) * 0.5) - targetCamera.z) * 0.03;
+
+  camera.position.x += (targetCamera.x - camera.position.x) * 0.04;
+  camera.position.y += (targetCamera.y - camera.position.y) * 0.04;
+  camera.position.z += (targetCamera.z - camera.position.z) * 0.04;
+  camera.lookAt(0, 0, 0);
 
   composer.render();
-
 }
 
 animate();
 
-window.addEventListener('load',()=>{
-
-  setTimeout(()=>{
-
-    const loading =
-    document.getElementById('loading');
-
-    loading.style.opacity='0';
-
-    setTimeout(()=>{
-      loading.style.display='none';
-    },700);
-
-  },1500);
-
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    loading.style.opacity = '0';
+    setTimeout(() => {
+      loading.style.display = 'none';
+    }, 700);
+  }, 1500);
 });
 
 </script>
 
 <script>
+const menuBtn = document.getElementById('menuBtn');
+const mainNav = document.getElementById('mainNav');
 
-const menuBtn =
-document.getElementById('menuBtn');
-
-const mainNav =
-document.getElementById('mainNav');
-
-menuBtn.addEventListener('click',()=>{
-
+menuBtn.addEventListener('click', () => {
   mainNav.classList.toggle('is-open');
-
 });
-
 </script>
 
 </body>
