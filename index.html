@@ -271,17 +271,35 @@ body{
   background:rgba(4,8,24,.6);
 }
 
-.slide-card{
+.slide-track{
+  position:relative;
+  width:100%;
+  max-width:1100px;
+  min-height:420px;
+}
+
+.hero-secondary .slide-card{
+  position:absolute;
+  inset:0;
+  opacity:0;
+  pointer-events:none;
+  transform:translateY(30px);
+  transition:opacity .9s ease, transform .9s ease;
   display:flex;
   flex-wrap:wrap;
   align-items:center;
   width:100%;
-  max-width:1100px;
   border-radius:30px;
   overflow:hidden;
   border:1px solid rgba(255,255,255,.1);
   background:rgba(8,14,34,.92);
   box-shadow:0 25px 70px rgba(0,255,255,.08);
+}
+
+.hero-secondary .slide-card.active{
+  opacity:1;
+  pointer-events:auto;
+  transform:none;
 }
 
 .slide-card::before{
@@ -359,9 +377,53 @@ body{
   box-shadow:0 26px 40px rgba(0,255,255,.28);
 }
 
+.slide-controls{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+}
+
+.slide-control{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.16);
+  background:rgba(3,8,18,.7);
+  color:#fff;
+  font-size:2rem;
+  line-height:1;
+  cursor:pointer;
+  pointer-events:auto;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:.25s;
+}
+
+.slide-control:hover{
+  background:rgba(0,255,255,.18);
+  transform:translateY(-50%) scale(1.05);
+}
+
+.slide-control-prev{
+  left:24px;
+}
+
+.slide-control-next{
+  right:24px;
+}
+
 @media (max-width:980px){
   .slide-card{
-    flex-direction:column;
+    position:relative;
+    transform:none;
+  }
+
+  .slide-track{
+    min-height:0;
   }
 
   .slide-card-image{
@@ -371,6 +433,12 @@ body{
 
   .slide-card-content{
     padding:40px 30px 50px;
+  }
+
+  .slide-control{
+    width:40px;
+    height:40px;
+    font-size:1.5rem;
   }
 }
 
@@ -851,16 +919,55 @@ footer{
 </section>
 
 <section class="hero-secondary">
-  <div class="slide-card">
-    <div class="slide-card-image" style="background-image:url('https://picsum.photos/seed/futuretech/1200/900');">
-      <div class="slide-badge">Future Technology</div>
+  <div class="slide-track">
+    <div class="slide-card active">
+      <div class="slide-card-image" style="background-image:url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80');">
+        <div class="slide-badge">Future Technology</div>
+      </div>
+      <div class="slide-card-content">
+        <span class="slide-tag">AI Vision</span>
+        <h2>Intelligent systems powering tomorrow</h2>
+        <p>Discover AI-powered systems, neural interfaces, and future tech design built to accelerate discovery, automation, and next-gen digital services.</p>
+        <a href="future.html" class="hero-btn hero-btn-secondary">Discovery Future</a>
+      </div>
     </div>
-    <div class="slide-card-content">
-      <span class="slide-tag">Discovery & Innovation</span>
-      <h2>Future technology and discovery in action</h2>
-      <p>Explore the features from our Future page in a slide that highlights project-ready technology and intelligent discovery solutions. ChopaTech brings breakthrough research, advanced tools, and visionary design into one experience.</p>
-      <a href="future.html" class="hero-btn hero-btn-secondary">Discovery Future</a>
+    <div class="slide-card">
+      <div class="slide-card-image" style="background-image:url('https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80');">
+        <div class="slide-badge">AI Discovery</div>
+      </div>
+      <div class="slide-card-content">
+        <span class="slide-tag">Smart Research</span>
+        <h2>Discover the future of intelligent discovery</h2>
+        <p>Explore how ChopaTech blends advanced analytics, AI modeling, and discovery tools to uncover new horizons in technology and innovation.</p>
+        <a href="future.html" class="hero-btn hero-btn-secondary">Discovery Future</a>
+      </div>
     </div>
+    <div class="slide-card">
+      <div class="slide-card-image" style="background-image:url('https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=1200&q=80');">
+        <div class="slide-badge">Digital Innovation</div>
+      </div>
+      <div class="slide-card-content">
+        <span class="slide-tag">Future Projects</span>
+        <h2>Visualize tomorrow’s AI-powered solutions</h2>
+        <p>See the future technology projects that link discovery, automation, and digital strategy into one seamless ChopaTech experience.</p>
+        <a href="future.html" class="hero-btn hero-btn-secondary">Discovery Future</a>
+      </div>
+    </div>
+    <div class="slide-card">
+      <div class="slide-card-image" style="background-image:url('https://images.unsplash.com/photo-1518773553398-650c184e5c26?auto=format&fit=crop&w=1200&q=80');">
+        <div class="slide-badge">AI Future</div>
+      </div>
+      <div class="slide-card-content">
+        <span class="slide-tag">Next-Gen Technology</span>
+        <h2>Leading the next wave of AI discovery</h2>
+        <p>Explore advanced AI visualization, future tech experiences, and innovation-driven projects designed for modern discovery.</p>
+        <a href="future.html" class="hero-btn hero-btn-secondary">Discovery Future</a>
+      </div>
+    </div>
+  </div>
+  <div class="slide-controls">
+    <button class="slide-control slide-control-prev" aria-label="Previous slide">‹</button>
+    <button class="slide-control slide-control-next" aria-label="Next slide">›</button>
   </div>
 </section>
 
@@ -1640,8 +1747,30 @@ setInterval(() => {
   heroSlides[currentHeroSlide].classList.add('active');
 }, 4500);
 
-// ===== LOADER =====
+const futureSlides = document.querySelectorAll('.hero-secondary .slide-card');
+let currentFutureSlide = 0;
 
+function showFutureSlide(index) {
+  futureSlides[currentFutureSlide].classList.remove('active');
+  currentFutureSlide = (index + futureSlides.length) % futureSlides.length;
+  futureSlides[currentFutureSlide].classList.add('active');
+}
+
+if (futureSlides.length) {
+  setInterval(() => {
+    showFutureSlide(currentFutureSlide + 1);
+  }, 5200);
+
+  const prevBtn = document.querySelector('.slide-control-prev');
+  const nextBtn = document.querySelector('.slide-control-next');
+
+  if (prevBtn && nextBtn) {
+    prevBtn.addEventListener('click', () => showFutureSlide(currentFutureSlide - 1));
+    nextBtn.addEventListener('click', () => showFutureSlide(currentFutureSlide + 1));
+  }
+}
+
+// ===== LOADER =====n
 window.addEventListener(
   'load',
   ()=>{
