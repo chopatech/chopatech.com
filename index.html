@@ -146,6 +146,26 @@ body{
   color:#00ffff;
 }
 
+.search-bar{
+  flex:1;
+  max-width:320px;
+}
+
+.search-input{
+  width:100%;
+  padding:12px 18px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.15);
+  background:rgba(255,255,255,.08);
+  color:#fff;
+  outline:none;
+  font-size:0.95rem;
+}
+
+.search-input::placeholder{
+  color:rgba(255,255,255,.6);
+}
+
 .menu-btn{
   display:none;
   flex-direction:column;
@@ -265,7 +285,8 @@ body{
 }
 
 .hero-secondary{
-  padding:50px 8%;
+  position:relative;
+  padding:70px 8%;
   display:flex;
   justify-content:center;
   background:rgba(4,8,24,.6);
@@ -275,7 +296,7 @@ body{
   position:relative;
   width:100%;
   max-width:1100px;
-  min-height:420px;
+  min-height:620px;
 }
 
 .hero-secondary .slide-card{
@@ -285,10 +306,11 @@ body{
   pointer-events:none;
   transform:translateY(30px);
   transition:opacity .9s ease, transform .9s ease;
-  display:flex;
-  flex-wrap:wrap;
-  align-items:center;
+  display:grid;
+  align-items:stretch;
+  grid-template-columns:minmax(420px,48%) minmax(420px,52%);
   width:100%;
+  min-height:620px;
   border-radius:30px;
   overflow:hidden;
   border:1px solid rgba(255,255,255,.1);
@@ -312,8 +334,8 @@ body{
 
 .slide-card-image{
   position:relative;
-  flex:1 1 420px;
-  min-height:360px;
+  width:100%;
+  min-height:100%;
   background-size:cover;
   background-position:center;
 }
@@ -381,6 +403,7 @@ body{
   position:absolute;
   inset:0;
   pointer-events:none;
+  z-index:2;
 }
 
 .slide-control{
@@ -787,6 +810,10 @@ footer{
     border-top:1px solid rgba(255,255,255,.08);
   }
 
+  .search-bar{
+    display:none;
+  }
+
   .main-nav.is-open{
     display:flex;
   }
@@ -865,6 +892,10 @@ footer{
 
 <div class="logo">CHOPATECH</div>
 
+<div class="search-bar">
+  <input type="search" class="search-input" placeholder="Search ChopaTech...">
+</div>
+
 <nav class="main-nav" id="mainNav">
   <a href="index.html">Home</a>
   <a href="services.html">Services</a>
@@ -921,7 +952,7 @@ footer{
 <section class="hero-secondary">
   <div class="slide-track">
     <div class="slide-card active">
-      <div class="slide-card-image" style="background-image:url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80');">
+      <div class="slide-card-image" style="background-image:url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1400&q=80');">
         <div class="slide-badge">Future Technology</div>
       </div>
       <div class="slide-card-content">
@@ -932,7 +963,7 @@ footer{
       </div>
     </div>
     <div class="slide-card">
-      <div class="slide-card-image" style="background-image:url('https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80');">
+      <div class="slide-card-image" style="background-image:url('https://images.unsplash.com/photo-1518773553398-650c184e5c26?auto=format&fit=crop&w=1400&q=80');">
         <div class="slide-badge">AI Discovery</div>
       </div>
       <div class="slide-card-content">
@@ -943,7 +974,7 @@ footer{
       </div>
     </div>
     <div class="slide-card">
-      <div class="slide-card-image" style="background-image:url('https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=1200&q=80');">
+      <div class="slide-card-image" style="background-image:url('https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1400&q=80');">
         <div class="slide-badge">Digital Innovation</div>
       </div>
       <div class="slide-card-content">
@@ -954,7 +985,7 @@ footer{
       </div>
     </div>
     <div class="slide-card">
-      <div class="slide-card-image" style="background-image:url('https://images.unsplash.com/photo-1518773553398-650c184e5c26?auto=format&fit=crop&w=1200&q=80');">
+      <div class="slide-card-image" style="background-image:url('https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1400&q=80');">
         <div class="slide-badge">AI Future</div>
       </div>
       <div class="slide-card-content">
