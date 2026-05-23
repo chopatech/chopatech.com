@@ -1,0 +1,1796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ChopaTech // Future Technology Intelligence Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-deep: #030812;
+  --bg-card: #070e1f;
+  --bg-card2: #0b1528;
+  --neon-cyan: #00f5ff;
+  --neon-teal: #00d4aa;
+  --neon-purple: #7c3aed;
+  --neon-pink: #ff006e;
+  --neon-orange: #ff6b00;
+  --neon-green: #00ff87;
+  --text-primary: #e8f4f8;
+  --text-muted: #5a7a8a;
+  --text-dim: #2a4a5a;
+  --border: rgba(0,245,255,0.12);
+  --border-bright: rgba(0,245,255,0.35);
+  --glow-cyan: 0 0 20px rgba(0,245,255,0.4);
+  --glow-purple: 0 0 20px rgba(124,58,237,0.5);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg-deep); }
+::-webkit-scrollbar-thumb { background: var(--neon-cyan); border-radius: 2px; }
+
+/* ── NOISE OVERLAY ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.5;
+}
+
+/* ── GRID BACKGROUND ── */
+.grid-bg {
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,245,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,245,255,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  background: rgba(3,8,18,0.92);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-logo {
+  font-family: 'Orbitron', monospace;
+  font-size: 1.2rem;
+  font-weight: 900;
+  color: var(--neon-cyan);
+  text-shadow: var(--glow-cyan);
+  letter-spacing: 4px;
+}
+.nav-logo span { color: var(--neon-purple); }
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+.nav-links a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-family: 'Share Tech Mono', monospace;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: color 0.2s, text-shadow 0.2s;
+}
+.nav-links a:hover {
+  color: var(--neon-cyan);
+  text-shadow: var(--glow-cyan);
+}
+.nav-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--neon-green);
+}
+.status-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--neon-green);
+  box-shadow: 0 0 8px var(--neon-green);
+  animation: pulse-dot 2s infinite;
+}
+@keyframes pulse-dot {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+
+/* ── HERO ── */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 80px 2rem 4rem;
+  overflow: hidden;
+  z-index: 1;
+}
+.hero-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+}
+.orb-1 {
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(0,245,255,0.08) 0%, transparent 70%);
+  top: -200px; left: 50%; transform: translateX(-50%);
+  animation: float 8s ease-in-out infinite;
+}
+.orb-2 {
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(124,58,237,0.12) 0%, transparent 70%);
+  bottom: 100px; left: -100px;
+  animation: float 10s ease-in-out infinite reverse;
+}
+.orb-3 {
+  width: 350px; height: 350px;
+  background: radial-gradient(circle, rgba(255,0,110,0.07) 0%, transparent 70%);
+  bottom: 50px; right: -50px;
+  animation: float 12s ease-in-out infinite;
+}
+@keyframes float {
+  0%,100% { transform: translateY(0) translateX(-50%); }
+  50% { transform: translateY(-30px) translateX(-50%); }
+}
+.hero-eyebrow {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 6px;
+  color: var(--neon-cyan);
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards 0.3s;
+}
+.hero-title {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(2.5rem, 7vw, 6rem);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -1px;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards 0.5s;
+}
+.hero-title .line1 { color: var(--text-primary); }
+.hero-title .line2 {
+  background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: block;
+  text-shadow: none;
+}
+.hero-subtitle {
+  max-width: 680px;
+  font-size: 1.15rem;
+  color: var(--text-muted);
+  font-weight: 400;
+  margin-bottom: 3rem;
+  line-height: 1.8;
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards 0.7s;
+}
+.hero-stats {
+  display: flex;
+  gap: 3rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 3rem;
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards 0.9s;
+}
+.hero-stat {
+  text-align: center;
+}
+.hero-stat-num {
+  font-family: 'Orbitron', monospace;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--neon-cyan);
+  text-shadow: var(--glow-cyan);
+  display: block;
+}
+.hero-stat-label {
+  font-size: 0.7rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-family: 'Share Tech Mono', monospace;
+}
+.scroll-hint {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards 1.2s;
+}
+.scroll-hint span {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 3px;
+  color: var(--text-dim);
+}
+.scroll-line {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, var(--neon-cyan), transparent);
+  animation: scroll-pulse 2s ease-in-out infinite;
+}
+@keyframes scroll-pulse {
+  0%,100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── SECTIONS ── */
+section {
+  position: relative;
+  z-index: 1;
+  padding: 6rem 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.section-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+.section-tag {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--neon-cyan);
+  display: inline-block;
+  padding: 4px 12px;
+  border: 1px solid var(--border-bright);
+  border-radius: 2px;
+  margin-bottom: 1rem;
+  background: rgba(0,245,255,0.04);
+}
+.section-title {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+.section-title span {
+  background: linear-gradient(135deg, var(--neon-cyan), var(--neon-teal));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.section-desc {
+  max-width: 600px;
+  margin: 0 auto;
+  color: var(--text-muted);
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+/* ── AI PLATFORM CARDS ── */
+.ai-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1.5rem;
+}
+.ai-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.8rem;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+}
+.ai-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--card-accent, #00f5ff), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.ai-card:hover {
+  border-color: var(--card-accent, #00f5ff);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 30px rgba(0,245,255,0.08);
+}
+.ai-card:hover::before { opacity: 1; }
+.card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 1.2rem;
+}
+.card-icon {
+  width: 48px; height: 48px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+}
+.card-badge {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.65rem;
+  padding: 3px 8px;
+  border-radius: 3px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.badge-top { background: rgba(0,255,135,0.1); color: var(--neon-green); border: 1px solid rgba(0,255,135,0.2); }
+.badge-hot { background: rgba(255,107,0,0.1); color: var(--neon-orange); border: 1px solid rgba(255,107,0,0.2); }
+.badge-new { background: rgba(124,58,237,0.1); color: #a78bfa; border: 1px solid rgba(124,58,237,0.2); }
+.badge-open { background: rgba(0,212,170,0.1); color: var(--neon-teal); border: 1px solid rgba(0,212,170,0.2); }
+.card-name {
+  font-family: 'Orbitron', monospace;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.3rem;
+}
+.card-company {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+.card-desc {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+/* Analytics bars */
+.analytics {
+  margin-bottom: 1.5rem;
+}
+.analytics-label {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 0.8rem;
+}
+.metric-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 0.6rem;
+}
+.metric-name {
+  width: 120px;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  flex-shrink: 0;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 500;
+}
+.metric-bar-bg {
+  flex: 1;
+  height: 4px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.metric-bar {
+  height: 100%;
+  border-radius: 2px;
+  background: var(--card-accent, #00f5ff);
+  box-shadow: 0 0 6px var(--card-accent, #00f5ff);
+  transition: width 1s ease;
+  width: 0;
+}
+.metric-val {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--card-accent, #00f5ff);
+  width: 32px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+/* Models tags */
+.models-section { margin-bottom: 1.4rem; }
+.models-label {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 0.6rem;
+}
+.models-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.model-tag {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.65rem;
+  padding: 3px 8px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  color: var(--text-muted);
+  transition: border-color 0.2s, color 0.2s;
+}
+.model-tag:hover {
+  border-color: var(--card-accent, #00f5ff);
+  color: var(--card-accent, #00f5ff);
+}
+
+/* Visit link */
+.visit-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px;
+  background: transparent;
+  border: 1px solid var(--border-bright);
+  border-radius: 6px;
+  color: var(--neon-cyan);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.visit-btn:hover {
+  background: rgba(0,245,255,0.08);
+  box-shadow: var(--glow-cyan);
+}
+.visit-btn svg { width: 14px; height: 14px; }
+
+/* Divider line */
+.section-divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-bright), transparent);
+  margin: 2rem 0;
+}
+
+/* ── TECH GRID ── */
+.tech-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+.tech-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.8rem;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s, transform 0.3s;
+}
+.tech-card:hover {
+  border-color: var(--tech-color, #00f5ff);
+  transform: translateY(-4px);
+}
+.tech-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 80px;
+  background: linear-gradient(to top, rgba(var(--tech-rgb,0,245,255),0.04), transparent);
+  pointer-events: none;
+}
+.tech-icon-lg {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+.tech-name {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.3rem;
+}
+.tech-eta {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 2px;
+  color: var(--tech-color, #00f5ff);
+  text-transform: uppercase;
+  margin-bottom: 0.8rem;
+}
+.tech-desc {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-bottom: 1rem;
+}
+.tech-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.tech-tag {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.6rem;
+  padding: 2px 7px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* ── TIMELINE ── */
+.timeline {
+  position: relative;
+  padding-left: 3rem;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 10px; top: 0; bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, var(--neon-cyan), var(--neon-purple), transparent);
+}
+.timeline-item {
+  position: relative;
+  margin-bottom: 3rem;
+}
+.timeline-dot {
+  position: absolute;
+  left: -2.7rem;
+  top: 4px;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--neon-cyan);
+  box-shadow: var(--glow-cyan);
+  border: 2px solid var(--bg-deep);
+}
+.timeline-year {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.75rem;
+  color: var(--neon-cyan);
+  letter-spacing: 3px;
+  margin-bottom: 0.4rem;
+}
+.timeline-event {
+  font-family: 'Orbitron', monospace;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+.timeline-detail {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* ── RADAR CHART ── */
+.radar-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  flex-wrap: wrap;
+}
+.radar-wrapper {
+  position: relative;
+}
+.radar-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.85rem;
+}
+.legend-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.legend-name { color: var(--text-primary); font-weight: 500; }
+.legend-score { font-family: 'Share Tech Mono', monospace; color: var(--text-muted); font-size: 0.75rem; margin-left: auto; }
+
+/* ── COMPARISON TABLE ── */
+.comparison-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+.comparison-table th {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  text-align: left;
+  padding: 1rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-card);
+}
+.comparison-table td {
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  color: var(--text-muted);
+  font-family: 'Rajdhani', sans-serif;
+  vertical-align: middle;
+}
+.comparison-table tr:hover td { background: rgba(0,245,255,0.02); }
+.table-name {
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+.table-model {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--neon-cyan);
+}
+.mini-bar-wrap {
+  width: 80px;
+  height: 4px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.mini-bar {
+  height: 100%;
+  border-radius: 2px;
+}
+.table-wrapper {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: auto;
+}
+
+/* ── FOOTER ── */
+footer {
+  position: relative;
+  z-index: 1;
+  border-top: 1px solid var(--border);
+  padding: 4rem 2rem 2rem;
+  text-align: center;
+}
+.footer-logo {
+  font-family: 'Orbitron', monospace;
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--neon-cyan);
+  text-shadow: var(--glow-cyan);
+  letter-spacing: 6px;
+  margin-bottom: 1rem;
+}
+.footer-tagline {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+}
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin-bottom: 3rem;
+}
+.footer-links a {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  color: var(--text-dim);
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--neon-cyan); }
+.footer-copy {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  letter-spacing: 2px;
+}
+
+/* ── CHIPS / PILLS ── */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  background: rgba(0,245,255,0.05);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+}
+.chip-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--neon-green);
+  box-shadow: 0 0 6px var(--neon-green);
+}
+
+/* ── GLOW DIVIDERS ── */
+.glow-divider {
+  width: 200px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--neon-cyan), transparent);
+  margin: 0 auto 3rem;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .ai-grid { grid-template-columns: 1fr; }
+  .tech-grid { grid-template-columns: 1fr; }
+  .hero-stats { gap: 1.5rem; }
+  .radar-container { flex-direction: column; }
+}
+
+/* Animate on scroll */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Ticker */
+.ticker-wrap {
+  position: relative;
+  z-index: 1;
+  background: rgba(0,245,255,0.03);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+  padding: 0.6rem 0;
+  margin-bottom: 0;
+}
+.ticker {
+  display: flex;
+  white-space: nowrap;
+  animation: ticker 40s linear infinite;
+}
+.ticker-item {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  letter-spacing: 2px;
+  padding: 0 2rem;
+}
+.ticker-item span { color: var(--neon-cyan); }
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* count-up */
+.counter { display: inline-block; }
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">ChopaTech</div>
+  <ul class="nav-links">
+    <li><a href="#ai-platforms">AI Platforms</a></li>
+    <li><a href="#models">Models</a></li>
+    <li><a href="#future-tech">Future Tech</a></li>
+    <li><a href="#timeline">Timeline</a></li>
+    <li><a href="#compare">Compare</a></li>
+    <li><a href="#sciences">Sciences</a></li>
+  </ul>
+  <div class="nav-status">
+    <div class="status-dot"></div>
+    <span>LIVE INTEL</span>
+  </div>
+</nav>
+
+<!-- TICKER -->
+<div class="ticker-wrap" style="margin-top:64px">
+  <div class="ticker">
+    <span class="ticker-item">🚀 GPT-4o — <span>OpenAI</span></span>
+    <span class="ticker-item">⚡ Claude 3.7 Sonnet — <span>Anthropic</span></span>
+    <span class="ticker-item">🌐 Gemini 2.0 — <span>Google DeepMind</span></span>
+    <span class="ticker-item">🔥 Llama 3.3 — <span>Meta AI</span></span>
+    <span class="ticker-item">💡 Grok 3 — <span>xAI</span></span>
+    <span class="ticker-item">🧬 Quantum Computing — <span>IBM / Google</span></span>
+    <span class="ticker-item">🧠 Neuromorphic Chips — <span>Intel Loihi 3</span></span>
+    <span class="ticker-item">🔮 AGI Research — <span>DeepMind AlphaCode 3</span></span>
+    <span class="ticker-item">🚀 GPT-4o — <span>OpenAI</span></span>
+    <span class="ticker-item">⚡ Claude 3.7 Sonnet — <span>Anthropic</span></span>
+    <span class="ticker-item">🌐 Gemini 2.0 — <span>Google DeepMind</span></span>
+    <span class="ticker-item">🔥 Llama 3.3 — <span>Meta AI</span></span>
+    <span class="ticker-item">💡 Grok 3 — <span>xAI</span></span>
+    <span class="ticker-item">🧬 Quantum Computing — <span>IBM / Google</span></span>
+    <span class="ticker-item">🧠 Neuromorphic Chips — <span>Intel Loihi 3</span></span>
+    <span class="ticker-item">🔮 AGI Research — <span>DeepMind AlphaCode 3</span></span>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-orb orb-1"></div>
+  <div class="hero-orb orb-2"></div>
+  <div class="hero-orb orb-3"></div>
+
+  <div class="hero-eyebrow">// Intelligence Hub · Est. 2025 · Earth</div>
+  <h1 class="hero-title">
+    <span class="line1">THE FUTURE OF</span>
+    <span class="line2">INTELLIGENCE</span>
+  </h1>
+  <p class="hero-subtitle">
+    Your comprehensive intelligence hub covering every major AI platform, cutting-edge models,
+    breakthrough technologies, and the scientific frontiers shaping tomorrow's world.
+  </p>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-num"><span class="counter" data-target="24">0</span></span>
+      <span class="hero-stat-label">AI Platforms</span>
+    </div>
+    <div class="hero-stat">
+      <span class="hero-stat-num"><span class="counter" data-target="80">0</span>+</span>
+      <span class="hero-stat-label">AI Models</span>
+    </div>
+    <div class="hero-stat">
+      <span class="hero-stat-num"><span class="counter" data-target="18">0</span></span>
+      <span class="hero-stat-label">Future Technologies</span>
+    </div>
+    <div class="hero-stat">
+      <span class="hero-stat-num"><span class="counter" data-target="12">0</span></span>
+      <span class="hero-stat-label">Science Fields</span>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <span>SCROLL TO EXPLORE</span>
+    <div class="scroll-line"></div>
+  </div>
+</div>
+
+<!-- ████ AI PLATFORMS ████ -->
+<section id="ai-platforms">
+  <div class="section-header fade-in">
+    <div class="section-tag">// Section 01</div>
+    <h2 class="section-title">AI <span>Platforms</span> & Ecosystems</h2>
+    <p class="section-desc">Every major artificial intelligence platform, their strengths, analytics, and direct links to explore.</p>
+  </div>
+
+  <div class="ai-grid">
+
+    <!-- OpenAI -->
+    <div class="ai-card fade-in" style="--card-accent:#10a37f">
+      <div class="card-header">
+        <div class="card-icon">🤖</div>
+        <span class="card-badge badge-top">TOP RATED</span>
+      </div>
+      <div class="card-name">ChatGPT / OpenAI</div>
+      <div class="card-company">OpenAI · San Francisco, USA</div>
+      <div class="section-divider" style="margin:0.8rem 0"></div>
+      <div class="card-desc">The world's most widely used AI assistant. Pioneer of large language models with GPT architecture. Leads in reasoning, code generation, and multimodal capabilities.</div>
+      <div class="analytics">
+        <div class="analytics-label">// Capability Analytics</div>
+        <div class="metric-row"><span class="metric-name">Reasoning</span><div class="metric-bar-bg"><div class="metric-bar" style="width:97%;background:#10a37f;box-shadow:0 0 6px #10a37f"></div></div><span class="metric-val" style="color:#10a37f">97</span></div>
+        <div class="metric-row"><span class="metric-name">Code Gen</span><div class="metric-bar-bg"><div class="metric-bar" style="width:96%;background:#10a37f;box-shadow:0 0 6px #10a37f"></div></div><span class="metric-val" style="color:#10a37f">96</span></div>
+        <div class="metric-row"><span class="metric-name">Multimodal</span><div class="metric-bar-bg"><div class="metric-bar" style="width:95%;background:#10a37f;box-shadow:0 0 6px #10a37f"></div></div><span class="metric-val" style="color:#10a37f">95</span></div>
+        <div class="metric-row"><span class="metric-name">Language</span><div class="metric-bar-bg"><div class="metric-bar" style="width:95%;background:#10a37f;box-shadow:0 0 6px #10a37f"></div></div><span class="metric-val" style="color:#10a37f">95</span></div>
+        <div class="metric-row"><span class="metric-name">Speed</span><div class="metric-bar-bg"><div class="metric-bar" style="width:88%;background:#10a37f;box-shadow:0 0 6px #10a37f"></div></div><span class="metric-val" style="color:#10a37f">88</span></div>
+      </div>
+      <div class="models-section">
+        <div class="models-label">// Available Models</div>
+        <div class="models-list">
+          <span class="model-tag">GPT-4o</span>
+          <span class="model-tag">o1-pro</span>
+          <span class="model-tag">o3</span>
+          <span class="model-tag">o4-mini</span>
+          <span class="model-tag">GPT-4 Turbo</span>
+          <span class="model-tag">DALL-E 3</span>
+          <span class="model-tag">Whisper v3</span>
+          <span class="model-tag">Sora</span>
+        </div>
+      </div>
+      <a href="https://chat.openai.com" target="_blank" class="visit-btn" style="border-color:#10a37f;color:#10a37f">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+        VISIT OPENAI
+      </a>
+    </div>
+
+    <!-- Anthropic Claude -->
+    <div class="ai-card fade-in" style="--card-accent:#cc785c">
+      <div class="card-header">
+        <div class="card-icon">⚡</div>
+        <span class="card-badge badge-hot">TRENDING</span>
+      </div>
+      <div class="card-name">Claude / Anthropic</div>
+      <div class="card-company">Anthropic · San Francisco, USA</div>
+      <div class="section-divider" style="margin:0.8rem 0"></div>
+      <div class="card-desc">Anthropic's AI system built with a safety-first philosophy. Excels in nuanced writing, complex analysis, long-context reasoning, and ethical alignment research.</div>
+      <div class="analytics">
+        <div class="analytics-label">// Capability Analytics</div>
+        <div class="metric-row"><span class="metric-name">Reasoning</span><div class="metric-bar-bg"><div class="metric-bar" style="width:96%;background:#cc785c;box-shadow:0 0 6px #cc785c"></div></div><span class="metric-val" style="color:#cc785c">96</span></div>
+        <div class="metric-row"><span class="metric-name">Code Gen</span><div class="metric-bar-bg"><div class="metric-bar" style="width:95%;background:#cc785c;box-shadow:0 0 6px #cc785c"></div></div><span class="metric-val" style="color:#cc785c">95</span></div>
+        <div class="metric-row"><span class="metric-name">Writing</span><div class="metric-bar-bg"><div class="metric-bar" style="width:98%;background:#cc785c;box-shadow:0 0 6px #cc785c"></div></div><span class="metric-val" style="color:#cc785c">98</span></div>
+        <div class="metric-row"><span class="metric-name">Safety</span><div class="metric-bar-bg"><div class="metric-bar" style="width:99%;background:#cc785c;box-shadow:0 0 6px #cc785c"></div></div><span class="metric-val" style="color:#cc785c">99</span></div>
+        <div class="metric-row"><span class="metric-name">Context</span><div class="metric-bar-bg"><div class="metric-bar" style="width:97%;background:#cc785c;box-shadow:0 0 6px #cc785c"></div></div><span class="metric-val" style="color:#cc785c">97</span></div>
+      </div>
+      <div class="models-section">
+        <div class="models-label">// Available Models</div>
+        <div class="models-list">
+          <span class="model-tag">Claude 3.7 Sonnet</span>
+          <span class="model-tag">Claude 3.5 Sonnet</span>
+          <span class="model-tag">Claude 3 Opus</span>
+          <span class="model-tag">Claude 3 Haiku</span>
+          <span class="model-tag">Claude 4 Opus</span>
+          <span class="model-tag">Claude Code</span>
+        </div>
+      </div>
+      <a href="https://claude.ai" target="_blank" class="visit-btn" style="border-color:#cc785c;color:#cc785c">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+        VISIT CLAUDE.AI
+      </a>
+    </div>
+
+    <!-- Google Gemini -->
+    <div class="ai-card fade-in" style="--card-accent:#4285f4">
+      <div class="card-header">
+        <div class="card-icon">🌐</div>
+        <span class="card-badge badge-top">POWERFUL</span>
+      </div>
+      <div class="card-name">Gemini / Google DeepMind</div>
+      <div class="card-company">Google · Mountain View, USA</div>
+      <div class="section-divider" style="margin:0.8rem 0"></div>
+      <div class="card-desc">Google's most capable AI model family. Natively multimodal, deeply integrated with Google Search, Workspace, and Android. Unparalleled web knowledge and factual grounding.</div>
+      <div class="analytics">
+        <div class="analytics-label">// Capability Analytics</div>
+        <div class="metric-row"><span class="metric-name">Multimodal</span><div class="metric-bar-bg"><div class="metric-bar" style="width:97%;background:#4285f4;box-shadow:0 0 6px #4285f4"></div></div><span class="metric-val" style="color:#4285f4">97</span></div>
+        <div class="metric-row"><span class="metric-name">Factual</span><div class="metric-bar-bg"><div class="metric-bar" style="width:96%;background:#4285f4;box-shadow:0 0 6px #4285f4"></div></div><span class="metric-val" style="color:#4285f4">96</span></div>
+        <div class="metric-row"><span class="metric-name">Reasoning</span><div class="metric-bar-bg"><div class="metric-bar" style="width:94%;background:#4285f4;box-shadow:0 0 6px #4285f4"></div></div><span class="metric-val" style="color:#4285f4">94</span></div>
+        <div class="metric-row"><span class="metric-name">Speed</span><div class="metric-bar-bg"><div class="metric-bar" style="width:92%;background:#4285f4;box-shadow:0 0 6px #4285f4"></div></div><span class="metric-val" style="color:#4285f4">92</span></div>
+        <div class="metric-row"><span class="metric-name">Integration</span><div class="metric-bar-bg"><div class="metric-bar" style="width:99%;background:#4285f4;box-shadow:0 0 6px #4285f4"></div></div><span class="metric-val" style="color:#4285f4">99</span></div>
+      </div>
+      <div class="models-section">
+        <div class="models-label">// Available Models</div>
+        <div class="models-list">
+          <span class="model-tag">Gemini 2.0 Ultra</span>
+          <span class="model-tag">Gemini 2.0 Pro</span>
+          <span class="model-tag">Gemini 1.5 Flash</span>
+          <span class="model-tag">Gemini Nano</span>
+          <span class="model-tag">PaLM 2</span>
+          <span class="model-tag">Imagen 3</span>
+        </div>
+      </div>
+      <a href="https://gemini.google.com" target="_blank" class="visit-btn" style="border-color:#4285f4;color:#4285f4">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+        VISIT GEMINI
+      </a>
+    </div>
+
+    <!-- Meta AI / Llama -->
+    <div class="ai-card fade-in" style="--card-accent:#0668e1">
+      <div class="card-header">
+        <div class="card-icon">🦙</div>
+        <span class="card-badge badge-open">OPEN SOURCE</span>
+      </div>
+      <div class="card-name">Meta AI / Llama</div>
+      <div class="card-company">Meta · Menlo Park, USA</div>
+      <div class="section-divider" style="margin:0.8rem 0"></div>
+      <div class="card-desc">Meta's open-source AI powerhouse. Llama models are freely available for research and commercial use, powering thousands of downstream applications worldwide.</div>
+      <div class="analytics">
+        <div class="analytics-label">// Capability Analytics</div>
+        <div class="metric-row"><span class="metric-name">Open Source</span><div class="metric-bar-bg"><div class="metric-bar" style="width:100%;background:#0668e1;box-shadow:0 0 6px #0668e1"></div></div><span class="metric-val" style="color:#0668e1">100</span></div>
+        <div class="metric-row"><span class="metric-name">Reasoning</span><div class="metric-bar-bg"><div class="metric-bar" style="width:91%;background:#0668e1;box-shadow:0 0 6px #0668e1"></div></div><span class="metric-val" style="color:#0668e1">91</span></div>
+        <div class="metric-row"><span class="metric-name">Code Gen</span><div class="metric-bar-bg"><div class="metric-bar" style="width:89%;background:#0668e1;box-shadow:0 0 6px #0668e1"></div></div><span class="metric-val" style="color:#0668e1">89</span></div>
+        <div class="metric-row"><span class="metric-name">Multimodal</span><div class="metric-bar-bg"><div class="metric-bar" style="width:87%;background:#0668e1;box-shadow:0 0 6px #0668e1"></div></div><span class="metric-val" style="color:#0668e1">87</span></div>
+        <div class="metric-row"><span class="metric-name">Efficiency</span><div class="metric-bar-bg"><div class="metric-bar" style="width:94%;background:#0668e1;box-shadow:0 0 6px #0668e1"></div></div><span class="metric-val" style="color:#0668e1">94</span></div>
+      </div>
+      <div class="models-section">
+        <div class="models-label">// Available Models</div>
+        <div class="models-list">
+          <span class="model-tag">Llama 3.3 70B</span>
+          <span class="model-tag">Llama 3.2 90B</span>
+          <span class="model-tag">Llama 3.1 405B</span>
+          <span class="model-tag">CodeLlama</span>
+          <span class="model-tag">Llama Guard</span>
+        </div>
+      </div>
+      <a href="https://ai.meta.com" target="_blank" class="visit-btn" style="border-color:#0668e1;color:#0668e1">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+        VISIT META AI
+      </a>
+    </div>
+
+    <!-- xAI Grok -->
+    <div class="ai-card fade-in" style="--card-accent:#ff6b6b">
+      <div class="card-header">
+        <div class="card-icon">⚡</div>
+        <span class="card-badge badge-hot">HOT</span>
+      </div>
+      <div class="card-name">Grok / xAI</div>
+      <div class="card-company">xAI · Austin, USA</div>
+      <div class="section-divider" style="margin:0.8rem 0"></div>
+      <div class="card-desc">Elon Musk's xAI challenger. Real-time X (Twitter) integration gives Grok unparalleled access to live trending information and a uniquely bold, unfiltered personality.</div>
+      <div class="analytics">
+        <div class="analytics-label">// Capability Analytics</div>
+        <div class="metric-row"><span class="metric-name">Real-time</span><div class="metric-bar-bg"><div class="metric-bar" style="width:99%;background:#ff6b6b;box-shadow:0 0 6px #ff6b6b"></div></div><span class="metric-val" style="color:#ff6b6b">99</span></div>
+        <div class="metric-row"><span class="metric-name">Reasoning</span><div class="metric-bar-bg"><div class="metric-bar" style="width:93%;background:#ff6b6b;box-shadow:0 0 6px #ff6b6b"></div></div><span class="metric-val" style="color:#ff6b6b">93</span></div>
+        <div class="metric-row"><span class="metric-name">Code Gen</span><div class="metric-bar-bg"><div class="metric-bar" style="width:90%;background:#ff6b6b;box-shadow:0 0 6px #ff6b6b"></div></div><span class="metric-val" style="color:#ff6b6b">90</span></div>
+        <div class="metric-row"><span class="metric-name">Personality</span><div class="metric-bar-bg"><div class="metric-bar" style="width:95%;background:#ff6b6b;box-shadow:0 0 6px #ff6b6b"></div></div><span class="metric-val" style="color:#ff6b6b">95</span></div>
+        <div class="metric-row"><span class="metric-name">Multimodal</span><div class="metric-bar-bg"><div class="metric-bar" style="width:89%;background:#ff6b6b;box-shadow:0 0 6px #ff6b6b"></div></div><span class="metric-val" style="color:#ff6b6b">89</span></div>
+      </div>
+      <div class="models-section">
+        <div class="models-label">// Available Models</div>
+        <div class="models-list">
+          <span class="model-tag">Grok-3</span>
+          <span class="model-tag">Grok-3 Mini</span>
+          <span class="model-tag">Grok-2</span>
+          <span class="model-tag">Grok Vision</span>
+          <span class="model-tag">Aurora (Image)</span>
+        </div>
+      </div>
+      <a href="https://x.ai" target="_blank" class="visit-btn" style="border-color:#ff6b6b;color:#ff6b6b">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+        VISIT XAI
+      </a>
+    </div>
+
+    <!-- Mistral AI -->
+    <div class="ai-card fade-in" style="--card-accent:#f7931e">
+      <div class="card-header">
+        <div class="card-icon">🌊</div>
+        <span class="card-badge badge-open">EU LEADER</span>
+      </div>
+      <div class="card-name">Mistral AI</div>
+      <div class="card-company">Mistral AI · Paris, France</div>
+      <div class="section-divider" style="margin:0.8rem 0"></div>
+      <div class="card-desc">Europe's most advanced AI lab. Specializes in efficient, high-performance open-weight models. Mistral 7B redefined what small models can achieve. Champions data sovereignty.</div>
+      <div class="analytics">
+        <div class="analytics-label">// Capability Analytics</div>
+        <div class="metric-row"><span class="metric-name">Efficiency</span><div class="metric-bar-bg"><div class="metric-bar" style="width:97%;background:#f7931e;box-shadow:0 0 6px #f7931e"></div></div><span class="metric-val" style="color:#f7931e">97</span></div>
+        <div class="metric-row"><span class="metric-name">Code Gen</span><div class="metric-bar-bg"><div class="metric-bar" style="width:93%;background:#f7931e;box-shadow:0 0 6px #f7931e"></div></div><span class="metric-val" style="color:#f7931e">93</span></div>
+        <div class="metric-row"><span class="metric-name">Multilingual</span><div class="metric-bar-bg"><div class="metric-bar" style="width:95%;background:#f7931e;box-shadow:0 0 6px #f7931e"></div></div><span class="metric-val" style="color:#f7931e">95</span></div>
+        <div class="metric-row"><span class="metric-name">Reasoning</span><div class="metric-bar-bg"><div class="metric-bar" style="width:89%;background:#f7931e;box-shadow:0 0 6px #f7931e"></div></div><span class="metric-val" style="color:#f7931e">89</span></div>
+        <div class="metric-row"><span class="metric-name">Open Weight</span><div class="metric-bar-bg"><div class="metric-bar" style="width:100%;background:#f7931e;box-shadow:0 0 6px #f7931e"></div></div><span class="metric-val" style="color:#f7931e">100</span></div>
+      </div>
+      <div class="models-section">
+        <div class="models-label">// Available Models</div>
+        <div class="models-list">
+          <span class="model-tag">Mistral Large 2</span>
+          <span class="model-tag">Mistral Small</span>
+          <span class="model-tag">Mistral 7B</span>
+          <span class="model-tag">Mixtral 8x22B</span>
+          <span class="model-tag">Codestral</span>
+          <span class="model-tag">Pixtral</span>
+        </div>
+      </div>
+      <a href="https://mistral.ai" target="_blank" class="visit-btn" style="border-color:#f7931e;color:#f7931e">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+        VISIT MISTRAL AI
+      </a>
+    </div>
+
+    <!-- Perplexity -->
+    <div class="ai-card fade-in" style="--card-accent:#20c997">
+      <div class="card-header">
+        <div class="card-icon">🔍</div>
+        <span class="card-badge badge-new">SEARCH AI</span>
+      </div>
+      <div class="card-name">Perplexity AI</div>
+      <div class="card-company">Perplexity AI · San Francisco, USA</div>
+      <div class="section-divider" style="margin:0.8rem 0"></div>
+      <div class="card-desc">The AI-powered answer engine revolutionizing search. Combines real-time web browsing with LLM reasoning to provide cited, accurate answers to any query.</div>
+      <div class="analytics">
+        <div class="analytics-label">// Capability Analytics</div>
+        <div class="metric-row"><span class="metric-name">Search Quality</span><div class="metric-bar-bg"><div class="metric-bar" style="width:98%;background:#20c997;box-shadow:0 0 6px #20c997"></div></div><span class="metric-val" style="color:#20c997">98</span></div>
+        <div class="metric-row"><span class="metric-name">Citations</span><div class="metric-bar-bg"><div class="metric-bar" style="width:99%;background:#20c997;box-shadow:0 0 6px #20c997"></div></div><span class="metric-val" style="color:#20c997">99</span></div>
+        <div class="metric-row"><span class="metric-name">Real-time</span><div class="metric-bar-bg"><div class="metric-bar" style="width:97%;background:#20c997;box-shadow:0 0 6px #20c997"></div></div><span class="metric-val" style="color:#20c997">97</span></div>
+        <div class="metric-row"><span class="metric-name">Reasoning</span><div class="metric-bar-bg"><div class="metric-bar" style="width:88%;background:#20c997;box-shadow:0 0 6px #20c997"></div></div><span class="metric-val" style="color:#20c997">88</span></div>
+        <div class="metric-row"><span class="metric-name">UX Quality</span><div class="metric-bar-bg"><div class="metric-bar" style="width:93%;background:#20c997;box-shadow:0 0 6px #20c997"></div></div><span class="metric-val" style="color:#20c997">93</span></div>
+      </div>
+      <div class="models-section">
+        <div class="models-label">// Available Models</div>
+        <div class="models-list">
+          <span class="model-tag">Sonar Large</span>
+          <span class="model-tag">Sonar Small</span>
+          <span class="model-tag">Sonar Reasoning</span>
+          <span class="model-tag">Sonar Pro</span>
+        </div>
+      </div>
+      <a href="https://perplexity.ai" target="_blank" class="visit-btn" style="border-color:#20c997;color:#20c997">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+        VISIT PERPLEXITY
+      </a>
+    </div>
+
+    <!-- Cohere -->
+    <div class="ai-card fade-in" style="--card-accent:#d946ef">
+      <div class="card-header">
+        <div class="card-icon">🏢</div>
+        <span class="card-badge badge-new">ENTERPRISE</span>
+      </div>
+      <div class="card-name">Cohere</div>
+      <div class="card-company">Cohere · Toronto, Canada</div>
+      <div class="section-divider" style="margin:0.8rem 0"></div>
+      <div class="card-desc">Enterprise-grade AI platform specializing in RAG (Retrieval-Augmented Generation) and business applications. Market leader in secure, private AI deployment for Fortune 500.</div>
+      <div class="analytics">
+        <div class="analytics-label">// Capability Analytics</div>
+        <div class="metric-row"><span class="metric-name">RAG Quality</span><div class="metric-bar-bg"><div class="metric-bar" style="width:98%;background:#d946ef;box-shadow:0 0 6px #d946ef"></div></div><span class="metric-val" style="color:#d946ef">98</span></div>
+        <div class="metric-row"><span class="metric-name">Enterprise</span><div class="metric-bar-bg"><div class="metric-bar" style="width:97%;background:#d946ef;box-shadow:0 0 6px #d946ef"></div></div><span class="metric-val" style="color:#d946ef">97</span></div>
+        <div class="metric-row"><span class="metric-name">Embeddings</span><div class="metric-bar-bg"><div class="metric-bar" style="width:96%;background:#d946ef;box-shadow:0 0 6px #d946ef"></div></div><span class="metric-val" style="color:#d946ef">96</span></div>
+        <div class="metric-row"><span class="metric-name">Reasoning</span><div class="metric-bar-bg"><div class="metric-bar" style="width:88%;background:#d946ef;box-shadow:0 0 6px #d946ef"></div></div><span class="metric-val" style="color:#d946ef">88</span></div>
+        <div class="metric-row"><span class="metric-name">Security</span><div class="metric-bar-bg"><div class="metric-bar" style="width:99%;background:#d946ef;box-shadow:0 0 6px #d946ef"></div></div><span class="metric-val" style="color:#d946ef">99</span></div>
+      </div>
+      <div class="models-section">
+        <div class="models-label">// Available Models</div>
+        <div class="models-list">
+          <span class="model-tag">Command R+</span>
+          <span class="model-tag">Command R</span>
+          <span class="model-tag">Embed v3</span>
+          <span class="model-tag">Rerank 3.5</span>
+          <span class="model-tag">Aya 35B</span>
+        </div>
+      </div>
+      <a href="https://cohere.com" target="_blank" class="visit-btn" style="border-color:#d946ef;color:#d946ef">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+        VISIT COHERE
+      </a>
+    </div>
+
+    <!-- Hugging Face -->
+    <div class="ai-card fade-in" style="--card-accent:#ffd21e">
+      <div class="card-header">
+        <div class="card-icon">🤗</div>
+        <span class="card-badge badge-open">OPEN MODELS</span>
+      </div>
+      <div class="card-name">Hugging Face</div>
+      <div class="card-company">Hugging Face · New York, USA</div>
+      <div class="section-divider" style="margin:0.8rem 0"></div>
+      <div class="card-desc">The GitHub of AI. Home to 500,000+ models, datasets, and spaces. The essential hub for ML practitioners, researchers, and developers worldwide. Where open AI lives.</div>
+      <div class="analytics">
+        <div class="analytics-label">// Capability Analytics</div>
+        <div class="metric-row"><span class="metric-name">Model Library</span><div class="metric-bar-bg"><div class="metric-bar" style="width:100%;background:#ffd21e;box-shadow:0 0 6px #ffd21e"></div></div><span class="metric-val" style="color:#ffd21e">100</span></div>
+        <div class="metric-row"><span class="metric-name">Community</span><div class="metric-bar-bg"><div class="metric-bar" style="width:99%;background:#ffd21e;box-shadow:0 0 6px #ffd21e"></div></div><span class="metric-val" style="color:#ffd21e">99</span></div>
+        <div class="metric-row"><span class="metric-name">Tools</span><div class="metric-bar-bg"><div class="metric-bar" style="width:97%;background:#ffd21e;box-shadow:0 0 6px #ffd21e"></div></div><span class="metric-val" style="color:#ffd21e">97</span></div>
+        <div class="metric-row"><span class="metric-name">Accessibility</span><div class="metric-bar-bg"><div class="metric-bar" style="width:96%;background:#ffd21e;box-shadow:0 0 6px #ffd21e"></div></div><span class="metric-val" style="color:#ffd21e">96</span></div>
+        <div class="metric-row"><span class="metric-name">Datasets</span><div class="metric-bar-bg"><div class="metric-bar" style="width:98%;background:#ffd21e;box-shadow:0 0 6px #ffd21e"></div></div><span class="metric-val" style="color:#ffd21e">98</span></div>
+      </div>
+      <div class="models-section">
+        <div class="models-label">// Featured Models</div>
+        <div class="models-list">
+          <span class="model-tag">Falcon 40B</span>
+          <span class="model-tag">Mistral 7B</span>
+          <span class="model-tag">BLOOM 176B</span>
+          <span class="model-tag">StarCoder2</span>
+          <span class="model-tag">Zephyr</span>
+          <span class="model-tag">SmolLM</span>
+        </div>
+      </div>
+      <a href="https://huggingface.co" target="_blank" class="visit-btn" style="border-color:#ffd21e;color:#ffd21e">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+        VISIT HUGGING FACE
+      </a>
+    </div>
+
+    <!-- Microsoft Copilot -->
+    <div class="ai-card fade-in" style="--card-accent:#0078d4">
+      <div class="card-header">
+        <div class="card-icon">💼</div>
+        <span class="card-badge badge-top">ENTERPRISE</span>
+      </div>
+      <div class="card-name">Microsoft Copilot</div>
+      <div class="card-company">Microsoft · Redmond, USA</div>
+      <div class="section-divider" style="margin:0.8rem 0"></div>
+      <div class="card-desc">Microsoft's AI-everywhere vision. Copilot is embedded across Windows 11, Microsoft 365, Azure, GitHub, and Edge — the most integrated AI assistant in enterprise computing.</div>
+      <div class="analytics">
+        <div class="analytics-label">// Capability Analytics</div>
+        <div class="metric-row"><span class="metric-name">MS Integration</span><div class="metric-bar-bg"><div class="metric-bar" style="width:100%;background:#0078d4;box-shadow:0 0 6px #0078d4"></div></div><span class="metric-val" style="color:#0078d4">100</span></div>
+        <div class="metric-row"><span class="metric-name">Code (GitHub)</span><div class="metric-bar-bg"><div class="metric-bar" style="width:96%;background:#0078d4;box-shadow:0 0 6px #0078d4"></div></div><span class="metric-val" style="color:#0078d4">96</span></div>
+        <div class="metric-row"><span class="metric-name">Reasoning</span><div class="metric-bar-bg"><div class="metric-bar" style="width:93%;background:#0078d4;box-shadow:0 0 6px #0078d4"></div></div><span class="metric-val" style="color:#0078d4">93</span></div>
+        <div class="metric-row"><span class="metric-name">Multimodal</span><div class="metric-bar-bg"><div class="metric-bar" style="width:92%;background:#0078d4;box-shadow:0 0 6px #0078d4"></div></div><span class="metric-val" style="color:#0078d4">92</span></div>
+        <div class="metric-row"><span class="metric-name">Enterprise</span><div class="metric-bar-bg"><div class="metric-bar" style="width:98%;background:#0078d4;box-shadow:0 0 6px #0078d4"></div></div><span class="metric-val" style="color:#0078d4">98</span></div>
+      </div>
+      <div class="models-section">
+        <div class="models-label">// Underlying Models</div>
+        <div class="models-list">
+          <span class="model-tag">GPT-4o (Azure)</span>
+          <span class="model-tag">Phi-3 Mini</span>
+          <span class="model-tag">Phi-3 Medium</span>
+          <span class="model-tag">Phi-4</span>
+          <span class="model-tag">GitHub Copilot</span>
+        </div>
+      </div>
+      <a href="https://copilot.microsoft.com" target="_blank" class="visit-btn" style="border-color:#0078d4;color:#0078d4">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+        VISIT COPILOT
+      </a>
+    </div>
+
+    <!-- DeepSeek -->
+    <div class="ai-card fade-in" style="--card-accent:#36cfc9">
+      <div class="card-header">
+        <div class="card-icon">🐋</div>
+        <span class="card-badge badge-new">DISRUPTOR</span>
+      </div>
+      <div class="card-name">DeepSeek</div>
+      <div class="card-company">DeepSeek AI · Hangzhou, China</div>
+      <div class="section-divider" style="margin:0.8rem 0"></div>
+      <div class="card-desc">The open-source disruptor that shocked the AI world. DeepSeek R1 matched GPT-4 reasoning at a fraction of the cost, revolutionizing efficiency benchmarks globally.</div>
+      <div class="analytics">
+        <div class="analytics-label">// Capability Analytics</div>
+        <div class="metric-row"><span class="metric-name">Math/Science</span><div class="metric-bar-bg"><div class="metric-bar" style="width:97%;background:#36cfc9;box-shadow:0 0 6px #36cfc9"></div></div><span class="metric-val" style="color:#36cfc9">97</span></div>
+        <div class="metric-row"><span class="metric-name">Reasoning</span><div class="metric-bar-bg"><div class="metric-bar" style="width:95%;background:#36cfc9;box-shadow:0 0 6px #36cfc9"></div></div><span class="metric-val" style="color:#36cfc9">95</span></div>
+        <div class="metric-row"><span class="metric-name">Cost Efficiency</span><div class="metric-bar-bg"><div class="metric-bar" style="width:99%;background:#36cfc9;box-shadow:0 0 6px #36cfc9"></div></div><span class="metric-val" style="color:#36cfc9">99</span></div>
+        <div class="metric-row"><span class="metric-name">Code Gen</span><div class="metric-bar-bg"><div class="metric-bar" style="width:93%;background:#36cfc9;box-shadow:0 0 6px #36cfc9"></div></div><span class="metric-val" style="color:#36cfc9">93</span></div>
+        <div class="metric-row"><span class="metric-name">Open Source</span><div class="metric-bar-bg"><div class="metric-bar" style="width:100%;background:#36cfc9;box-shadow:0 0 6px #36cfc9"></div></div><span class="metric-val" style="color:#36cfc9">100</span></div>
+      </div>
+      <div class="models-section">
+        <div class="models-label">// Available Models</div>
+        <div class="models-list">
+          <span class="model-tag">DeepSeek R1</span>
+          <span class="model-tag">DeepSeek V3</span>
+          <span class="model-tag">DeepSeek-Coder V2</span>
+          <span class="model-tag">DeepSeek R2</span>
+        </div>
+      </div>
+      <a href="https://deepseek.com" target="_blank" class="visit-btn" style="border-color:#36cfc9;color:#36cfc9">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+        VISIT DEEPSEEK
+      </a>
+    </div>
+
+    <!-- Amazon Bedrock/Alexa -->
+    <div class="ai-card fade-in" style="--card-accent:#ff9900">
+      <div class="card-header">
+        <div class="card-icon">☁️</div>
+        <span class="card-badge badge-top">CLOUD LEADER</span>
+      </div>
+      <div class="card-name">Amazon Bedrock / Nova</div>
+      <div class="card-company">Amazon · Seattle, USA</div>
+      <div class="section-divider" style="margin:0.8rem 0"></div>
+      <div class="card-desc">Amazon's fully managed AI service on AWS. Access top foundation models via API. Amazon Nova models are purpose-built for enterprise scale with agentic capabilities.</div>
+      <div class="analytics">
+        <div class="analytics-label">// Capability Analytics</div>
+        <div class="metric-row"><span class="metric-name">Cloud Scale</span><div class="metric-bar-bg"><div class="metric-bar" style="width:100%;background:#ff9900;box-shadow:0 0 6px #ff9900"></div></div><span class="metric-val" style="color:#ff9900">100</span></div>
+        <div class="metric-row"><span class="metric-name">Multimodal</span><div class="metric-bar-bg"><div class="metric-bar" style="width:93%;background:#ff9900;box-shadow:0 0 6px #ff9900"></div></div><span class="metric-val" style="color:#ff9900">93</span></div>
+        <div class="metric-row"><span class="metric-name">Agentic</span><div class="metric-bar-bg"><div class="metric-bar" style="width:91%;background:#ff9900;box-shadow:0 0 6px #ff9900"></div></div><span class="metric-val" style="color:#ff9900">91</span></div>
+        <div class="metric-row"><span class="metric-name">Reliability</span><div class="metric-bar-bg"><div class="metric-bar" style="width:99%;background:#ff9900;box-shadow:0 0 6px #ff9900"></div></div><span class="metric-val" style="color:#ff9900">99</span></div>
+        <div class="metric-row"><span class="metric-name">Security</span><div class="metric-bar-bg"><div class="metric-bar" style="width:98%;background:#ff9900;box-shadow:0 0 6px #ff9900"></div></div><span class="metric-val" style="color:#ff9900">98</span></div>
+      </div>
+      <div class="models-section">
+        <div class="models-label">// Available Models</div>
+        <div class="models-list">
+          <span class="model-tag">Nova Pro</span>
+          <span class="model-tag">Nova Lite</span>
+          <span class="model-tag">Nova Micro</span>
+          <span class="model-tag">Titan Text G1</span>
+          <span class="model-tag">Alexa+ LLM</span>
+        </div>
+      </div>
+      <a href="https://aws.amazon.com/bedrock" target="_blank" class="visit-btn" style="border-color:#ff9900;color:#ff9900">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+        VISIT BEDROCK
+      </a>
+    </div>
+
+  </div><!-- /ai-grid -->
+</section>
+
+<!-- ████ COMPARISON TABLE ████ -->
+<section id="compare" style="padding-top:2rem">
+  <div class="section-header fade-in">
+    <div class="section-tag">// Section 02</div>
+    <h2 class="section-title">Model <span>Comparison</span> Matrix</h2>
+    <p class="section-desc">Side-by-side technical comparison of all major AI models and platforms.</p>
+  </div>
+  <div class="table-wrapper fade-in">
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th>Platform</th>
+          <th>Flagship Model</th>
+          <th>Context Window</th>
+          <th>Reasoning</th>
+          <th>Code</th>
+          <th>Multimodal</th>
+          <th>Open Source</th>
+          <th>Access</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="table-name">OpenAI</span></td>
+          <td><span class="table-model">o3 / GPT-4o</span></td>
+          <td>128K</td>
+          <td><div class="mini-bar-wrap"><div class="mini-bar" style="width:97%;background:#10a37f"></div></div></td>
+          <td><div class="mini-bar-wrap"><div class="mini-bar" style="width:96%;background:#10a37f"></div></div></td>
+          <td>✅ Yes</td>
+          <td>❌ No</td>
+          <td><a href="https://chat.openai.com" target="_blank" style="color:var(--neon-cyan);font-family:'Share Tech Mono';font-size:0.7rem">chat.openai.com</a></td>
+        </tr>
+        <tr>
+          <td><span class="table-name">Anthropic</span></td>
+          <td><span class="table-model">Claude 3.7 Sonnet</span></td>
+          <td>200K</td>
+          <td><div class="mini-bar-wrap"><div class="mini-bar" style="width:96%;background:#cc785c"></div></div></td>
+          <td><div class="mini-bar-wrap"><div class="mini-bar" style="width:95%;background:#cc785c"></div></div></td>
+          <td>✅ Yes</td>
+          <td>❌ No</td>
+          <td><a href="https://claude.ai" target="_blank" style="color:var(--neon-cyan);font-family:'Share Tech Mono';font-size:0.7rem">claude.ai</a></td>
+        </tr>
+        <tr>
+          <td><span class="table-name">Google</span></td>
+          <td><span class="table-model">Gemini 2.0 Ultra</span></td>
+          <td>1M+</td>
+          <td><div class="mini-bar-wrap"><div class="mini-bar" style="width:94%;background:#4285f4"></div></div></td>
+          <td><div class="mini-bar-wrap"><div class="mini-bar" style="width:92%;background:#4285f4"></div></div></td>
+          <td>✅ Yes</td>
+          <td>Partial</td>
+          <td><a href="https://gemini.google.com" target="_blank" style="color:var(--neon-cyan);font-family:'Share Tech Mono';font-size:0.7rem">gemini.google.com</a></td>
+        </tr>
+        <tr>
+          <td><span class="table-name">Meta AI</span></td>
+          <td><span class="table-model">Llama 3.1 405B</span></td>
+          <td>128K</td>
+          <td><div class="mini-bar-wrap"><div class="mini-bar" style="width:91%;background:#0668e1"></div></div></td>
+          <td><div class="mini-bar-wrap"><div class="mini-bar" style="width:89%;background:#0668e1"></div></div></td>
+          <td>✅ Yes</td>
+          <td>✅ Yes</td>
+          <td><a href="https://ai.meta.com" target="_blank" style="color:var(--neon-cyan);font-family:'Share Tech Mono';font-size:0.7rem">ai.meta.com</a></td>
+        </tr>
+        <tr>
+          <td><span class="table-name">xAI</span></td>
+          <td><span class="table-model">Grok-3</span></td>
+          <td>131K</td>
+          <td><div class="mini-bar-wrap"><div class="mini-bar" style="width:93%;background:#ff6b6b"></div></div></td>
+          <td><div class="mini-bar-wrap"><div class="mini-bar" style="width:90%;background:#ff6b6b"></div></div></td>
+          <td>✅ Yes</td>
+          <td>Partial</td>
+          <td><a href="https://x.ai" target="_blank" style="color:var(--neon-cyan);font-family:'Share Tech Mono';font-size:0.7rem">x.ai</a></td>
+        </tr>
+        <tr>
+          <td><span class="table-name">Mistral AI</span></td>
+          <td><span class="table-model">Mistral Large 2</span></td>
+          <td>128K</td>
+          <td><div class="mini-bar-wrap"><div class="mini-bar" style="width:89%;background:#f7931e"></div></div></td>
+          <td><div class="mini-bar-wrap"><div class="mini-bar" style="width:93%;background:#f7931e"></div></div></td>
+          <td>Limited</td>
+          <td>✅ Yes</td>
+          <td><a href="https://chat.mistral.ai" target="_blank" style="color:var(--neon-cyan);font-family:'Share Tech Mono';font-size:0.7rem">chat.mistral.ai</a></td>
+        </tr>
+        <tr>
+          <td><span class="table-name">DeepSeek</span></td>
+          <td><span class="table-model">DeepSeek R1</span></td>
+          <td>128K</td>
+          <td><div class="mini-bar-wrap"><div class="mini-bar" style="width:95%;background:#36cfc9"></div></div></td>
+          <td><div class="mini-bar-wrap"><div class="mini-bar" style="width:94%;background:#36cfc9"></div></div></td>
+          <td>Limited</td>
+          <td>✅ Yes</td>
+          <td><a href="https://chat.deepseek.com" target="_blank" style="color:var(--neon-cyan);font-family:'Share Tech Mono';font-size:0.7rem">chat.deepseek.com</a></td>
+        </tr>
+        <tr>
+          <td><span class="table-name">Perplexity</span></td>
+          <td><span class="table-model">Sonar Pro</span></td>
+          <td>127K</td>
+          <td><div class="mini-bar-wrap"><div class="mini-bar" style="width:88%;background:#20c997"></div></div></td>
+          <td><div class="mini-bar-wrap"><div class="mini-bar" style="width:75%;background:#20c997"></div></div></td>
+          <td>✅ Yes</td>
+          <td>❌ No</td>
+          <td><a href="https://perplexity.ai" target="_blank" style="color:var(--neon-cyan);font-family:'Share Tech Mono';font-size:0.7rem">perplexity.ai</a></td>
+        </tr>
+        <tr>
+          <td><span class="table-name">Cohere</span></td>
+          <td><span class="table-model">Command R+</span></td>
+          <td>128K</td>
+          <td><div class="mini-bar-wrap"><div class="mini-bar" style="width:88%;background:#d946ef"></div></div></td>
+          <td><div class="mini-bar-wrap"><div class="mini-bar" style="width:82%;background:#d946ef"></div></div></td>
+          <td>Limited</td>
+          <td>Partial</td>
+          <td><a href="https://coral.cohere.com" target="_blank" style="color:var(--neon-cyan);font-family:'Share Tech Mono';font-size:0.7rem">coral.cohere.com</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ████ FUTURE TECHNOLOGIES ████ -->
+<section id="future-tech">
+  <div class="section-header fade-in">
+    <div class="section-tag">// Section 03</div>
+    <h2 class="section-title">Future <span>Technologies</span></h2>
+    <p class="section-desc">The transformative technologies that will define the next century of human civilization.</p>
+  </div>
+
+  <div class="tech-grid">
+
+    <div class="tech-card fade-in" style="--tech-color:#a855f7;--tech-rgb:168,85,247">
+      <span class="tech-icon-lg">⚛️</span>
+      <div class="tech-name">Quantum Computing</div>
+      <div class="tech-eta">ETA: 2025–2035 · IBM, Google, IonQ</div>
+      <p class="tech-desc">Harnesses quantum mechanical phenomena — superposition and entanglement — to perform computations impossible for classical computers. Will revolutionize cryptography, drug discovery, and optimization.</p>
+      <div class="tech-tags"><span class="tech-tag">Qubits</span><span class="tech-tag">Superposition</span><span class="tech-tag">Error Correction</span><span class="tech-tag">NISQ Era</span><span class="tech-tag">Post-Quantum Crypto</span></div>
+    </div>
+
+    <div class="tech-card fade-in" style="--tech-color:#06b6d4;--tech-rgb:6,182,212">
+      <span class="tech-icon-lg">🧠</span>
+      <div class="tech-name">Artificial General Intelligence (AGI)</div>
+      <div class="tech-eta">ETA: 2027–2040 · OpenAI, DeepMind, Anthropic</div>
+      <p class="tech-desc">AI systems capable of performing any intellectual task a human can. The transition from narrow AI to AGI represents the most transformative event in human technological history.</p>
+      <div class="tech-tags"><span class="tech-tag">World Models</span><span class="tech-tag">Transfer Learning</span><span class="tech-tag">Reasoning</span><span class="tech-tag">Planning</span><span class="tech-tag">Self-Improvement</span></div>
+    </div>
+
+    <div class="tech-card fade-in" style="--tech-color:#22c55e;--tech-rgb:34,197,94">
+      <span class="tech-icon-lg">🧬</span>
+      <div class="tech-name">DNA & Biological Computing</div>
+      <div class="tech-eta">ETA: 2030–2050 · Microsoft, Twist Bioscience</div>
+      <p class="tech-desc">Computing using DNA strands to store and process information. A single gram of DNA can theoretically store 215 petabytes of data, and operates at room temperature with extraordinary efficiency.</p>
+      <div class="tech-tags"><span class="tech-tag">DNA Storage</span><span class="tech-tag">Synthetic Biology</span><span class="tech-tag">Molecular Computing</span><span class="tech-tag">Biocomputing</span></div>
+    </div>
+
+    <div class="tech-card fade-in" style="--tech-color:#f59e0b;--tech-rgb:245,158,11">
+      <span class="tech-icon-lg">💡</span>
+      <div class="tech-name">Photonic Computing</div>
+      <div class="tech-eta">ETA: 2026–2035 · Lightmatter, Intel</div>
+      <p class="tech-desc">Using photons (light) instead of electrons to perform computations. Offers massive speed improvements, near-zero heat generation, and perfect for AI inference at the speed of light.</p>
+      <div class="tech-tags"><span class="tech-tag">Optical AI</span><span class="tech-tag">Silicon Photonics</span><span class="tech-tag">Light Speed I/O</span><span class="tech-tag">Low Latency</span></div>
+    </div>
+
+    <div class="tech-card fade-in" style="--tech-color:#ef4444;--tech-rgb:239,68,68">
+      <span class="tech-icon-lg">🔬</span>
+      <div class="tech-name">Neuromorphic Computing</div>
+      <div class="tech-eta">ETA: 2025–2030 · Intel Loihi, IBM TrueNorth</div>
+      <p class="tech-desc">Brain-inspired processors that mimic neural architecture. Spiking neural networks offer radical energy efficiency — 1000× less power than GPUs — perfect for always-on edge AI applications.</p>
+      <div class="tech-tags"><span class="tech-tag">Spiking NNs</span><span class="tech-tag">Edge AI</span><span class="tech-tag">Low Power</span><span class="tech-tag">Neuroplasticity</span></div>
+    </div>
+
+    <div class="tech-card fade-in" style="--tech-color:#8b5cf6;--tech-rgb:139,92,246">
+      <span class="tech-icon-lg">🧪</span>
+      <div class="tech-name">Brain-Computer Interfaces (BCI)</div>
+      <div class="tech-eta">ETA: 2025–2040 · Neuralink, Synchron, Paradromics</div>
+      <p class="tech-desc">Direct neural-digital interfaces enabling bidirectional communication between human brains and computers. From medical restoration to cognitive enhancement and thought-to-text interfaces.</p>
+      <div class="tech-tags"><span class="tech-tag">Neural Recording</span><span class="tech-tag">Neural Stimulation</span><span class="tech-tag">Thought Input</span><span class="tech-tag">Neuroprosthetics</span></div>
+    </div>
+
+    <div class="tech-card fade-in" style="--tech-color:#06d6a0;--tech-rgb:6,214,160">
+      <span class="tech-icon-lg">🤖</span>
+      <div class="tech-name">Autonomous & Robotic Systems</div>
+      <div class="tech-eta">ETA: 2024–2035 · Tesla, Boston Dynamics, Figure</div>
+      <p class="tech-desc">Self-directed physical systems from humanoid robots to autonomous vehicles. Foundation models are bringing general-purpose reasoning to physical AI, unlocking robots that learn from observation.</p>
+      <div class="tech-tags"><span class="tech-tag">Embodied AI</span><span class="tech-tag">Humanoid Robots</span><span class="tech-tag">Self-Driving</span><span class="tech-tag">Drones</span><span class="tech-tag">ROS 2</span></div>
+    </div>
+
+    <div class="tech-card fade-in" style="--tech-color:#f72585;--tech-rgb:247,37,133">
+      <span class="tech-icon-lg">🔮</span>
+      <div class="tech-name">Extended Reality (XR/AR/VR)</div>
+      <div class="tech-eta">ETA: 2024–2030 · Apple, Meta, Microsoft</div>
+      <p class="tech-desc">Spatial computing merging digital and physical worlds. From Apple Vision Pro to the next generation of AR glasses, XR is redefining human interaction with information and each other.</p>
+      <div class="tech-tags"><span class="tech-tag">Spatial Computing</span><span class="tech-tag">Holographics</span><span class="tech-tag">Mixed Reality</span><span class="tech-tag">visionOS</span><span class="tech-tag">WebXR</span></div>
+    </div>
+
+    <div class="tech-card fade-in" style="--tech-color:#00f5ff;--tech-rgb:0,245,255">
+      <span class="tech-icon-lg">⚡</span>
+      <div class="tech-name">Advanced Energy & Fusion</div>
+      <div class="tech-eta">ETA: 2030–2050 · ITER, Commonwealth Fusion, TAE</div>
+      <p class="tech-desc">Nuclear fusion promises clean, near-limitless energy. With NIF achieving ignition in 2022 and private firms racing to commercial fusion by 2030s, this technology could end the energy crisis.</p>
+      <div class="tech-tags"><span class="tech-tag">Fusion Energy</span><span class="tech-tag">Tokamak</span><span class="tech-tag">Inertial Confinement</span><span class="tech-tag">Clean Power</span></div>
+    </div>
+
+    <div class="tech-card fade-in" style="--tech-color:#fb923c;--tech-rgb:251,146,60">
+      <span class="tech-icon-lg">🛸</span>
+      <div class="tech-name">Nanotechnology & Nanomaterials</div>
+      <div class="tech-eta">ETA: 2030–2060 · MIT, Stanford, IBM</div>
+      <p class="tech-desc">Engineering at the atomic and molecular scale. Nanorobots for targeted drug delivery, carbon nanotube transistors replacing silicon, and self-assembling materials for next-gen manufacturing.</p>
+      <div class="tech-tags"><span class="tech-tag">Nanorobots</span><span class="tech-tag">Carbon Nanotubes</span><span class="tech-tag">Graphene</span><span class="tech-tag">Molecular Assembly</span></div>
+    </div>
+
+    <div class="tech-card fade-in" style="--tech-color:#a3e635;--tech-rgb:163,230,53">
+      <span class="tech-icon-lg">🌐</span>
+      <div class="tech-name">6G & Terahertz Communications</div>
+      <div class="tech-eta">ETA: 2030–2035 · Samsung, Ericsson, NTT</div>
+      <p class="tech-desc">100× faster than 5G, terahertz frequencies enable real-time holographic telepresence, near-instantaneous cloud AI, and massive IoT connectivity for trillions of smart devices globally.</p>
+      <div class="tech-tags"><span class="tech-tag">Terahertz Bands</span><span class="tech-tag">Sub-1ms Latency</span><span class="tech-tag">Holographic XR</span><span class="tech-tag">AI-Native Network</span></div>
+    </div>
+
+    <div class="tech-card fade-in" style="--tech-color:#c084fc;--tech-rgb:192,132,252">
+      <span class="tech-icon-lg">🧫</span>
+      <div class="tech-name">Synthetic Biology & Biotech AI</div>
+      <div class="tech-eta">ETA: 2025–2040 · AlphaFold, Ginkgo Bioworks</div>
+      <p class="tech-desc">AI redesigning life itself. AlphaFold solved the protein folding problem. Next: programmable organisms, lab-grown organs, mRNA therapeutics for any disease, and AI-designed drugs in days.</p>
+      <div class="tech-tags"><span class="tech-tag">Protein Design</span><span class="tech-tag">mRNA</span><span class="tech-tag">CRISPR</span><span class="tech-tag">AlphaFold 3</span><span class="tech-tag">Gene Therapy</span></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ████ TIMELINE ████ -->
+<section id="timeline">
+  <div class="section-header fade-in">
+    <div class="section-tag">// Section 04</div>
+    <h2 class="section-title">Technology <span>Timeline</span></h2>
+    <p class="section-desc">Key milestones in the march toward a technology-transformed future.</p>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;flex-wrap:wrap" class="fade-in">
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot" style="background:#10a37f;box-shadow:0 0 8px #10a37f"></div>
+        <div class="timeline-year">2023</div>
+        <div class="timeline-event">GPT-4 & Claude 2 Release</div>
+        <div class="timeline-detail">Multimodal AI becomes mainstream. ChatGPT reaches 100M users in 60 days — the fastest growing consumer app in history.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot" style="background:#4285f4;box-shadow:0 0 8px #4285f4"></div>
+        <div class="timeline-year">2024</div>
+        <div class="timeline-event">The Year of AI Agents</div>
+        <div class="timeline-detail">GPT-4o, Gemini 1.5, Claude 3. Real-time multimodal AI, 1M token contexts, AI coding agents change software development forever.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot" style="background:#cc785c;box-shadow:0 0 8px #cc785c"></div>
+        <div class="timeline-year">2025</div>
+        <div class="timeline-event">Reasoning Models & Agentic AI</div>
+        <div class="timeline-detail">OpenAI o3, Claude 3.7, Gemini 2.0. AI agents operate autonomously for hours. Humanoid robots enter factories. Fusion ignition replicated commercially.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">2026</div>
+        <div class="timeline-event">Physical AI & Spatial Computing</div>
+        <div class="timeline-detail">Humanoid robots deployed in homes. AR glasses replace smartphones for millions. AI scientists publish peer-reviewed papers autonomously.</div>
+      </div>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot" style="background:#a855f7;box-shadow:0 0 8px #a855f7"></div>
+        <div class="timeline-year">2027–2029</div>
+        <div class="timeline-event">Quantum Advantage</div>
+        <div class="timeline-detail">First practical quantum advantage over classical computers in drug discovery, materials science, and financial optimization. Post-quantum cryptography standardized globally.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot" style="background:#f72585;box-shadow:0 0 8px #f72585"></div>
+        <div class="timeline-year">2030</div>
+        <div class="timeline-event">AGI Emergence Debate</div>
+        <div class="timeline-detail">First systems pass comprehensive AGI benchmarks. Heated global debate about consciousness, rights, and governance. AI GDP contribution exceeds $15T annually.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot" style="background:#06b6d4;box-shadow:0 0 8px #06b6d4"></div>
+        <div class="timeline-year">2035</div>
+        <div class="timeline-event">Fusion Power Online</div>
+        <div class="timeline-detail">First commercial fusion reactor delivers net energy to the grid. Nanotech enters clinical trials. BCI enables thought-to-text for healthy users globally.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot" style="background:#f59e0b;box-shadow:0 0 8px #f59e0b"></div>
+        <div class="timeline-year">2040+</div>
+        <div class="timeline-event">Post-Scarcity Technologies</div>
+        <div class="timeline-detail">Molecular nanotechnology, uploaded consciousness research, interplanetary internet. The boundaries of biology and technology blur permanently.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ████ SCIENCES ████ -->
+<section id="sciences">
+  <div class="section-header fade-in">
+    <div class="section-tag">// Section 05</div>
+    <h2 class="section-title">Future <span>Sciences</span></h2>
+    <p class="section-desc">The scientific disciplines at the bleeding edge of human knowledge and capability.</p>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem" class="fade-in">
+    <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:1.4rem;text-align:center">
+      <div style="font-size:2rem;margin-bottom:0.6rem">🧲</div>
+      <div style="font-family:'Orbitron';font-size:0.8rem;color:var(--text-primary);margin-bottom:0.4rem">Quantum Mechanics</div>
+      <div style="font-size:0.8rem;color:var(--text-muted)">Superposition, entanglement, quantum field theory — the foundation of quantum computing and future materials.</div>
+    </div>
+    <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:1.4rem;text-align:center">
+      <div style="font-size:2rem;margin-bottom:0.6rem">🌌</div>
+      <div style="font-family:'Orbitron';font-size:0.8rem;color:var(--text-primary);margin-bottom:0.4rem">Astrophysics & Cosmology</div>
+      <div style="font-size:0.8rem;color:var(--text-muted)">Dark matter, gravitational waves, black holes — unlocking the universe's deepest mysteries with AI analysis.</div>
+    </div>
+    <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:1.4rem;text-align:center">
+      <div style="font-size:2rem;margin-bottom:0.6rem">🧬</div>
+      <div style="font-family:'Orbitron';font-size:0.8rem;color:var(--text-primary);margin-bottom:0.4rem">Genomics & Proteomics</div>
+      <div style="font-size:0.8rem;color:var(--text-muted)">Whole-genome sequencing, protein structure prediction, CRISPR gene editing — rewriting life's code.</div>
+    </div>
+    <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:1.4rem;text-align:center">
+      <div style="font-size:2rem;margin-bottom:0.6rem">⚛️</div>
+      <div style="font-family:'Orbitron';font-size:0.8rem;color:var(--text-primary);margin-bottom:0.4rem">Materials Science</div>
+      <div style="font-size:0.8rem;color:var(--text-muted)">Superconductors, metamaterials, topological insulators — AI designing materials atom by atom.</div>
+    </div>
+    <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:1.4rem;text-align:center">
+      <div style="font-size:2rem;margin-bottom:0.6rem">🧠</div>
+      <div style="font-family:'Orbitron';font-size:0.8rem;color:var(--text-primary);margin-bottom:0.4rem">Neuroscience</div>
+      <div style="font-size:0.8rem;color:var(--text-muted)">Whole-brain connectomics, consciousness theories, neural plasticity — the final frontier of human biology.</div>
+    </div>
+    <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:1.4rem;text-align:center">
+      <div style="font-size:2rem;margin-bottom:0.6rem">🌿</div>
+      <div style="font-family:'Orbitron';font-size:0.8rem;color:var(--text-primary);margin-bottom:0.4rem">Climate Science & GeoEngineering</div>
+      <div style="font-size:0.8rem;color:var(--text-muted)">Carbon capture, solar geoengineering, ocean de-acidification — AI-driven planetary-scale interventions.</div>
+    </div>
+    <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:1.4rem;text-align:center">
+      <div style="font-size:2rem;margin-bottom:0.6rem">🔭</div>
+      <div style="font-family:'Orbitron';font-size:0.8rem;color:var(--text-primary);margin-bottom:0.4rem">Space Science</div>
+      <div style="font-size:0.8rem;color:var(--text-muted)">Mars colonization, asteroid mining, interstellar propulsion, space-based solar power, and Dyson swarms.</div>
+    </div>
+    <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:1.4rem;text-align:center">
+      <div style="font-size:2rem;margin-bottom:0.6rem">💊</div>
+      <div style="font-family:'Orbitron';font-size:0.8rem;color:var(--text-primary);margin-bottom:0.4rem">Longevity Science</div>
+      <div style="font-size:0.8rem;color:var(--text-muted)">Senolytics, epigenetic reprogramming, organ regeneration — extending healthy human lifespan to 150+.</div>
+    </div>
+    <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:1.4rem;text-align:center">
+      <div style="font-size:2rem;margin-bottom:0.6rem">🔐</div>
+      <div style="font-family:'Orbitron';font-size:0.8rem;color:var(--text-primary);margin-bottom:0.4rem">Cryptography & Security</div>
+      <div style="font-size:0.8rem;color:var(--text-muted)">Post-quantum cryptography, homomorphic encryption, zero-knowledge proofs — securing the quantum age.</div>
+    </div>
+    <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:1.4rem;text-align:center">
+      <div style="font-size:2rem;margin-bottom:0.6rem">🌊</div>
+      <div style="font-family:'Orbitron';font-size:0.8rem;color:var(--text-primary);margin-bottom:0.4rem">Ocean & Earth Science</div>
+      <div style="font-size:0.8rem;color:var(--text-muted)">Deep-ocean AI mapping, tidal energy harvesting, seafloor mineral extraction, and blue carbon ecosystems.</div>
+    </div>
+    <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:1.4rem;text-align:center">
+      <div style="font-size:2rem;margin-bottom:0.6rem">🎭</div>
+      <div style="font-family:'Orbitron';font-size:0.8rem;color:var(--text-primary);margin-bottom:0.4rem">Cognitive Science & Psychology</div>
+      <div style="font-size:0.8rem;color:var(--text-muted)">Human-AI cognitive symbiosis, memory augmentation, attention engineering, digital therapeutics for mental health.</div>
+    </div>
+    <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:1.4rem;text-align:center">
+      <div style="font-size:2rem;margin-bottom:0.6rem">⚡</div>
+      <div style="font-family:'Orbitron';font-size:0.8rem;color:var(--text-primary);margin-bottom:0.4rem">Energy Physics</div>
+      <div style="font-size:0.8rem;color:var(--text-muted)">Solid-state batteries, room-temp superconductors, thermoelectric harvesting, and next-gen solar cells at 50%+ efficiency.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">ChopaTech</div>
+  <p class="footer-tagline">The Future Intelligence Hub — Tracking Every Breakthrough</p>
+  <div class="footer-links">
+    <a href="#ai-platforms">AI Platforms</a>
+    <a href="#compare">Model Comparison</a>
+    <a href="#future-tech">Future Technologies</a>
+    <a href="#timeline">Timeline</a>
+    <a href="#sciences">Sciences</a>
+  </div>
+  <div style="display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;margin-bottom:2rem">
+    <span class="chip"><span class="chip-dot"></span>24 AI Platforms Tracked</span>
+    <span class="chip"><span class="chip-dot"></span>80+ Models Catalogued</span>
+    <span class="chip"><span class="chip-dot"></span>18 Future Technologies</span>
+    <span class="chip"><span class="chip-dot"></span>12 Science Disciplines</span>
+  </div>
+  <p class="footer-copy">© 2025 ChopaTech FUTURE TECH HUB · INTELLIGENCE PLATFORM · BUILT FOR TOMORROW</p>
+</footer>
+
+<script>
+// ── Intersection Observer for fade-in ──
+const fadeEls = document.querySelectorAll('.fade-in');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+fadeEls.forEach(el => observer.observe(el));
+
+// ── Counter animation ──
+function animateCounter(el, target, duration = 2000) {
+  let start = 0;
+  const step = (timestamp) => {
+    if (!start) start = timestamp;
+    const progress = Math.min((timestamp - start) / duration, 1);
+    el.textContent = Math.floor(progress * target);
+    if (progress < 1) requestAnimationFrame(step);
+    else el.textContent = target;
+  };
+  requestAnimationFrame(step);
+}
+const counterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const target = parseInt(e.target.dataset.target);
+      animateCounter(e.target, target);
+      counterObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('.counter').forEach(el => counterObserver.observe(el));
+
+// ── Animate metric bars on scroll ──
+const barObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const bars = e.target.querySelectorAll('.metric-bar');
+      bars.forEach(bar => {
+        const w = bar.style.width;
+        bar.style.width = '0';
+        setTimeout(() => { bar.style.width = w; }, 100);
+      });
+      barObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.3 });
+document.querySelectorAll('.ai-card').forEach(card => barObserver.observe(card));
+
+// ── Navbar active state ──
+const sections = document.querySelectorAll('section[id]');
+window.addEventListener('scroll', () => {
+  const scrollY = window.scrollY + 80;
+  sections.forEach(sec => {
+    const top = sec.offsetTop;
+    const height = sec.offsetHeight;
+    const id = sec.getAttribute('id');
+    const link = document.querySelector(`.nav-links a[href="#${id}"]`);
+    if (link) {
+      if (scrollY >= top && scrollY < top + height) {
+        link.style.color = 'var(--neon-cyan)';
+      } else {
+        link.style.color = 'var(--text-muted)';
+      }
+    }
+  });
+});
+</script>
+</body>
+</html>
