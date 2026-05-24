@@ -1,0 +1,1119 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Chopa3D Flow Studio | Dashboard</title>
+    <meta
+      name="description"
+      content="Chopa3D Flow Studio dashboard for creating AI VFX projects, browsing templates, characters, and recent projects."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #101010;
+        --sidebar: #171717;
+        --panel: #1b1c20;
+        --panel-soft: #22242a;
+        --line: #343640;
+        --text: #ffffff;
+        --muted: #9d9fa7;
+        --muted-2: #686b75;
+        --cyan: #a9eeff;
+        --pink: #ff8db4;
+        --purple: #b886ff;
+        --green: #74f2a2;
+        --blue: #48b7ff;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        overflow-x: hidden;
+        background: var(--bg);
+        color: var(--text);
+        font-family: Manrope, Inter, Arial, system-ui, sans-serif;
+        font-weight: 600;
+        letter-spacing: 0;
+      }
+
+      button,
+      input,
+      select {
+        font: inherit;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .app-shell {
+        display: grid;
+        grid-template-columns: 286px 1fr;
+        min-height: 100vh;
+      }
+
+      .sidebar {
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        padding: 18px 30px 24px;
+        background: var(--sidebar);
+        border-right: 1px solid rgba(255, 255, 255, 0.04);
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-height: 58px;
+        margin-bottom: 46px;
+      }
+
+      .brand-logo {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: #ffffff;
+        object-fit: contain;
+        padding: 3px;
+      }
+
+      .brand-title {
+        display: grid;
+        line-height: 1.05;
+        font-family: "Inter Tight", Manrope, sans-serif;
+        font-size: 1.04rem;
+        font-weight: 800;
+      }
+
+      .brand-title span:last-child {
+        color: #f1f1f4;
+      }
+
+      .create-button {
+        width: 100%;
+        min-height: 42px;
+        border: 1px solid transparent;
+        border-radius: 12px;
+        background:
+          linear-gradient(var(--sidebar), var(--sidebar)) padding-box,
+          linear-gradient(110deg, var(--cyan), var(--pink)) border-box;
+        color: var(--text);
+        font-weight: 800;
+        cursor: pointer;
+      }
+
+      .nav-list {
+        display: grid;
+        gap: 4px;
+        margin-top: 8px;
+      }
+
+      .nav-item {
+        position: relative;
+        display: grid;
+        grid-template-columns: 26px 1fr auto;
+        align-items: center;
+        min-height: 44px;
+        padding: 0 12px;
+        border-radius: 6px;
+        color: var(--muted);
+        font-weight: 800;
+        font-size: 0.86rem;
+      }
+
+      .nav-item.active {
+        background: #222222;
+        color: var(--text);
+      }
+
+      .nav-item.active::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -1px;
+        height: 3px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, var(--cyan), var(--purple), var(--pink));
+      }
+
+      .nav-icon {
+        width: 16px;
+        height: 16px;
+        border-radius: 4px;
+        background: currentColor;
+        opacity: 0.9;
+      }
+
+      .badge {
+        min-width: 34px;
+        padding: 3px 7px;
+        border-radius: 6px;
+        background: rgba(169, 238, 255, 0.18);
+        color: var(--cyan);
+        font-size: 0.64rem;
+        text-align: center;
+      }
+
+      .divider {
+        height: 1px;
+        margin: 18px 0 10px;
+        background: var(--line);
+      }
+
+      .plan-card {
+        margin-top: auto;
+        padding: 22px 18px 24px;
+        border-radius: 14px;
+        background: #111111;
+      }
+
+      .plan-card strong {
+        display: block;
+        margin-bottom: 4px;
+        font-size: 0.88rem;
+      }
+
+      .plan-card p {
+        margin: 0 0 18px;
+        color: var(--muted);
+        font-size: 0.84rem;
+      }
+
+      .review-button {
+        width: 100%;
+        min-height: 36px;
+        border: 0;
+        border-radius: 7px;
+        background: linear-gradient(105deg, #a7e9ff, #ff8db4);
+        color: #0b0b0d;
+        font-weight: 800;
+        cursor: pointer;
+      }
+
+      .help-links {
+        display: grid;
+        gap: 14px;
+        margin-top: 26px;
+        color: var(--muted);
+        font-size: 0.84rem;
+        font-weight: 800;
+      }
+
+      .main {
+        min-width: 0;
+        padding: 24px 30px 70px;
+      }
+
+      .studio-overview {
+        display: grid;
+        grid-template-columns: 1.15fr 0.85fr 0.9fr;
+        gap: 16px;
+        margin: 12px 0 30px;
+      }
+
+      .overview-card {
+        min-height: 126px;
+        padding: 18px;
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 14px;
+        background:
+          radial-gradient(circle at 84% 18%, rgba(169, 238, 255, 0.18), transparent 30%),
+          #17181d;
+        overflow: hidden;
+      }
+
+      .overview-card strong {
+        display: block;
+        margin-bottom: 8px;
+        font-family: "Inter Tight", Manrope, sans-serif;
+        font-size: 1.35rem;
+        font-weight: 800;
+      }
+
+      .overview-card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.88rem;
+      }
+
+      .metric-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 16px;
+      }
+
+      .metric {
+        padding: 7px 10px;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.06);
+        color: #d7d9e1;
+        font-size: 0.78rem;
+        font-weight: 800;
+      }
+
+      .queue-item {
+        display: grid;
+        gap: 8px;
+        margin-top: 12px;
+      }
+
+      .queue-line {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        color: #dfe3eb;
+        font-size: 0.82rem;
+        font-weight: 800;
+      }
+
+      .bar {
+        height: 8px;
+        overflow: hidden;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      .bar i {
+        display: block;
+        width: var(--value);
+        height: 100%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, var(--cyan), var(--pink));
+      }
+
+      .topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 24px;
+        margin-bottom: 24px;
+      }
+
+      .search-wrap {
+        position: relative;
+        width: min(372px, 100%);
+      }
+
+      .search-wrap::before {
+        content: "";
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        width: 13px;
+        height: 13px;
+        border: 1px solid #747782;
+        border-radius: 50%;
+        transform: translateY(-50%);
+      }
+
+      .search-wrap::after {
+        content: "";
+        position: absolute;
+        left: 24px;
+        top: 25px;
+        width: 7px;
+        height: 1px;
+        background: #747782;
+        transform: rotate(45deg);
+      }
+
+      .search-wrap input {
+        width: 100%;
+        height: 36px;
+        border: 1px solid #3b3d47;
+        border-radius: 8px;
+        background: #151519;
+        color: var(--text);
+        padding: 0 14px 0 32px;
+        outline: 0;
+      }
+
+      .profile {
+        display: grid;
+        grid-template-columns: 40px auto;
+        gap: 10px;
+        align-items: center;
+      }
+
+      .avatar {
+        display: grid;
+        place-items: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--purple);
+        font-weight: 800;
+      }
+
+      .profile strong,
+      .profile span {
+        display: block;
+      }
+
+      .profile strong {
+        font-size: 0.86rem;
+        font-weight: 800;
+      }
+
+      .profile span {
+        color: #f0f0f2;
+        font-size: 0.78rem;
+        font-weight: 700;
+      }
+
+      .section {
+        margin-top: 24px;
+      }
+
+      .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 18px;
+        margin-bottom: 18px;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
+      }
+
+      h1 {
+        margin-bottom: 6px;
+        font-family: "Inter Tight", Manrope, sans-serif;
+        font-size: clamp(1.35rem, 3vw, 2rem);
+        font-weight: 800;
+        letter-spacing: 0;
+      }
+
+      h2 {
+        margin-bottom: 0;
+        font-family: "Inter Tight", Manrope, sans-serif;
+        font-size: 1.24rem;
+        font-weight: 800;
+        letter-spacing: 0;
+      }
+
+      h3,
+      .card-title,
+      .project-preview,
+      .modal-panel h2,
+      .drawer-body h2 {
+        font-family: "Inter Tight", Manrope, sans-serif;
+        letter-spacing: 0;
+      }
+
+      .muted {
+        color: var(--muted);
+      }
+
+      .rail {
+        display: grid;
+        grid-auto-flow: column;
+        grid-auto-columns: 300px;
+        gap: 16px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding: 0 4px 12px 0;
+        scrollbar-width: none;
+      }
+
+      .rail::-webkit-scrollbar {
+        display: none;
+      }
+
+      .rail::-webkit-scrollbar-thumb {
+        background: #30323a;
+        border-radius: 999px;
+      }
+
+      .template-card {
+        position: relative;
+        min-height: 190px;
+        cursor: pointer;
+      }
+
+      .thumb {
+        position: relative;
+        height: 158px;
+        overflow: hidden;
+        border-radius: 7px;
+        background: linear-gradient(135deg, #343642, #111217);
+      }
+
+      .thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 260ms ease, filter 260ms ease;
+      }
+
+      .thumb::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, transparent 48%, rgba(0, 0, 0, 0.5));
+        pointer-events: none;
+      }
+
+      .template-card:hover .thumb img,
+      .character-card:hover::before {
+        transform: scale(1.045);
+      }
+
+      .tag {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 1;
+        padding: 5px 8px;
+        border-radius: 4px;
+        background: rgba(9, 20, 25, 0.85);
+        color: var(--cyan);
+        font-size: 0.62rem;
+        font-weight: 800;
+      }
+
+      .card-title {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        margin-top: 12px;
+        color: #bfcdf7;
+        font-size: 0.84rem;
+        font-weight: 700;
+      }
+
+      .dots {
+        color: var(--muted-2);
+        letter-spacing: 2px;
+      }
+
+      .character-rail {
+        display: grid;
+        grid-auto-flow: column;
+        grid-auto-columns: 143px;
+        gap: 16px;
+        overflow-x: auto;
+        padding-bottom: 12px;
+        scrollbar-width: none;
+      }
+
+      .character-rail::-webkit-scrollbar {
+        display: none;
+      }
+
+      .character-card {
+        position: relative;
+        height: 208px;
+        overflow: hidden;
+        border-radius: 7px;
+        background: var(--art);
+        cursor: pointer;
+        transition: transform 220ms ease, filter 220ms ease;
+      }
+
+      .character-card:hover,
+      .template-card:hover {
+        filter: brightness(1.08);
+      }
+
+      .character-card::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        bottom: 34px;
+        width: 70px;
+        height: 130px;
+        border-radius: 34px 34px 16px 16px;
+        background: var(--body);
+        transform: translateX(-50%);
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.4);
+        transition: transform 260ms ease;
+      }
+
+      .character-card::after {
+        content: attr(data-name);
+        position: absolute;
+        left: 10px;
+        right: 10px;
+        bottom: 8px;
+        color: #ffffff;
+        font-size: 1.55rem;
+        font-family: "Inter Tight", Manrope, sans-serif;
+        font-weight: 800;
+        line-height: 0.9;
+        text-shadow: 0 3px 12px rgba(0, 0, 0, 0.9);
+      }
+
+      .recent-tools {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+
+      .heart {
+        display: grid;
+        place-items: center;
+        width: 22px;
+        height: 22px;
+        border: 1px solid #50535e;
+        border-radius: 50%;
+        color: #aeb4c0;
+        font-size: 0.82rem;
+      }
+
+      .sort {
+        height: 40px;
+        border: 1px solid #343640;
+        border-radius: 8px;
+        background: #121214;
+        color: #e6e7eb;
+        padding: 0 12px;
+        font-weight: 700;
+      }
+
+      .recent-grid {
+        display: grid;
+        grid-template-columns: 300px 300px;
+        gap: 16px;
+      }
+
+      .project-tile {
+        display: grid;
+        place-items: center;
+        height: 160px;
+        border: 1px solid rgba(255, 255, 255, 0.02);
+        border-radius: 8px;
+        background: #1b1c20;
+        color: #647088;
+        cursor: pointer;
+      }
+
+      .project-tile span {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .plus {
+        display: grid;
+        place-items: center;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #a7e9ff, #ff8db4);
+        color: #111116;
+        font-weight: 800;
+      }
+
+      .project-preview {
+        align-content: end;
+        justify-items: start;
+        padding: 16px;
+        background:
+          linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.75)),
+          url("assets/project-robot.svg") center / cover;
+        color: #ffffff;
+        font-weight: 800;
+      }
+
+      .drawer {
+        position: fixed;
+        top: 18px;
+        right: 18px;
+        bottom: 18px;
+        z-index: 18;
+        width: min(430px, calc(100vw - 36px));
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        background: rgba(24, 25, 30, 0.96);
+        box-shadow: 0 30px 90px rgba(0, 0, 0, 0.52);
+        transform: translateX(calc(100% + 28px));
+        transition: transform 260ms ease;
+        overflow: hidden;
+      }
+
+      .drawer.is-open {
+        transform: translateX(0);
+      }
+
+      .drawer-media {
+        height: 210px;
+        background: var(--drawer-art, linear-gradient(135deg, #30323a, #111216));
+        background-size: cover;
+        background-position: center;
+      }
+
+      .drawer-body {
+        padding: 20px;
+      }
+
+      .drawer-body h2 {
+        margin-bottom: 8px;
+      }
+
+      .drawer-body p {
+        color: var(--muted);
+      }
+
+      .drawer-list {
+        display: grid;
+        gap: 10px;
+        margin: 18px 0;
+      }
+
+      .drawer-list span {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 10px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        color: var(--muted);
+        font-size: 0.88rem;
+      }
+
+      .drawer-list strong {
+        color: var(--text);
+      }
+
+      .drawer-actions {
+        display: flex;
+        gap: 10px;
+      }
+
+      .close-drawer {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        width: 38px;
+        height: 38px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 10px;
+        background: rgba(0, 0, 0, 0.35);
+        color: #ffffff;
+        cursor: pointer;
+      }
+
+      .modal {
+        position: fixed;
+        inset: 0;
+        display: none;
+        place-items: center;
+        padding: 20px;
+        background: rgba(0, 0, 0, 0.7);
+        z-index: 20;
+      }
+
+      .modal.is-open {
+        display: grid;
+      }
+
+      .modal-panel {
+        width: min(470px, 100%);
+        padding: 22px;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: #18191e;
+      }
+
+      .modal-panel label {
+        display: grid;
+        gap: 8px;
+        margin-bottom: 14px;
+        color: var(--muted);
+        font-size: 0.86rem;
+        font-weight: 700;
+      }
+
+      .modal-panel input,
+      .modal-panel select {
+        min-height: 42px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #111216;
+        color: var(--text);
+        padding: 0 12px;
+      }
+
+      .modal-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+      }
+
+      .secondary-button,
+      .primary-button {
+        min-height: 40px;
+        border-radius: 8px;
+        padding: 0 14px;
+        font-weight: 800;
+        cursor: pointer;
+      }
+
+      .secondary-button {
+        border: 1px solid var(--line);
+        background: transparent;
+        color: var(--text);
+      }
+
+      .primary-button {
+        border: 0;
+        background: linear-gradient(105deg, #a7e9ff, #ff8db4);
+        color: #0c0c10;
+      }
+
+      @media (max-width: 900px) {
+        .app-shell {
+          grid-template-columns: 1fr;
+        }
+
+        .sidebar {
+          position: static;
+          height: auto;
+          padding: 16px;
+        }
+
+        .brand {
+          margin-bottom: 18px;
+        }
+
+        .plan-card,
+        .help-links,
+        .divider.optional {
+          display: none;
+        }
+
+        .main {
+          padding: 18px 14px 50px;
+        }
+
+        .studio-overview {
+          grid-template-columns: 1fr;
+        }
+
+        .topbar {
+          align-items: flex-start;
+          flex-direction: column-reverse;
+        }
+
+        .profile {
+          align-self: flex-end;
+        }
+
+        .rail {
+          grid-auto-columns: 280px;
+        }
+
+        .recent-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Flow Studio navigation">
+        <a class="brand" href="chopa3d-single.html#top" aria-label="Chopa3D home">
+          <img class="brand-logo" src="assets/chopatech-logo.jpg" alt="" />
+          <span class="brand-title">
+            <span>CHOPATECH</span>
+            <span>Flow Studio</span>
+          </span>
+        </a>
+
+        <button class="create-button" type="button" data-open-modal>Create New Project</button>
+
+        <nav class="nav-list">
+          <a class="nav-item active" href="#">
+            <span class="nav-icon"></span>
+            <span>Home</span>
+          </a>
+          <a class="nav-item" href="#recent">
+            <span class="nav-icon"></span>
+            <span>My Projects</span>
+          </a>
+          <a class="nav-item" href="#templates">
+            <span class="nav-icon"></span>
+            <span>Wonder Tools</span>
+          </a>
+          <a class="nav-item" href="#templates">
+            <span class="nav-icon"></span>
+            <span>Templates</span>
+          </a>
+          <a class="nav-item" href="#characters">
+            <span class="nav-icon"></span>
+            <span>My Assets</span>
+          </a>
+        </nav>
+
+        <div class="divider"></div>
+        <a class="nav-item" href="#">
+          <span class="nav-icon"></span>
+          <span>Community</span>
+          <span class="badge">SOON</span>
+        </a>
+
+        <div class="plan-card">
+          <strong>Purchase a New Plan</strong>
+          <p>For more features and credits</p>
+          <button class="review-button" type="button">Review Plans</button>
+        </div>
+
+        <div class="help-links">
+          <a href="#">Tutorials</a>
+          <a href="#">Join us on Discord</a>
+          <a href="#">Documentation</a>
+          <a href="#">Support / FAQ</a>
+        </div>
+      </aside>
+
+      <main class="main">
+        <div class="topbar">
+          <label class="search-wrap">
+            <input type="search" placeholder="Search" data-search />
+          </label>
+          <div class="profile" aria-label="Current plan">
+            <span class="avatar">CC</span>
+            <span>
+              <strong>chopa chopa</strong>
+              <span>Free Plan</span>
+            </span>
+          </div>
+        </div>
+
+        <section class="studio-overview" aria-label="Studio overview">
+          <article class="overview-card">
+            <strong>Good morning, Chopa.</strong>
+            <p>Your studio is ready. Build a live-action CG shot, browse characters, or continue the current render.</p>
+            <div class="metric-row">
+              <span class="metric">12 assets</span>
+              <span class="metric">3 active shots</span>
+              <span class="metric">94 credits</span>
+            </div>
+          </article>
+          <article class="overview-card">
+            <strong>Render Queue</strong>
+            <p>Robot alley test is baking camera track and clean plates.</p>
+            <div class="queue-item">
+              <div class="queue-line"><span>Camera solve</span><span>74%</span></div>
+              <div class="bar" style="--value: 74%"><i></i></div>
+            </div>
+          </article>
+          <article class="overview-card">
+            <strong>Pipeline Health</strong>
+            <p>Exports enabled: mocap, alpha masks, clean plate, character pass, USD scene.</p>
+            <div class="metric-row">
+              <span class="metric">FBX</span>
+              <span class="metric">USD</span>
+              <span class="metric">4K preview</span>
+            </div>
+          </article>
+        </section>
+
+        <section class="section" id="templates">
+          <div class="section-header">
+            <h2>Featured Templates</h2>
+          </div>
+          <div class="rail" data-filter-area>
+            <article class="template-card" data-title="Canyon Exploration" data-type="Live Action" data-output="Camera track, clean plate, alpha masks" data-art="assets/scene-canyon.svg">
+              <div class="thumb"><img src="assets/scene-canyon.svg" alt="Robot character in a canyon live action template" /></div>
+              <span class="tag">LIVE ACTION</span>
+              <div class="card-title"><span>Canyon Exploration</span><span class="dots">...</span></div>
+            </article>
+            <article class="template-card" data-title="Church Push-In" data-type="Live Action" data-output="Mocap, lighting reference, character pass" data-art="assets/scene-church.svg">
+              <div class="thumb"><img src="assets/scene-church.svg" alt="Character in cinematic church push-in template" /></div>
+              <span class="tag">LIVE ACTION</span>
+              <div class="card-title"><span>Church Push-In</span><span class="dots">...</span></div>
+            </article>
+            <article class="template-card" data-title="Graffiti Dance" data-type="AI Motion Capture" data-output="Body solve, hand solve, FBX" data-art="assets/scene-graffiti.svg">
+              <div class="thumb"><img src="assets/scene-graffiti.svg" alt="Graffiti dance motion capture template" /></div>
+              <span class="tag">LIVE ACTION</span>
+              <div class="card-title"><span>Graffiti Dance</span><span class="dots">...</span></div>
+            </article>
+            <article class="template-card" data-title="Hotel Room" data-type="Live Action" data-output="Face pass, masks, preview video" data-art="assets/scene-hotel.svg">
+              <div class="thumb"><img src="assets/scene-hotel.svg" alt="Alien hotel room character template" /></div>
+              <span class="tag">LIVE ACTION</span>
+              <div class="card-title"><span>Hotel Room</span><span class="dots">...</span></div>
+            </article>
+            <article class="template-card" data-title="Museum" data-type="Live Action" data-output="USD scene, alpha masks, source video" data-art="assets/scene-museum.svg">
+              <div class="thumb"><img src="assets/scene-museum.svg" alt="Museum CG character template" /></div>
+              <span class="tag">LIVE ACTION</span>
+              <div class="card-title"><span>Museum</span><span class="dots">...</span></div>
+            </article>
+            <article class="template-card" data-title="Night Alley" data-type="Live Action" data-output="Neon lighting, camera track, clean plate" data-art="assets/project-robot.svg">
+              <div class="thumb"><img src="assets/project-robot.svg" alt="Night alley robot project template" /></div>
+              <span class="tag">LIVE ACTION</span>
+              <div class="card-title"><span>Night Alley</span><span class="dots">...</span></div>
+            </article>
+          </div>
+        </section>
+
+        <section class="section" id="characters">
+          <div class="section-header">
+            <h2>Featured Characters</h2>
+          </div>
+          <div class="character-rail" data-filter-area>
+            <article class="character-card" data-name="NICK" data-title="Nick" data-type="Human character" data-output="Body mocap ready" style="--art: linear-gradient(135deg, #7d5137, #223143); --body: linear-gradient(#e1b38d 0 18%, #88b779 18% 68%, #233040 68%);"></article>
+            <article class="character-card" data-name="Maria" data-title="Maria" data-type="Stylized human" data-output="Face and hand solve" style="--art: linear-gradient(135deg, #392a75, #ff8c78); --body: linear-gradient(#f1b47f 0 18%, #3d7edb 18% 68%, #1d263c 68%);"></article>
+            <article class="character-card" data-name="dummy robot" data-title="Dummy Robot" data-type="Robot" data-output="Best for clean retargeting" style="--art: radial-gradient(circle at 50% 38%, #ffe36d, transparent 30%), linear-gradient(135deg, #0a0f19, #626a7a); --body: linear-gradient(#c8d6df 0 18%, #d4d6db 18% 68%, #363d47 68%);"></article>
+            <article class="character-card" data-name="Bob" data-title="Bob" data-type="Hero character" data-output="Preview and FBX" style="--art: linear-gradient(135deg, #492016, #ff9e44 62%, #1a1f28); --body: linear-gradient(#f0bd92 0 18%, #f6efe2 18% 68%, #263149 68%);"></article>
+            <article class="character-card" data-name="BETSY BOT" data-title="Betsy Bot" data-type="Mech character" data-output="USD scene ready" style="--art: linear-gradient(135deg, #b8ff2f, #107eb0 45%, #12212f); --body: linear-gradient(#1d2638 0 18%, #315c7d 18% 68%, #101620 68%);"></article>
+            <article class="character-card" data-name="The Professor" data-title="The Professor" data-type="Stylized human" data-output="Live action match" style="--art: linear-gradient(135deg, #0d1830, #44749d 54%, #1c130e); --body: linear-gradient(#e1a980 0 18%, #32251e 18% 68%, #111723 68%);"></article>
+            <article class="character-card" data-name="SANDY" data-title="Sandy" data-type="Human character" data-output="Classroom scene ready" style="--art: linear-gradient(135deg, #5a311b, #cc9560 60%, #2a1d16); --body: linear-gradient(#efc09a 0 18%, #a45e31 18% 68%, #221818 68%);"></article>
+            <article class="character-card" data-name="SAM" data-title="Sam" data-type="Creature character" data-output="Alpha mask ready" style="--art: linear-gradient(135deg, #d6e9ff, #657a97 50%, #10151f); --body: linear-gradient(#b8b7c1 0 22%, #8f8a97 22% 70%, #232834 70%);"></article>
+            <article class="character-card" data-name="ASC" data-title="ASC" data-type="Robot" data-output="Canyon template ready" style="--art: radial-gradient(circle at 50% 40%, #183fff, transparent 38%), #050507; --body: linear-gradient(#aeb8bf 0 18%, #d5aa42 18% 68%, #242b33 68%);"></article>
+            <article class="character-card" data-name="MERA" data-title="Mera" data-type="Alien character" data-output="Neon pass ready" style="--art: linear-gradient(135deg, #040b20, #1731c9 48%, #25f4ff); --body: linear-gradient(#34436f 0 20%, #102c8a 20% 70%, #080d20 70%);"></article>
+          </div>
+        </section>
+
+        <section class="section" id="recent">
+          <div class="section-header">
+            <h2>Recent Projects</h2>
+            <div class="recent-tools">
+              <span class="heart">♡</span>
+              <select class="sort" aria-label="Sort recent projects">
+                <option>Most Recent</option>
+                <option>Name</option>
+                <option>Last Edited</option>
+              </select>
+            </div>
+          </div>
+          <div class="recent-grid">
+            <button class="project-tile" type="button" data-open-modal>
+              <span>Create New Project <i class="plus">+</i></span>
+            </button>
+            <article class="project-tile project-preview">
+              <span>Robot alley test</span>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div class="modal" data-modal aria-hidden="true">
+      <form class="modal-panel">
+        <h2>Create New Project</h2>
+        <p class="muted">Start a Chopa3D live action or motion capture project.</p>
+        <label>
+          Project name
+          <input type="text" value="Untitled shot" />
+        </label>
+        <label>
+          Project type
+          <select>
+            <option>Live Action to CG</option>
+            <option>AI Motion Capture</option>
+            <option>3D Asset Generation</option>
+          </select>
+        </label>
+        <div class="modal-actions">
+          <button class="secondary-button" type="button" data-close-modal>Cancel</button>
+          <button class="primary-button" type="button" data-close-modal>Create</button>
+        </div>
+      </form>
+    </div>
+
+    <aside class="drawer" data-drawer aria-label="Project details">
+      <button class="close-drawer" type="button" data-close-drawer aria-label="Close details">x</button>
+      <div class="drawer-media" data-drawer-media></div>
+      <div class="drawer-body">
+        <p class="muted" data-drawer-kicker>Template</p>
+        <h2 data-drawer-title>Canyon Exploration</h2>
+        <p data-drawer-copy>
+          Build a new shot from this item, assign a character, and export editable VFX elements for finishing.
+        </p>
+        <div class="drawer-list">
+          <span><em>Type</em><strong data-drawer-type>Live Action</strong></span>
+          <span><em>Output</em><strong data-drawer-output>Camera track</strong></span>
+          <span><em>Status</em><strong>Ready</strong></span>
+        </div>
+        <div class="drawer-actions">
+          <button class="primary-button" type="button" data-open-modal>Use in new project</button>
+          <button class="secondary-button" type="button" data-close-drawer>Close</button>
+        </div>
+      </div>
+    </aside>
+
+    <script>
+      const modal = document.querySelector("[data-modal]");
+      document.querySelectorAll("[data-open-modal]").forEach((button) => {
+        button.addEventListener("click", () => {
+          modal.classList.add("is-open");
+          modal.setAttribute("aria-hidden", "false");
+        });
+      });
+
+      document.querySelectorAll("[data-close-modal]").forEach((button) => {
+        button.addEventListener("click", () => {
+          modal.classList.remove("is-open");
+          modal.setAttribute("aria-hidden", "true");
+        });
+      });
+
+      modal.addEventListener("click", (event) => {
+        if (event.target === modal) {
+          modal.classList.remove("is-open");
+          modal.setAttribute("aria-hidden", "true");
+        }
+      });
+
+      const search = document.querySelector("[data-search]");
+      const searchableCards = [...document.querySelectorAll("[data-title]")];
+      search.addEventListener("input", () => {
+        const term = search.value.trim().toLowerCase();
+        searchableCards.forEach((card) => {
+          card.style.display = card.dataset.title.toLowerCase().includes(term) ? "" : "none";
+        });
+      });
+
+      const drawer = document.querySelector("[data-drawer]");
+      const drawerMedia = document.querySelector("[data-drawer-media]");
+      const drawerTitle = document.querySelector("[data-drawer-title]");
+      const drawerType = document.querySelector("[data-drawer-type]");
+      const drawerOutput = document.querySelector("[data-drawer-output]");
+      const drawerKicker = document.querySelector("[data-drawer-kicker]");
+
+      document.querySelectorAll(".template-card, .character-card").forEach((card) => {
+        card.addEventListener("click", () => {
+          const isTemplate = card.classList.contains("template-card");
+          const art = card.dataset.art || "";
+          drawerTitle.textContent = card.dataset.title;
+          drawerType.textContent = card.dataset.type || "Studio asset";
+          drawerOutput.textContent = card.dataset.output || "Editable VFX output";
+          drawerKicker.textContent = isTemplate ? "Featured Template" : "Featured Character";
+          drawerMedia.style.setProperty("--drawer-art", art ? `url("${art}") center / cover` : getComputedStyle(card).getPropertyValue("--art"));
+          drawer.classList.add("is-open");
+        });
+      });
+
+      document.querySelectorAll("[data-close-drawer]").forEach((button) => {
+        button.addEventListener("click", () => drawer.classList.remove("is-open"));
+      });
+    </script>
+  </body>
+</html>
