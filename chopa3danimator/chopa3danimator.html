@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Chopa3D Animator | AI VFX Studio</title>
+    <meta
+      name="description"
+      content="Chopa3D Animator is a cinematic AI VFX website concept for replacing actors with CG characters, tracking shots, lighting scenes, and exporting artist-ready files."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header" data-header>
+      <a class="brand" href="#top" aria-label="Chopa3D Animator home">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span>Chopa3D Animator</span>
+      </a>
+      <nav class="desktop-nav" aria-label="Primary navigation">
+        <a href="#workflow">Workflow</a>
+        <a href="#studio">Studio</a>
+        <a href="#exports">Exports</a>
+        <a href="#plans">Plans</a>
+      </nav>
+      <div class="header-actions">
+        <button class="icon-button theme-toggle" type="button" aria-label="Toggle theme" title="Toggle theme">
+          <span aria-hidden="true">◐</span>
+        </button>
+        <button class="button button-ghost" type="button" data-open-modal>Request access</button>
+      </div>
+      <button class="icon-button menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" data-menu-toggle>
+        <span></span>
+        <span></span>
+      </button>
+    </header>
+
+    <nav class="mobile-menu" aria-label="Mobile navigation" data-mobile-menu>
+      <a href="#workflow">Workflow</a>
+      <a href="#studio">Studio</a>
+      <a href="#exports">Exports</a>
+      <a href="#plans">Plans</a>
+      <button class="button button-primary" type="button" data-open-modal>Request access</button>
+    </nav>
+
+    <main id="top">
+      <section class="hero section-band">
+        <canvas class="hero-canvas" data-hero-canvas aria-hidden="true"></canvas>
+        <div class="hero-shade" aria-hidden="true"></div>
+        <div class="hero-content">
+          <p class="eyebrow">AI character animation for filmmakers</p>
+          <h1>Chopa3D Animator</h1>
+          <p class="hero-copy">
+            Upload live action footage, assign a digital character, then review motion, lighting, masks, camera data,
+            and artist-ready exports from one browser studio.
+          </p>
+          <div class="hero-actions">
+            <button class="button button-primary" type="button" data-scroll-target="#studio">Launch demo</button>
+            <button class="button button-secondary" type="button" data-scroll-target="#workflow">See workflow</button>
+          </div>
+          <div class="signal-row" aria-label="Production metrics">
+            <span><strong>6</strong> pipeline stages</span>
+            <span><strong>4K</strong> preview timeline</span>
+            <span><strong>FBX</strong> camera and mocap</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="ticker" aria-label="Supported tools">
+        <span>Maya</span>
+        <span>Blender</span>
+        <span>Unreal Engine</span>
+        <span>Nuke</span>
+        <span>After Effects</span>
+        <span>DaVinci Resolve</span>
+      </section>
+
+      <section class="section workflow" id="workflow">
+        <div class="section-heading">
+          <p class="eyebrow">From plate to character pass</p>
+          <h2>A VFX pipeline shaped for fast iteration.</h2>
+        </div>
+        <div class="workflow-grid">
+          <article class="workflow-step is-active" data-step="0">
+            <span>01</span>
+            <h3>Upload a scene</h3>
+            <p>Bring in an actor plate and let the shot analyzer detect frame rate, camera drift, silhouettes, and usable motion.</p>
+          </article>
+          <article class="workflow-step" data-step="1">
+            <span>02</span>
+            <h3>Assign a character</h3>
+            <p>Match the performer to a rigged CG character and preview scale, contact points, and body alignment.</p>
+          </article>
+          <article class="workflow-step" data-step="2">
+            <span>03</span>
+            <h3>Review generated passes</h3>
+            <p>Inspect animation, roto masks, clean plates, lighting, shadow catchers, and camera solves before export.</p>
+          </article>
+          <article class="workflow-step" data-step="3">
+            <span>04</span>
+            <h3>Finish anywhere</h3>
+            <p>Send editable files to the tools your artists already use, with layers organized for supervision.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section studio" id="studio">
+        <div class="studio-copy">
+          <p class="eyebrow">Interactive browser studio</p>
+          <h2>Build a shot in the page.</h2>
+          <p>
+            This front-end demo simulates the kind of hands-on review experience an AI VFX platform needs: upload state,
+            character selection, generated passes, and export readiness.
+          </p>
+        </div>
+        <div class="studio-shell" aria-label="Chopa3D Animator demo workspace">
+          <div class="studio-toolbar">
+            <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+            <div class="tool-group" role="tablist" aria-label="Preview layers">
+              <button class="tool-chip is-selected" type="button" role="tab" aria-selected="true" data-layer="Final">Final</button>
+              <button class="tool-chip" type="button" role="tab" aria-selected="false" data-layer="Motion">Motion</button>
+              <button class="tool-chip" type="button" role="tab" aria-selected="false" data-layer="Masks">Masks</button>
+              <button class="tool-chip" type="button" role="tab" aria-selected="false" data-layer="Lighting">Lighting</button>
+            </div>
+            <button class="icon-button" type="button" aria-label="Download export" title="Download export">⇩</button>
+          </div>
+          <div class="studio-stage">
+            <div class="scene-frame" data-scene-frame>
+              <div class="scanlines" aria-hidden="true"></div>
+              <div class="actor actor-human" aria-hidden="true"></div>
+              <div class="actor actor-cg" aria-hidden="true"></div>
+              <div class="tracking-node node-a" aria-hidden="true"></div>
+              <div class="tracking-node node-b" aria-hidden="true"></div>
+              <div class="tracking-node node-c" aria-hidden="true"></div>
+              <div class="layer-label" data-layer-label>Final composite</div>
+            </div>
+            <aside class="inspector">
+              <label class="upload-zone">
+                <input type="file" accept="video/*" data-file-input />
+                <span class="upload-icon" aria-hidden="true">↑</span>
+                <strong data-upload-title>Drop actor plate</strong>
+                <small data-upload-subtitle>MP4, MOV, or image sequence</small>
+              </label>
+              <label>
+                Character
+                <select data-character-select>
+                  <option value="Astra mech">Astra mech</option>
+                  <option value="Kinetic runner">Kinetic runner</option>
+                  <option value="Chrome creature">Chrome creature</option>
+                </select>
+              </label>
+              <label>
+                Motion fidelity <span data-fidelity-value>82%</span>
+                <input type="range" min="45" max="99" value="82" data-fidelity />
+              </label>
+              <div class="render-meter" aria-label="Render progress">
+                <span data-render-status>Ready for analysis</span>
+                <div><i data-render-bar></i></div>
+              </div>
+              <button class="button button-primary full-width" type="button" data-render-button>Analyze shot</button>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <section class="section exports" id="exports">
+        <div class="section-heading">
+          <p class="eyebrow">Editable results</p>
+          <h2>Keep artists in control after the AI pass.</h2>
+        </div>
+        <div class="exports-grid">
+          <article>
+            <span class="mini-icon">◇</span>
+            <h3>Animation data</h3>
+            <p>Export retargeted motion as FBX, BVH, or Maya-friendly scene packages.</p>
+          </article>
+          <article>
+            <span class="mini-icon">◈</span>
+            <h3>Compositing layers</h3>
+            <p>Get masks, clean plates, alpha passes, shadows, and lighting references.</p>
+          </article>
+          <article>
+            <span class="mini-icon">◎</span>
+            <h3>Camera solves</h3>
+            <p>Preserve lens, focal movement, depth, and tracked scene markers for finishing.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section plans" id="plans">
+        <div class="section-heading">
+          <p class="eyebrow">Plans</p>
+          <h2>Choose a production lane.</h2>
+        </div>
+        <div class="plans-grid">
+          <article class="plan-card">
+            <h3>Indie</h3>
+            <p class="price">$29<span>/mo</span></p>
+            <p>Small teams testing character replacement on short scenes.</p>
+            <button class="button button-secondary full-width" type="button" data-open-modal>Start</button>
+          </article>
+          <article class="plan-card featured">
+            <h3>Studio</h3>
+            <p class="price">$149<span>/mo</span></p>
+            <p>Shot review, shared libraries, and exports for active productions.</p>
+            <button class="button button-primary full-width" type="button" data-open-modal>Request access</button>
+          </article>
+          <article class="plan-card">
+            <h3>Enterprise</h3>
+            <p class="price">Custom</p>
+            <p>Security, dedicated rendering, private assets, and pipeline support.</p>
+            <button class="button button-secondary full-width" type="button" data-open-modal>Talk to us</button>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div>
+        <a class="brand" href="#top">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span>Chopa3D Animator</span>
+        </a>
+        <p>Original AI VFX website concept built from scratch.</p>
+      </div>
+      <button class="button button-ghost" type="button" data-scroll-target="#top">Back to top</button>
+    </footer>
+
+    <dialog class="access-modal" data-modal>
+      <form method="dialog" class="modal-panel">
+        <button class="icon-button modal-close" value="close" aria-label="Close access form">×</button>
+        <p class="eyebrow">Early access</p>
+        <h2>Bring Chopa3D into your pipeline.</h2>
+        <label>
+          Work email
+          <input type="email" placeholder="studio@example.com" required />
+        </label>
+        <label>
+          Production type
+          <select>
+            <option>Short film</option>
+            <option>Commercial</option>
+            <option>Series</option>
+            <option>Game cinematic</option>
+          </select>
+        </label>
+        <button class="button button-primary full-width" value="submit">Join waitlist</button>
+      </form>
+    </dialog>
+
+    <script src="app.js"></script>
+  </body>
+</html>
