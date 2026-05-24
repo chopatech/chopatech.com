@@ -8,13 +8,873 @@
       name="description"
       content="Chopa3D Animator is a cinematic AI VFX website concept for replacing actors with CG characters, tracking shots, lighting scenes, and exporting artist-ready files."
     />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="styles.css" />
+    <style>
+:root {
+  color-scheme: dark;
+  --bg: #08090d;
+  --bg-soft: #11131a;
+  --panel: rgba(18, 20, 27, 0.82);
+  --panel-solid: #151821;
+  --text: #f5f7fb;
+  --muted: #aeb6c8;
+  --line: rgba(255, 255, 255, 0.13);
+  --cyan: #3ee7ff;
+  --rose: #ff4f9a;
+  --amber: #ffd166;
+  --green: #72f2a1;
+  --violet: #9a7cff;
+  --shadow: 0 24px 70px rgba(0, 0, 0, 0.4);
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f7f8fb;
+  --bg-soft: #ffffff;
+  --panel: rgba(255, 255, 255, 0.86);
+  --panel-solid: #ffffff;
+  --text: #11131a;
+  --muted: #5b6270;
+  --line: rgba(17, 19, 26, 0.12);
+  --shadow: 0 24px 70px rgba(40, 47, 64, 0.14);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, system-ui, sans-serif;
+  line-height: 1.5;
+}
+
+body.menu-open,
+body.modal-open {
+  overflow: hidden;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.site-header {
+  position: fixed;
+  inset: 16px 18px auto;
+  z-index: 20;
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  align-items: center;
+  gap: 20px;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(8, 9, 13, 0.62);
+  backdrop-filter: blur(18px);
+}
+
+:root[data-theme="light"] .site-header {
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.site-header.is-scrolled {
+  box-shadow: var(--shadow);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: max-content;
+  font-family: "Space Grotesk", Inter, sans-serif;
+  font-weight: 700;
+}
+
+.brand-mark {
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(62, 231, 255, 0.95), transparent 50%),
+    linear-gradient(315deg, rgba(255, 79, 154, 0.9), rgba(255, 209, 102, 0.85));
+  box-shadow: 0 0 28px rgba(62, 231, 255, 0.24);
+}
+
+.desktop-nav {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.desktop-nav a:hover {
+  color: var(--text);
+}
+
+.header-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.button,
+.icon-button {
+  border: 1px solid var(--line);
+  color: var(--text);
+  cursor: pointer;
+  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+.button:hover,
+.icon-button:hover {
+  transform: translateY(-1px);
+  border-color: rgba(255, 255, 255, 0.28);
+}
+
+.button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 42px;
+  padding: 0 18px;
+  border-radius: 8px;
+  font-weight: 700;
+}
+
+.button-primary {
+  background: linear-gradient(135deg, var(--cyan), var(--green));
+  color: #071014;
+  border-color: transparent;
+}
+
+.button-secondary {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.button-ghost {
+  background: transparent;
+}
+
+.icon-button {
+  display: inline-grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.menu-toggle {
+  display: none;
+  gap: 5px;
+}
+
+.menu-toggle span {
+  width: 18px;
+  height: 2px;
+  background: currentColor;
+}
+
+.mobile-menu {
+  position: fixed;
+  inset: 82px 18px auto;
+  z-index: 19;
+  display: none;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel-solid);
+  box-shadow: var(--shadow);
+}
+
+.mobile-menu a,
+.mobile-menu button {
+  width: 100%;
+  margin-top: 8px;
+}
+
+.mobile-menu a {
+  display: block;
+  padding: 12px;
+  color: var(--muted);
+}
+
+.mobile-menu.is-open {
+  display: block;
+}
+
+.section-band,
+.section {
+  position: relative;
+}
+
+.hero {
+  min-height: 92vh;
+  display: grid;
+  align-items: end;
+  overflow: hidden;
+}
+
+.hero-canvas,
+.hero-shade {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.hero-canvas {
+  background:
+    radial-gradient(circle at 70% 30%, rgba(255, 79, 154, 0.2), transparent 30%),
+    radial-gradient(circle at 20% 70%, rgba(62, 231, 255, 0.2), transparent 32%),
+    #05060a;
+}
+
+.hero-shade {
+  background: linear-gradient(90deg, rgba(8, 9, 13, 0.94) 0%, rgba(8, 9, 13, 0.64) 45%, rgba(8, 9, 13, 0.16) 100%),
+    linear-gradient(0deg, var(--bg), transparent 34%);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  width: min(1180px, calc(100% - 36px));
+  margin: 0 auto;
+  padding: 160px 0 80px;
+}
+
+.eyebrow {
+  margin: 0 0 12px;
+  color: var(--green);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+h1,
+h2 {
+  font-family: "Space Grotesk", Inter, sans-serif;
+  line-height: 0.98;
+  letter-spacing: 0;
+}
+
+h1 {
+  max-width: 820px;
+  margin-bottom: 22px;
+  font-size: clamp(4.6rem, 12vw, 9.6rem);
+}
+
+h2 {
+  font-size: clamp(2.25rem, 6vw, 5.6rem);
+}
+
+h3 {
+  font-size: 1.05rem;
+}
+
+.hero-copy {
+  max-width: 660px;
+  color: #dce4f5;
+  font-size: 1.12rem;
+}
+
+:root[data-theme="light"] .hero-copy {
+  color: #e9edf6;
+}
+
+.hero-actions,
+.signal-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.signal-row {
+  margin-top: 34px;
+  color: #d7deef;
+}
+
+.signal-row span {
+  min-width: 150px;
+  padding: 10px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.signal-row strong {
+  margin-right: 8px;
+  color: var(--amber);
+}
+
+.ticker {
+  display: flex;
+  gap: 12px;
+  overflow: hidden;
+  padding: 18px max(18px, calc((100vw - 1180px) / 2));
+  border-block: 1px solid var(--line);
+  background: var(--bg-soft);
+}
+
+.ticker span {
+  flex: 1 0 auto;
+  min-width: 130px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.section {
+  width: min(1180px, calc(100% - 36px));
+  margin: 0 auto;
+  padding: 90px 0;
+}
+
+.section-heading {
+  max-width: 830px;
+  margin-bottom: 34px;
+}
+
+.workflow-grid,
+.exports-grid,
+.plans-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+.workflow-step,
+.exports-grid article,
+.plan-card,
+.studio-shell,
+.inspector,
+.modal-panel {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+}
+
+.workflow-step {
+  min-height: 250px;
+  padding: 22px;
+  cursor: pointer;
+}
+
+.workflow-step span,
+.mini-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  margin-bottom: 42px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--cyan);
+  font-weight: 800;
+}
+
+.workflow-step p,
+.exports-grid p,
+.plan-card p,
+.studio-copy p,
+.site-footer p {
+  color: var(--muted);
+}
+
+.workflow-step.is-active {
+  border-color: rgba(62, 231, 255, 0.48);
+  background:
+    linear-gradient(135deg, rgba(62, 231, 255, 0.12), transparent),
+    var(--panel);
+}
+
+.studio {
+  display: grid;
+  grid-template-columns: 0.65fr 1.35fr;
+  gap: 24px;
+  align-items: center;
+}
+
+.studio-copy {
+  max-width: 460px;
+}
+
+.studio-shell {
+  overflow: hidden;
+  background: #0d0f15;
+}
+
+:root[data-theme="light"] .studio-shell {
+  background: #f3f6fb;
+}
+
+.studio-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 62px;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.window-dots {
+  display: flex;
+  gap: 7px;
+}
+
+.window-dots span {
+  width: 10px;
+  height: 10px;
+  border-radius: 99px;
+  background: var(--rose);
+}
+
+.window-dots span:nth-child(2) {
+  background: var(--amber);
+}
+
+.window-dots span:nth-child(3) {
+  background: var(--green);
+}
+
+.tool-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+.tool-chip {
+  min-height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.tool-chip.is-selected {
+  background: var(--text);
+  color: var(--bg);
+}
+
+.studio-stage {
+  display: grid;
+  grid-template-columns: 1fr 270px;
+  gap: 12px;
+  padding: 12px;
+}
+
+.scene-frame {
+  position: relative;
+  min-height: 430px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background:
+    linear-gradient(transparent 94%, rgba(255, 255, 255, 0.09) 95%),
+    linear-gradient(90deg, transparent 94%, rgba(255, 255, 255, 0.08) 95%),
+    radial-gradient(circle at 50% 10%, rgba(255, 209, 102, 0.12), transparent 30%),
+    linear-gradient(135deg, #191b23, #08090d 62%);
+  background-size: 100% 100%, 54px 54px, 100% 100%, 100% 100%;
+}
+
+:root[data-theme="light"] .scene-frame {
+  background:
+    linear-gradient(transparent 94%, rgba(0, 0, 0, 0.07) 95%),
+    linear-gradient(90deg, transparent 94%, rgba(0, 0, 0, 0.06) 95%),
+    radial-gradient(circle at 50% 10%, rgba(255, 209, 102, 0.18), transparent 30%),
+    linear-gradient(135deg, #edf1f8, #c9d3e4 62%);
+  background-size: 100% 100%, 54px 54px, 100% 100%, 100% 100%;
+}
+
+.scanlines {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 8px, rgba(255, 255, 255, 0.035) 9px);
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+.actor {
+  position: absolute;
+  bottom: 56px;
+  left: 50%;
+  width: 124px;
+  height: 240px;
+  transform: translateX(-50%);
+  transition: opacity 220ms ease, filter 220ms ease;
+}
+
+.actor::before,
+.actor::after {
+  content: "";
+  position: absolute;
+}
+
+.actor-human {
+  opacity: 0.32;
+  filter: grayscale(1);
+}
+
+.actor-human::before {
+  inset: 0 28px;
+  border-radius: 44px 44px 28px 28px;
+  background: linear-gradient(#e9c7a8 0 18%, #263145 18% 66%, #1b2231 66%);
+}
+
+.actor-human::after {
+  top: 88px;
+  left: 8px;
+  width: 108px;
+  height: 86px;
+  border: 12px solid rgba(233, 199, 168, 0.75);
+  border-bottom: 0;
+  border-radius: 46px 46px 0 0;
+}
+
+.actor-cg::before {
+  inset: 0 20px;
+  border-radius: 52px 52px 30px 30px;
+  background:
+    linear-gradient(90deg, rgba(62, 231, 255, 0.24), transparent 20% 80%, rgba(255, 79, 154, 0.24)),
+    linear-gradient(#d8f8ff 0 16%, #3ee7ff 16% 18%, #24283a 18% 66%, #0d111b 66%);
+  box-shadow: 0 0 40px rgba(62, 231, 255, 0.34);
+}
+
+.actor-cg::after {
+  top: 92px;
+  left: 0;
+  width: 124px;
+  height: 92px;
+  border: 12px solid var(--cyan);
+  border-bottom: 0;
+  border-radius: 52px 52px 0 0;
+  box-shadow: 0 0 30px rgba(62, 231, 255, 0.3);
+}
+
+.tracking-node {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--green);
+  border-radius: 50%;
+  box-shadow: 0 0 20px rgba(114, 242, 161, 0.4);
+}
+
+.node-a {
+  left: 36%;
+  top: 24%;
+}
+
+.node-b {
+  left: 58%;
+  top: 34%;
+}
+
+.node-c {
+  left: 48%;
+  bottom: 31%;
+}
+
+.layer-label {
+  position: absolute;
+  left: 14px;
+  bottom: 14px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(8, 9, 13, 0.72);
+  color: #f5f7fb;
+  font-weight: 700;
+}
+
+.inspector {
+  display: grid;
+  gap: 14px;
+  align-content: start;
+  padding: 14px;
+  box-shadow: none;
+}
+
+.inspector label,
+.modal-panel label {
+  display: grid;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+input,
+select {
+  width: 100%;
+  min-height: 42px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text);
+  padding: 0 12px;
+}
+
+select option {
+  color: #11131a;
+}
+
+input[type="range"] {
+  padding: 0;
+  accent-color: var(--cyan);
+}
+
+.upload-zone {
+  place-items: center;
+  min-height: 150px;
+  border: 1px dashed rgba(62, 231, 255, 0.42);
+  border-radius: 8px;
+  padding: 18px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.upload-zone input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.upload-zone small {
+  color: var(--muted);
+}
+
+.upload-icon {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  background: rgba(62, 231, 255, 0.14);
+  color: var(--cyan);
+  font-size: 1.5rem;
+}
+
+.render-meter {
+  display: grid;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+.render-meter div {
+  height: 8px;
+  overflow: hidden;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.render-meter i {
+  display: block;
+  width: 0%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--rose), var(--amber), var(--green));
+  transition: width 500ms ease;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.exports-grid {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.exports-grid article,
+.plan-card {
+  padding: 24px;
+}
+
+.plan-card {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+}
+
+.plan-card.featured {
+  border-color: rgba(255, 209, 102, 0.55);
+  transform: translateY(-12px);
+}
+
+.price {
+  margin-bottom: 0;
+  font-family: "Space Grotesk", Inter, sans-serif;
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: var(--text) !important;
+}
+
+.price span {
+  color: var(--muted);
+  font-size: 1rem;
+}
+
+.site-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  width: min(1180px, calc(100% - 36px));
+  margin: 0 auto;
+  padding: 40px 0;
+  border-top: 1px solid var(--line);
+}
+
+.access-modal {
+  width: min(520px, calc(100% - 28px));
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--text);
+}
+
+.access-modal::backdrop {
+  background: rgba(0, 0, 0, 0.68);
+  backdrop-filter: blur(8px);
+}
+
+.modal-panel {
+  position: relative;
+  display: grid;
+  gap: 16px;
+  padding: 26px;
+}
+
+.modal-panel h2 {
+  font-size: 2.3rem;
+}
+
+.modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}
+
+@media (max-width: 940px) {
+  .site-header {
+    grid-template-columns: auto 1fr auto;
+  }
+
+  .desktop-nav,
+  .header-actions {
+    display: none;
+  }
+
+  .menu-toggle {
+    display: inline-grid;
+    justify-self: end;
+  }
+
+  .hero {
+    min-height: 820px;
+  }
+
+  .hero-content {
+    padding-top: 140px;
+  }
+
+  .workflow-grid,
+  .plans-grid,
+  .exports-grid,
+  .studio,
+  .studio-stage {
+    grid-template-columns: 1fr;
+  }
+
+  .workflow-step {
+    min-height: auto;
+  }
+
+  .workflow-step span {
+    margin-bottom: 22px;
+  }
+
+  .plan-card.featured {
+    transform: none;
+  }
+
+  .studio-copy {
+    max-width: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .site-header {
+    inset: 10px 10px auto;
+  }
+
+  .mobile-menu {
+    inset: 74px 10px auto;
+  }
+
+  h1 {
+    font-size: clamp(3.7rem, 18vw, 5.2rem);
+  }
+
+  .hero-content,
+  .section,
+  .site-footer {
+    width: min(100% - 24px, 1180px);
+  }
+
+  .studio-toolbar {
+    align-items: flex-start;
+  }
+
+  .window-dots {
+    display: none;
+  }
+
+  .scene-frame {
+    min-height: 360px;
+  }
+
+  .actor {
+    transform: translateX(-50%) scale(0.82);
+    transform-origin: bottom center;
+  }
+
+  .site-footer {
+    display: grid;
+  }
+}
+
+    </style>
   </head>
   <body>
     <header class="site-header" data-header>
@@ -30,7 +890,7 @@
       </nav>
       <div class="header-actions">
         <button class="icon-button theme-toggle" type="button" aria-label="Toggle theme" title="Toggle theme">
-          <span aria-hidden="true">◐</span>
+          <span aria-hidden="true">T</span>
         </button>
         <button class="button button-ghost" type="button" data-open-modal>Request access</button>
       </div>
@@ -127,7 +987,7 @@
               <button class="tool-chip" type="button" role="tab" aria-selected="false" data-layer="Masks">Masks</button>
               <button class="tool-chip" type="button" role="tab" aria-selected="false" data-layer="Lighting">Lighting</button>
             </div>
-            <button class="icon-button" type="button" aria-label="Download export" title="Download export">⇩</button>
+            <button class="icon-button" type="button" aria-label="Download export" title="Download export">DL</button>
           </div>
           <div class="studio-stage">
             <div class="scene-frame" data-scene-frame>
@@ -142,7 +1002,7 @@
             <aside class="inspector">
               <label class="upload-zone">
                 <input type="file" accept="video/*" data-file-input />
-                <span class="upload-icon" aria-hidden="true">↑</span>
+                <span class="upload-icon" aria-hidden="true">UP</span>
                 <strong data-upload-title>Drop actor plate</strong>
                 <small data-upload-subtitle>MP4, MOV, or image sequence</small>
               </label>
@@ -175,17 +1035,17 @@
         </div>
         <div class="exports-grid">
           <article>
-            <span class="mini-icon">◇</span>
+            <span class="mini-icon">A</span>
             <h3>Animation data</h3>
             <p>Export retargeted motion as FBX, BVH, or Maya-friendly scene packages.</p>
           </article>
           <article>
-            <span class="mini-icon">◈</span>
+            <span class="mini-icon">C</span>
             <h3>Compositing layers</h3>
             <p>Get masks, clean plates, alpha passes, shadows, and lighting references.</p>
           </article>
           <article>
-            <span class="mini-icon">◎</span>
+            <span class="mini-icon">S</span>
             <h3>Camera solves</h3>
             <p>Preserve lens, focal movement, depth, and tracked scene markers for finishing.</p>
           </article>
@@ -233,7 +1093,7 @@
 
     <dialog class="access-modal" data-modal>
       <form method="dialog" class="modal-panel">
-        <button class="icon-button modal-close" value="close" aria-label="Close access form">×</button>
+        <button class="icon-button modal-close" value="close" aria-label="Close access form">x</button>
         <p class="eyebrow">Early access</p>
         <h2>Bring Chopa3D into your pipeline.</h2>
         <label>
@@ -253,6 +1113,195 @@
       </form>
     </dialog>
 
-    <script src="app.js"></script>
+    <script>
+const root = document.documentElement;
+const header = document.querySelector("[data-header]");
+const menuToggle = document.querySelector("[data-menu-toggle]");
+const mobileMenu = document.querySelector("[data-mobile-menu]");
+const modal = document.querySelector("[data-modal]");
+const canvas = document.querySelector("[data-hero-canvas]");
+const ctx = canvas.getContext("2d");
+
+const setHeaderState = () => {
+  header.classList.toggle("is-scrolled", window.scrollY > 18);
+};
+
+window.addEventListener("scroll", setHeaderState, { passive: true });
+setHeaderState();
+
+document.querySelector(".theme-toggle").addEventListener("click", () => {
+  const next = root.dataset.theme === "light" ? "dark" : "light";
+  root.dataset.theme = next;
+});
+
+menuToggle.addEventListener("click", () => {
+  const isOpen = mobileMenu.classList.toggle("is-open");
+  document.body.classList.toggle("menu-open", isOpen);
+  menuToggle.setAttribute("aria-expanded", String(isOpen));
+});
+
+mobileMenu.addEventListener("click", (event) => {
+  if (event.target.matches("a, button")) {
+    mobileMenu.classList.remove("is-open");
+    document.body.classList.remove("menu-open");
+    menuToggle.setAttribute("aria-expanded", "false");
+  }
+});
+
+document.querySelectorAll("[data-scroll-target]").forEach((button) => {
+  button.addEventListener("click", () => {
+    document.querySelector(button.dataset.scrollTarget).scrollIntoView({ behavior: "smooth" });
+  });
+});
+
+document.querySelectorAll("[data-open-modal]").forEach((button) => {
+  button.addEventListener("click", () => {
+    modal.showModal();
+    document.body.classList.add("modal-open");
+  });
+});
+
+modal.addEventListener("close", () => {
+  document.body.classList.remove("modal-open");
+});
+
+document.querySelectorAll(".workflow-step").forEach((step) => {
+  step.addEventListener("click", () => {
+    document.querySelectorAll(".workflow-step").forEach((item) => item.classList.remove("is-active"));
+    step.classList.add("is-active");
+  });
+});
+
+const sceneFrame = document.querySelector("[data-scene-frame]");
+const layerLabel = document.querySelector("[data-layer-label]");
+const layerNames = {
+  Final: "Final composite",
+  Motion: "Mocap solve",
+  Masks: "Roto and alpha",
+  Lighting: "Light match",
+};
+
+document.querySelectorAll("[data-layer]").forEach((button) => {
+  button.addEventListener("click", () => {
+    document.querySelectorAll("[data-layer]").forEach((item) => {
+      item.classList.remove("is-selected");
+      item.setAttribute("aria-selected", "false");
+    });
+    button.classList.add("is-selected");
+    button.setAttribute("aria-selected", "true");
+    const layer = button.dataset.layer;
+    layerLabel.textContent = layerNames[layer];
+    sceneFrame.dataset.layer = layer.toLowerCase();
+  });
+});
+
+const uploadTitle = document.querySelector("[data-upload-title]");
+const uploadSubtitle = document.querySelector("[data-upload-subtitle]");
+document.querySelector("[data-file-input]").addEventListener("change", (event) => {
+  const [file] = event.target.files;
+  if (!file) return;
+  uploadTitle.textContent = file.name;
+  uploadSubtitle.textContent = "Ready to analyze";
+});
+
+const fidelity = document.querySelector("[data-fidelity]");
+const fidelityValue = document.querySelector("[data-fidelity-value]");
+fidelity.addEventListener("input", () => {
+  fidelityValue.textContent = `${fidelity.value}%`;
+});
+
+const renderButton = document.querySelector("[data-render-button]");
+const renderBar = document.querySelector("[data-render-bar]");
+const renderStatus = document.querySelector("[data-render-status]");
+const characterSelect = document.querySelector("[data-character-select]");
+
+renderButton.addEventListener("click", () => {
+  renderButton.disabled = true;
+  renderButton.textContent = "Analyzing...";
+  renderStatus.textContent = `Solving ${characterSelect.value}`;
+  renderBar.style.width = "18%";
+
+  const stages = [
+    ["Tracking performer", "42%"],
+    ["Retargeting motion", "68%"],
+    ["Matching light", "86%"],
+    ["Export ready", "100%"],
+  ];
+
+  stages.forEach(([label, width], index) => {
+    window.setTimeout(() => {
+      renderStatus.textContent = label;
+      renderBar.style.width = width;
+      if (index === stages.length - 1) {
+        renderButton.disabled = false;
+        renderButton.textContent = "Analyze again";
+      }
+    }, 650 * (index + 1));
+  });
+});
+
+const particles = Array.from({ length: 92 }, (_, index) => ({
+  x: Math.random(),
+  y: Math.random(),
+  z: Math.random() * 0.8 + 0.2,
+  hue: index % 3,
+}));
+
+function resizeCanvas() {
+  const scale = Math.min(window.devicePixelRatio || 1, 2);
+  canvas.width = Math.floor(canvas.clientWidth * scale);
+  canvas.height = Math.floor(canvas.clientHeight * scale);
+  ctx.setTransform(scale, 0, 0, scale, 0, 0);
+}
+
+window.addEventListener("resize", resizeCanvas);
+resizeCanvas();
+
+function draw(time) {
+  const width = canvas.clientWidth;
+  const height = canvas.clientHeight;
+  ctx.clearRect(0, 0, width, height);
+
+  const centerX = width * 0.66;
+  const centerY = height * 0.48;
+  const radius = Math.min(width, height) * 0.28;
+
+  ctx.save();
+  ctx.translate(centerX, centerY);
+  ctx.rotate(time * 0.00008);
+  for (let ring = 0; ring < 9; ring += 1) {
+    ctx.beginPath();
+    ctx.ellipse(0, 0, radius + ring * 22, radius * 0.42 + ring * 12, ring * 0.17, 0, Math.PI * 2);
+    ctx.strokeStyle = `rgba(${ring % 2 ? "255, 79, 154" : "62, 231, 255"}, ${0.22 - ring * 0.014})`;
+    ctx.lineWidth = 1.2;
+    ctx.stroke();
+  }
+  ctx.restore();
+
+  particles.forEach((particle) => {
+    const drift = time * 0.00004 * particle.z;
+    const x = ((particle.x + drift) % 1) * width;
+    const y = (particle.y + Math.sin(time * 0.001 + particle.x * 8) * 0.018) * height;
+    const size = 1 + particle.z * 2.4;
+    const colors = ["62, 231, 255", "255, 79, 154", "255, 209, 102"];
+    ctx.beginPath();
+    ctx.arc(x, y, size, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(${colors[particle.hue]}, ${0.28 + particle.z * 0.42})`;
+    ctx.fill();
+  });
+
+  if (width > 720) {
+    ctx.fillStyle = "rgba(245, 247, 251, 0.9)";
+    ctx.font = "700 13px Inter";
+    ctx.fillText("tracking volume 03", centerX + radius * 0.62, centerY - radius * 0.52);
+    ctx.fillText("actor solve locked", centerX - radius * 0.78, centerY + radius * 0.58);
+  }
+
+  requestAnimationFrame(draw);
+}
+
+requestAnimationFrame(draw);
+
+    </script>
   </body>
 </html>
