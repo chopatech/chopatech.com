@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>  
 <html lang="en">
 <head>
 <title>ChopaTech | Web Development, AI Solutions & IT Services Tanzania</title>
@@ -440,71 +440,149 @@ body{
 }
 
 @media (max-width:980px){
-  .slide-card{
-    position:relative;
-    transform:none;
+  .hero-secondary{
+    padding:24px 3%;
   }
 
   .slide-track{
-    min-height:0;
+    min-height:auto;
+    width:100%;
+  }
+
+  .hero-secondary .slide-card{
+    position:relative;
+    inset:auto;
+    transform:none;
+    grid-template-columns:1fr;
+    min-height:auto;
+    border-radius:24px;
+    overflow:hidden;
+    width:100%;
+  }
+
+  .hero-secondary .slide-card.active{
+    display:grid;
+    opacity:1;
+    pointer-events:auto;
+  }
+
+  .slide-card::before{
+    display:none;
   }
 
   .slide-card-image{
     width:100%;
-    min-height:280px;
+    min-height:260px;
+    height:260px;
+    background-position:center;
+    background-size:cover;
+    border-bottom:1px solid rgba(255,255,255,.08);
   }
 
   .slide-card-content{
-    padding:40px 30px 50px;
+    width:100%;
+    padding:28px 22px 34px;
+    text-align:left;
+  }
+
+  .slide-card h2{
+    font-size:clamp(1.7rem,7vw,2.5rem);
+    line-height:1.15;
+    margin-bottom:18px;
+  }
+
+  .slide-card p{
+    font-size:.96rem;
+    line-height:1.75;
+    margin-bottom:24px;
+    max-width:100%;
+  }
+
+  .slide-tag{
+    margin-bottom:18px;
+    font-size:.76rem;
+    padding:10px 14px;
+  }
+
+  .slide-badge{
+    top:16px;
+    left:16px;
+    font-size:.72rem;
+    padding:8px 14px;
+  }
+
+  .hero-btn-secondary{
+    width:100%;
+    text-align:center;
+    padding:16px 18px;
+    border-radius:16px;
+    display:block;
+  }
+
+  .slide-controls{
+    position:relative;
+    margin-top:18px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:14px;
+    inset:auto;
+    pointer-events:auto;
+  }
+
+  .slide-control{
+    position:relative;
+    top:auto;
+    left:auto;
+    right:auto;
+    transform:none;
+    width:44px;
+    height:44px;
+    font-size:1.5rem;
+  }
+
+  .slide-control:hover{
+    transform:scale(1.05);
+  }
+}
+
+/* Small phones */
+@media (max-width:600px){
+  .hero-secondary{
+    padding:20px 2.5%;
+  }
+
+  .slide-card{
+    border-radius:20px;
+  }
+
+  .slide-card-image{
+    min-height:220px;
+    height:220px;
+  }
+
+  .slide-card-content{
+    padding:22px 18px 28px;
+  }
+
+  .slide-card h2{
+    font-size:1.65rem;
+  }
+
+  .slide-card p{
+    font-size:.92rem;
+    line-height:1.7;
+  }
+
+  .hero-btn-secondary{
+    font-size:.95rem;
+    padding:15px 16px;
   }
 
   .slide-control{
     width:40px;
     height:40px;
-    font-size:1.5rem;
-  }
-
-  .hero-secondary{
-    padding:40px 6%;
-  }
-
-  .hero-secondary .slide-card{
-    grid-template-columns:1fr;
-    min-height:auto;
-  }
-
-  .hero-secondary .slide-card-image{
-    min-height:220px;
-  }
-
-  .hero-secondary .slide-card-content{
-    padding:24px 20px 28px;
-  }
-
-  .slide-card h2{
-    font-size:clamp(1.8rem,7vw,2.6rem);
-  }
-
-  .slide-card p{
-    font-size:.95rem;
-    line-height:1.7;
-    margin-bottom:24px;
-  }
-
-  .slide-controls{
-    inset:auto 0 12px 0;
-    display:flex;
-    justify-content:space-between;
-    padding:0 12px;
-  }
-
-  .slide-control{
-    position:static;
-    transform:none;
-  }
-
-  .slide-control:hover{
-    transform:scale(1.05);
+    font-size:1.3rem;
   }
 }
 
@@ -1844,7 +1922,7 @@ if (futureSlides.length) {
   }
 }
 
-// ===== LOADER =====n
+// ===== LOADER =====
 window.addEventListener(
   'load',
   ()=>{
