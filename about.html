@@ -9,7 +9,6 @@
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <!-- Tailwind -->
@@ -22,7 +21,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 
 <style>
-
 *{
 margin:0;
 padding:0;
@@ -150,6 +148,12 @@ opacity:.3;
 z-index:-1;
 }
 
+.ceo-badge{
+background:linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.04));
+border:1px solid rgba(255,255,255,0.10);
+backdrop-filter:blur(18px);
+box-shadow:0 16px 40px rgba(0,0,0,.28);
+}
 </style>
 </head>
 
@@ -160,342 +164,344 @@ z-index:-1;
 
 <!-- NAVBAR -->
 <header class="fixed top-0 left-0 w-full z-50">
-<div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
+  <div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
 
-<div class="text-2xl font-black tracking-wider">
-<span class="text-white">CHOPA</span><span class="text-blue-400">TECH</span>
-</div>
+    <div class="text-2xl font-black tracking-wider">
+      <span class="text-white">CHOPA</span><span class="text-blue-400">TECH</span>
+    </div>
 
-<nav class="hidden md:flex items-center gap-10 text-sm text-slate-300">
-<a href="#" class="hover:text-white transition">Home</a>
-<a href="#" class="hover:text-white transition">Services</a>
-<a href="#" class="hover:text-white transition">Projects</a>
-<a href="#" class="hover:text-white transition">Contact</a>
-</nav>
+    <nav class="hidden md:flex items-center gap-10 text-sm text-slate-300">
+      <a href="#" class="hover:text-white transition">Home</a>
+      <a href="#" class="hover:text-white transition">Services</a>
+      <a href="#" class="hover:text-white transition">Projects</a>
+      <a href="#" class="hover:text-white transition">Contact</a>
+    </nav>
 
-<button class="px-6 py-3 rounded-full bg-blue-500 hover:bg-blue-600 transition font-semibold">
-Get Started
-</button>
+    <button class="px-6 py-3 rounded-full bg-blue-500 hover:bg-blue-600 transition font-semibold">
+      Get Started
+    </button>
 
-</div>
+  </div>
 </header>
 
 <!-- HERO -->
 <section class="min-h-screen flex items-center pt-40 relative overflow-hidden">
 
-<div class="blur-ball bg-blue-500 top-20 left-20"></div>
-<div class="blur-ball bg-purple-500 bottom-10 right-10"></div>
+  <div class="blur-ball bg-blue-500 top-20 left-20"></div>
+  <div class="blur-ball bg-purple-500 bottom-10 right-10"></div>
 
-<div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
+  <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
 
-<!-- LEFT -->
-<div>
+    <!-- LEFT -->
+    <div>
 
-<p class="uppercase tracking-[6px] text-blue-400 font-semibold mb-6">
-WELCOME TO CHOPATECH
-</p>
+      <p class="uppercase tracking-[6px] text-blue-400 font-semibold mb-6">
+        WELCOME TO CHOPATECH
+      </p>
 
-<h1 class="hero-title mb-8">
-Building The Future Of AI & Digital Innovation
-</h1>
+      <h1 class="hero-title mb-8">
+        Building The Future Of AI & Digital Innovation
+      </h1>
 
-<p class="text-slate-300 text-lg leading-relaxed max-w-2xl mb-10">
-ChopaTech is a modern technology company focused on AI solutions,
-web development, networking, software engineering and next-generation
-digital transformation. We create futuristic experiences that help
-businesses grow faster through innovation and creativity.
-</p>
+      <p class="text-slate-300 text-lg leading-relaxed max-w-2xl mb-10">
+        ChopaTech is a modern technology company focused on AI solutions,
+        web development, networking, software engineering and next-generation
+        digital transformation. We create futuristic experiences that help
+        businesses grow faster through innovation and creativity.
+      </p>
 
-<div class="flex flex-wrap gap-5">
+      <div class="flex flex-wrap gap-5">
 
-<button class="px-8 py-4 rounded-full bg-blue-500 hover:bg-blue-600 transition font-semibold glow">
-Explore Services
-</button>
+        <button class="px-8 py-4 rounded-full bg-blue-500 hover:bg-blue-600 transition font-semibold glow">
+          Explore Services
+        </button>
 
-<button class="px-8 py-4 rounded-full glass hover:border-blue-400 transition">
-Learn More
-</button>
+        <button class="px-8 py-4 rounded-full glass hover:border-blue-400 transition">
+          Learn More
+        </button>
 
-</div>
+      </div>
 
-<!-- Stats -->
-<div class="grid grid-cols-3 gap-8 mt-16">
+      <!-- Stats -->
+      <div class="grid grid-cols-3 gap-8 mt-16">
 
-<div>
-<h2 class="stats-number">5+</h2>
-<p class="text-slate-400">Years Experience</p>
-</div>
+        <div>
+          <h2 class="stats-number">5+</h2>
+          <p class="text-slate-400">Years Experience</p>
+        </div>
 
-<div>
-<h2 class="stats-number">50+</h2>
-<p class="text-slate-400">Projects Completed</p>
-</div>
+        <div>
+          <h2 class="stats-number">50+</h2>
+          <p class="text-slate-400">Projects Completed</p>
+        </div>
 
-<div>
-<h2 class="stats-number">100%</h2>
-<p class="text-slate-400">Client Satisfaction</p>
-</div>
+        <div>
+          <h2 class="stats-number">100%</h2>
+          <p class="text-slate-400">Client Satisfaction</p>
+        </div>
 
-</div>
+      </div>
 
-</div>
+    </div>
 
-<!-- RIGHT -->
-<div class="relative flex justify-center">
+    <!-- RIGHT -->
+    <div class="relative flex justify-center">
+      <div class="flex flex-col items-center gap-6 w-full max-w-md">
+        
+        <div class="ceo-image floating glass p-3 glow w-full">
+          <img src="portfolio.jpeg"
+               alt="CEO"
+               class="rounded-[26px] w-full object-cover">
+        </div>
 
-<div class="ceo-image floating glass p-3 glow max-w-md">
+        <div class="ceo-badge w-full rounded-3xl px-7 py-6 text-center">
+          <p class="text-xs uppercase tracking-[4px] text-blue-300 font-semibold mb-2">
+            Founder & CEO
+          </p>
+          <h3 class="text-2xl md:text-3xl font-bold leading-tight">
+            IDD ISMAILI IDD
+          </h3>
+          <p class="text-slate-400 text-sm mt-2">
+            ChopaTech Leadership
+          </p>
+        </div>
 
-<img src="portfolio.jpeg"
-alt="CEO"
-class="rounded-[26px] w-full object-cover">
+      </div>
+    </div>
 
-</div>
-
-<div class="absolute -bottom-8 right-0 glass px-6 py-5 rounded-3xl">
-<p class="text-sm text-slate-400 mb-1">Founder & CEO</p>
-<h3 class="text-2xl font-bold">IDD ISMAILI IDD</h3>
-</div>
-
-</div>
-
-</div>
+  </div>
 
 </section>
 
 <!-- ABOUT -->
 <section class="py-32 relative">
 
-<div class="max-w-7xl mx-auto px-6">
+  <div class="max-w-7xl mx-auto px-6">
 
-<div class="text-center mb-24">
+    <div class="text-center mb-24">
 
-<p class="text-blue-400 font-semibold uppercase tracking-[5px] mb-5">
-ABOUT US
-</p>
+      <p class="text-blue-400 font-semibold uppercase tracking-[5px] mb-5">
+        ABOUT US
+      </p>
 
-<h2 class="text-5xl md:text-6xl font-black mb-6">
-Why <span class="text-gradient">ChopaTech</span> Exists
-</h2>
+      <h2 class="text-5xl md:text-6xl font-black mb-6">
+        Why <span class="text-gradient">ChopaTech</span> Exists
+      </h2>
 
-<p class="max-w-3xl mx-auto text-slate-400 text-lg leading-relaxed">
-We believe technology should feel powerful, beautiful and intelligent.
-Our mission is to empower businesses and individuals with modern AI,
-immersive digital experiences and smart software solutions.
-</p>
+      <p class="max-w-3xl mx-auto text-slate-400 text-lg leading-relaxed">
+        We believe technology should feel powerful, beautiful and intelligent.
+        Our mission is to empower businesses and individuals with modern AI,
+        immersive digital experiences and smart software solutions.
+      </p>
 
-</div>
+    </div>
 
-<div class="grid lg:grid-cols-3 gap-8">
+    <div class="grid lg:grid-cols-3 gap-8">
 
-<!-- Card -->
-<div class="glass rounded-[30px] p-10 card-hover">
+      <!-- Card -->
+      <div class="glass rounded-[30px] p-10 card-hover">
+        <div class="w-16 h-16 rounded-2xl bg-blue-500/20 flex items-center justify-center mb-8">
+          <span class="text-3xl">🚀</span>
+        </div>
 
-<div class="w-16 h-16 rounded-2xl bg-blue-500/20 flex items-center justify-center mb-8">
-<span class="text-3xl">🚀</span>
-</div>
+        <h3 class="text-2xl font-bold mb-5">
+          Innovation First
+        </h3>
 
-<h3 class="text-2xl font-bold mb-5">
-Innovation First
-</h3>
+        <p class="text-slate-400 leading-relaxed">
+          We combine creativity, AI and advanced development technologies
+          to create digital products that stand out in the modern world.
+        </p>
+      </div>
 
-<p class="text-slate-400 leading-relaxed">
-We combine creativity, AI and advanced development technologies
-to create digital products that stand out in the modern world.
-</p>
+      <!-- Card -->
+      <div class="glass rounded-[30px] p-10 card-hover">
+        <div class="w-16 h-16 rounded-2xl bg-purple-500/20 flex items-center justify-center mb-8">
+          <span class="text-3xl">🧠</span>
+        </div>
 
-</div>
+        <h3 class="text-2xl font-bold mb-5">
+          AI-Powered Solutions
+        </h3>
 
-<!-- Card -->
-<div class="glass rounded-[30px] p-10 card-hover">
+        <p class="text-slate-400 leading-relaxed">
+          From AI applications to automation systems and smart digital platforms,
+          we bring intelligent solutions to real-world problems.
+        </p>
+      </div>
 
-<div class="w-16 h-16 rounded-2xl bg-purple-500/20 flex items-center justify-center mb-8">
-<span class="text-3xl">🧠</span>
-</div>
+      <!-- Card -->
+      <div class="glass rounded-[30px] p-10 card-hover">
+        <div class="w-16 h-16 rounded-2xl bg-cyan-500/20 flex items-center justify-center mb-8">
+          <span class="text-3xl">🌍</span>
+        </div>
 
-<h3 class="text-2xl font-bold mb-5">
-AI-Powered Solutions
-</h3>
+        <h3 class="text-2xl font-bold mb-5">
+          Global Vision
+        </h3>
 
-<p class="text-slate-400 leading-relaxed">
-From AI applications to automation systems and smart digital platforms,
-we bring intelligent solutions to real-world problems.
-</p>
+        <p class="text-slate-400 leading-relaxed">
+          ChopaTech is designed to compete globally by delivering premium,
+          world-class experiences inspired by leading technology companies.
+        </p>
+      </div>
 
-</div>
+    </div>
 
-<!-- Card -->
-<div class="glass rounded-[30px] p-10 card-hover">
-
-<div class="w-16 h-16 rounded-2xl bg-cyan-500/20 flex items-center justify-center mb-8">
-<span class="text-3xl">🌍</span>
-</div>
-
-<h3 class="text-2xl font-bold mb-5">
-Global Vision
-</h3>
-
-<p class="text-slate-400 leading-relaxed">
-ChopaTech is designed to compete globally by delivering premium,
-world-class experiences inspired by leading technology companies.
-</p>
-
-</div>
-
-</div>
-
-</div>
+  </div>
 
 </section>
 
 <!-- SERVICES -->
 <section class="py-32">
 
-<div class="max-w-7xl mx-auto px-6">
+  <div class="max-w-7xl mx-auto px-6">
 
-<div class="mb-20">
+    <div class="mb-20">
 
-<p class="text-blue-400 uppercase tracking-[5px] font-semibold mb-4">
-OUR SERVICES
-</p>
+      <p class="text-blue-400 uppercase tracking-[5px] font-semibold mb-4">
+        OUR SERVICES
+      </p>
 
-<h2 class="text-5xl md:text-6xl font-black">
-What We <span class="text-gradient">Create</span>
-</h2>
+      <h2 class="text-5xl md:text-6xl font-black">
+        What We <span class="text-gradient">Create</span>
+      </h2>
 
-</div>
+    </div>
 
-<div class="grid md:grid-cols-2 xl:grid-cols-4 gap-8">
+    <div class="grid md:grid-cols-2 xl:grid-cols-4 gap-8">
 
-<div class="glass rounded-[30px] p-8 card-hover">
-<h3 class="text-2xl font-bold mb-5">AI Solutions</h3>
-<p class="text-slate-400">
-Modern AI systems, automation tools and smart digital experiences.
-</p>
-</div>
+      <div class="glass rounded-[30px] p-8 card-hover">
+        <h3 class="text-2xl font-bold mb-5">AI Solutions</h3>
+        <p class="text-slate-400">
+          Modern AI systems, automation tools and smart digital experiences.
+        </p>
+      </div>
 
-<div class="glass rounded-[30px] p-8 card-hover">
-<h3 class="text-2xl font-bold mb-5">Web Development</h3>
-<p class="text-slate-400">
-Premium futuristic websites with modern UI/UX and animations.
-</p>
-</div>
+      <div class="glass rounded-[30px] p-8 card-hover">
+        <h3 class="text-2xl font-bold mb-5">Web Development</h3>
+        <p class="text-slate-400">
+          Premium futuristic websites with modern UI/UX and animations.
+        </p>
+      </div>
 
-<div class="glass rounded-[30px] p-8 card-hover">
-<h3 class="text-2xl font-bold mb-5">Software Systems</h3>
-<p class="text-slate-400">
-Powerful systems for schools, businesses and organizations.
-</p>
-</div>
+      <div class="glass rounded-[30px] p-8 card-hover">
+        <h3 class="text-2xl font-bold mb-5">Software Systems</h3>
+        <p class="text-slate-400">
+          Powerful systems for schools, businesses and organizations.
+        </p>
+      </div>
 
-<div class="glass rounded-[30px] p-8 card-hover">
-<h3 class="text-2xl font-bold mb-5">Networking & IT</h3>
-<p class="text-slate-400">
-Professional networking, cloud infrastructure and digital support.
-</p>
-</div>
+      <div class="glass rounded-[30px] p-8 card-hover">
+        <h3 class="text-2xl font-bold mb-5">Networking & IT</h3>
+        <p class="text-slate-400">
+          Professional networking, cloud infrastructure and digital support.
+        </p>
+      </div>
 
-</div>
+    </div>
 
-</div>
+  </div>
 
 </section>
 
 <!-- CEO MESSAGE -->
 <section class="py-32 relative">
 
-<div class="max-w-5xl mx-auto px-6">
+  <div class="max-w-5xl mx-auto px-6">
 
-<div class="glass rounded-[40px] p-12 md:p-20 text-center glow">
+    <div class="glass rounded-[40px] p-12 md:p-20 text-center glow">
 
-<p class="text-blue-400 uppercase tracking-[5px] font-semibold mb-5">
-MESSAGE FROM CEO
-</p>
+      <p class="text-blue-400 uppercase tracking-[5px] font-semibold mb-5">
+        MESSAGE FROM CEO
+      </p>
 
-<h2 class="text-4xl md:text-5xl font-black mb-10">
-Creating Technology That Inspires The Future
-</h2>
+      <h2 class="text-4xl md:text-5xl font-black mb-10">
+        Creating Technology That Inspires The Future
+      </h2>
 
-<p class="text-slate-300 text-xl leading-relaxed mb-10">
-“At ChopaTech, our dream is to build a future where African innovation
-competes globally through technology, AI and creativity. We are committed
-to delivering powerful digital solutions with passion, quality and vision.”
-</p>
+      <p class="text-slate-300 text-xl leading-relaxed mb-10">
+        “At ChopaTech, our dream is to build a future where African innovation
+        competes globally through technology, AI and creativity. We are committed
+        to delivering powerful digital solutions with passion, quality and vision.”
+      </p>
 
-<div class="flex flex-col items-center">
+      <div class="flex flex-col items-center">
 
-<img src="portfolio.jpeg"
-class="w-24 h-24 rounded-full object-cover border-4 border-blue-500 mb-4">
+        <img src="portfolio.jpeg"
+             alt="CEO portrait"
+             class="w-24 h-24 rounded-full object-cover border-4 border-blue-500 mb-4">
 
-<h3 class="text-2xl font-bold">
-IDD ISMAILI IDD
-</h3>
+        <h3 class="text-2xl font-bold">
+          IDD ISMAILI IDD
+        </h3>
 
-<p class="text-slate-400">
-Founder & CEO — ChopaTech
-</p>
+        <p class="text-slate-400">
+          Founder & CEO — ChopaTech
+        </p>
 
-</div>
+      </div>
 
-</div>
+    </div>
 
-</div>
+  </div>
 
 </section>
 
 <!-- CTA -->
 <section class="py-32">
 
-<div class="max-w-6xl mx-auto px-6">
+  <div class="max-w-6xl mx-auto px-6">
 
-<div class="glass rounded-[50px] p-16 text-center relative overflow-hidden">
+    <div class="glass rounded-[50px] p-16 text-center relative overflow-hidden">
 
-<div class="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10"></div>
+      <div class="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10"></div>
 
-<div class="relative z-10">
+      <div class="relative z-10">
 
-<h2 class="text-5xl md:text-6xl font-black mb-8">
-Let's Build The Future Together
-</h2>
+        <h2 class="text-5xl md:text-6xl font-black mb-8">
+          Let's Build The Future Together
+        </h2>
 
-<p class="max-w-3xl mx-auto text-slate-300 text-lg leading-relaxed mb-12">
-Partner with ChopaTech to create intelligent, immersive and modern
-digital experiences powered by innovation.
-</p>
+        <p class="max-w-3xl mx-auto text-slate-300 text-lg leading-relaxed mb-12">
+          Partner with ChopaTech to create intelligent, immersive and modern
+          digital experiences powered by innovation.
+        </p>
 
-<button class="px-10 py-5 rounded-full bg-blue-500 hover:bg-blue-600 transition text-lg font-bold glow">
-Start Your Project
-</button>
+        <button class="px-10 py-5 rounded-full bg-blue-500 hover:bg-blue-600 transition text-lg font-bold glow">
+          Start Your Project
+        </button>
 
-</div>
+      </div>
 
-</div>
+    </div>
 
-</div>
+  </div>
 
 </section>
 
 <!-- FOOTER -->
 <footer class="border-t border-white/10 py-10">
 
-<div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
+  <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
 
-<div>
-<h2 class="text-3xl font-black">
-<span>CHOPA</span><span class="text-blue-400">TECH</span>
-</h2>
-<p class="text-slate-500 mt-2">
-Future of AI & Digital Innovation
-</p>
-</div>
+    <div>
+      <h2 class="text-3xl font-black">
+        <span>CHOPA</span><span class="text-blue-400">TECH</span>
+      </h2>
+      <p class="text-slate-500 mt-2">
+        Future of AI & Digital Innovation
+      </p>
+    </div>
 
-<div class="flex gap-6 text-slate-400">
-<a href="#">Facebook</a>
-<a href="#">Instagram</a>
-<a href="#">LinkedIn</a>
-<a href="#">YouTube</a>
-</div>
+    <div class="flex gap-6 text-slate-400">
+      <a href="#">Facebook</a>
+      <a href="#">Instagram</a>
+      <a href="#">LinkedIn</a>
+      <a href="#">YouTube</a>
+    </div>
 
-</div>
+  </div>
 
 </footer>
 
@@ -506,15 +512,15 @@ Future of AI & Digital Innovation
 const scene = new THREE.Scene();
 
 const camera = new THREE.PerspectiveCamera(
-75,
-window.innerWidth / window.innerHeight,
-0.1,
-1000
+  75,
+  window.innerWidth / window.innerHeight,
+  0.1,
+  1000
 );
 
 const renderer = new THREE.WebGLRenderer({
-canvas:document.getElementById('bgCanvas'),
-alpha:true
+  canvas:document.getElementById('bgCanvas'),
+  alpha:true
 });
 
 renderer.setSize(window.innerWidth,window.innerHeight);
@@ -528,34 +534,34 @@ const particlesCount = 3000;
 const posArray = new Float32Array(particlesCount * 3);
 
 for(let i=0;i<particlesCount * 3;i++){
-posArray[i] = (Math.random() - 0.5) * 15;
+  posArray[i] = (Math.random() - 0.5) * 15;
 }
 
 particlesGeometry.setAttribute(
-'position',
-new THREE.BufferAttribute(posArray,3)
+  'position',
+  new THREE.BufferAttribute(posArray,3)
 );
 
 const particlesMaterial = new THREE.PointsMaterial({
-size:0.015,
-color:'#60a5fa'
+  size:0.015,
+  color:'#60a5fa'
 });
 
 const particlesMesh = new THREE.Points(
-particlesGeometry,
-particlesMaterial
+  particlesGeometry,
+  particlesMaterial
 );
 
 scene.add(particlesMesh);
 
 function animate(){
 
-requestAnimationFrame(animate);
+  requestAnimationFrame(animate);
 
-particlesMesh.rotation.y += 0.0005;
-particlesMesh.rotation.x += 0.0002;
+  particlesMesh.rotation.y += 0.0005;
+  particlesMesh.rotation.x += 0.0002;
 
-renderer.render(scene,camera);
+  renderer.render(scene,camera);
 
 }
 
@@ -563,26 +569,26 @@ animate();
 
 window.addEventListener('resize',()=>{
 
-camera.aspect = window.innerWidth / window.innerHeight;
-camera.updateProjectionMatrix();
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
 
-renderer.setSize(window.innerWidth,window.innerHeight);
+  renderer.setSize(window.innerWidth,window.innerHeight);
 
 });
 
 /* GSAP */
 
 gsap.from(".hero-title",{
-y:80,
-opacity:0,
-duration:1.5
+  y:80,
+  opacity:0,
+  duration:1.5
 });
 
 gsap.from(".glass",{
-opacity:0,
-y:40,
-duration:1.2,
-stagger:.15
+  opacity:0,
+  y:40,
+  duration:1.2,
+  stagger:.15
 });
 
 </script>
