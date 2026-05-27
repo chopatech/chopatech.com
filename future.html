@@ -41,22 +41,22 @@ body{background:var(--bg);color:var(--txt);font-family:'Rajdhani',sans-serif;fon
 ::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:var(--bg)}
 ::-webkit-scrollbar-thumb{background:linear-gradient(var(--c1),var(--c2));border-radius:2px}
 a{color:inherit;text-decoration:none}
- 
+
 /* CURSOR */
 #cur{position:fixed;width:10px;height:10px;border-radius:50%;background:var(--c1);pointer-events:none;z-index:99999;transform:translate(-50%,-50%);box-shadow:0 0 12px var(--c1),0 0 24px rgba(0,238,255,.4);mix-blend-mode:screen;transition:width .15s,height .15s}
 #cur-ring{position:fixed;width:34px;height:34px;border-radius:50%;border:1px solid rgba(0,238,255,.45);pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:left .1s,top .1s}
 #cur-glow{position:fixed;width:500px;height:500px;border-radius:50%;pointer-events:none;z-index:0;background:radial-gradient(circle,rgba(0,238,255,.038) 0,transparent 70%);transform:translate(-50%,-50%);transition:left .06s,top .06s}
- 
+
 /* SCANLINES */
 body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,var(--scan),var(--scan) 1px,transparent 1px,transparent 3px);pointer-events:none;z-index:9990}
- 
+
 /* GRID */
 .gridbg{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:68px 68px}
- 
+
 /* NEURAL CANVAS */
 #neural{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.7}
 [data-theme="light"] #neural{opacity:.15}
- 
+
 /* LOADER */
 #loader{position:fixed;inset:0;z-index:99990;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.8rem;transition:opacity .8s,visibility .8s}
 #loader.gone{opacity:0;visibility:hidden}
@@ -71,7 +71,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 @keyframes ls{from{transform:translateX(-100%)}to{transform:translateX(200%)}}
 .ld-pct{font-family:'Orbitron',monospace;font-size:1.1rem;color:var(--c1);min-width:55px;text-align:center}
 .ld-msg{font-family:'Share Tech Mono',monospace;font-size:.62rem;color:var(--dim);letter-spacing:2px;height:.9rem;transition:opacity .3s}
- 
+
 /* NAV */
 nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:var(--glass);backdrop-filter:blur(32px) saturate(180%);border-bottom:1px solid var(--bdr);height:60px;padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:.8rem}
 nav::after{content:'';position:absolute;bottom:-1px;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,var(--c1),transparent);opacity:.28}
@@ -94,7 +94,7 @@ nav::after{content:'';position:absolute;bottom:-1px;left:10%;right:10%;height:1p
 .nlive{display:flex;align-items:center;gap:5px;font-family:'Share Tech Mono',monospace;font-size:.58rem;color:var(--c6);letter-spacing:1px}
 .nlive-d{width:5px;height:5px;border-radius:50%;background:var(--c6);box-shadow:0 0 8px var(--c6);animation:pd 2s infinite}
 @keyframes pd{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.6)}}
- 
+
 /* TICKER */
 .ticker-w{position:relative;z-index:1;background:var(--glass2);border-bottom:1px solid var(--bdr);overflow:hidden;padding:.42rem 0;margin-top:60px}
 .ticker-inner{display:flex;white-space:nowrap;animation:tk 65s linear infinite}
@@ -102,7 +102,7 @@ nav::after{content:'';position:absolute;bottom:-1px;left:10%;right:10%;height:1p
 .ti{font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--muted);letter-spacing:2px;padding:0 2rem}
 .ti span{color:var(--c1)}.ti .s{color:var(--dim);margin:0 .25rem}
 @keyframes tk{from{transform:translateX(0)}to{transform:translateX(-50%)}}
- 
+
 /* SECTION BASICS */
 section{position:relative;z-index:1;padding:5rem 2rem;max-width:1500px;margin:0 auto}
 .shdr{text-align:center;margin-bottom:3.5rem}
@@ -111,7 +111,7 @@ section{position:relative;z-index:1;padding:5rem 2rem;max-width:1500px;margin:0 
 .stitle span{background:linear-gradient(135deg,var(--c1),var(--c3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .sdesc{max-width:580px;margin:0 auto;color:var(--muted);font-size:.95rem;line-height:1.85}
 .sdiv{width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--bdrb),transparent);margin:.7rem 0}
- 
+
 /* HERO */
 .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 2rem 4rem;z-index:1;position:relative;overflow:hidden}
 .orb{position:absolute;border-radius:50%;filter:blur(110px);pointer-events:none}
@@ -148,7 +148,7 @@ section{position:relative;z-index:1;padding:5rem 2rem;max-width:1500px;margin:0 
 .sline{width:1px;height:44px;background:linear-gradient(to bottom,var(--c1),transparent);animation:sla 2s ease-in-out infinite}
 @keyframes sla{0%,100%{opacity:1;transform:scaleY(1)}50%{opacity:.3;transform:scaleY(.5)}}
 @keyframes fu{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
- 
+
 /* STAT MINI CARDS */
 .stat4{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.4rem}
 @media(max-width:900px){.stat4{grid-template-columns:repeat(2,1fr)}}
@@ -158,7 +158,7 @@ section{position:relative;z-index:1;padding:5rem 2rem;max-width:1500px;margin:0 
 .smv{font-family:'Orbitron',monospace;font-size:1.75rem;font-weight:900;color:var(--sm,#00eeff);text-shadow:0 0 20px rgba(var(--smr,0,238,255),.4);display:block}
 .sml{font-size:.83rem;color:var(--txt);font-weight:600;margin-top:.3rem;margin-bottom:.15rem}
 .sms{font-family:'Share Tech Mono',monospace;font-size:.58rem;color:var(--muted);letter-spacing:1px}
- 
+
 /* FILTER BAR */
 .fbar{display:flex;gap:.8rem;flex-wrap:wrap;align-items:center;margin-bottom:2rem;padding:1.1rem 1.3rem;background:var(--bg1);border:1px solid var(--bdr);border-radius:12px;transition:border-color .3s}
 .fbar:focus-within{border-color:var(--bdrb)}
@@ -171,7 +171,7 @@ section{position:relative;z-index:1;padding:5rem 2rem;max-width:1500px;margin:0 
 .fb{font-family:'Share Tech Mono',monospace;font-size:.58rem;padding:5px 10px;border-radius:4px;cursor:pointer;border:1px solid var(--bdr);background:transparent;color:var(--muted);letter-spacing:1px;text-transform:uppercase;transition:all .2s}
 .fb:hover,.fb.on{background:rgba(0,238,255,.07);border-color:var(--c1);color:var(--c1)}
 .fcnt{font-family:'Share Tech Mono',monospace;font-size:.58rem;color:var(--dim);margin-left:auto;white-space:nowrap}
- 
+
 /* AI CARDS */
 .agrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.3rem}
 .acard{background:var(--bg1);border:1px solid var(--bdr);border-radius:14px;padding:1.55rem;position:relative;overflow:hidden;transition:border-color .3s,transform .3s,box-shadow .3s}
@@ -203,7 +203,7 @@ section{position:relative;z-index:1;padding:5rem 2rem;max-width:1500px;margin:0 
 .vbtn{display:flex;align-items:center;justify-content:center;gap:6px;padding:9px;background:transparent;border:1px solid var(--bdrb);border-radius:7px;font-family:'Share Tech Mono',monospace;font-size:.66rem;letter-spacing:2px;text-decoration:none;text-transform:uppercase;transition:all .2s}
 .vbtn:hover{background:rgba(0,238,255,.07);box-shadow:var(--glow);transform:translateY(-1px)}
 .vbtn svg{width:11px;height:11px}
- 
+
 /* CHARTS */
 .cgrid2{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;margin-bottom:1.4rem}
 @media(max-width:980px){.cgrid2{grid-template-columns:1fr}}
@@ -212,7 +212,7 @@ section{position:relative;z-index:1;padding:5rem 2rem;max-width:1500px;margin:0 
 .ctitle{font-family:'Orbitron',monospace;font-size:.76rem;font-weight:700;color:var(--txt);margin-bottom:.25rem;letter-spacing:1px}
 .csub{font-size:.74rem;color:var(--muted);margin-bottom:1.4rem}
 .cw{position:relative;height:300px}
- 
+
 /* BENCHMARK TABLE */
 .btw{background:var(--bg1);border:1px solid var(--bdr);border-radius:14px;overflow:auto}
 .btt{width:100%;border-collapse:collapse;min-width:850px}
@@ -230,7 +230,7 @@ section{position:relative;z-index:1;padding:5rem 2rem;max-width:1500px;margin:0 
 .scf{height:100%;border-radius:2px}
 .scn{font-family:'Share Tech Mono',monospace;font-size:.64rem;color:var(--muted)}
 .tu{color:var(--c6);font-size:.7rem}.td2{color:var(--c4);font-size:.7rem}.ts{color:var(--muted);font-size:.7rem}
- 
+
 /* PAPERS */
 .pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1.2rem}
 .pc{background:var(--bg1);border:1px solid var(--bdr);border-radius:12px;padding:1.4rem;transition:all .3s;position:relative;overflow:hidden}
@@ -252,7 +252,7 @@ section{position:relative;z-index:1;padding:5rem 2rem;max-width:1500px;margin:0 
 .plink{font-family:'Share Tech Mono',monospace;font-size:.58rem;color:var(--c1);display:flex;align-items:center;gap:4px;transition:text-shadow .2s;flex-shrink:0}
 .plink:hover{text-shadow:var(--glow)}
 .plink svg{width:10px;height:10px}
- 
+
 /* GLOSSARY */
 .gsr{position:relative;margin-bottom:1.5rem}
 .gsr input{width:100%;background:var(--bg1);border:1px solid var(--bdr);border-radius:8px;padding:10px 12px 10px 36px;color:var(--txt);font-family:'Share Tech Mono',monospace;font-size:.73rem;letter-spacing:1px;outline:none;transition:all .2s}
@@ -270,7 +270,7 @@ section{position:relative;z-index:1;padding:5rem 2rem;max-width:1500px;margin:0 
 .gtn{font-family:'Orbitron',monospace;font-size:.74rem;font-weight:700;color:var(--txt);margin-bottom:.3rem}
 .gtd{font-size:.78rem;color:var(--muted);line-height:1.65;clear:both}
 .gtt{display:inline-block;margin-top:.45rem;font-family:'Share Tech Mono',monospace;font-size:.52rem;padding:2px 6px;border-radius:3px;background:var(--tag);border:1px solid var(--bdr);color:var(--dim);letter-spacing:1px;text-transform:uppercase}
- 
+
 /* INDUSTRIES */
 .indgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:.95rem}
 .icard{background:var(--bg1);border:1px solid var(--bdr);border-radius:12px;padding:1.3rem;transition:all .3s;position:relative;overflow:hidden}
@@ -281,7 +281,7 @@ section{position:relative;z-index:1;padding:5rem 2rem;max-width:1500px;margin:0 
 .iin{font-family:'Orbitron',monospace;font-size:.74rem;font-weight:700;color:var(--txt);margin-bottom:.38rem}
 .iid{font-size:.78rem;color:var(--muted);line-height:1.6;margin-bottom:.7rem}
 .istat{font-family:'Share Tech Mono',monospace;font-size:.62rem;color:var(--ic,#00eeff);letter-spacing:1px}
- 
+
 /* HARDWARE */
 .hwgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(265px,1fr));gap:1.2rem}
 .hwc{background:var(--bg1);border:1px solid var(--bdr);border-radius:12px;padding:1.4rem;transition:all .3s;position:relative;overflow:hidden}
@@ -294,7 +294,7 @@ section{position:relative;z-index:1;padding:5rem 2rem;max-width:1500px;margin:0 
 .hwspec{background:var(--tag);border:1px solid var(--bdr);border-radius:5px;padding:.38rem .55rem}
 .hwsl{font-family:'Share Tech Mono',monospace;font-size:.5rem;letter-spacing:1px;color:var(--dim);text-transform:uppercase}
 .hwsv{font-family:'Orbitron',monospace;font-size:.73rem;font-weight:700;color:var(--txt)}
- 
+
 /* COMPARATOR */
 .comp-tool{background:var(--bg1);border:1px solid var(--bdr);border-radius:14px;padding:1.7rem;transition:border-color .3s}
 .comp-selects{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:1.4rem;align-items:flex-end}
@@ -312,14 +312,14 @@ section{position:relative;z-index:1;padding:5rem 2rem;max-width:1500px;margin:0 
 .comp-met{font-weight:600;color:var(--txt);font-size:.8rem}
 .comp-win{font-family:'Share Tech Mono',monospace;font-size:.72rem;font-weight:700}
 .comp-nor{font-family:'Share Tech Mono',monospace;font-size:.7rem}
- 
+
 /* WORLD MAP */
 .map-wrap{background:var(--bg1);border:1px solid var(--bdr);border-radius:14px;padding:1.7rem;overflow:hidden;transition:border-color .3s}
 .wmap-c{width:100%;height:430px;position:relative}
 .map-legend{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:1.1rem;justify-content:center}
 .mleg{display:flex;align-items:center;gap:6px;font-family:'Share Tech Mono',monospace;font-size:.58rem;color:var(--muted)}
 .mleg-d{width:8px;height:8px;border-radius:50%}
- 
+
 /* FUNDING */
 .fdash{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:.95rem;margin-bottom:1.4rem}
 .fcard{background:var(--bg1);border:1px solid var(--bdr);border-radius:10px;padding:1.1rem;text-align:center;transition:all .3s;position:relative;overflow:hidden}
@@ -329,7 +329,7 @@ section{position:relative;z-index:1;padding:5rem 2rem;max-width:1500px;margin:0 
 .fn{font-size:.82rem;font-weight:600;color:var(--txt);margin-bottom:.12rem}
 .fr{font-family:'Share Tech Mono',monospace;font-size:.58rem;color:var(--muted);letter-spacing:1px}
 .fd{font-family:'Share Tech Mono',monospace;font-size:.55rem;color:var(--dim);margin-top:.18rem}
- 
+
 /* FUTURE TECH */
 .tgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(265px,1fr));gap:1.2rem}
 .tc{background:var(--bg1);border:1px solid var(--bdr);border-radius:12px;padding:1.55rem;position:relative;overflow:hidden;transition:all .3s}
@@ -341,7 +341,7 @@ section{position:relative;z-index:1;padding:5rem 2rem;max-width:1500px;margin:0 
 .tdt{font-size:.8rem;color:var(--muted);line-height:1.7;margin-bottom:.82rem}
 .ttags{display:flex;flex-wrap:wrap;gap:4px}
 .ttag{font-family:'Share Tech Mono',monospace;font-size:.52rem;padding:2px 6px;background:var(--tag);border:1px solid var(--bdr);border-radius:2px;color:var(--dim);text-transform:uppercase;letter-spacing:1px}
- 
+
 /* TIMELINE */
 .tl{position:relative;padding-left:2.5rem}
 .tl::before{content:'';position:absolute;left:7px;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,var(--c1),var(--c2),transparent)}
@@ -350,7 +350,7 @@ section{position:relative;z-index:1;padding:5rem 2rem;max-width:1500px;margin:0 
 .tly{font-family:'Orbitron',monospace;font-size:.64rem;color:var(--c1);letter-spacing:3px;margin-bottom:.24rem}
 .tlev{font-family:'Orbitron',monospace;font-size:.86rem;font-weight:600;color:var(--txt);margin-bottom:.32rem}
 .tlde{font-size:.83rem;color:var(--muted);line-height:1.65}
- 
+
 /* SCIENCE */
 .scgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.88rem}
 .scc{background:var(--bg1);border:1px solid var(--bdr);border-radius:10px;padding:1.2rem;text-align:center;transition:all .3s}
@@ -358,7 +358,7 @@ section{position:relative;z-index:1;padding:5rem 2rem;max-width:1500px;margin:0 
 .scic{font-size:1.75rem;margin-bottom:.48rem}
 .scn{font-family:'Orbitron',monospace;font-size:.7rem;color:var(--txt);margin-bottom:.32rem}
 .scd{font-size:.75rem;color:var(--muted);line-height:1.65}
- 
+
 /* FULL COMPARISON TABLE */
 .cmpw{background:var(--bg1);border:1px solid var(--bdr);border-radius:14px;overflow:auto}
 .cmpt{width:100%;border-collapse:collapse;min-width:980px}
@@ -367,11 +367,11 @@ section{position:relative;z-index:1;padding:5rem 2rem;max-width:1500px;margin:0 
 .cmpt tr:hover td{background:rgba(0,238,255,.014)}
 .cmpt tr:last-child td{border-bottom:none}
 .ck{color:var(--c6)}.cx{color:var(--c4)}.cp{color:var(--c3)}
- 
+
 /* TOOLTIP */
 #tooltip{position:fixed;z-index:9999;background:var(--bg2);border:1px solid var(--bdrb);border-radius:8px;padding:.5rem .8rem;pointer-events:none;opacity:0;transition:opacity .18s;font-family:'Share Tech Mono',monospace;font-size:.66rem;color:var(--txt);max-width:230px;line-height:1.5;box-shadow:var(--shadow)}
 #tooltip.show{opacity:1}
- 
+
 /* FOOTER */
 footer{position:relative;z-index:1;border-top:1px solid var(--bdr);padding:5rem 2rem 2.5rem;text-align:center}
 footer::before{content:'';position:absolute;top:0;left:5%;right:5%;height:1px;background:linear-gradient(90deg,transparent,var(--c1),var(--c2),var(--c3),transparent)}
@@ -384,27 +384,27 @@ footer::before{content:'';position:absolute;top:0;left:5%;right:5%;height:1px;ba
 .fc2{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;background:rgba(0,238,255,.04);border:1px solid var(--bdr);border-radius:20px;font-family:'Share Tech Mono',monospace;font-size:.56rem;color:var(--muted);letter-spacing:1px}
 .fcd{width:5px;height:5px;border-radius:50%;background:var(--c6);box-shadow:0 0 5px var(--c6)}
 .fcopy{font-family:'Share Tech Mono',monospace;font-size:.56rem;color:var(--dim);letter-spacing:2px}
- 
+
 /* FI ANIMATIONS */
 .fi{opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s ease}
 .fi.vis{opacity:1;transform:translateY(0)}
- 
+
 /* RESPONSIVE */
 @media(max-width:1000px){.nl{display:none}.nsq{display:none}.tl2c{grid-template-columns:1fr !important}.agrid{grid-template-columns:1fr}.hero-stats{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:600px){.pgrid,.ggrid,.fdash{grid-template-columns:1fr}.hero-stats{grid-template-columns:repeat(2,1fr)}.cgrid2{grid-template-columns:1fr}}
- 
+
 /* SMOOTH THEME TRANSITIONS */
 *{transition-property:background-color,border-color,color,box-shadow;transition-duration:.22s;transition-timing-function:ease}
 canvas,svg,.mf,.scf,#neural,#cur,#cur-ring,#cur-glow,.ld-bar{transition-property:none}
 </style>
 </head>
 <body>
- 
+
 <!-- CURSOR -->
 <div id="cur"></div><div id="cur-ring"></div><div id="cur-glow"></div>
 <!-- TOOLTIP -->
 <div id="tooltip"></div>
- 
+
 <!-- ░░░ LOADER ░░░ -->
 <div id="loader">
   <div class="ld-logo">NEXUS</div>
@@ -415,10 +415,10 @@ canvas,svg,.mf,.scf,#neural,#cur,#cur-ring,#cur-glow,.ld-bar{transition-property
   </div>
   <div class="ld-msg" id="ldMsg">INITIALIZING NEURAL NETWORKS...</div>
 </div>
- 
+
 <!-- BACKGROUNDS -->
 <canvas id="neural"></canvas><div class="gridbg"></div>
- 
+
 <!-- ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ NAV ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ -->
 <nav>
   <div class="nav-logo">NEX<span>US</span></div>
@@ -426,7 +426,7 @@ canvas,svg,.mf,.scf,#neural,#cur,#cur-ring,#cur-glow,.ld-bar{transition-property
     <li><a href="#platforms">Platforms</a></li>
     <li><a href="#analytics">Analytics</a></li>
     <li><a href="#comparator">Compare</a></li>
-    <li><a href="#leaderboard">Benchmark</a></li>
+    <li><a href="#leaderboard">Benchmark</a></li><li><a href="#ai-directory">AI Directory</a></li>
     <li><a href="#papers">Papers</a></li>
     <li><a href="#glossary">Glossary</a></li>
     <li><a href="#industries">Industries</a></li>
@@ -435,7 +435,7 @@ canvas,svg,.mf,.scf,#neural,#cur,#cur-ring,#cur-glow,.ld-bar{transition-property
     <li><a href="#funding">Funding</a></li>
     <li><a href="#future">Future Tech</a></li>
     <li><a href="#timeline">Timeline</a></li>
-    <li><a href="#sciences">Sciences</a></li><li><a href="#ai-directory">AI Directory</a></li>
+    <li><a href="#sciences">Sciences</a></li>
   </ul>
   <div class="nr">
     <div class="nsq"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35"/></svg><input type="text" id="navQ" placeholder="SEARCH..." autocomplete="off"></div>
@@ -443,7 +443,7 @@ canvas,svg,.mf,.scf,#neural,#cur,#cur-ring,#cur-glow,.ld-bar{transition-property
     <div class="nlive"><div class="nlive-d"></div><span>LIVE</span></div>
   </div>
 </nav>
- 
+
 <!-- TICKER -->
 <div class="ticker-w">
   <div class="ticker-inner">
@@ -451,7 +451,7 @@ canvas,svg,.mf,.scf,#neural,#cur,#cur-ring,#cur-glow,.ld-bar{transition-property
     <span class="ti">🚀 GPT-4o / o3<span class="s">·</span><span>OpenAI</span></span><span class="ti">⚡ Claude 3.7 Sonnet<span class="s">·</span><span>Anthropic</span></span><span class="ti">🌐 Gemini 2.0 Ultra<span class="s">·</span><span>Google DeepMind</span></span><span class="ti">🦙 Llama 3.3 405B<span class="s">·</span><span>Meta AI</span></span><span class="ti">💡 Grok-3<span class="s">·</span><span>xAI</span></span><span class="ti">🐋 DeepSeek R1<span class="s">·</span><span>DeepSeek AI</span></span><span class="ti">🌊 Mistral Large 2<span class="s">·</span><span>Mistral AI</span></span><span class="ti">🧬 AlphaFold 3<span class="s">·</span><span>Google DeepMind</span></span><span class="ti">⚛️ 1121-Qubit IBM Heron<span class="s">·</span><span>IBM Quantum</span></span><span class="ti">🤖 Figure 02<span class="s">·</span><span>Figure AI</span></span><span class="ti">🎬 Gen-3 Alpha<span class="s">·</span><span>Runway ML</span></span><span class="ti">🔍 Sonar Pro<span class="s">·</span><span>Perplexity</span></span><span class="ti">💻 GitHub Copilot<span class="s">·</span><span>Microsoft</span></span><span class="ti">🎨 SDXL Turbo<span class="s">·</span><span>Stability AI</span></span><span class="ti">🧠 Loihi 3<span class="s">·</span><span>Intel Neuromorphic</span></span><span class="ti">🔬 DeepSeek V3<span class="s">·</span><span>DeepSeek AI</span></span>
   </div>
 </div>
- 
+
 <!-- ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ HERO ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ -->
 <div class="hero">
   <div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div><div class="orb o4"></div>
@@ -477,7 +477,7 @@ canvas,svg,.mf,.scf,#neural,#cur,#cur-ring,#cur-glow,.ld-bar{transition-property
   </div>
   <div class="scroll-hint"><span>SCROLL TO EXPLORE</span><div class="sline"></div></div>
 </div>
- 
+
 <!-- ▓▓ LIVE STATS STRIP ▓▓ -->
 <section style="padding:1.5rem 2rem">
   <div class="stat4 fi">
@@ -487,7 +487,7 @@ canvas,svg,.mf,.scf,#neural,#cur,#cur-ring,#cur-glow,.ld-bar{transition-property
     <div class="smc" style="--sm:#ffd700;--smr:255,215,0"><span class="smv">1121</span><div class="sml">IBM Quantum Qubits</div><div class="sms">Heron r2 · 2025</div></div>
   </div>
 </section>
- 
+
 <!-- ▓▓▓▓▓▓▓▓▓▓▓▓ AI PLATFORMS ▓▓▓▓▓▓▓▓▓▓▓▓ -->
 <section id="platforms">
   <div class="shdr fi">
@@ -503,7 +503,7 @@ canvas,svg,.mf,.scf,#neural,#cur,#cur-ring,#cur-glow,.ld-bar{transition-property
     <div class="fcnt" id="fcnt">Showing all platforms</div>
   </div>
   <div class="agrid" id="agrid">
- 
+
     <div class="acard fi" style="--ca:#10a37f;--car:16,163,127" data-n="openai chatgpt gpt" data-c="chat">
       <div class="ach"><div class="aci">🤖</div><span class="abadge bt">TOP RATED</span></div>
       <div class="acn">ChatGPT / OpenAI</div><div class="acc">OpenAI · San Francisco, USA</div><div class="sdiv"></div>
@@ -518,7 +518,7 @@ canvas,svg,.mf,.scf,#neural,#cur,#cur-ring,#cur-glow,.ld-bar{transition-property
       <div class="mtags"><span class="mtag">GPT-4o</span><span class="mtag">o1-pro</span><span class="mtag">o3</span><span class="mtag">o4-mini</span><span class="mtag">DALL-E 3</span><span class="mtag">Sora</span><span class="mtag">Whisper v3</span></div>
       <a href="https://chat.openai.com" target="_blank" class="vbtn" style="color:#10a37f;border-color:#10a37f55"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>VISIT OPENAI</a>
     </div>
- 
+
     <div class="acard fi" style="--ca:#cc785c;--car:204,120,92" data-n="anthropic claude" data-c="chat">
       <div class="ach"><div class="aci">⚡</div><span class="abadge bh">TRENDING</span></div>
       <div class="acn">Claude / Anthropic</div><div class="acc">Anthropic · San Francisco, USA</div><div class="sdiv"></div>
@@ -533,7 +533,7 @@ canvas,svg,.mf,.scf,#neural,#cur,#cur-ring,#cur-glow,.ld-bar{transition-property
       <div class="mtags"><span class="mtag">Claude 3.7 Sonnet</span><span class="mtag">Claude 4 Opus</span><span class="mtag">Claude 3 Haiku</span><span class="mtag">Claude Code</span></div>
       <a href="https://claude.ai" target="_blank" class="vbtn" style="color:#cc785c;border-color:#cc785c55"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>VISIT CLAUDE.AI</a>
     </div>
- 
+
     <div class="acard fi" style="--ca:#4285f4;--car:66,133,244" data-n="google gemini deepmind" data-c="chat">
       <div class="ach"><div class="aci">🌐</div><span class="abadge bt">POWERFUL</span></div>
       <div class="acn">Gemini / Google DeepMind</div><div class="acc">Google · Mountain View, USA</div><div class="sdiv"></div>
@@ -548,7 +548,7 @@ canvas,svg,.mf,.scf,#neural,#cur,#cur-ring,#cur-glow,.ld-bar{transition-property
       <div class="mtags"><span class="mtag">Gemini 2.0 Ultra</span><span class="mtag">Gemini 2.0 Pro</span><span class="mtag">Gemini Flash</span><span class="mtag">Imagen 3</span><span class="mtag">Veo 2</span></div>
       <a href="https://gemini.google.com" target="_blank" class="vbtn" style="color:#4285f4;border-color:#4285f455"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>VISIT GEMINI</a>
     </div>
- 
+
     <div class="acard fi" style="--ca:#0668e1;--car:6,104,225" data-n="meta llama open source" data-c="open">
       <div class="ach"><div class="aci">🦙</div><span class="abadge bo">OPEN SOURCE</span></div>
       <div class="acn">Meta AI / Llama</div><div class="acc">Meta · Menlo Park, USA</div><div class="sdiv"></div>
@@ -563,7 +563,7 @@ canvas,svg,.mf,.scf,#neural,#cur,#cur-ring,#cur-glow,.ld-bar{transition-property
       <div class="mtags"><span class="mtag">Llama 3.3 70B</span><span class="mtag">Llama 3.2 90B</span><span class="mtag">Llama 3.1 405B</span><span class="mtag">CodeLlama</span><span class="mtag">Llama Guard 3</span></div>
       <a href="https://ai.meta.com" target="_blank" class="vbtn" style="color:#0668e1;border-color:#0668e155"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>VISIT META AI</a>
     </div>
- 
+
     <div class="acard fi" style="--ca:#ff6b6b;--car:255,107,107" data-n="xai grok elon musk" data-c="chat">
       <div class="ach"><div class="aci">💥</div><span class="abadge bh">HOT</span></div>
       <div class="acn">Grok / xAI</div><div class="acc">xAI · Austin, USA</div><div class="sdiv"></div>
@@ -578,7 +578,7 @@ canvas,svg,.mf,.scf,#neural,#cur,#cur-ring,#cur-glow,.ld-bar{transition-property
       <div class="mtags"><span class="mtag">Grok-3</span><span class="mtag">Grok-3 Mini</span><span class="mtag">Grok-2</span><span class="mtag">Aurora (Image)</span><span class="mtag">Grok Vision</span></div>
       <a href="https://x.ai" target="_blank" class="vbtn" style="color:#ff6b6b;border-color:#ff6b6b55"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>VISIT XAI</a>
     </div>
- 
+
     <div class="acard fi" style="--ca:#36cfc9;--car:54,207,201" data-n="deepseek open source ai" data-c="open">
       <div class="ach"><div class="aci">🐋</div><span class="abadge bn">DISRUPTOR</span></div>
       <div class="acn">DeepSeek</div><div class="acc">DeepSeek AI · Hangzhou, China</div><div class="sdiv"></div>
@@ -593,7 +593,7 @@ canvas,svg,.mf,.scf,#neural,#cur,#cur-ring,#cur-glow,.ld-bar{transition-property
       <div class="mtags"><span class="mtag">DeepSeek R1</span><span class="mtag">DeepSeek V3</span><span class="mtag">DeepSeek R2</span><span class="mtag">DeepSeek-Coder V2</span></div>
       <a href="https://chat.deepseek.com" target="_blank" class="vbtn" style="color:#36cfc9;border-color:#36cfc955"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>VISIT DEEPSEEK</a>
     </div>
- 
+
     <div class="acard fi" style="--ca:#f7931e;--car:247,147,30" data-n="mistral open source europe" data-c="open">
       <div class="ach"><div class="aci">🌊</div><span class="abadge bo">EU LEADER</span></div>
       <div class="acn">Mistral AI</div><div class="acc">Mistral AI · Paris, France</div><div class="sdiv"></div>
@@ -608,7 +608,7 @@ canvas,svg,.mf,.scf,#neural,#cur,#cur-ring,#cur-glow,.ld-bar{transition-property
       <div class="mtags"><span class="mtag">Mistral Large 2</span><span class="mtag">Mistral Small 3</span><span class="mtag">Mixtral 8x22B</span><span class="mtag">Codestral</span><span class="mtag">Pixtral 12B</span></div>
       <a href="https://mistral.ai" target="_blank" class="vbtn" style="color:#f7931e;border-color:#f7931e55"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>VISIT MISTRAL AI</a>
     </div>
- 
+
     <div class="acard fi" style="--ca:#20c997;--car:32,201,151" data-n="perplexity search ai" data-c="search">
       <div class="ach"><div class="aci">🔍</div><span class="abadge bn">SEARCH AI</span></div>
       <div class="acn">Perplexity AI</div><div class="acc">Perplexity AI · San Francisco, USA</div><div class="sdiv"></div>
@@ -623,7 +623,7 @@ canvas,svg,.mf,.scf,#neural,#cur,#cur-ring,#cur-glow,.ld-bar{transition-property
       <div class="mtags"><span class="mtag">Sonar Pro</span><span class="mtag">Sonar Large</span><span class="mtag">Sonar Reasoning</span><span class="mtag">Deep Research</span></div>
       <a href="https://perplexity.ai" target="_blank" class="vbtn" style="color:#20c997;border-color:#20c99755"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>VISIT PERPLEXITY</a>
     </div>
- 
+
     <div class="acard fi" style="--ca:#0078d4;--car:0,120,212" data-n="microsoft copilot enterprise azure" data-c="enterprise">
       <div class="ach"><div class="aci">💼</div><span class="abadge be">ENTERPRISE</span></div>
       <div class="acn">Microsoft Copilot</div><div class="acc">Microsoft · Redmond, USA</div><div class="sdiv"></div>
@@ -638,7 +638,7 @@ canvas,svg,.mf,.scf,#neural,#cur,#cur-ring,#cur-glow,.ld-bar{transition-property
       <div class="mtags"><span class="mtag">GPT-4o (Azure)</span><span class="mtag">Phi-4</span><span class="mtag">Phi-3 Medium</span><span class="mtag">GitHub Copilot</span></div>
       <a href="https://copilot.microsoft.com" target="_blank" class="vbtn" style="color:#0078d4;border-color:#0078d455"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>VISIT COPILOT</a>
     </div>
- 
+
     <div class="acard fi" style="--ca:#ec4899;--car:236,72,153" data-n="stability ai stable diffusion image generation" data-c="image">
       <div class="ach"><div class="aci">🎨</div><span class="abadge bo">IMAGE AI</span></div>
       <div class="acn">Stability AI</div><div class="acc">Stability AI · London, UK</div><div class="sdiv"></div>
@@ -653,7 +653,7 @@ canvas,svg,.mf,.scf,#neural,#cur,#cur-ring,#cur-glow,.ld-bar{transition-property
       <div class="mtags"><span class="mtag">SDXL Turbo</span><span class="mtag">SD 3.5 Large</span><span class="mtag">Stable Video</span><span class="mtag">Stable Audio 2</span></div>
       <a href="https://stability.ai" target="_blank" class="vbtn" style="color:#ec4899;border-color:#ec489955"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>VISIT STABILITY AI</a>
     </div>
- 
+
     <div class="acard fi" style="--ca:#a855f7;--car:168,85,247" data-n="runway ml video generation ai" data-c="image">
       <div class="ach"><div class="aci">🎬</div><span class="abadge bn">VIDEO AI</span></div>
       <div class="acn">Runway ML</div><div class="acc">Runway AI · New York, USA</div><div class="sdiv"></div>
@@ -668,7 +668,7 @@ canvas,svg,.mf,.scf,#neural,#cur,#cur-ring,#cur-glow,.ld-bar{transition-property
       <div class="mtags"><span class="mtag">Gen-3 Alpha</span><span class="mtag">Gen-3 Turbo</span><span class="mtag">Act-One</span><span class="mtag">Motion Brush</span></div>
       <a href="https://runwayml.com" target="_blank" class="vbtn" style="color:#a855f7;border-color:#a855f755"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>VISIT RUNWAY ML</a>
     </div>
- 
+
     <div class="acard fi" style="--ca:#f0883e;--car:240,136,62" data-n="github copilot code ai coding" data-c="code">
       <div class="ach"><div class="aci">💻</div><span class="abadge bh">CODE AI</span></div>
       <div class="acn">GitHub Copilot</div><div class="acc">GitHub / Microsoft · San Francisco, USA</div><div class="sdiv"></div>
@@ -683,7 +683,7 @@ canvas,svg,.mf,.scf,#neural,#cur,#cur-ring,#cur-glow,.ld-bar{transition-property
       <div class="mtags"><span class="mtag">GPT-4o</span><span class="mtag">Claude 3.5 Sonnet</span><span class="mtag">Gemini 1.5 Pro</span><span class="mtag">o3-mini</span></div>
       <a href="https://github.com/features/copilot" target="_blank" class="vbtn" style="color:#f0883e;border-color:#f0883e55"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>VISIT GITHUB COPILOT</a>
     </div>
- 
+
     <div class="acard fi" style="--ca:#d946ef;--car:217,70,239" data-n="cohere enterprise rag embeddings" data-c="enterprise">
       <div class="ach"><div class="aci">🏢</div><span class="abadge be">ENTERPRISE</span></div>
       <div class="acn">Cohere</div><div class="acc">Cohere · Toronto, Canada</div><div class="sdiv"></div>
@@ -698,7 +698,7 @@ canvas,svg,.mf,.scf,#neural,#cur,#cur-ring,#cur-glow,.ld-bar{transition-property
       <div class="mtags"><span class="mtag">Command R+</span><span class="mtag">Command R</span><span class="mtag">Embed v3</span><span class="mtag">Rerank 3.5</span><span class="mtag">Aya 35B</span></div>
       <a href="https://cohere.com" target="_blank" class="vbtn" style="color:#d946ef;border-color:#d946ef55"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>VISIT COHERE</a>
     </div>
- 
+
     <div class="acard fi" style="--ca:#ffd21e;--car:255,210,30" data-n="hugging face open source models hub datasets" data-c="open">
       <div class="ach"><div class="aci">🤗</div><span class="abadge bo">MODEL HUB</span></div>
       <div class="acn">Hugging Face</div><div class="acc">Hugging Face · New York, USA</div><div class="sdiv"></div>
@@ -713,7 +713,7 @@ canvas,svg,.mf,.scf,#neural,#cur,#cur-ring,#cur-glow,.ld-bar{transition-property
       <div class="mtags"><span class="mtag">Falcon 40B</span><span class="mtag">BLOOM 176B</span><span class="mtag">StarCoder2</span><span class="mtag">Zephyr</span><span class="mtag">Qwen2.5</span></div>
       <a href="https://huggingface.co" target="_blank" class="vbtn" style="color:#ffd21e;border-color:#ffd21e55"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>VISIT HUGGING FACE</a>
     </div>
- 
+
     <div class="acard fi" style="--ca:#ff9900;--car:255,153,0" data-n="amazon bedrock aws nova cloud enterprise" data-c="enterprise">
       <div class="ach"><div class="aci">☁️</div><span class="abadge be">CLOUD AI</span></div>
       <div class="acn">Amazon Bedrock / Nova</div><div class="acc">Amazon · Seattle, USA</div><div class="sdiv"></div>
@@ -730,7 +730,7 @@ canvas,svg,.mf,.scf,#neural,#cur,#cur-ring,#cur-glow,.ld-bar{transition-property
     </div>
   </div>
 </section>
- 
+
 <!-- ▓▓▓▓▓▓▓▓▓▓▓▓ ANALYTICS ▓▓▓▓▓▓▓▓▓▓▓▓ -->
 <section id="analytics">
   <div class="shdr fi"><div class="stag">// Section 02 — Analytics</div><h2 class="stitle">Interactive <span>Analytics</span></h2><p class="sdesc">Visual intelligence — capability radars, benchmark comparisons, investment growth, parameter scales, and market breakdowns.</p></div>
@@ -738,7 +738,7 @@ canvas,svg,.mf,.scf,#neural,#cur,#cur-ring,#cur-glow,.ld-bar{transition-property
   <div class="cgrid2 fi"><div class="cc"><div class="ctitle">GLOBAL AI INVESTMENT 2020–2025</div><div class="csub">Total AI vs Generative AI ($B)</div><div class="cw"><canvas id="lineChart"></canvas></div></div><div class="cc"><div class="ctitle">MODEL PARAMETER SCALE</div><div class="csub">Flagship model sizes (billions of parameters)</div><div class="cw"><canvas id="hbarChart"></canvas></div></div></div>
   <div class="cgrid2 fi"><div class="cc"><div class="ctitle">AI MARKET BY SEGMENT 2025</div><div class="csub">Global market share by application ($B)</div><div class="cw"><canvas id="doughChart"></canvas></div></div><div class="cc"><div class="ctitle">TOP AI COMPANY VALUATIONS</div><div class="csub">Latest valuations in $Billions</div><div class="cw"><canvas id="valChart"></canvas></div></div></div>
 </section>
- 
+
 <!-- ▓▓▓▓▓▓▓▓▓▓▓▓ COMPARATOR ▓▓▓▓▓▓▓▓▓▓▓▓ -->
 <section id="comparator">
   <div class="shdr fi"><div class="stag">// Section 03 — Comparator</div><h2 class="stitle">Model <span>Comparator</span></h2><p class="sdesc">Select any two AI platforms and compare them side-by-side across 14 key performance dimensions.</p></div>
@@ -751,160 +751,20 @@ canvas,svg,.mf,.scf,#neural,#cur,#cur-ring,#cur-glow,.ld-bar{transition-property
     <div id="compResult"></div>
   </div>
 </section>
- 
+
 <!-- ▓▓▓▓▓▓▓▓▓▓▓▓ BENCHMARK ▓▓▓▓▓▓▓▓▓▓▓▓ -->
 <section id="leaderboard">
   <div class="shdr fi"><div class="stag">// Section 04 — Benchmark</div><h2 class="stitle">Benchmark <span>Leaderboard</span></h2><p class="sdesc">Official scores on the world's most respected AI evaluation benchmarks. Click column headers to sort.</p></div>
   <div class="btw fi"><table class="btt" id="btt"><thead><tr><th>#</th><th data-col="name">PLATFORM</th><th>FLAGSHIP MODEL</th><th data-col="mmlu">MMLU ↕</th><th data-col="humaneval">HUMANEVAL ↕</th><th data-col="math">MATH ↕</th><th data-col="gpqa">GPQA ↕</th><th>CONTEXT</th><th data-col="overall">OVERALL ↕</th><th>TREND</th></tr></thead><tbody id="btb"></tbody></table></div>
 </section>
- 
-<!-- ▓▓▓▓▓▓▓▓▓▓▓▓ PAPERS ▓▓▓▓▓▓▓▓▓▓▓▓ -->
-<section id="papers">
-  <div class="shdr fi"><div class="stag">// Section 05 — Research Papers</div><h2 class="stitle">Research <span>Papers</span> Feed</h2><p class="sdesc">Landmark and recent papers shaping the future of AI and computer science — with direct links to original sources.</p></div>
-  <div class="pgrid">
-    <div class="pc fi" style="--pc:#00eeff"><span class="pcat cllm">LLM / TRANSFORMERS</span><div class="pt">Attention Is All You Need</div><div class="pa">Vaswani, Shazeer, Parmar et al. — Google Brain</div><div class="pv">NeurIPS 2017 · 100,000+ citations</div><div class="pab">Introduced the Transformer — the architecture powering every modern LLM. Replaced RNNs with pure multi-head self-attention, enabling massive parallelization and unlimited scaling. Changed everything.</div><div class="pft"><span class="py">2017 · The paper that changed everything</span><a href="https://arxiv.org/abs/1706.03762" target="_blank" class="plink"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>READ ON arXiv</a></div></div>
-    <div class="pc fi" style="--pc:#cc785c"><span class="pcat cllm">LLM</span><div class="pt">GPT-4 Technical Report</div><div class="pa">OpenAI Research Team</div><div class="pv">OpenAI Technical Report, 2023</div><div class="pab">Introduces GPT-4 achieving human-level performance on the bar exam, SAT, GRE, and AP exams. First multimodal frontier model available at consumer scale. Sparked the global AI revolution.</div><div class="pft"><span class="py">2023 · GPT-4 foundation</span><a href="https://arxiv.org/abs/2303.08774" target="_blank" class="plink"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>READ ON arXiv</a></div></div>
-    <div class="pc fi" style="--pc:#22c55e"><span class="pcat csci">SCIENCE AI</span><div class="pt">Highly Accurate Protein Structure Prediction with AlphaFold</div><div class="pa">Jumper, Evans, Pritzel et al. — DeepMind</div><div class="pv">Nature, 2021 · Nobel Prize Category</div><div class="pab">Solved biology's 50-year grand challenge — predicting 3D protein structures from sequences with atomic accuracy. Predicted ~200M protein structures, transforming drug discovery and medicine forever.</div><div class="pft"><span class="py">2021 · Nobel Prize category</span><a href="https://www.nature.com/articles/s41586-021-03819-2" target="_blank" class="plink"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>READ ON Nature</a></div></div>
-    <div class="pc fi" style="--pc:#36cfc9"><span class="pcat cllm">REASONING</span><div class="pt">DeepSeek-R1: Incentivizing Reasoning via Reinforcement Learning</div><div class="pa">DeepSeek-AI Research Team</div><div class="pv">arXiv, January 2025</div><div class="pab">Pure RL approach to developing reasoning without supervised fine-tuning. DeepSeek-R1 matches OpenAI o1 on math and coding benchmarks at a fraction of training cost. Disrupted global AI economics.</div><div class="pft"><span class="py">2025 · The economics disruptor</span><a href="https://arxiv.org/abs/2501.12948" target="_blank" class="plink"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>READ ON arXiv</a></div></div>
-    <div class="pc fi" style="--pc:#f59e0b"><span class="pcat cvis">VISION AI</span><div class="pt">An Image is Worth 16x16 Words: Transformers for Image Recognition (ViT)</div><div class="pa">Dosovitskiy, Beyer et al. — Google Brain</div><div class="pv">ICLR 2021</div><div class="pab">Applied Transformer attention to image patches, challenging CNN dominance. Foundation for DALL-E, Stable Diffusion, GPT-4V, Gemini, and every modern multimodal AI system on Earth.</div><div class="pft"><span class="py">2021 · Vision AI foundation</span><a href="https://arxiv.org/abs/2010.11929" target="_blank" class="plink"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>READ ON arXiv</a></div></div>
-    <div class="pc fi" style="--pc:#cc785c"><span class="pcat cllm">AI ALIGNMENT</span><div class="pt">Constitutional AI: Harmlessness from AI Feedback</div><div class="pa">Bai, Jones, Ndousse et al. — Anthropic</div><div class="pv">arXiv, 2022 · Foundation of Claude</div><div class="pab">AI models critique their own outputs using written principles — enabling scalable alignment without massive human feedback. The foundational paper behind Anthropic's Claude family of models.</div><div class="pft"><span class="py">2022 · Claude's foundation</span><a href="https://arxiv.org/abs/2212.08073" target="_blank" class="plink"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>READ ON arXiv</a></div></div>
-    <div class="pc fi" style="--pc:#ec4899"><span class="pcat crob">ROBOTICS AI</span><div class="pt">RT-2: Vision-Language-Action Models Transfer Web Knowledge to Robotics</div><div class="pa">Brohan, Brown et al. — Google DeepMind</div><div class="pv">CoRL 2023</div><div class="pab">Vision-language models trained on web data applied directly to robotic control. Robots reason about novel tasks from text descriptions — the dawn of general-purpose physical AI systems.</div><div class="pft"><span class="py">2023 · Physical AI dawn</span><a href="https://arxiv.org/abs/2307.15818" target="_blank" class="plink"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>READ ON arXiv</a></div></div>
-    <div class="pc fi" style="--pc:#a855f7"><span class="pcat csci">QUANTUM</span><div class="pt">Quantum Supremacy Using a Programmable Superconducting Processor</div><div class="pa">Arute, Arya et al. — Google Quantum AI</div><div class="pv">Nature, 2019</div><div class="pab">Google's Sycamore computed in 200 seconds what a classical supercomputer would need ~10,000 years for — first experimental proof of quantum computational supremacy over classical computing.</div><div class="pft"><span class="py">2019 · Quantum supremacy proven</span><a href="https://www.nature.com/articles/s41586-019-1666-5" target="_blank" class="plink"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>READ ON Nature</a></div></div>
-    <div class="pc fi" style="--pc:#00ff84"><span class="pcat crl">REINFORCEMENT LEARNING</span><div class="pt">Mastering the Game of Go with Deep Neural Networks and Tree Search</div><div class="pa">Silver, Huang, Maddison et al. — DeepMind</div><div class="pv">Nature, 2016 · AlphaGo</div><div class="pab">AlphaGo — first AI to defeat a world champion Go player. Deep RL + Monte Carlo tree search conquered a task believed impossible for machines, proving AI could master intuition-based reasoning.</div><div class="pft"><span class="py">2016 · AI mastered intuition</span><a href="https://www.nature.com/articles/nature16961" target="_blank" class="plink"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>READ ON Nature</a></div></div>
-  </div>
-</section>
- 
-<!-- ▓▓▓▓▓▓▓▓▓▓▓▓ GLOSSARY ▓▓▓▓▓▓▓▓▓▓▓▓ -->
-<section id="glossary">
-  <div class="shdr fi"><div class="stag">// Section 06 — Glossary</div><h2 class="stitle">Tech <span>Glossary</span></h2><p class="sdesc">Your comprehensive guide to every AI, quantum computing, and future technology term. Search or browse alphabetically.</p></div>
-  <div class="gsr fi"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35"/></svg><input type="text" id="gSearch" placeholder="SEARCH TERMS... (e.g. transformer, qubit, RAG, RLHF)"></div>
-  <div class="anav fi" id="anav">
-    <span class="al2 on" data-l="all">ALL</span>
-    <span class="al2" data-l="A">A</span><span class="al2" data-l="B">B</span><span class="al2" data-l="C">C</span><span class="al2" data-l="D">D</span><span class="al2" data-l="E">E</span><span class="al2" data-l="F">F</span><span class="al2" data-l="G">G</span><span class="al2" data-l="H">H</span><span class="al2" data-l="L">L</span><span class="al2" data-l="M">M</span><span class="al2" data-l="N">N</span><span class="al2" data-l="P">P</span><span class="al2" data-l="Q">Q</span><span class="al2" data-l="R">R</span><span class="al2" data-l="S">S</span><span class="al2" data-l="T">T</span><span class="al2" data-l="V">V</span><span class="al2" data-l="Z">Z</span>
-  </div>
-  <div class="ggrid" id="ggrid"></div>
-</section>
- 
-<!-- ▓▓▓▓▓▓▓▓▓▓▓▓ INDUSTRIES ▓▓▓▓▓▓▓▓▓▓▓▓ -->
-<section id="industries">
-  <div class="shdr fi"><div class="stag">// Section 07 — Industries</div><h2 class="stitle">AI Impact by <span>Industry</span></h2><p class="sdesc">How AI and future technology is transforming every major sector of the global economy — with market size projections.</p></div>
-  <div class="indgrid">
-    <div class="icard fi" style="--ic:#00eeff"><span class="iic">🏥</span><div class="iin">Healthcare & Medicine</div><div class="iid">AI-driven drug discovery, diagnostic imaging, protein folding, personalized treatment, robotic surgery. AlphaFold changed biology forever.</div><div class="istat">$45B market by 2026</div></div>
-    <div class="icard fi" style="--ic:#a855f7"><span class="iic">🏦</span><div class="iin">Finance & Banking</div><div class="iid">Algorithmic trading, fraud detection, risk assessment, AI advisors, and automated underwriting. Goldman Sachs replaced 600 traders with AI.</div><div class="istat">$130B market by 2027</div></div>
-    <div class="icard fi" style="--ic:#22c55e"><span class="iic">🚗</span><div class="iin">Autonomous Vehicles</div><div class="iid">Self-driving cars, AI traffic management, predictive maintenance, and logistics optimization. Waymo has driven 40M+ autonomous miles.</div><div class="istat">$2.1T market by 2030</div></div>
-    <div class="icard fi" style="--ic:#f59e0b"><span class="iic">🎓</span><div class="iin">Education & EdTech</div><div class="iid">Personalized AI tutors, adaptive learning, automated grading, language learning, and AI research assistants transforming how humans learn.</div><div class="istat">$30B market by 2027</div></div>
-    <div class="icard fi" style="--ic:#ec4899"><span class="iic">🎬</span><div class="iin">Creative & Entertainment</div><div class="iid">AI-generated films, music composition, game design, virtual characters, and personalized content creation at scale for global audiences.</div><div class="istat">$20B market by 2026</div></div>
-    <div class="icard fi" style="--ic:#06d6a0"><span class="iic">🌾</span><div class="iin">Agriculture & Food</div><div class="iid">Precision farming, crop disease detection, yield prediction, autonomous tractors, and lab-grown food production to feed 10 billion people.</div><div class="istat">$8B market by 2027</div></div>
-    <div class="icard fi" style="--ic:#ff6a00"><span class="iic">⚡</span><div class="iin">Energy & Climate</div><div class="iid">AI-optimized power grids, fusion energy control, carbon capture, climate modeling, and renewable energy forecasting for net-zero world.</div><div class="istat">$10B market by 2027</div></div>
-    <div class="icard fi" style="--ic:#0668e1"><span class="iic">🔐</span><div class="iin">Cybersecurity</div><div class="iid">AI threat detection, zero-day exploit discovery, behavioral analysis, post-quantum encryption, and autonomous incident response at machine speed.</div><div class="istat">$60B market by 2028</div></div>
-    <div class="icard fi" style="--ic:#d946ef"><span class="iic">🏭</span><div class="iin">Manufacturing & Robotics</div><div class="iid">Physical AI in factories, predictive maintenance, computer vision quality control, and humanoid robots handling dangerous tasks alongside humans.</div><div class="istat">$260B market by 2030</div></div>
-    <div class="icard fi" style="--ic:#ff0066"><span class="iic">🚀</span><div class="iin">Space Technology</div><div class="iid">AI mission planning, autonomous spacecraft navigation, satellite management, Mars habitat design, and next-gen propulsion research.</div><div class="istat">$1T+ market by 2040</div></div>
-    <div class="icard fi" style="--ic:#ffd700"><span class="iic">⚖️</span><div class="iin">Legal & Compliance</div><div class="iid">Contract analysis, legal research, regulatory compliance monitoring, predictive case outcomes, and AI-assisted litigation at unprecedented scale.</div><div class="istat">$12B market by 2027</div></div>
-    <div class="icard fi" style="--ic:#36cfc9"><span class="iic">🧬</span><div class="iin">Biotechnology</div><div class="iid">Gene therapy design, mRNA drug development, synthetic biology, AI-designed organisms, personalized cancer vaccines, longevity research breakthroughs.</div><div class="istat">$200B market by 2030</div></div>
-  </div>
-</section>
- 
-<!-- ▓▓▓▓▓▓▓▓▓▓▓▓ HARDWARE ▓▓▓▓▓▓▓▓▓▓▓▓ -->
-<section id="hardware">
-  <div class="shdr fi"><div class="stag">// Section 08 — Hardware</div><h2 class="stitle">AI <span>Hardware</span> & Chips</h2><p class="sdesc">The silicon powering the AI revolution — GPUs, TPUs, and next-generation AI accelerators that make intelligence possible at scale.</p></div>
-  <div class="hwgrid">
-    <div class="hwc fi" style="--hwc:#76b900"><div class="hwn">NVIDIA H100 SXM5</div><div class="hwm">NVIDIA · AI ACCELERATOR · 2023</div><div class="hwd">The gold standard of AI training. 80GB HBM3 memory used in every frontier AI data center from OpenAI to Google. H100 clusters power GPT-4, Claude, and Gemini training runs.</div><div class="hwspecs"><div class="hwspec"><div class="hwsl">VRAM</div><div class="hwsv">80 GB</div></div><div class="hwspec"><div class="hwsl">FLOPS BF16</div><div class="hwsv">1979 TFLOPS</div></div><div class="hwspec"><div class="hwsl">Memory BW</div><div class="hwsv">3.35 TB/s</div></div><div class="hwspec"><div class="hwsl">TDP</div><div class="hwsv">700 W</div></div></div></div>
-    <div class="hwc fi" style="--hwc:#00eeff"><div class="hwn">NVIDIA B200 Blackwell</div><div class="hwm">NVIDIA · NEXT-GEN AI · 2024</div><div class="hwd">NVIDIA's 2024 generational leap — 2.5× faster than H100. Powers GB200 NVL72 racks for next-generation AI training. Foundation of AI infrastructure buildout through 2027.</div><div class="hwspecs"><div class="hwspec"><div class="hwsl">VRAM</div><div class="hwsv">192 GB</div></div><div class="hwspec"><div class="hwsl">FLOPS FP8</div><div class="hwsv">9000 TFLOPS</div></div><div class="hwspec"><div class="hwsl">Memory BW</div><div class="hwsv">8 TB/s</div></div><div class="hwspec"><div class="hwsl">TDP</div><div class="hwsv">1000 W</div></div></div></div>
-    <div class="hwc fi" style="--hwc:#4285f4"><div class="hwn">Google TPU v5p</div><div class="hwm">GOOGLE · TENSOR PROCESSING UNIT</div><div class="hwd">Google's custom AI accelerator purpose-built for Transformer training. TPU pods power Gemini 2.0. Unique integration with TensorFlow and JAX for maximum efficiency.</div><div class="hwspecs"><div class="hwspec"><div class="hwsl">Memory</div><div class="hwsv">95 GB</div></div><div class="hwspec"><div class="hwsl">FLOPS BF16</div><div class="hwsv">918 TFLOPS</div></div><div class="hwspec"><div class="hwsl">Memory BW</div><div class="hwsv">2.76 TB/s</div></div><div class="hwspec"><div class="hwsl">TDP</div><div class="hwsv">~600 W</div></div></div></div>
-    <div class="hwc fi" style="--hwc:#ed1c24"><div class="hwn">AMD MI300X</div><div class="hwm">AMD · AI ACCELERATOR · 2024</div><div class="hwd">AMD's challenger to NVIDIA with 192GB HBM3 — most memory of any GPU. Ideal for massive LLM inference. Powers Azure AI and multiple cloud deployments worldwide.</div><div class="hwspecs"><div class="hwspec"><div class="hwsl">VRAM</div><div class="hwsv">192 GB</div></div><div class="hwspec"><div class="hwsl">FLOPS FP16</div><div class="hwsv">1307 TFLOPS</div></div><div class="hwspec"><div class="hwsl">Memory BW</div><div class="hwsv">5.3 TB/s</div></div><div class="hwspec"><div class="hwsl">TDP</div><div class="hwsv">750 W</div></div></div></div>
-    <div class="hwc fi" style="--hwc:#0071c5"><div class="hwn">Intel Gaudi 3</div><div class="hwm">INTEL · AI ACCELERATOR · 2024</div><div class="hwd">Intel's answer to NVIDIA — optimized for LLM training and inference with price-performance advantage and open ecosystem with tight Hugging Face integration.</div><div class="hwspecs"><div class="hwspec"><div class="hwsl">VRAM</div><div class="hwsv">96 GB</div></div><div class="hwspec"><div class="hwsl">FLOPS BF16</div><div class="hwsv">1835 TFLOPS</div></div><div class="hwspec"><div class="hwsl">Memory BW</div><div class="hwsv">3.7 TB/s</div></div><div class="hwspec"><div class="hwsl">TDP</div><div class="hwsv">600 W</div></div></div></div>
-    <div class="hwc fi" style="--hwc:#888888"><div class="hwn">Apple M4 Ultra</div><div class="hwm">APPLE · ON-DEVICE AI SILICON</div><div class="hwd">Apple's unified memory architecture eliminates CPU-GPU bandwidth bottleneck. Powers Apple Intelligence with extreme power efficiency. 32-core Neural Engine runs AI at 38 TOPS.</div><div class="hwspecs"><div class="hwspec"><div class="hwsl">Neural Engine</div><div class="hwsv">32 cores</div></div><div class="hwspec"><div class="hwsl">TOPS</div><div class="hwsv">38 TOPS</div></div><div class="hwspec"><div class="hwsl">Unified Mem</div><div class="hwsv">192 GB</div></div><div class="hwspec"><div class="hwsl">TDP</div><div class="hwsv">60 W</div></div></div></div>
-  </div>
-</section>
- 
-<!-- ▓▓▓▓▓▓▓▓▓▓▓▓ WORLD MAP ▓▓▓▓▓▓▓▓▓▓▓▓ -->
-<section id="worldmap">
-  <div class="shdr fi"><div class="stag">// Section 09 — World Map</div><h2 class="stitle">Global AI <span>Intelligence Map</span></h2><p class="sdesc">AI investment, regulation, and innovation hubs across the globe. Hover over nodes to explore each country's AI ecosystem.</p></div>
-  <div class="map-wrap fi"><div class="wmap-c" id="wmap"></div><div class="map-legend"><div class="mleg"><div class="mleg-d" style="background:#00eeff;box-shadow:0 0 6px #00eeff"></div>AI Superpower</div><div class="mleg"><div class="mleg-d" style="background:#a855f7;box-shadow:0 0 6px #a855f7"></div>Major Player</div><div class="mleg"><div class="mleg-d" style="background:#22c55e;box-shadow:0 0 6px #22c55e"></div>Emerging Hub</div><div class="mleg"><div class="mleg-d" style="background:#f59e0b;box-shadow:0 0 6px #f59e0b"></div>Growing Market</div></div></div>
-</section>
- 
-<!-- ▓▓▓▓▓▓▓▓▓▓▓▓ FUNDING ▓▓▓▓▓▓▓▓▓▓▓▓ -->
-<section id="funding">
-  <div class="shdr fi"><div class="stag">// Section 10 — Funding</div><h2 class="stitle">AI Startup <span>Funding</span> Dashboard</h2><p class="sdesc">The biggest AI funding rounds in history — the capital flowing into companies building tomorrow's intelligence.</p></div>
-  <div class="fdash fi">
-    <div class="fcard"><div class="fa">$13B+</div><div class="fn">OpenAI</div><div class="fr">Multiple rounds · Microsoft lead</div><div class="fd">2019–2024</div></div>
-    <div class="fcard"><div class="fa">$7.3B</div><div class="fn">Anthropic</div><div class="fr">Series E · Amazon + Google</div><div class="fd">2023–2024</div></div>
-    <div class="fcard"><div class="fa">$6B</div><div class="fn">xAI</div><div class="fr">Series B · SoftBank + Others</div><div class="fd">2024</div></div>
-    <div class="fcard"><div class="fa">$1.1B</div><div class="fn">Mistral AI</div><div class="fr">Series B · A16z, General Catalyst</div><div class="fd">2024</div></div>
-    <div class="fcard"><div class="fa">$900M</div><div class="fn">Perplexity AI</div><div class="fr">Series C · IVP, NEA</div><div class="fd">2024</div></div>
-    <div class="fcard"><div class="fa">$1B</div><div class="fn">Figure AI</div><div class="fr">Series B · Microsoft, NVIDIA</div><div class="fd">2024</div></div>
-    <div class="fcard"><div class="fa">$450M</div><div class="fn">Cohere</div><div class="fr">Series D · Salesforce, Oracle</div><div class="fd">2024</div></div>
-    <div class="fcard"><div class="fa">$640M</div><div class="fn">Inflection AI</div><div class="fr">Series B · Microsoft, Gates</div><div class="fd">2023</div></div>
-  </div>
-  <div class="cc fi"><div class="ctitle">TOTAL AI FUNDING RAISED BY COMPANY ($M)</div><div class="csub">Cumulative investment across all rounds as of 2025</div><div class="cw"><canvas id="fundChart"></canvas></div></div>
-</section>
- 
-<!-- ▓▓▓▓▓▓▓▓▓▓▓▓ FUTURE TECHNOLOGIES ▓▓▓▓▓▓▓▓▓▓▓▓ -->
-<section id="future">
-  <div class="shdr fi"><div class="stag">// Section 11 — Future Technologies</div><h2 class="stitle">Future <span>Technologies</span></h2><p class="sdesc">The transformative technologies that will define the next 50 years of human civilization — with ETA estimates and key players.</p></div>
-  <div class="tgrid">
-    <div class="tc fi" style="--tcc:#a855f7;--tcr:168,85,247"><span class="tic">⚛️</span><div class="tn">Quantum Computing</div><div class="te">ETA: 2025–2035 · IBM, Google, IonQ</div><div class="tdt">Harnesses superposition and entanglement for computations impossible classically. Will revolutionize cryptography, drug discovery, and optimization. IBM's 1121-qubit Heron leads the race.</div><div class="ttags"><span class="ttag">Qubits</span><span class="ttag">Superposition</span><span class="ttag">Error Correction</span><span class="ttag">Post-Quantum Crypto</span></div></div>
-    <div class="tc fi" style="--tcc:#06b6d4;--tcr:6,182,212"><span class="tic">🧠</span><div class="tn">Artificial General Intelligence</div><div class="te">ETA: 2027–2040 · OpenAI, DeepMind</div><div class="tdt">AI capable of any intellectual task a human can perform. The transition from narrow AI to AGI represents the most transformative event in all of human technological history.</div><div class="ttags"><span class="ttag">World Models</span><span class="ttag">Self-Improvement</span><span class="ttag">Transfer Learning</span></div></div>
-    <div class="tc fi" style="--tcc:#22c55e;--tcr:34,197,94"><span class="tic">🧬</span><div class="tn">DNA & Biological Computing</div><div class="te">ETA: 2030–2050 · Microsoft, Twist</div><div class="tdt">Computing using DNA strands. One gram of DNA stores 215 petabytes of data at room temperature. Microsoft's Project Silica and DNA storage labs race for the first commercial system.</div><div class="ttags"><span class="ttag">DNA Storage</span><span class="ttag">Synthetic Biology</span><span class="ttag">Molecular Computing</span></div></div>
-    <div class="tc fi" style="--tcc:#f59e0b;--tcr:245,158,11"><span class="tic">💡</span><div class="tn">Photonic Computing</div><div class="te">ETA: 2026–2035 · Lightmatter, Intel</div><div class="tdt">Using light instead of electrons for AI computation. Near-zero heat, light-speed interconnects, massive energy savings. Lightmatter's Passage chip processes AI models at the speed of light.</div><div class="ttags"><span class="ttag">Optical AI</span><span class="ttag">Silicon Photonics</span><span class="ttag">Zero Heat</span></div></div>
-    <div class="tc fi" style="--tcc:#ef4444;--tcr:239,68,68"><span class="tic">🔬</span><div class="tn">Neuromorphic Computing</div><div class="te">ETA: 2025–2030 · Intel Loihi 3</div><div class="tdt">Brain-inspired spiking neural networks using 1000× less power than GPUs. Intel's Loihi 3 processes AI at milliwatt power — enabling AI in hearing aids, satellites, and edge devices.</div><div class="ttags"><span class="ttag">Spiking NNs</span><span class="ttag">Edge AI</span><span class="ttag">Ultra Low Power</span></div></div>
-    <div class="tc fi" style="--tcc:#8b5cf6;--tcr:139,92,246"><span class="tic">🧪</span><div class="tn">Brain-Computer Interfaces</div><div class="te">ETA: 2025–2040 · Neuralink, Synchron</div><div class="tdt">Direct bidirectional brain-computer communication. Neuralink's N1 chip implanted in humans 2024. From restoring paralysis to thought-to-text, neural internet, and cognitive enhancement.</div><div class="ttags"><span class="ttag">Neural Recording</span><span class="ttag">Neuroprosthetics</span><span class="ttag">Thought Input</span></div></div>
-    <div class="tc fi" style="--tcc:#06d6a0;--tcr:6,214,160"><span class="tic">🤖</span><div class="tn">Humanoid Robotics & Physical AI</div><div class="te">ETA: 2024–2035 · Figure, Tesla, 1X</div><div class="tdt">Foundation models bringing general-purpose reasoning to physical robots. Figure 02 and Tesla Optimus work in BMW and Tesla factories. Physical AI learns from human demonstration.</div><div class="ttags"><span class="ttag">Embodied AI</span><span class="ttag">Dexterous Hands</span><span class="ttag">Foundation Models</span></div></div>
-    <div class="tc fi" style="--tcc:#00eeff;--tcr:0,238,255"><span class="tic">⚡</span><div class="tn">Nuclear Fusion Energy</div><div class="te">ETA: 2030–2050 · ITER, Commonwealth</div><div class="tdt">Clean, near-limitless energy from hydrogen fusion. NIF achieved net energy gain in 2022. Commonwealth Fusion's SPARC targeting commercial reactor by 2030s. Could end the global energy crisis.</div><div class="ttags"><span class="ttag">Tokamak</span><span class="ttag">Net Energy Gain</span><span class="ttag">Clean Power</span></div></div>
-    <div class="tc fi" style="--tcc:#f72585;--tcr:247,37,133"><span class="tic">🔮</span><div class="tn">Spatial Computing (XR/AR)</div><div class="te">ETA: 2024–2030 · Apple, Meta</div><div class="tdt">Merging digital and physical worlds. Apple Vision Pro pioneered spatial computing; next-gen AR glasses will replace smartphones for millions within this decade. WebXR and holographic displays.</div><div class="ttags"><span class="ttag">Spatial Computing</span><span class="ttag">Mixed Reality</span><span class="ttag">visionOS</span></div></div>
-    <div class="tc fi" style="--tcc:#fb923c;--tcr:251,146,60"><span class="tic">🛸</span><div class="tn">Nanotechnology</div><div class="te">ETA: 2030–2060 · MIT, Stanford</div><div class="tdt">Engineering at atomic scale. Targeted drug-delivery nanorobots, carbon nanotube transistors replacing silicon, self-assembling smart materials. IBM's 2nm chips show the path forward.</div><div class="ttags"><span class="ttag">Nanorobots</span><span class="ttag">Carbon Nanotubes</span><span class="ttag">Graphene</span></div></div>
-    <div class="tc fi" style="--tcc:#a3e635;--tcr:163,230,53"><span class="tic">🌐</span><div class="tn">6G & Terahertz Networks</div><div class="te">ETA: 2030–2035 · Samsung, Ericsson</div><div class="tdt">100× faster than 5G at terahertz frequencies. Real-time holographic telepresence, sub-1ms AI inference latency, and connectivity for trillions of IoT devices globally.</div><div class="ttags"><span class="ttag">Terahertz</span><span class="ttag">Sub-1ms Latency</span><span class="ttag">AI-Native</span></div></div>
-    <div class="tc fi" style="--tcc:#c084fc;--tcr:192,132,252"><span class="tic">🧫</span><div class="tn">Synthetic Biology & Biotech AI</div><div class="te">ETA: 2025–2040 · Ginkgo, DeepMind</div><div class="tdt">AI redesigning life at the molecular level. AlphaFold 3 predicts all biomolecular structures. Next: programmable organisms, lab-grown organs, AI-designed drugs in days, mRNA for any disease.</div><div class="ttags"><span class="ttag">Protein Design</span><span class="ttag">CRISPR</span><span class="ttag">mRNA Therapeutics</span></div></div>
-  </div>
-</section>
- 
-<!-- ▓▓▓▓▓▓▓▓▓▓▓▓ TIMELINE ▓▓▓▓▓▓▓▓▓▓▓▓ -->
-<section id="timeline">
-  <div class="shdr fi"><div class="stag">// Section 12 — Timeline</div><h2 class="stitle">Technology <span>Timeline</span></h2><p class="sdesc">The march of breakthrough events from 2023 to 2040 and beyond — the future mapped out in milestones.</p></div>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem" class="tl2c fi">
-    <div class="tl">
-      <div class="tli"><div class="tldot" style="background:#10a37f;box-shadow:0 0 10px #10a37f"></div><div class="tly">2023</div><div class="tlev">Generative AI Goes Mainstream</div><div class="tlde">ChatGPT hits 100M users in 60 days. GPT-4 passes the bar exam. Claude 2 sets context records. Midjourney democratizes image creation. Global AI race ignites.</div></div>
-      <div class="tli"><div class="tldot" style="background:#4285f4;box-shadow:0 0 10px #4285f4"></div><div class="tly">2024</div><div class="tlev">Year of AI Agents & Physical AI</div><div class="tlde">GPT-4o, Gemini 1.5, Claude 3. Sora video generation. Figure robot works in BMW factory. DeepSeek R1 disrupts AI economics. Apple Intelligence launches. Neuralink's first human implant.</div></div>
-      <div class="tli"><div class="tldot" style="background:#cc785c;box-shadow:0 0 10px #cc785c"></div><div class="tly">2025</div><div class="tlev">Reasoning Models & Agentic AI</div><div class="tlde">OpenAI o3, Claude 3.7, Gemini 2.0. AI agents run autonomously for hours. Humanoid robots enter more factories. 6G standards finalized. AI investment surpasses $320B globally.</div></div>
-      <div class="tli"><div class="tldot" style="background:#ff6b6b;box-shadow:0 0 10px #ff6b6b"></div><div class="tly">2026</div><div class="tlev">Physical AI & Spatial Computing</div><div class="tlde">Humanoid robots deployed in homes. AR glasses achieve mainstream adoption. AI scientists autonomously publish peer-reviewed research. Photonic AI chips reach commercial production.</div></div>
-    </div>
-    <div class="tl">
-      <div class="tli"><div class="tldot" style="background:#a855f7;box-shadow:0 0 10px #a855f7"></div><div class="tly">2027–2029</div><div class="tlev">Quantum Advantage Era</div><div class="tlde">First practical quantum advantage over classical computing in drug discovery and materials science. Post-quantum cryptography fully standardized. 10,000+ qubit processors operational.</div></div>
-      <div class="tli"><div class="tldot" style="background:#f72585;box-shadow:0 0 10px #f72585"></div><div class="tly">2030</div><div class="tlev">AGI Emergence & Global Governance</div><div class="tlde">First systems pass comprehensive AGI benchmarks. UN AI governance framework ratified. AI GDP contribution exceeds $15T annually. First commercial fusion reactor delivers net power to grid.</div></div>
-      <div class="tli"><div class="tldot" style="background:#06b6d4;box-shadow:0 0 10px #06b6d4"></div><div class="tly">2035</div><div class="tlev">Post-Scarcity Technologies</div><div class="tlde">Fusion energy replaces coal in major economies. Nanotech clinical trials prove drug delivery nanorobots viable. Brain-computer interfaces available for healthy consumers globally.</div></div>
-      <div class="tli"><div class="tldot" style="background:#f59e0b;box-shadow:0 0 10px #f59e0b"></div><div class="tly">2040+</div><div class="tlev">The Singularity Horizon</div><div class="tlde">Molecular nanotechnology, whole-brain emulation research, interplanetary internet connecting Earth-Mars, longevity therapies extending healthy human life to 130+ years.</div></div>
-    </div>
-  </div>
-</section>
- 
-<!-- ▓▓▓▓▓▓▓▓▓▓▓▓ SCIENCES ▓▓▓▓▓▓▓▓▓▓▓▓ -->
-<section id="sciences">
-  <div class="shdr fi"><div class="stag">// Section 13 — Sciences</div><h2 class="stitle">Future <span>Sciences</span></h2><p class="sdesc">The scientific disciplines at the bleeding edge of human knowledge and capability in 2025 and beyond.</p></div>
-  <div class="scgrid fi">
-    <div class="scc"><div class="scic">🧲</div><div class="scn">Quantum Mechanics</div><div class="scd">Superposition, entanglement, QFT — the foundation of all quantum technologies and future computing.</div></div>
-    <div class="scc"><div class="scic">🌌</div><div class="scn">Astrophysics</div><div class="scd">Dark matter, gravitational waves, black hole imaging — the universe's deepest mysteries revealed by AI analysis.</div></div>
-    <div class="scc"><div class="scic">🧬</div><div class="scn">Genomics</div><div class="scd">Whole-genome sequencing, CRISPR editing, protein prediction — rewriting the code of life itself.</div></div>
-    <div class="scc"><div class="scic">⚛️</div><div class="scn">Materials Science</div><div class="scd">Superconductors, metamaterials, topological insulators — AI designing matter atom by atom.</div></div>
-    <div class="scc"><div class="scic">🧠</div><div class="scn">Neuroscience</div><div class="scd">Connectomics, consciousness theories, neuroplasticity — the final frontier of human biology.</div></div>
-    <div class="scc"><div class="scic">🌿</div><div class="scn">Climate Science</div><div class="scd">Carbon capture, solar geoengineering, ocean restoration — AI-powered planetary interventions at scale.</div></div>
-    <div class="scc"><div class="scic">🔭</div><div class="scn">Space Science</div><div class="scd">Mars colonization, asteroid mining, interstellar propulsion, Dyson swarms, and space-based solar power.</div></div>
-    <div class="scc"><div class="scic">💊</div><div class="scn">Longevity Science</div><div class="scd">Senolytics, epigenetic reprogramming, organ regeneration — extending healthy human lifespan to 150+.</div></div>
-    <div class="scc"><div class="scic">🔐</div><div class="scn">Post-Quantum Cryptography</div><div class="scd">Lattice-based crypto, homomorphic encryption, ZK proofs — securing the quantum computing era.</div></div>
-    <div class="scc"><div class="scic">🌊</div><div class="scn">Ocean Science</div><div class="scd">Deep-ocean AI mapping, tidal energy, blue carbon ecosystem protection and restoration.</div></div>
-    <div class="scc"><div class="scic">🎭</div><div class="scn">Cognitive Science</div><div class="scd">Human-AI symbiosis, memory augmentation, digital therapeutics for mental health at global scale.</div></div>
-    <div class="scc"><div class="scic">⚡</div><div class="scn">Energy Physics</div><div class="scd">Solid-state batteries, room-temp superconductors, 50%+ efficiency solar cells changing civilization.</div></div>
-  </div>
-</section>
- 
- 
-<!-- ▓▓▓▓▓▓▓▓▓▓▓▓ AI TOOLS DIRECTORY ▓▓▓▓▓▓▓▓▓▓▓▓ -->
+
 <section id="ai-directory" style="max-width:1500px;margin:0 auto;padding:5rem 2rem">
   <div class="shdr fi">
-    <div class="stag">// Section 14 — AI Tools Directory</div>
+    <div class="stag">// Section 05 — AI Tools Directory</div>
     <h2 class="stitle">Complete AI <span>Tools Directory</span></h2>
-    <p class="sdesc">Every major AI website on Earth — categorized, rated, and linked. From image generation to data science, find the perfect AI tool for any task.</p>
+    <p class="sdesc">Every major AI website on Earth — categorized, rated, and linked. <span style="color:var(--c1)">170+</span> tools across <span style="color:var(--c3)">13 categories</span> — find the perfect AI tool for any task.</p>
   </div>
- 
+
   <!-- DIRECTORY FILTER BAR -->
   <div class="fbar fi" id="dirFbar" style="margin-bottom:2rem">
     <div class="fsr">
@@ -929,11 +789,153 @@ canvas,svg,.mf,.scf,#neural,#cur,#cur-ring,#cur-glow,.ld-bar{transition-property
     </div>
     <div class="fcnt" id="dirCnt">Showing all tools</div>
   </div>
- 
+
   <!-- DIRECTORY GRID -->
   <div id="dirGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem"></div>
 </section>
- 
+
+
+<!-- ▓▓▓▓▓▓▓▓▓▓▓▓ PAPERS ▓▓▓▓▓▓▓▓▓▓▓▓ -->
+<section id="papers">
+  <div class="shdr fi"><div class="stag">// Section 06 — Research Papers</div><h2 class="stitle">Research <span>Papers</span> Feed</h2><p class="sdesc">Landmark and recent papers shaping the future of AI and computer science — with direct links to original sources.</p></div>
+  <div class="pgrid">
+    <div class="pc fi" style="--pc:#00eeff"><span class="pcat cllm">LLM / TRANSFORMERS</span><div class="pt">Attention Is All You Need</div><div class="pa">Vaswani, Shazeer, Parmar et al. — Google Brain</div><div class="pv">NeurIPS 2017 · 100,000+ citations</div><div class="pab">Introduced the Transformer — the architecture powering every modern LLM. Replaced RNNs with pure multi-head self-attention, enabling massive parallelization and unlimited scaling. Changed everything.</div><div class="pft"><span class="py">2017 · The paper that changed everything</span><a href="https://arxiv.org/abs/1706.03762" target="_blank" class="plink"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>READ ON arXiv</a></div></div>
+    <div class="pc fi" style="--pc:#cc785c"><span class="pcat cllm">LLM</span><div class="pt">GPT-4 Technical Report</div><div class="pa">OpenAI Research Team</div><div class="pv">OpenAI Technical Report, 2023</div><div class="pab">Introduces GPT-4 achieving human-level performance on the bar exam, SAT, GRE, and AP exams. First multimodal frontier model available at consumer scale. Sparked the global AI revolution.</div><div class="pft"><span class="py">2023 · GPT-4 foundation</span><a href="https://arxiv.org/abs/2303.08774" target="_blank" class="plink"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>READ ON arXiv</a></div></div>
+    <div class="pc fi" style="--pc:#22c55e"><span class="pcat csci">SCIENCE AI</span><div class="pt">Highly Accurate Protein Structure Prediction with AlphaFold</div><div class="pa">Jumper, Evans, Pritzel et al. — DeepMind</div><div class="pv">Nature, 2021 · Nobel Prize Category</div><div class="pab">Solved biology's 50-year grand challenge — predicting 3D protein structures from sequences with atomic accuracy. Predicted ~200M protein structures, transforming drug discovery and medicine forever.</div><div class="pft"><span class="py">2021 · Nobel Prize category</span><a href="https://www.nature.com/articles/s41586-021-03819-2" target="_blank" class="plink"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>READ ON Nature</a></div></div>
+    <div class="pc fi" style="--pc:#36cfc9"><span class="pcat cllm">REASONING</span><div class="pt">DeepSeek-R1: Incentivizing Reasoning via Reinforcement Learning</div><div class="pa">DeepSeek-AI Research Team</div><div class="pv">arXiv, January 2025</div><div class="pab">Pure RL approach to developing reasoning without supervised fine-tuning. DeepSeek-R1 matches OpenAI o1 on math and coding benchmarks at a fraction of training cost. Disrupted global AI economics.</div><div class="pft"><span class="py">2025 · The economics disruptor</span><a href="https://arxiv.org/abs/2501.12948" target="_blank" class="plink"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>READ ON arXiv</a></div></div>
+    <div class="pc fi" style="--pc:#f59e0b"><span class="pcat cvis">VISION AI</span><div class="pt">An Image is Worth 16x16 Words: Transformers for Image Recognition (ViT)</div><div class="pa">Dosovitskiy, Beyer et al. — Google Brain</div><div class="pv">ICLR 2021</div><div class="pab">Applied Transformer attention to image patches, challenging CNN dominance. Foundation for DALL-E, Stable Diffusion, GPT-4V, Gemini, and every modern multimodal AI system on Earth.</div><div class="pft"><span class="py">2021 · Vision AI foundation</span><a href="https://arxiv.org/abs/2010.11929" target="_blank" class="plink"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>READ ON arXiv</a></div></div>
+    <div class="pc fi" style="--pc:#cc785c"><span class="pcat cllm">AI ALIGNMENT</span><div class="pt">Constitutional AI: Harmlessness from AI Feedback</div><div class="pa">Bai, Jones, Ndousse et al. — Anthropic</div><div class="pv">arXiv, 2022 · Foundation of Claude</div><div class="pab">AI models critique their own outputs using written principles — enabling scalable alignment without massive human feedback. The foundational paper behind Anthropic's Claude family of models.</div><div class="pft"><span class="py">2022 · Claude's foundation</span><a href="https://arxiv.org/abs/2212.08073" target="_blank" class="plink"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>READ ON arXiv</a></div></div>
+    <div class="pc fi" style="--pc:#ec4899"><span class="pcat crob">ROBOTICS AI</span><div class="pt">RT-2: Vision-Language-Action Models Transfer Web Knowledge to Robotics</div><div class="pa">Brohan, Brown et al. — Google DeepMind</div><div class="pv">CoRL 2023</div><div class="pab">Vision-language models trained on web data applied directly to robotic control. Robots reason about novel tasks from text descriptions — the dawn of general-purpose physical AI systems.</div><div class="pft"><span class="py">2023 · Physical AI dawn</span><a href="https://arxiv.org/abs/2307.15818" target="_blank" class="plink"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>READ ON arXiv</a></div></div>
+    <div class="pc fi" style="--pc:#a855f7"><span class="pcat csci">QUANTUM</span><div class="pt">Quantum Supremacy Using a Programmable Superconducting Processor</div><div class="pa">Arute, Arya et al. — Google Quantum AI</div><div class="pv">Nature, 2019</div><div class="pab">Google's Sycamore computed in 200 seconds what a classical supercomputer would need ~10,000 years for — first experimental proof of quantum computational supremacy over classical computing.</div><div class="pft"><span class="py">2019 · Quantum supremacy proven</span><a href="https://www.nature.com/articles/s41586-019-1666-5" target="_blank" class="plink"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>READ ON Nature</a></div></div>
+    <div class="pc fi" style="--pc:#00ff84"><span class="pcat crl">REINFORCEMENT LEARNING</span><div class="pt">Mastering the Game of Go with Deep Neural Networks and Tree Search</div><div class="pa">Silver, Huang, Maddison et al. — DeepMind</div><div class="pv">Nature, 2016 · AlphaGo</div><div class="pab">AlphaGo — first AI to defeat a world champion Go player. Deep RL + Monte Carlo tree search conquered a task believed impossible for machines, proving AI could master intuition-based reasoning.</div><div class="pft"><span class="py">2016 · AI mastered intuition</span><a href="https://www.nature.com/articles/nature16961" target="_blank" class="plink"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>READ ON Nature</a></div></div>
+  </div>
+</section>
+
+<!-- ▓▓▓▓▓▓▓▓▓▓▓▓ GLOSSARY ▓▓▓▓▓▓▓▓▓▓▓▓ -->
+<section id="glossary">
+  <div class="shdr fi"><div class="stag">// Section 07 — Glossary</div><h2 class="stitle">Tech <span>Glossary</span></h2><p class="sdesc">Your comprehensive guide to every AI, quantum computing, and future technology term. Search or browse alphabetically.</p></div>
+  <div class="gsr fi"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35"/></svg><input type="text" id="gSearch" placeholder="SEARCH TERMS... (e.g. transformer, qubit, RAG, RLHF)"></div>
+  <div class="anav fi" id="anav">
+    <span class="al2 on" data-l="all">ALL</span>
+    <span class="al2" data-l="A">A</span><span class="al2" data-l="B">B</span><span class="al2" data-l="C">C</span><span class="al2" data-l="D">D</span><span class="al2" data-l="E">E</span><span class="al2" data-l="F">F</span><span class="al2" data-l="G">G</span><span class="al2" data-l="H">H</span><span class="al2" data-l="L">L</span><span class="al2" data-l="M">M</span><span class="al2" data-l="N">N</span><span class="al2" data-l="P">P</span><span class="al2" data-l="Q">Q</span><span class="al2" data-l="R">R</span><span class="al2" data-l="S">S</span><span class="al2" data-l="T">T</span><span class="al2" data-l="V">V</span><span class="al2" data-l="Z">Z</span>
+  </div>
+  <div class="ggrid" id="ggrid"></div>
+</section>
+
+<!-- ▓▓▓▓▓▓▓▓▓▓▓▓ INDUSTRIES ▓▓▓▓▓▓▓▓▓▓▓▓ -->
+<section id="industries">
+  <div class="shdr fi"><div class="stag">// Section 08 — Industries</div><h2 class="stitle">AI Impact by <span>Industry</span></h2><p class="sdesc">How AI and future technology is transforming every major sector of the global economy — with market size projections.</p></div>
+  <div class="indgrid">
+    <div class="icard fi" style="--ic:#00eeff"><span class="iic">🏥</span><div class="iin">Healthcare & Medicine</div><div class="iid">AI-driven drug discovery, diagnostic imaging, protein folding, personalized treatment, robotic surgery. AlphaFold changed biology forever.</div><div class="istat">$45B market by 2026</div></div>
+    <div class="icard fi" style="--ic:#a855f7"><span class="iic">🏦</span><div class="iin">Finance & Banking</div><div class="iid">Algorithmic trading, fraud detection, risk assessment, AI advisors, and automated underwriting. Goldman Sachs replaced 600 traders with AI.</div><div class="istat">$130B market by 2027</div></div>
+    <div class="icard fi" style="--ic:#22c55e"><span class="iic">🚗</span><div class="iin">Autonomous Vehicles</div><div class="iid">Self-driving cars, AI traffic management, predictive maintenance, and logistics optimization. Waymo has driven 40M+ autonomous miles.</div><div class="istat">$2.1T market by 2030</div></div>
+    <div class="icard fi" style="--ic:#f59e0b"><span class="iic">🎓</span><div class="iin">Education & EdTech</div><div class="iid">Personalized AI tutors, adaptive learning, automated grading, language learning, and AI research assistants transforming how humans learn.</div><div class="istat">$30B market by 2027</div></div>
+    <div class="icard fi" style="--ic:#ec4899"><span class="iic">🎬</span><div class="iin">Creative & Entertainment</div><div class="iid">AI-generated films, music composition, game design, virtual characters, and personalized content creation at scale for global audiences.</div><div class="istat">$20B market by 2026</div></div>
+    <div class="icard fi" style="--ic:#06d6a0"><span class="iic">🌾</span><div class="iin">Agriculture & Food</div><div class="iid">Precision farming, crop disease detection, yield prediction, autonomous tractors, and lab-grown food production to feed 10 billion people.</div><div class="istat">$8B market by 2027</div></div>
+    <div class="icard fi" style="--ic:#ff6a00"><span class="iic">⚡</span><div class="iin">Energy & Climate</div><div class="iid">AI-optimized power grids, fusion energy control, carbon capture, climate modeling, and renewable energy forecasting for net-zero world.</div><div class="istat">$10B market by 2027</div></div>
+    <div class="icard fi" style="--ic:#0668e1"><span class="iic">🔐</span><div class="iin">Cybersecurity</div><div class="iid">AI threat detection, zero-day exploit discovery, behavioral analysis, post-quantum encryption, and autonomous incident response at machine speed.</div><div class="istat">$60B market by 2028</div></div>
+    <div class="icard fi" style="--ic:#d946ef"><span class="iic">🏭</span><div class="iin">Manufacturing & Robotics</div><div class="iid">Physical AI in factories, predictive maintenance, computer vision quality control, and humanoid robots handling dangerous tasks alongside humans.</div><div class="istat">$260B market by 2030</div></div>
+    <div class="icard fi" style="--ic:#ff0066"><span class="iic">🚀</span><div class="iin">Space Technology</div><div class="iid">AI mission planning, autonomous spacecraft navigation, satellite management, Mars habitat design, and next-gen propulsion research.</div><div class="istat">$1T+ market by 2040</div></div>
+    <div class="icard fi" style="--ic:#ffd700"><span class="iic">⚖️</span><div class="iin">Legal & Compliance</div><div class="iid">Contract analysis, legal research, regulatory compliance monitoring, predictive case outcomes, and AI-assisted litigation at unprecedented scale.</div><div class="istat">$12B market by 2027</div></div>
+    <div class="icard fi" style="--ic:#36cfc9"><span class="iic">🧬</span><div class="iin">Biotechnology</div><div class="iid">Gene therapy design, mRNA drug development, synthetic biology, AI-designed organisms, personalized cancer vaccines, longevity research breakthroughs.</div><div class="istat">$200B market by 2030</div></div>
+  </div>
+</section>
+
+<!-- ▓▓▓▓▓▓▓▓▓▓▓▓ HARDWARE ▓▓▓▓▓▓▓▓▓▓▓▓ -->
+<section id="hardware">
+  <div class="shdr fi"><div class="stag">// Section 09 — Hardware</div><h2 class="stitle">AI <span>Hardware</span> & Chips</h2><p class="sdesc">The silicon powering the AI revolution — GPUs, TPUs, and next-generation AI accelerators that make intelligence possible at scale.</p></div>
+  <div class="hwgrid">
+    <div class="hwc fi" style="--hwc:#76b900"><div class="hwn">NVIDIA H100 SXM5</div><div class="hwm">NVIDIA · AI ACCELERATOR · 2023</div><div class="hwd">The gold standard of AI training. 80GB HBM3 memory used in every frontier AI data center from OpenAI to Google. H100 clusters power GPT-4, Claude, and Gemini training runs.</div><div class="hwspecs"><div class="hwspec"><div class="hwsl">VRAM</div><div class="hwsv">80 GB</div></div><div class="hwspec"><div class="hwsl">FLOPS BF16</div><div class="hwsv">1979 TFLOPS</div></div><div class="hwspec"><div class="hwsl">Memory BW</div><div class="hwsv">3.35 TB/s</div></div><div class="hwspec"><div class="hwsl">TDP</div><div class="hwsv">700 W</div></div></div></div>
+    <div class="hwc fi" style="--hwc:#00eeff"><div class="hwn">NVIDIA B200 Blackwell</div><div class="hwm">NVIDIA · NEXT-GEN AI · 2024</div><div class="hwd">NVIDIA's 2024 generational leap — 2.5× faster than H100. Powers GB200 NVL72 racks for next-generation AI training. Foundation of AI infrastructure buildout through 2027.</div><div class="hwspecs"><div class="hwspec"><div class="hwsl">VRAM</div><div class="hwsv">192 GB</div></div><div class="hwspec"><div class="hwsl">FLOPS FP8</div><div class="hwsv">9000 TFLOPS</div></div><div class="hwspec"><div class="hwsl">Memory BW</div><div class="hwsv">8 TB/s</div></div><div class="hwspec"><div class="hwsl">TDP</div><div class="hwsv">1000 W</div></div></div></div>
+    <div class="hwc fi" style="--hwc:#4285f4"><div class="hwn">Google TPU v5p</div><div class="hwm">GOOGLE · TENSOR PROCESSING UNIT</div><div class="hwd">Google's custom AI accelerator purpose-built for Transformer training. TPU pods power Gemini 2.0. Unique integration with TensorFlow and JAX for maximum efficiency.</div><div class="hwspecs"><div class="hwspec"><div class="hwsl">Memory</div><div class="hwsv">95 GB</div></div><div class="hwspec"><div class="hwsl">FLOPS BF16</div><div class="hwsv">918 TFLOPS</div></div><div class="hwspec"><div class="hwsl">Memory BW</div><div class="hwsv">2.76 TB/s</div></div><div class="hwspec"><div class="hwsl">TDP</div><div class="hwsv">~600 W</div></div></div></div>
+    <div class="hwc fi" style="--hwc:#ed1c24"><div class="hwn">AMD MI300X</div><div class="hwm">AMD · AI ACCELERATOR · 2024</div><div class="hwd">AMD's challenger to NVIDIA with 192GB HBM3 — most memory of any GPU. Ideal for massive LLM inference. Powers Azure AI and multiple cloud deployments worldwide.</div><div class="hwspecs"><div class="hwspec"><div class="hwsl">VRAM</div><div class="hwsv">192 GB</div></div><div class="hwspec"><div class="hwsl">FLOPS FP16</div><div class="hwsv">1307 TFLOPS</div></div><div class="hwspec"><div class="hwsl">Memory BW</div><div class="hwsv">5.3 TB/s</div></div><div class="hwspec"><div class="hwsl">TDP</div><div class="hwsv">750 W</div></div></div></div>
+    <div class="hwc fi" style="--hwc:#0071c5"><div class="hwn">Intel Gaudi 3</div><div class="hwm">INTEL · AI ACCELERATOR · 2024</div><div class="hwd">Intel's answer to NVIDIA — optimized for LLM training and inference with price-performance advantage and open ecosystem with tight Hugging Face integration.</div><div class="hwspecs"><div class="hwspec"><div class="hwsl">VRAM</div><div class="hwsv">96 GB</div></div><div class="hwspec"><div class="hwsl">FLOPS BF16</div><div class="hwsv">1835 TFLOPS</div></div><div class="hwspec"><div class="hwsl">Memory BW</div><div class="hwsv">3.7 TB/s</div></div><div class="hwspec"><div class="hwsl">TDP</div><div class="hwsv">600 W</div></div></div></div>
+    <div class="hwc fi" style="--hwc:#888888"><div class="hwn">Apple M4 Ultra</div><div class="hwm">APPLE · ON-DEVICE AI SILICON</div><div class="hwd">Apple's unified memory architecture eliminates CPU-GPU bandwidth bottleneck. Powers Apple Intelligence with extreme power efficiency. 32-core Neural Engine runs AI at 38 TOPS.</div><div class="hwspecs"><div class="hwspec"><div class="hwsl">Neural Engine</div><div class="hwsv">32 cores</div></div><div class="hwspec"><div class="hwsl">TOPS</div><div class="hwsv">38 TOPS</div></div><div class="hwspec"><div class="hwsl">Unified Mem</div><div class="hwsv">192 GB</div></div><div class="hwspec"><div class="hwsl">TDP</div><div class="hwsv">60 W</div></div></div></div>
+  </div>
+</section>
+
+<!-- ▓▓▓▓▓▓▓▓▓▓▓▓ WORLD MAP ▓▓▓▓▓▓▓▓▓▓▓▓ -->
+<section id="worldmap">
+  <div class="shdr fi"><div class="stag">// Section 10 — World Map</div><h2 class="stitle">Global AI <span>Intelligence Map</span></h2><p class="sdesc">AI investment, regulation, and innovation hubs across the globe. Hover over nodes to explore each country's AI ecosystem.</p></div>
+  <div class="map-wrap fi"><div class="wmap-c" id="wmap"></div><div class="map-legend"><div class="mleg"><div class="mleg-d" style="background:#00eeff;box-shadow:0 0 6px #00eeff"></div>AI Superpower</div><div class="mleg"><div class="mleg-d" style="background:#a855f7;box-shadow:0 0 6px #a855f7"></div>Major Player</div><div class="mleg"><div class="mleg-d" style="background:#22c55e;box-shadow:0 0 6px #22c55e"></div>Emerging Hub</div><div class="mleg"><div class="mleg-d" style="background:#f59e0b;box-shadow:0 0 6px #f59e0b"></div>Growing Market</div></div></div>
+</section>
+
+<!-- ▓▓▓▓▓▓▓▓▓▓▓▓ FUNDING ▓▓▓▓▓▓▓▓▓▓▓▓ -->
+<section id="funding">
+  <div class="shdr fi"><div class="stag">// Section 11 — Funding</div><h2 class="stitle">AI Startup <span>Funding</span> Dashboard</h2><p class="sdesc">The biggest AI funding rounds in history — the capital flowing into companies building tomorrow's intelligence.</p></div>
+  <div class="fdash fi">
+    <div class="fcard"><div class="fa">$13B+</div><div class="fn">OpenAI</div><div class="fr">Multiple rounds · Microsoft lead</div><div class="fd">2019–2024</div></div>
+    <div class="fcard"><div class="fa">$7.3B</div><div class="fn">Anthropic</div><div class="fr">Series E · Amazon + Google</div><div class="fd">2023–2024</div></div>
+    <div class="fcard"><div class="fa">$6B</div><div class="fn">xAI</div><div class="fr">Series B · SoftBank + Others</div><div class="fd">2024</div></div>
+    <div class="fcard"><div class="fa">$1.1B</div><div class="fn">Mistral AI</div><div class="fr">Series B · A16z, General Catalyst</div><div class="fd">2024</div></div>
+    <div class="fcard"><div class="fa">$900M</div><div class="fn">Perplexity AI</div><div class="fr">Series C · IVP, NEA</div><div class="fd">2024</div></div>
+    <div class="fcard"><div class="fa">$1B</div><div class="fn">Figure AI</div><div class="fr">Series B · Microsoft, NVIDIA</div><div class="fd">2024</div></div>
+    <div class="fcard"><div class="fa">$450M</div><div class="fn">Cohere</div><div class="fr">Series D · Salesforce, Oracle</div><div class="fd">2024</div></div>
+    <div class="fcard"><div class="fa">$640M</div><div class="fn">Inflection AI</div><div class="fr">Series B · Microsoft, Gates</div><div class="fd">2023</div></div>
+  </div>
+  <div class="cc fi"><div class="ctitle">TOTAL AI FUNDING RAISED BY COMPANY ($M)</div><div class="csub">Cumulative investment across all rounds as of 2025</div><div class="cw"><canvas id="fundChart"></canvas></div></div>
+</section>
+
+<!-- ▓▓▓▓▓▓▓▓▓▓▓▓ FUTURE TECHNOLOGIES ▓▓▓▓▓▓▓▓▓▓▓▓ -->
+<section id="future">
+  <div class="shdr fi"><div class="stag">// Section 12 — Future Technologies</div><h2 class="stitle">Future <span>Technologies</span></h2><p class="sdesc">The transformative technologies that will define the next 50 years of human civilization — with ETA estimates and key players.</p></div>
+  <div class="tgrid">
+    <div class="tc fi" style="--tcc:#a855f7;--tcr:168,85,247"><span class="tic">⚛️</span><div class="tn">Quantum Computing</div><div class="te">ETA: 2025–2035 · IBM, Google, IonQ</div><div class="tdt">Harnesses superposition and entanglement for computations impossible classically. Will revolutionize cryptography, drug discovery, and optimization. IBM's 1121-qubit Heron leads the race.</div><div class="ttags"><span class="ttag">Qubits</span><span class="ttag">Superposition</span><span class="ttag">Error Correction</span><span class="ttag">Post-Quantum Crypto</span></div></div>
+    <div class="tc fi" style="--tcc:#06b6d4;--tcr:6,182,212"><span class="tic">🧠</span><div class="tn">Artificial General Intelligence</div><div class="te">ETA: 2027–2040 · OpenAI, DeepMind</div><div class="tdt">AI capable of any intellectual task a human can perform. The transition from narrow AI to AGI represents the most transformative event in all of human technological history.</div><div class="ttags"><span class="ttag">World Models</span><span class="ttag">Self-Improvement</span><span class="ttag">Transfer Learning</span></div></div>
+    <div class="tc fi" style="--tcc:#22c55e;--tcr:34,197,94"><span class="tic">🧬</span><div class="tn">DNA & Biological Computing</div><div class="te">ETA: 2030–2050 · Microsoft, Twist</div><div class="tdt">Computing using DNA strands. One gram of DNA stores 215 petabytes of data at room temperature. Microsoft's Project Silica and DNA storage labs race for the first commercial system.</div><div class="ttags"><span class="ttag">DNA Storage</span><span class="ttag">Synthetic Biology</span><span class="ttag">Molecular Computing</span></div></div>
+    <div class="tc fi" style="--tcc:#f59e0b;--tcr:245,158,11"><span class="tic">💡</span><div class="tn">Photonic Computing</div><div class="te">ETA: 2026–2035 · Lightmatter, Intel</div><div class="tdt">Using light instead of electrons for AI computation. Near-zero heat, light-speed interconnects, massive energy savings. Lightmatter's Passage chip processes AI models at the speed of light.</div><div class="ttags"><span class="ttag">Optical AI</span><span class="ttag">Silicon Photonics</span><span class="ttag">Zero Heat</span></div></div>
+    <div class="tc fi" style="--tcc:#ef4444;--tcr:239,68,68"><span class="tic">🔬</span><div class="tn">Neuromorphic Computing</div><div class="te">ETA: 2025–2030 · Intel Loihi 3</div><div class="tdt">Brain-inspired spiking neural networks using 1000× less power than GPUs. Intel's Loihi 3 processes AI at milliwatt power — enabling AI in hearing aids, satellites, and edge devices.</div><div class="ttags"><span class="ttag">Spiking NNs</span><span class="ttag">Edge AI</span><span class="ttag">Ultra Low Power</span></div></div>
+    <div class="tc fi" style="--tcc:#8b5cf6;--tcr:139,92,246"><span class="tic">🧪</span><div class="tn">Brain-Computer Interfaces</div><div class="te">ETA: 2025–2040 · Neuralink, Synchron</div><div class="tdt">Direct bidirectional brain-computer communication. Neuralink's N1 chip implanted in humans 2024. From restoring paralysis to thought-to-text, neural internet, and cognitive enhancement.</div><div class="ttags"><span class="ttag">Neural Recording</span><span class="ttag">Neuroprosthetics</span><span class="ttag">Thought Input</span></div></div>
+    <div class="tc fi" style="--tcc:#06d6a0;--tcr:6,214,160"><span class="tic">🤖</span><div class="tn">Humanoid Robotics & Physical AI</div><div class="te">ETA: 2024–2035 · Figure, Tesla, 1X</div><div class="tdt">Foundation models bringing general-purpose reasoning to physical robots. Figure 02 and Tesla Optimus work in BMW and Tesla factories. Physical AI learns from human demonstration.</div><div class="ttags"><span class="ttag">Embodied AI</span><span class="ttag">Dexterous Hands</span><span class="ttag">Foundation Models</span></div></div>
+    <div class="tc fi" style="--tcc:#00eeff;--tcr:0,238,255"><span class="tic">⚡</span><div class="tn">Nuclear Fusion Energy</div><div class="te">ETA: 2030–2050 · ITER, Commonwealth</div><div class="tdt">Clean, near-limitless energy from hydrogen fusion. NIF achieved net energy gain in 2022. Commonwealth Fusion's SPARC targeting commercial reactor by 2030s. Could end the global energy crisis.</div><div class="ttags"><span class="ttag">Tokamak</span><span class="ttag">Net Energy Gain</span><span class="ttag">Clean Power</span></div></div>
+    <div class="tc fi" style="--tcc:#f72585;--tcr:247,37,133"><span class="tic">🔮</span><div class="tn">Spatial Computing (XR/AR)</div><div class="te">ETA: 2024–2030 · Apple, Meta</div><div class="tdt">Merging digital and physical worlds. Apple Vision Pro pioneered spatial computing; next-gen AR glasses will replace smartphones for millions within this decade. WebXR and holographic displays.</div><div class="ttags"><span class="ttag">Spatial Computing</span><span class="ttag">Mixed Reality</span><span class="ttag">visionOS</span></div></div>
+    <div class="tc fi" style="--tcc:#fb923c;--tcr:251,146,60"><span class="tic">🛸</span><div class="tn">Nanotechnology</div><div class="te">ETA: 2030–2060 · MIT, Stanford</div><div class="tdt">Engineering at atomic scale. Targeted drug-delivery nanorobots, carbon nanotube transistors replacing silicon, self-assembling smart materials. IBM's 2nm chips show the path forward.</div><div class="ttags"><span class="ttag">Nanorobots</span><span class="ttag">Carbon Nanotubes</span><span class="ttag">Graphene</span></div></div>
+    <div class="tc fi" style="--tcc:#a3e635;--tcr:163,230,53"><span class="tic">🌐</span><div class="tn">6G & Terahertz Networks</div><div class="te">ETA: 2030–2035 · Samsung, Ericsson</div><div class="tdt">100× faster than 5G at terahertz frequencies. Real-time holographic telepresence, sub-1ms AI inference latency, and connectivity for trillions of IoT devices globally.</div><div class="ttags"><span class="ttag">Terahertz</span><span class="ttag">Sub-1ms Latency</span><span class="ttag">AI-Native</span></div></div>
+    <div class="tc fi" style="--tcc:#c084fc;--tcr:192,132,252"><span class="tic">🧫</span><div class="tn">Synthetic Biology & Biotech AI</div><div class="te">ETA: 2025–2040 · Ginkgo, DeepMind</div><div class="tdt">AI redesigning life at the molecular level. AlphaFold 3 predicts all biomolecular structures. Next: programmable organisms, lab-grown organs, AI-designed drugs in days, mRNA for any disease.</div><div class="ttags"><span class="ttag">Protein Design</span><span class="ttag">CRISPR</span><span class="ttag">mRNA Therapeutics</span></div></div>
+  </div>
+</section>
+
+<!-- ▓▓▓▓▓▓▓▓▓▓▓▓ TIMELINE ▓▓▓▓▓▓▓▓▓▓▓▓ -->
+<section id="timeline">
+  <div class="shdr fi"><div class="stag">// Section 13 — Timeline</div><h2 class="stitle">Technology <span>Timeline</span></h2><p class="sdesc">The march of breakthrough events from 2023 to 2040 and beyond — the future mapped out in milestones.</p></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem" class="tl2c fi">
+    <div class="tl">
+      <div class="tli"><div class="tldot" style="background:#10a37f;box-shadow:0 0 10px #10a37f"></div><div class="tly">2023</div><div class="tlev">Generative AI Goes Mainstream</div><div class="tlde">ChatGPT hits 100M users in 60 days. GPT-4 passes the bar exam. Claude 2 sets context records. Midjourney democratizes image creation. Global AI race ignites.</div></div>
+      <div class="tli"><div class="tldot" style="background:#4285f4;box-shadow:0 0 10px #4285f4"></div><div class="tly">2024</div><div class="tlev">Year of AI Agents & Physical AI</div><div class="tlde">GPT-4o, Gemini 1.5, Claude 3. Sora video generation. Figure robot works in BMW factory. DeepSeek R1 disrupts AI economics. Apple Intelligence launches. Neuralink's first human implant.</div></div>
+      <div class="tli"><div class="tldot" style="background:#cc785c;box-shadow:0 0 10px #cc785c"></div><div class="tly">2025</div><div class="tlev">Reasoning Models & Agentic AI</div><div class="tlde">OpenAI o3, Claude 3.7, Gemini 2.0. AI agents run autonomously for hours. Humanoid robots enter more factories. 6G standards finalized. AI investment surpasses $320B globally.</div></div>
+      <div class="tli"><div class="tldot" style="background:#ff6b6b;box-shadow:0 0 10px #ff6b6b"></div><div class="tly">2026</div><div class="tlev">Physical AI & Spatial Computing</div><div class="tlde">Humanoid robots deployed in homes. AR glasses achieve mainstream adoption. AI scientists autonomously publish peer-reviewed research. Photonic AI chips reach commercial production.</div></div>
+    </div>
+    <div class="tl">
+      <div class="tli"><div class="tldot" style="background:#a855f7;box-shadow:0 0 10px #a855f7"></div><div class="tly">2027–2029</div><div class="tlev">Quantum Advantage Era</div><div class="tlde">First practical quantum advantage over classical computing in drug discovery and materials science. Post-quantum cryptography fully standardized. 10,000+ qubit processors operational.</div></div>
+      <div class="tli"><div class="tldot" style="background:#f72585;box-shadow:0 0 10px #f72585"></div><div class="tly">2030</div><div class="tlev">AGI Emergence & Global Governance</div><div class="tlde">First systems pass comprehensive AGI benchmarks. UN AI governance framework ratified. AI GDP contribution exceeds $15T annually. First commercial fusion reactor delivers net power to grid.</div></div>
+      <div class="tli"><div class="tldot" style="background:#06b6d4;box-shadow:0 0 10px #06b6d4"></div><div class="tly">2035</div><div class="tlev">Post-Scarcity Technologies</div><div class="tlde">Fusion energy replaces coal in major economies. Nanotech clinical trials prove drug delivery nanorobots viable. Brain-computer interfaces available for healthy consumers globally.</div></div>
+      <div class="tli"><div class="tldot" style="background:#f59e0b;box-shadow:0 0 10px #f59e0b"></div><div class="tly">2040+</div><div class="tlev">The Singularity Horizon</div><div class="tlde">Molecular nanotechnology, whole-brain emulation research, interplanetary internet connecting Earth-Mars, longevity therapies extending healthy human life to 130+ years.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ▓▓▓▓▓▓▓▓▓▓▓▓ SCIENCES ▓▓▓▓▓▓▓▓▓▓▓▓ -->
+<section id="sciences">
+  <div class="shdr fi"><div class="stag">// Section 14 — Sciences</div><h2 class="stitle">Future <span>Sciences</span></h2><p class="sdesc">The scientific disciplines at the bleeding edge of human knowledge and capability in 2025 and beyond.</p></div>
+  <div class="scgrid fi">
+    <div class="scc"><div class="scic">🧲</div><div class="scn">Quantum Mechanics</div><div class="scd">Superposition, entanglement, QFT — the foundation of all quantum technologies and future computing.</div></div>
+    <div class="scc"><div class="scic">🌌</div><div class="scn">Astrophysics</div><div class="scd">Dark matter, gravitational waves, black hole imaging — the universe's deepest mysteries revealed by AI analysis.</div></div>
+    <div class="scc"><div class="scic">🧬</div><div class="scn">Genomics</div><div class="scd">Whole-genome sequencing, CRISPR editing, protein prediction — rewriting the code of life itself.</div></div>
+    <div class="scc"><div class="scic">⚛️</div><div class="scn">Materials Science</div><div class="scd">Superconductors, metamaterials, topological insulators — AI designing matter atom by atom.</div></div>
+    <div class="scc"><div class="scic">🧠</div><div class="scn">Neuroscience</div><div class="scd">Connectomics, consciousness theories, neuroplasticity — the final frontier of human biology.</div></div>
+    <div class="scc"><div class="scic">🌿</div><div class="scn">Climate Science</div><div class="scd">Carbon capture, solar geoengineering, ocean restoration — AI-powered planetary interventions at scale.</div></div>
+    <div class="scc"><div class="scic">🔭</div><div class="scn">Space Science</div><div class="scd">Mars colonization, asteroid mining, interstellar propulsion, Dyson swarms, and space-based solar power.</div></div>
+    <div class="scc"><div class="scic">💊</div><div class="scn">Longevity Science</div><div class="scd">Senolytics, epigenetic reprogramming, organ regeneration — extending healthy human lifespan to 150+.</div></div>
+    <div class="scc"><div class="scic">🔐</div><div class="scn">Post-Quantum Cryptography</div><div class="scd">Lattice-based crypto, homomorphic encryption, ZK proofs — securing the quantum computing era.</div></div>
+    <div class="scc"><div class="scic">🌊</div><div class="scn">Ocean Science</div><div class="scd">Deep-ocean AI mapping, tidal energy, blue carbon ecosystem protection and restoration.</div></div>
+    <div class="scc"><div class="scic">🎭</div><div class="scn">Cognitive Science</div><div class="scd">Human-AI symbiosis, memory augmentation, digital therapeutics for mental health at global scale.</div></div>
+    <div class="scc"><div class="scic">⚡</div><div class="scn">Energy Physics</div><div class="scd">Solid-state batteries, room-temp superconductors, 50%+ efficiency solar cells changing civilization.</div></div>
+  </div>
+</section>
+
+
+<!-- ▓▓▓▓▓▓▓▓▓▓▓▓ AI TOOLS DIRECTORY ▓▓▓▓▓▓▓▓▓▓▓▓ -->
+
 <style>
 /* ── AI DIRECTORY CARD ── */
 .dir-card{
@@ -1008,7 +1010,7 @@ const AI_TOOLS = [
   {name:"Playground AI",url:"playground.com",icon:"🛝",cat:"image",catLabel:"Image Generation",dc:"#22c55e",dcp:"34,197,94",desc:"Free AI image generation with powerful editing tools. Mix real photos with AI-generated content seamlessly. Great for social media creators.",tags:["Free Tier","Photo Editing","Social Media"],rating:"8.7",free:"df",freeLabel:"Free"},
   {name:"Flux (Black Forest Labs)",url:"blackforestlabs.ai",icon:"⚡",cat:"image",catLabel:"Image Generation",dc:"#7c3aed",dcp:"124,58,237",desc:"State-of-the-art image generation from the creators of Stable Diffusion. FLUX.1 models set new benchmarks for photorealism and prompt adherence.",tags:["SOTA Quality","Photorealistic","Open Weights"],rating:"9.6",free:"dd",freeLabel:"Freemium"},
   {name:"Canva AI",url:"canva.com/ai-image-generator",icon:"🎪",cat:"image",catLabel:"Image Generation",dc:"#00d4aa",dcp:"0,212,170",desc:"AI image generation built into Canva's design platform. Create and place AI images directly into presentations, social posts, and marketing materials.",tags:["Design Integration","Templates","Easy to Use"],rating:"8.8",free:"dd",freeLabel:"Freemium"},
- 
+
   /* ── VIDEO GENERATION ── */
   {name:"Runway ML",url:"runwayml.com",icon:"🎬",cat:"video",catLabel:"Video Generation",dc:"#a855f7",dcp:"168,85,247",desc:"Industry-leading AI video generation. Gen-3 Alpha creates cinematic-quality video from text and images. Used by Hollywood studios and independent filmmakers.",tags:["Text-to-Video","Image-to-Video","Hollywood"],rating:"9.5",free:"dd",freeLabel:"Freemium"},
   {name:"Sora",url:"sora.com",icon:"🌅",cat:"video",catLabel:"Video Generation",dc:"#10a37f",dcp:"16,163,127",desc:"OpenAI's groundbreaking video model. Generates realistic and imaginative videos up to 60 seconds from text descriptions. Understands physics and temporal consistency.",tags:["Text-to-Video","60sec","Physics Model"],rating:"9.7",free:"dp",freeLabel:"Paid"},
@@ -1020,7 +1022,7 @@ const AI_TOOLS = [
   {name:"Invideo AI",url:"invideo.io",icon:"📹",cat:"video",catLabel:"Video Generation",dc:"#f7931e",dcp:"247,147,30",desc:"Text-to-video platform for content creators. Generate full YouTube, TikTok, and Instagram videos from a text prompt. Includes voiceover, music, and stock footage.",tags:["YouTube","TikTok","Full Production"],rating:"8.7",free:"dd",freeLabel:"Freemium"},
   {name:"Luma Dream Machine",url:"lumalabs.ai",icon:"✨",cat:"video",catLabel:"Video Generation",dc:"#c084fc",dcp:"192,132,252",desc:"Generate smooth, cinematic video clips from text or images. Dream Machine specializes in fluid camera movement and lifelike physics in AI video generation.",tags:["Camera Motion","Physics","Smooth Video"],rating:"9.1",free:"dd",freeLabel:"Freemium"},
   {name:"Descript",url:"descript.com",icon:"🎞️",cat:"video",catLabel:"Video Generation",dc:"#22c55e",dcp:"34,197,94",desc:"AI-powered video and podcast editing. Edit video by editing the transcript — delete words to cut footage. Overdub voice cloning, Studio Sound AI cleanup.",tags:["Transcript Editing","Voice Clone","Podcast"],rating:"9.0",free:"dd",freeLabel:"Freemium"},
- 
+
   /* ── VOICE OVER & AUDIO ── */
   {name:"ElevenLabs",url:"elevenlabs.io",icon:"🎙️",cat:"voice",catLabel:"Voice & Audio AI",dc:"#00eeff",dcp:"0,238,255",desc:"The gold standard of AI voice synthesis. Ultra-realistic text-to-speech in 32 languages. Voice cloning in 1 minute, AI dubbing, sound effects, and audiobook creation.",tags:["Voice Cloning","32 Languages","Dubbing"],rating:"9.8",free:"dd",freeLabel:"Freemium"},
   {name:"Murf AI",url:"murf.ai",icon:"🔊",cat:"voice",catLabel:"Voice & Audio AI",dc:"#a855f7",dcp:"168,85,247",desc:"Professional AI voiceover studio. 200+ lifelike voices in 20+ languages. Used by corporations, YouTubers, and podcasters for narration, ads, and e-learning.",tags:["200+ Voices","E-Learning","Corporate"],rating:"9.2",free:"dd",freeLabel:"Freemium"},
@@ -1030,7 +1032,7 @@ const AI_TOOLS = [
   {name:"Adobe Podcast",url:"podcast.adobe.com",icon:"🎧",cat:"voice",catLabel:"Voice & Audio AI",dc:"#ff6a00",dcp:"255,106,0",desc:"AI-powered podcast enhancement. Mic Check tool improves audio quality before recording. Enhance Speech removes background noise and makes any microphone sound studio-quality.",tags:["Noise Removal","Studio Quality","Free"],rating:"9.3",free:"df",freeLabel:"Free"},
   {name:"Suno AI",url:"suno.ai",icon:"🎵",cat:"voice",catLabel:"Voice & Audio AI",dc:"#ffd700",dcp:"255,215,0",desc:"Generate complete songs with vocals from a text prompt. Full music tracks with AI-generated lyrics and singing. The leading AI music with vocals platform.",tags:["AI Music","Vocals","Full Songs"],rating:"9.4",free:"dd",freeLabel:"Freemium"},
   {name:"Replica Studios",url:"replicastudios.com",icon:"🤖",cat:"voice",catLabel:"Voice & Audio AI",dc:"#7c3aed",dcp:"124,58,237",desc:"Professional AI voice acting for games and interactive media. Emotional voice performances with 1000+ voice actors' digital replicas for game dialogue and animation.",tags:["Game Voices","Emotional AI","Animation"],rating:"8.8",free:"dd",freeLabel:"Freemium"},
- 
+
   /* ── WRITING & CONTENT ── */
   {name:"Jasper AI",url:"jasper.ai",icon:"✍️",cat:"writing",catLabel:"Writing & Content AI",dc:"#f7931e",dcp:"247,147,30",desc:"Enterprise AI writing platform. Marketing copy, blog posts, social media content, and SEO writing. 50+ templates, brand voice learning, and team collaboration features.",tags:["Marketing Copy","SEO","Enterprise"],rating:"9.0",free:"dp",freeLabel:"Paid"},
   {name:"Copy.ai",url:"copy.ai",icon:"📝",cat:"writing",catLabel:"Writing & Content AI",dc:"#a855f7",dcp:"168,85,247",desc:"AI copywriting for sales and marketing teams. Workflows automate entire content pipelines — from research to first draft to polished final copy.",tags:["Sales Copy","Workflows","Marketing"],rating:"8.8",free:"dd",freeLabel:"Freemium"},
@@ -1039,7 +1041,7 @@ const AI_TOOLS = [
   {name:"Notion AI",url:"notion.so/product/ai",icon:"📓",cat:"writing",catLabel:"Writing & Content AI",dc:"#0668e1",dcp:"6,104,225",desc:"AI writing and summarization built directly into Notion. Summarize meeting notes, brainstorm ideas, translate content, and draft documents in your workspace.",tags:["Workspace AI","Summaries","Translation"],rating:"9.1",free:"dd",freeLabel:"Freemium"},
   {name:"Sudowrite",url:"sudowrite.com",icon:"🖊️",cat:"writing",catLabel:"Writing & Content AI",dc:"#ec4899",dcp:"236,72,153",desc:"AI writing tool built specifically for fiction writers. Story Engine, Shrink Ray, and Describe features help novelists and screenwriters break through creative blocks.",tags:["Fiction","Story Engine","Creative"],rating:"8.7",free:"dd",freeLabel:"Freemium"},
   {name:"Quillbot",url:"quillbot.com",icon:"🪶",cat:"writing",catLabel:"Writing & Content AI",dc:"#36cfc9",dcp:"54,207,201",desc:"AI paraphrasing, summarizing, and grammar checking. The go-to tool for students and researchers to rephrase content with 7 different writing modes.",tags:["Paraphrasing","Summarizer","Student Tool"],rating:"8.9",free:"dd",freeLabel:"Freemium"},
- 
+
   /* ── CODE AI ── */
   {name:"GitHub Copilot",url:"github.com/features/copilot",icon:"💻",cat:"code",catLabel:"Code & Development AI",dc:"#f0883e",dcp:"240,136,62",desc:"World's most used AI coding assistant. Real-time autocomplete, function generation, PR summaries, security scanning, and chat for all major IDEs.",tags:["IDE Plugin","All Languages","PR Review"],rating:"9.6",free:"dd",freeLabel:"Freemium"},
   {name:"Cursor",url:"cursor.com",icon:"🖱️",cat:"code",catLabel:"Code & Development AI",dc:"#00eeff",dcp:"0,238,255",desc:"AI-first code editor. Entire codebase context, multi-file editing, composer for large features, and chat that understands your whole project. VS Code fork.",tags:["AI Editor","Codebase Context","Multi-file"],rating:"9.7",free:"dd",freeLabel:"Freemium"},
@@ -1049,7 +1051,7 @@ const AI_TOOLS = [
   {name:"Codeium",url:"codeium.com",icon:"🔮",cat:"code",catLabel:"Code & Development AI",dc:"#22c55e",dcp:"34,197,94",desc:"Free forever AI coding assistant for individuals. 70+ languages, all major IDEs, fast autocomplete, and chat. The best free alternative to GitHub Copilot.",tags:["Free Forever","70+ Languages","Fast"],rating:"9.1",free:"df",freeLabel:"Free"},
   {name:"V0 by Vercel",url:"v0.dev",icon:"🎯",cat:"code",catLabel:"Code & Development AI",dc:"#0668e1",dcp:"6,104,225",desc:"Generate React UI components from text descriptions. Describe the interface you want, get working code instantly. Built for Next.js and modern web development.",tags:["React","UI Generation","Next.js"],rating:"9.3",free:"dd",freeLabel:"Freemium"},
   {name:"Bolt.new",url:"bolt.new",icon:"⚡",cat:"code",catLabel:"Code & Development AI",dc:"#ffd700",dcp:"255,215,0",desc:"AI full-stack web app builder in the browser. Describe your app, get a working prototype with backend, database, and UI in minutes. Powered by StackBlitz.",tags:["Full Stack","No Setup","App Builder"],rating:"9.2",free:"dd",freeLabel:"Freemium"},
- 
+
   /* ── RESEARCH ── */
   {name:"Perplexity AI",url:"perplexity.ai",icon:"🔍",cat:"research",catLabel:"Research & Knowledge AI",dc:"#20c997",dcp:"32,201,151",desc:"The AI answer engine for research. Real-time web search with citations, deep research reports, and academic-quality sourcing. Best AI for current events and factual research.",tags:["Citations","Real-time","Deep Research"],rating:"9.6",free:"dd",freeLabel:"Freemium"},
   {name:"Elicit",url:"elicit.com",icon:"🧪",cat:"research",catLabel:"Research & Knowledge AI",dc:"#a855f7",dcp:"168,85,247",desc:"AI research assistant for literature reviews. Find and analyze academic papers, extract key findings, compare studies, and get evidence-based answers from research.",tags:["Academic Papers","Literature Review","Evidence-Based"],rating:"9.3",free:"dd",freeLabel:"Freemium"},
@@ -1059,7 +1061,7 @@ const AI_TOOLS = [
   {name:"Connected Papers",url:"connectedpapers.com",icon:"🕸️",cat:"research",catLabel:"Research & Knowledge AI",dc:"#f59e0b",dcp:"245,158,11",desc:"Explore academic literature through visual knowledge graphs. See how papers connect, find prior works and derivatives, understand a field at a glance.",tags:["Knowledge Graph","Visual","Prior Art"],rating:"8.9",free:"dd",freeLabel:"Freemium"},
   {name:"Scite",url:"scite.ai",icon:"✍️",cat:"research",catLabel:"Research & Knowledge AI",dc:"#36cfc9",dcp:"54,207,201",desc:"Smart citation analysis that shows how papers have been cited — whether supporting or contrasting. Verify research credibility with evidence-based citation context.",tags:["Citation Analysis","Credibility","Supporting/Contrasting"],rating:"9.0",free:"dd",freeLabel:"Freemium"},
   {name:"Iris AI",url:"iris.ai",icon:"👁️",cat:"research",catLabel:"Research & Knowledge AI",dc:"#7c3aed",dcp:"124,58,237",desc:"AI workspace for R&D teams. Map technology landscapes, find relevant patents, analyze technical documents, and accelerate corporate research and innovation pipelines.",tags:["R&D Teams","Patent Search","Tech Landscape"],rating:"8.8",free:"dp",freeLabel:"Paid"},
- 
+
   /* ── DATA SCIENCE ── */
   {name:"DataRobot",url:"datarobot.com",icon:"📊",cat:"data",catLabel:"Data Science & ML AI",dc:"#0668e1",dcp:"6,104,225",desc:"Enterprise AI and AutoML platform. Automatically build, deploy, and monitor machine learning models. Trusted by 40% of Fortune 50 companies for AI at scale.",tags:["AutoML","Enterprise","Deployment"],rating:"9.2",free:"dp",freeLabel:"Paid"},
   {name:"Julius AI",url:"julius.ai",icon:"📈",cat:"data",catLabel:"Data Science & ML AI",dc:"#00eeff",dcp:"0,238,255",desc:"AI data analyst that reads your CSV, Excel, or database and answers questions in natural language. Create charts, find insights, and run statistical analysis by chatting.",tags:["CSV/Excel","Natural Language","Charts"],rating:"9.3",free:"dd",freeLabel:"Freemium"},
@@ -1070,7 +1072,7 @@ const AI_TOOLS = [
   {name:"Hugging Face",url:"huggingface.co",icon:"🤗",cat:"data",catLabel:"Data Science & ML AI",dc:"#ffd21e",dcp:"255,210,30",desc:"The GitHub of AI with 500K+ models, datasets, and Spaces. Essential for every ML practitioner. Fine-tune, deploy, and share models with the global AI community.",tags:["500K+ Models","Datasets","Model Hub"],rating:"9.8",free:"df",freeLabel:"Free"},
   {name:"Google Colab",url:"colab.research.google.com",icon:"🔬",cat:"data",catLabel:"Data Science & ML AI",dc:"#4285f4",dcp:"66,133,244",desc:"Free cloud Jupyter notebooks with GPU/TPU access. The standard environment for ML research, deep learning education, and data science prototyping worldwide.",tags:["Free GPU","Jupyter","Education"],rating:"9.5",free:"df",freeLabel:"Free"},
   {name:"Deepnote",url:"deepnote.com",icon:"📓",cat:"data",catLabel:"Data Science & ML AI",dc:"#a855f7",dcp:"168,85,247",desc:"AI-native data science notebook for teams. Real-time collaboration, scheduled execution, SQL integration, and AI copilot that understands your data context.",tags:["Collaboration","SQL","AI Copilot"],rating:"9.0",free:"dd",freeLabel:"Freemium"},
- 
+
   /* ── MUSIC ── */
   {name:"Suno AI",url:"suno.ai",icon:"🎵",cat:"music",catLabel:"Music Generation AI",dc:"#ffd700",dcp:"255,215,0",desc:"Create complete songs with AI-generated vocals, lyrics, and instrumentals from a text prompt. The leading platform for AI music generation with singing voices.",tags:["Vocals","Full Songs","Text-to-Music"],rating:"9.5",free:"dd",freeLabel:"Freemium"},
   {name:"Udio",url:"udio.com",icon:"🎶",cat:"music",catLabel:"Music Generation AI",dc:"#ec4899",dcp:"236,72,153",desc:"Generate studio-quality music across any genre from text prompts. Udio specializes in detailed, nuanced musical output with exceptional genre fidelity.",tags:["Studio Quality","All Genres","Detailed"],rating:"9.4",free:"dd",freeLabel:"Freemium"},
@@ -1078,14 +1080,14 @@ const AI_TOOLS = [
   {name:"Soundraw",url:"soundraw.io",icon:"🎸",cat:"music",catLabel:"Music Generation AI",dc:"#22c55e",dcp:"34,197,94",desc:"AI music generator for content creators. Customize AI-generated tracks by mood, genre, tempo, and length. Royalty-free music that adapts to your video.",tags:["Customizable","Royalty-Free","Video Sync"],rating:"8.9",free:"dd",freeLabel:"Freemium"},
   {name:"AIVA",url:"aiva.ai",icon:"🎻",cat:"music",catLabel:"Music Generation AI",dc:"#a855f7",dcp:"168,85,247",desc:"AI music composition for films, games, and commercials. Compose emotional soundtracks in any style. The first AI to be recognized as a composer by a music society.",tags:["Film Scoring","Games","Emotional"],rating:"9.0",free:"dd",freeLabel:"Freemium"},
   {name:"Lalal.ai",url:"lalal.ai",icon:"🎤",cat:"music",catLabel:"Music Generation AI",dc:"#f72585",dcp:"247,37,133",desc:"AI audio source separation. Split any song into vocals, instruments, drums, bass, and more. Perfect for karaoke, remixing, music production, and stem extraction.",tags:["Stem Separation","Karaoke","Remixing"],rating:"9.2",free:"dd",freeLabel:"Freemium"},
- 
+
   /* ── AVATAR & 3D ── */
   {name:"Ready Player Me",url:"readyplayer.me",icon:"🧑‍🚀",cat:"avatar",catLabel:"Avatar & 3D AI",dc:"#7c3aed",dcp:"124,58,237",desc:"Create personalized 3D avatars for the metaverse and games. Used in 10,000+ apps and games. Full-body avatars with facial expression sync and custom clothing.",tags:["Metaverse","10K+ Apps","Full Body"],rating:"9.1",free:"df",freeLabel:"Free"},
   {name:"Luma AI",url:"lumalabs.ai",icon:"✨",cat:"avatar",catLabel:"Avatar & 3D AI",dc:"#c084fc",dcp:"192,132,252",desc:"Photorealistic 3D capture from photos and iPhone. NeRF-based 3D scenes, object scanning, and Dream Machine video generation. Professional-grade 3D AI tools.",tags:["3D Capture","NeRF","Object Scanning"],rating:"9.3",free:"dd",freeLabel:"Freemium"},
   {name:"Meshy",url:"meshy.ai",icon:"🧊",cat:"avatar",catLabel:"Avatar & 3D AI",dc:"#00eeff",dcp:"0,238,255",desc:"AI 3D model generation from text and images. Create game-ready 3D assets, characters, and environments in minutes. Supports FBX, OBJ, and GLB export.",tags:["Text-to-3D","Game Assets","FBX Export"],rating:"9.0",free:"dd",freeLabel:"Freemium"},
   {name:"Scenario",url:"scenario.com",icon:"🎮",cat:"avatar",catLabel:"Avatar & 3D AI",dc:"#22c55e",dcp:"34,197,94",desc:"AI-powered game asset generation platform. Train custom models on your art style, generate consistent characters and environments. Built for game developers.",tags:["Game Assets","Style Training","Consistent Characters"],rating:"9.1",free:"dd",freeLabel:"Freemium"},
   {name:"DeepMotion",url:"deepmotion.com",icon:"🕺",cat:"avatar",catLabel:"Avatar & 3D AI",dc:"#ff6b6b",dcp:"255,107,107",desc:"AI motion capture from video. Turn any video into 3D character animations without markers or suits. Generate animations for games, VR, and VTubing.",tags:["Motion Capture","Video-to-3D","VTubing"],rating:"8.9",free:"dd",freeLabel:"Freemium"},
- 
+
   /* ── DESIGN ── */
   {name:"Canva",url:"canva.com",icon:"🎨",cat:"design",catLabel:"Design & Creative AI",dc:"#00d4aa",dcp:"0,212,170",desc:"AI-powered design platform used by 170M+ people. Magic Design, Magic Write, Background Remover, and AI image generation built into an all-in-one design suite.",tags:["170M Users","Templates","All-in-One"],rating:"9.4",free:"dd",freeLabel:"Freemium"},
   {name:"Adobe Firefly",url:"firefly.adobe.com",icon:"🔥",cat:"design",catLabel:"Design & Creative AI",dc:"#ff6a00",dcp:"255,106,0",desc:"Adobe's generative AI for creative professionals. Generative Fill, Text Effects, Generative Expand in Photoshop and Illustrator. Commercially safe, trained on licensed content.",tags:["Photoshop","Illustrator","Commercial Safe"],rating:"9.5",free:"dd",freeLabel:"Freemium"},
@@ -1093,7 +1095,7 @@ const AI_TOOLS = [
   {name:"Looka",url:"looka.com",icon:"🏷️",cat:"design",catLabel:"Design & Creative AI",dc:"#ffd700",dcp:"255,215,0",desc:"AI-powered logo design and brand identity platform. Answer a few questions, get dozens of professional logos instantly. Full brand kit with colors, fonts, and assets.",tags:["Logo Design","Brand Kit","Instant"],rating:"8.8",free:"dd",freeLabel:"Freemium"},
   {name:"Khroma",url:"khroma.co",icon:"🌈",cat:"design",catLabel:"Design & Creative AI",dc:"#ec4899",dcp:"236,72,153",desc:"AI color palette generator that learns your color preferences. Generate infinite palettes trained on your taste. Search by hue, tint, value, and color name.",tags:["Color Palettes","Personalized","Search"],rating:"9.0",free:"df",freeLabel:"Free"},
   {name:"Uizard",url:"uizard.io",icon:"📱",cat:"design",catLabel:"Design & Creative AI",dc:"#4285f4",dcp:"66,133,244",desc:"AI UI design tool for non-designers. Generate mobile apps and web interfaces from text descriptions or rough sketches. Convert screenshots to editable designs.",tags:["UI Mockups","Sketch-to-Design","Non-Designer"],rating:"8.9",free:"dd",freeLabel:"Freemium"},
- 
+
   /* ── PRODUCTIVITY ── */
   {name:"Notion AI",url:"notion.so/product/ai",icon:"📓",cat:"productivity",catLabel:"Productivity & Workflow AI",dc:"#0668e1",dcp:"6,104,225",desc:"AI assistant built into Notion workspace. Summarize long documents, write first drafts, brainstorm ideas, translate content, and extract action items automatically.",tags:["Workspace AI","Summaries","Action Items"],rating:"9.3",free:"dd",freeLabel:"Freemium"},
   {name:"Otter.ai",url:"otter.ai",icon:"🦦",cat:"productivity",catLabel:"Productivity & Workflow AI",dc:"#00eeff",dcp:"0,238,255",desc:"AI meeting notes and transcription. Auto-transcribe Zoom, Teams, and Google Meet. Generate summaries, action items, and follow-up emails from any meeting.",tags:["Meeting Notes","Transcription","Zoom/Teams"],rating:"9.2",free:"dd",freeLabel:"Freemium"},
@@ -1102,7 +1104,7 @@ const AI_TOOLS = [
   {name:"Mem AI",url:"mem.ai",icon:"🧠",cat:"productivity",catLabel:"Productivity & Workflow AI",dc:"#22c55e",dcp:"34,197,94",desc:"AI-powered note-taking that organizes itself. Chat with your notes, get automatic connections between ideas, and generate summaries of your knowledge base.",tags:["Smart Notes","Knowledge Base","Auto-Organize"],rating:"8.8",free:"dd",freeLabel:"Freemium"},
   {name:"Reclaim AI",url:"reclaim.ai",icon:"📅",cat:"productivity",catLabel:"Productivity & Workflow AI",dc:"#f59e0b",dcp:"245,158,11",desc:"AI calendar optimization that automatically schedules tasks, protects focus time, and reschedules meetings. Integrates with Google Calendar for smart time blocking.",tags:["Calendar AI","Focus Time","Time Blocking"],rating:"9.1",free:"dd",freeLabel:"Freemium"},
   {name:"Beautiful.ai",url:"beautiful.ai",icon:"✨",cat:"productivity",catLabel:"Productivity & Workflow AI",dc:"#ec4899",dcp:"236,72,153",desc:"AI presentation maker that designs slides automatically. Smart templates that adjust layouts intelligently as you add content. Create pitch decks in minutes.",tags:["Presentations","Smart Templates","Pitch Decks"],rating:"8.9",free:"dd",freeLabel:"Freemium"},
- 
+
   /* ── SEO & MARKETING ── */
   {name:"Semrush AI",url:"semrush.com",icon:"📈",cat:"seo",catLabel:"SEO & Marketing AI",dc:"#ff6a00",dcp:"255,106,0",desc:"All-in-one AI SEO platform. Keyword research, competitor analysis, content optimization, backlink analysis, and AI Writing Assistant for SEO-optimized content.",tags:["Keyword Research","Competitor Analysis","Content SEO"],rating:"9.4",free:"dd",freeLabel:"Freemium"},
   {name:"Surfer SEO",url:"surferseo.com",icon:"🏄",cat:"seo",catLabel:"SEO & Marketing AI",dc:"#00eeff",dcp:"0,238,255",desc:"AI content editor that analyzes top-ranking pages and provides real-time optimization guidance. Content Score, NLP analysis, and automated outlines for SEO success.",tags:["Content Score","NLP SEO","Real-time"],rating:"9.2",free:"dp",freeLabel:"Paid"},
@@ -1110,8 +1112,112 @@ const AI_TOOLS = [
   {name:"Phrasee",url:"phrasee.co",icon:"📣",cat:"seo",catLabel:"SEO & Marketing AI",dc:"#a855f7",dcp:"168,85,247",desc:"AI-powered marketing language optimization for email subject lines, push notifications, and ad copy. Predicts and generates high-performing language for every channel.",tags:["Email Subject Lines","Ad Copy","A/B Testing"],rating:"8.9",free:"dp",freeLabel:"Paid"},
   {name:"Brandwatch",url:"brandwatch.com",icon:"👁️",cat:"seo",catLabel:"SEO & Marketing AI",dc:"#22c55e",dcp:"34,197,94",desc:"AI-powered social listening and consumer intelligence. Monitor brand mentions across 1.4T posts, analyze sentiment, track trends, and identify influencers.",tags:["Social Listening","Sentiment Analysis","1.4T Posts"],rating:"9.0",free:"dp",freeLabel:"Paid"},
   {name:"Albert AI",url:"albert.ai",icon:"🤖",cat:"seo",catLabel:"SEO & Marketing AI",dc:"#ffd700",dcp:"255,215,0",desc:"Autonomous AI marketing platform that self-optimizes campaigns across Google, Facebook, and Instagram. Allocates budget, tests creatives, and scales winners autonomously.",tags:["Autonomous Campaigns","Multi-Channel","Self-Optimizing"],rating:"8.8",free:"dp",freeLabel:"Paid"},
+  {name:"MarketMuse",url:"marketmuse.com",icon:"📊",cat:"seo",catLabel:"SEO & Marketing AI",dc:"#a855f7",dcp:"168,85,247",desc:"AI-powered content intelligence platform. Analyze content gaps, get topic authority scores, build content briefs, and optimize pages to rank for entire topic clusters.",tags:["Content Intelligence","Topic Authority","Content Briefs"],rating:"9.0",free:"dd",freeLabel:"Freemium"},
+  {name:"Jasper AI",url:"jasper.ai",icon:"📝",cat:"seo",catLabel:"SEO & Marketing AI",dc:"#36cfc9",dcp:"54,207,201",desc:"Enterprise AI marketing platform trusted by 100,000+ teams. Write SEO blog posts, ad copy, emails, social captions, and product descriptions at scale with brand voice.",tags:["Enterprise","Brand Voice","100K Teams"],rating:"9.1",free:"dp",freeLabel:"Paid"},
+  {name:"Frase",url:"frase.io",icon:"🔎",cat:"seo",catLabel:"SEO & Marketing AI",dc:"#f59e0b",dcp:"245,158,11",desc:"AI SEO tool that researches, writes, and optimizes content. Analyze top-ranking pages, generate outlines, and get real-time optimization scores as you write.",tags:["Content Research","Outlines","Optimization Score"],rating:"8.9",free:"dd",freeLabel:"Freemium"},
+  {name:"AdCreative.ai",url:"adcreative.ai",icon:"🎯",cat:"seo",catLabel:"SEO & Marketing AI",dc:"#ec4899",dcp:"236,72,153",desc:"AI-powered ad creative generator. Create conversion-optimized banner ads, social media ads, and product photos with AI. Scores creatives before you spend ad budget.",tags:["Ad Banners","Conversion Scoring","Product Photos"],rating:"8.9",free:"dd",freeLabel:"Freemium"},
+
+  /* ── EXTRA IMAGE GENERATION ── */
+  {name:"DreamStudio",url:"dreamstudio.ai",icon:"🌙",cat:"image",catLabel:"Image Generation",dc:"#7c3aed",dcp:"124,58,237",desc:"Official Stable Diffusion web interface by Stability AI. Fine-tune prompts with style sliders, negative prompts, and seed control. The cleanest SDXL experience online.",tags:["SDXL","Prompt Control","Seed Control"],rating:"8.8",free:"dd",freeLabel:"Freemium"},
+  {name:"Bing Image Creator",url:"bing.com/images/create",icon:"🔵",cat:"image",catLabel:"Image Generation",dc:"#0078d4",dcp:"0,120,212",desc:"Free AI image generation by Microsoft powered by DALL-E 3. Create stunning images from text prompts completely free — integrated into Edge, Bing, and Copilot.",tags:["Free","DALL-E 3","Microsoft"],rating:"8.9",free:"df",freeLabel:"Free"},
+  {name:"NightCafe",url:"nightcafe.studio",icon:"🌃",cat:"image",catLabel:"Image Generation",dc:"#f59e0b",dcp:"245,158,11",desc:"AI art generator and social community. Multiple AI models including DALL-E, Stable Diffusion, and more. Daily challenges, AI art community, and NFT minting.",tags:["Community","Multiple Models","NFT"],rating:"8.6",free:"dd",freeLabel:"Freemium"},
+  {name:"Artbreeder",url:"artbreeder.com",icon:"🎭",cat:"image",catLabel:"Image Generation",dc:"#22c55e",dcp:"34,197,94",desc:"Collaborative AI image creation through blending and evolution. Breed images together to create unique artwork. Portraits, landscapes, and abstract art through genetic-like evolution.",tags:["Image Blending","Portraits","Collaborative"],rating:"8.5",free:"dd",freeLabel:"Freemium"},
+  {name:"Getimg.ai",url:"getimg.ai",icon:"🖼️",cat:"image",catLabel:"Image Generation",dc:"#ff6b6b",dcp:"255,107,107",desc:"AI image generation with 60+ models including custom fine-tunes. AI canvas for inpainting and outpainting, image-to-image transformation, and face restoration.",tags:["60+ Models","Inpainting","Face Restore"],rating:"8.9",free:"dd",freeLabel:"Freemium"},
+  {name:"Clipdrop",url:"clipdrop.co",icon:"✂️",cat:"image",catLabel:"Image Generation",dc:"#00eeff",dcp:"0,238,255",desc:"Suite of AI image tools by Stability AI. Remove background, remove objects, uncrop images, relight photos, and upscale up to 16× resolution. Professional quality.",tags:["Background Remove","Relight","Upscale 16x"],rating:"9.1",free:"dd",freeLabel:"Freemium"},
+  {name:"Krea AI",url:"krea.ai",icon:"🌀",cat:"image",catLabel:"Image Generation",dc:"#a855f7",dcp:"168,85,247",desc:"Real-time AI image generation and enhancement. Generate images as you draw, upscale and enhance existing images, and create consistent AI visual assets at scale.",tags:["Real-time Gen","Enhance","Upscaler"],rating:"9.0",free:"dd",freeLabel:"Freemium"},
+  {name:"Dzine.ai",url:"dzine.ai",icon:"✨",cat:"image",catLabel:"Image Generation",dc:"#ec4899",dcp:"236,72,153",desc:"AI interior design and room visualization. Upload a photo of any room and redesign it in any style instantly. Generate furniture, wall art, and decor in seconds.",tags:["Interior Design","Room Visualization","Style Transfer"],rating:"8.8",free:"dd",freeLabel:"Freemium"},
+  {name:"Remove.bg",url:"remove.bg",icon:"🪄",cat:"image",catLabel:"Image Generation",dc:"#36cfc9",dcp:"54,207,201",desc:"The original AI background remover. Remove any image background in 5 seconds with AI precision. API available for bulk processing. Trusted by millions of designers.",tags:["Background Removal","API","5 Seconds"],rating:"9.3",free:"dd",freeLabel:"Freemium"},
+
+  /* ── EXTRA VIDEO GENERATION ── */
+  {name:"Opus Clip",url:"opus.pro",icon:"✂️",cat:"video",catLabel:"Video Generation",dc:"#ff6a00",dcp:"255,106,0",desc:"AI video repurposing tool. Turn long-form videos into viral short clips for TikTok, Reels, and Shorts. AI finds the best moments, adds captions, and formats automatically.",tags:["Short Clips","TikTok","Auto Captions"],rating:"9.2",free:"dd",freeLabel:"Freemium"},
+  {name:"Vidnoz AI",url:"vidnoz.com",icon:"🎞️",cat:"video",catLabel:"Video Generation",dc:"#22c55e",dcp:"34,197,94",desc:"Free AI video generator with 800+ AI avatars and 470+ voices. Create talking avatar videos from text in minutes — perfect for marketing, training, and education.",tags:["800+ Avatars","Free","Training Videos"],rating:"8.8",free:"df",freeLabel:"Free"},
+  {name:"Pictory AI",url:"pictory.ai",icon:"🖼️",cat:"video",catLabel:"Video Generation",dc:"#4285f4",dcp:"66,133,244",desc:"Turn scripts, blog posts, and URLs into professional videos automatically. AI finds stock footage, adds captions, voiceover, and music. Create 10 videos at once.",tags:["Script-to-Video","Blog-to-Video","Auto Stock"],rating:"8.9",free:"dd",freeLabel:"Freemium"},
+  {name:"Fliki",url:"fliki.ai",icon:"🎥",cat:"video",catLabel:"Video Generation",dc:"#a855f7",dcp:"168,85,247",desc:"Create videos from text in 2 minutes. Choose a template, write your script, and AI generates the video with voiceover, stock media, and background music.",tags:["2 Minute Videos","Text-to-Video","750 Voices"],rating:"8.8",free:"dd",freeLabel:"Freemium"},
+  {name:"Captions App",url:"captions.ai",icon:"📝",cat:"video",catLabel:"Video Generation",dc:"#ec4899",dcp:"236,72,153",desc:"AI video editing app with automatic captions, eye contact correction, filler word removal, and AI script teleprompter. The must-have app for video creators.",tags:["Auto Captions","Eye Contact Fix","Teleprompter"],rating:"9.1",free:"dd",freeLabel:"Freemium"},
+  {name:"Topaz Video AI",url:"topazlabs.com/video-ai",icon:"⬆️",cat:"video",catLabel:"Video Generation",dc:"#ffd700",dcp:"255,215,0",desc:"AI video upscaling and enhancement. Upscale to 8K, remove noise, stabilize shaky footage, increase frame rate to 120fps, and sharpen blurry video with neural AI.",tags:["8K Upscale","Denoising","Frame Interpolation"],rating:"9.4",free:"dp",freeLabel:"Paid"},
+  {name:"Colossyan",url:"colossyan.com",icon:"🎬",cat:"video",catLabel:"Video Generation",dc:"#36cfc9",dcp:"54,207,201",desc:"AI workplace learning video creator. Generate training videos with AI avatars, automatic translations, and SCORM export for LMS platforms in 70+ languages.",tags:["Training Videos","SCORM","70+ Languages"],rating:"8.8",free:"dd",freeLabel:"Freemium"},
+
+  /* ── EXTRA VOICE & AUDIO ── */
+  {name:"Speechify",url:"speechify.com",icon:"📖",cat:"voice",catLabel:"Voice & Audio AI",dc:"#00eeff",dcp:"0,238,255",desc:"AI text-to-speech reader that reads any content aloud — PDFs, articles, emails, docs — in natural voices up to 4.5× faster than reading. Celebrity voice options.",tags:["Text-to-Speech","Reading Assistant","Celebrity Voices"],rating:"9.2",free:"dd",freeLabel:"Freemium"},
+  {name:"Podcastle",url:"podcastle.ai",icon:"🎙️",cat:"voice",catLabel:"Voice & Audio AI",dc:"#f72585",dcp:"247,37,133",desc:"AI-powered podcast creation platform. Record, edit, transcribe, and publish podcasts. Revoice AI clones your voice, Magic Dust removes background noise instantly.",tags:["Podcast Creation","Voice Clone","Noise Removal"],rating:"9.0",free:"dd",freeLabel:"Freemium"},
+  {name:"Krisp",url:"krisp.ai",icon:"🔇",cat:"voice",catLabel:"Voice & Audio AI",dc:"#22c55e",dcp:"34,197,94",desc:"AI noise cancellation for calls. Remove background noise, echo, and distracting sounds from any call in real-time. Works with every video and audio app.",tags:["Noise Cancellation","Real-time","All Apps"],rating:"9.3",free:"dd",freeLabel:"Freemium"},
+  {name:"Voicemod",url:"voicemod.net",icon:"🎭",cat:"voice",catLabel:"Voice & Audio AI",dc:"#ff6b6b",dcp:"255,107,107",desc:"Real-time AI voice changer and soundboard. Transform your voice into robots, monsters, celebrities, and custom AI voices during live streams, gaming, and Discord.",tags:["Real-time Voice","Gaming","Live Stream"],rating:"8.9",free:"dd",freeLabel:"Freemium"},
+  {name:"Altered AI",url:"altered.ai",icon:"🔄",cat:"voice",catLabel:"Voice & Audio AI",dc:"#f59e0b",dcp:"245,158,11",desc:"Professional AI voice transformation for studios. Change speaking voice to any accent or gender, create custom digital voice personas, and match voices to characters.",tags:["Voice Transform","Custom Personas","Studio Grade"],rating:"8.8",free:"dd",freeLabel:"Freemium"},
+  {name:"LOVO AI",url:"lovo.ai",icon:"🎤",cat:"voice",catLabel:"Voice & Audio AI",dc:"#7c3aed",dcp:"124,58,237",desc:"AI voice generator and video creator. 500+ AI voices in 100 languages, ultra-realistic voice cloning, video creation with automatic subtitles and stock media.",tags:["500+ Voices","100 Languages","Video+Voice"],rating:"9.0",free:"dd",freeLabel:"Freemium"},
+  {name:"Cleanvoice AI",url:"cleanvoice.ai",icon:"🧹",cat:"voice",catLabel:"Voice & Audio AI",dc:"#00d4aa",dcp:"0,212,170",desc:"AI that automatically removes filler words, stuttering, mouth sounds, and dead air from podcast and audio recordings. Save hours of manual editing.",tags:["Filler Words","Mouth Sounds","Auto Edit"],rating:"9.1",free:"dd",freeLabel:"Freemium"},
+  {name:"Beatoven AI",url:"beatoven.ai",icon:"🥁",cat:"voice",catLabel:"Voice & Audio AI",dc:"#ec4899",dcp:"236,72,153",desc:"AI music generation for videos and podcasts. Create royalty-free, mood-based background music that adapts perfectly to your video timeline and emotional arc.",tags:["Background Music","Mood-Based","Timeline Sync"],rating:"8.8",free:"dd",freeLabel:"Freemium"},
+
+  /* ── EXTRA CODE AI ── */
+  {name:"Windsurf (Codeium)",url:"codeium.com/windsurf",icon:"🏄",cat:"code",catLabel:"Code & Development AI",dc:"#22c55e",dcp:"34,197,94",desc:"The world's first agentic IDE by Codeium. Cascade agent makes large-scale code changes autonomously, understands entire codebases, and writes real production code.",tags:["Agentic IDE","Cascade AI","Production Code"],rating:"9.4",free:"dd",freeLabel:"Freemium"},
+  {name:"Pieces for Developers",url:"pieces.app",icon:"🧩",cat:"code",catLabel:"Code & Development AI",dc:"#ff6a00",dcp:"255,106,0",desc:"AI developer tool that captures, enriches, and reuses code snippets intelligently. Remembers your coding workflow and surfaces relevant code snippets in context.",tags:["Snippet Manager","Workflow AI","Context-Aware"],rating:"9.0",free:"df",freeLabel:"Free"},
+  {name:"Sourcegraph Cody",url:"sourcegraph.com/cody",icon:"🔭",cat:"code",catLabel:"Code & Development AI",dc:"#a855f7",dcp:"168,85,247",desc:"AI coding assistant with entire codebase awareness. Unlike Copilot, Cody reads your whole repository to give context-aware answers, explain code, and generate accurate fixes.",tags:["Codebase Context","Entire Repo","Explain Code"],rating:"9.1",free:"dd",freeLabel:"Freemium"},
+  {name:"Continue.dev",url:"continue.dev",icon:"⏩",cat:"code",catLabel:"Code & Development AI",dc:"#4285f4",dcp:"66,133,244",desc:"Open-source AI code assistant for VS Code and JetBrains. Connect any LLM (Claude, GPT-4, Llama) to your IDE. Full control, local models supported, completely customizable.",tags:["Open Source","Any LLM","Local Models"],rating:"9.0",free:"df",freeLabel:"Free"},
+  {name:"Devin AI",url:"cognition.ai",icon:"🤖",cat:"code",catLabel:"Code & Development AI",dc:"#ffd700",dcp:"255,215,0",desc:"The world's first AI software engineer. Devin independently plans, codes, tests, and deploys software. Can work on real GitHub issues for hours with minimal human input.",tags:["AI Engineer","GitHub Issues","Autonomous"],rating:"9.3",free:"dp",freeLabel:"Paid"},
+  {name:"AWS CodeWhisperer",url:"aws.amazon.com/codewhisperer",icon:"☁️",cat:"code",catLabel:"Code & Development AI",dc:"#ff9900",dcp:"255,153,0",desc:"Amazon's AI coding companion free for individual developers. Optimized for AWS services, real-time suggestions in 15+ languages, and security vulnerability scanning.",tags:["AWS Optimized","Free Individual","Security Scan"],rating:"8.9",free:"dd",freeLabel:"Freemium"},
+  {name:"Warp Terminal",url:"warp.dev",icon:"💻",cat:"code",catLabel:"Code & Development AI",dc:"#36cfc9",dcp:"54,207,201",desc:"AI-powered terminal. Warp AI suggests and explains commands, runs AI-powered workflows, and helps debug errors in your terminal with natural language instructions.",tags:["AI Terminal","Command Suggest","Workflow AI"],rating:"9.1",free:"df",freeLabel:"Free"},
+
+  /* ── EXTRA RESEARCH ── */
+  {name:"Scholarcy",url:"scholarcy.com",icon:"📄",cat:"research",catLabel:"Research & Knowledge AI",dc:"#f59e0b",dcp:"245,158,11",desc:"AI summarization tool for academic papers. Auto-generates structured summaries, extracts key findings, creates flashcards, and builds reference libraries from papers.",tags:["Paper Summaries","Flashcards","Key Findings"],rating:"8.9",free:"dd",freeLabel:"Freemium"},
+  {name:"Litmaps",url:"litmaps.com",icon:"🗺️",cat:"research",catLabel:"Research & Knowledge AI",dc:"#22c55e",dcp:"34,197,94",desc:"Map your research landscape. Discover papers through interactive citation maps, track new publications, and build a visual overview of any academic topic.",tags:["Citation Maps","Track New Papers","Visual"],rating:"8.8",free:"dd",freeLabel:"Freemium"},
+  {name:"SciSpace",url:"scispace.com",icon:"🚀",cat:"research",catLabel:"Research & Knowledge AI",dc:"#0668e1",dcp:"6,104,225",desc:"AI research assistant for reading and understanding papers. Explain math equations, highlight and ask questions, compare papers, and get AI explanations for jargon.",tags:["Paper Reader","Math Explain","Compare Papers"],rating:"9.2",free:"dd",freeLabel:"Freemium"},
+  {name:"Explainpaper",url:"explainpaper.com",icon:"📖",cat:"research",catLabel:"Research & Knowledge AI",dc:"#ec4899",dcp:"236,72,153",desc:"Upload a paper, highlight confusing text, and get AI explanations instantly. Makes complex academic papers accessible to anyone — students, researchers, and curious minds.",tags:["Paper Explanation","Highlight & Ask","Accessible"],rating:"8.9",free:"dd",freeLabel:"Freemium"},
+  {name:"Inciteful",url:"inciteful.xyz",icon:"⚡",cat:"research",catLabel:"Research & Knowledge AI",dc:"#a855f7",dcp:"168,85,247",desc:"Build a literature network from a seed paper. AI maps the most important papers connecting two topics, finds influential authors, and identifies key bridging works.",tags:["Literature Network","Bridging Papers","Topic Connections"],rating:"8.7",free:"df",freeLabel:"Free"},
+  {name:"Jenni AI",url:"jenni.ai",icon:"✍️",cat:"research",catLabel:"Research & Knowledge AI",dc:"#ffd700",dcp:"255,215,0",desc:"AI writing assistant for academic papers and essays. Autocomplete sentences, cite papers automatically with DOI lookup, avoid plagiarism, and write thesis sections.",tags:["Academic Writing","Auto-Cite","Thesis Writing"],rating:"9.0",free:"dd",freeLabel:"Freemium"},
+  {name:"Consensus GPT",url:"consensus.app",icon:"🧠",cat:"research",catLabel:"Research & Knowledge AI",dc:"#36cfc9",dcp:"54,207,201",desc:"AI that searches 200M academic papers and provides evidence-backed answers. Shows the exact percentage of studies that agree or disagree with any scientific claim.",tags:["Scientific Claims","Evidence-Based","200M Papers"],rating:"9.2",free:"dd",freeLabel:"Freemium"},
+
+  /* ── EXTRA DATA SCIENCE ── */
+  {name:"Akkio",url:"akkio.com",icon:"📊",cat:"data",catLabel:"Data Science & ML AI",dc:"#ff6b6b",dcp:"255,107,107",desc:"No-code AI and machine learning for business analysts. Build prediction models, churn analysis, lead scoring, and demand forecasting without coding in minutes.",tags:["No-Code ML","Churn Analysis","Lead Scoring"],rating:"8.8",free:"dd",freeLabel:"Freemium"},
+  {name:"Tableau AI",url:"tableau.com",icon:"📉",cat:"data",catLabel:"Data Science & ML AI",dc:"#0668e1",dcp:"6,104,225",desc:"Einstein AI in Tableau brings natural language queries, auto-explanations of data changes, and AI-generated insights to the world's leading BI and visualization platform.",tags:["BI Platform","Natural Language","Auto-Insights"],rating:"9.3",free:"dp",freeLabel:"Paid"},
+  {name:"Hex",url:"hex.tech",icon:"🔷",cat:"data",catLabel:"Data Science & ML AI",dc:"#00eeff",dcp:"0,238,255",desc:"Modern data workspace with Magic AI. Write SQL and Python with AI autocomplete, generate charts from natural language, and build shareable data apps and notebooks.",tags:["SQL AI","Data Apps","Team Notebooks"],rating:"9.1",free:"dd",freeLabel:"Freemium"},
+  {name:"Pandas AI",url:"pandas-ai.com",icon:"🐼",cat:"data",catLabel:"Data Science & ML AI",dc:"#22c55e",dcp:"34,197,94",desc:"Open-source Python library that adds AI capabilities to Pandas DataFrames. Ask questions about your data in plain English and get Python code + visualizations.",tags:["Open Source","Python","DataFrame AI"],rating:"9.0",free:"df",freeLabel:"Free"},
+  {name:"Databricks AI",url:"databricks.com",icon:"🔥",cat:"data",catLabel:"Data Science & ML AI",dc:"#f72585",dcp:"247,37,133",desc:"Unified data and AI platform powered by Apache Spark. Lakehouse architecture for data engineering, ML, and analytics at petabyte scale. Home of the MLflow standard.",tags:["Lakehouse","MLflow","Petabyte Scale"],rating:"9.4",free:"dd",freeLabel:"Freemium"},
+  {name:"Vertex AI",url:"cloud.google.com/vertex-ai",icon:"🌐",cat:"data",catLabel:"Data Science & ML AI",dc:"#4285f4",dcp:"66,133,244",desc:"Google Cloud's fully managed ML platform. Train custom models, use pre-built AutoML, deploy to production with MLOps tools, and access Gemini via API.",tags:["Google Cloud","AutoML","MLOps"],rating:"9.3",free:"dd",freeLabel:"Freemium"},
+  {name:"Azure ML",url:"azure.microsoft.com/en-us/products/machine-learning",icon:"💙",cat:"data",catLabel:"Data Science & ML AI",dc:"#0078d4",dcp:"0,120,212",desc:"Microsoft's cloud ML platform with responsible AI tools. Automated ML, designer drag-and-drop, prompt flow for LLM apps, and enterprise MLOps at Azure scale.",tags:["Azure MLOps","AutoML","Responsible AI"],rating:"9.2",free:"dd",freeLabel:"Freemium"},
+  {name:"Modal",url:"modal.com",icon:"⚡",cat:"data",catLabel:"Data Science & ML AI",dc:"#a855f7",dcp:"168,85,247",desc:"Cloud compute platform for AI and ML engineers. Run Python functions on cloud GPUs in seconds — zero infrastructure setup. Perfect for batch AI jobs and model fine-tuning.",tags:["Cloud GPU","Zero Setup","Fine-tuning"],rating:"9.2",free:"dd",freeLabel:"Freemium"},
+
+  /* ── EXTRA MUSIC ── */
+  {name:"Boomy",url:"boomy.com",icon:"🎹",cat:"music",catLabel:"Music Generation AI",dc:"#36cfc9",dcp:"54,207,201",desc:"Create original songs in seconds and release them to Spotify, Apple Music, and more. No music knowledge needed — earn streaming royalties from AI-made music.",tags:["Release to Streaming","Royalties","No Experience Needed"],rating:"8.7",free:"dd",freeLabel:"Freemium"},
+  {name:"Ecrett Music",url:"ecrettmusic.com",icon:"🎙️",cat:"music",catLabel:"Music Generation AI",dc:"#ff6b6b",dcp:"255,107,107",desc:"Generate background music scenes for videos. Choose scene, mood, and genre — get royalty-free music that perfectly fits your video. No subscription fees per track.",tags:["Scene-Based","Video Music","Royalty-Free"],rating:"8.7",free:"dd",freeLabel:"Freemium"},
+  {name:"Soundful",url:"soundful.com",icon:"🔊",cat:"music",catLabel:"Music Generation AI",dc:"#00eeff",dcp:"0,238,255",desc:"AI music generator for content creators and brands. Create unique, royalty-free tracks in seconds. Customizable tempo, key, and energy. Brand music packages available.",tags:["Brand Music","Customizable","Royalty-Free"],rating:"8.8",free:"dd",freeLabel:"Freemium"},
+  {name:"Moises App",url:"moises.ai",icon:"🎵",cat:"music",catLabel:"Music Generation AI",dc:"#f7931e",dcp:"247,147,30",desc:"AI music practice and production tool. Separate stems, detect chords and key, speed up/slow down music without pitch change, and practice with any song.",tags:["Stem Separation","Chord Detection","Practice Tool"],rating:"9.1",free:"dd",freeLabel:"Freemium"},
+  {name:"Loudly",url:"loudly.com",icon:"📢",cat:"music",catLabel:"Music Generation AI",dc:"#a855f7",dcp:"168,85,247",desc:"AI music generator with 170,000+ track library. Create custom tracks that match the mood of your video. Stem editing, BPM matching, and commercial licensing.",tags:["170K Tracks","BPM Matching","Commercial License"],rating:"8.8",free:"dd",freeLabel:"Freemium"},
+
+  /* ── EXTRA AVATAR & 3D ── */
+  {name:"Character.ai",url:"character.ai",icon:"🤖",cat:"avatar",catLabel:"Avatar & 3D AI",dc:"#00eeff",dcp:"0,238,255",desc:"Create and chat with AI characters. Build custom AI personas with unique personalities, knowledge, and speaking styles. 20M+ daily active users and millions of AI characters.",tags:["AI Characters","Custom Personas","20M Users"],rating:"9.2",free:"dd",freeLabel:"Freemium"},
+  {name:"Avatarify",url:"avatarify.ai",icon:"🎭",cat:"avatar",catLabel:"Avatar & 3D AI",dc:"#f59e0b",dcp:"245,158,11",desc:"Animate any portrait photo with real-time AI facial motion capture. Make historical figures talk, create custom virtual presenters, and animate AI avatars in real-time.",tags:["Portrait Animation","Real-time","Virtual Presenters"],rating:"8.8",free:"dd",freeLabel:"Freemium"},
+  {name:"Kaedim",url:"kaedim.com",icon:"🎮",cat:"avatar",catLabel:"Avatar & 3D AI",dc:"#22c55e",dcp:"34,197,94",desc:"AI converts 2D concept art into production-ready 3D models in minutes. Upload an image, get game-ready 3D assets with UV maps, rigging, and LODs automatically.",tags:["2D to 3D","Game Ready","UV Mapping"],rating:"9.0",free:"dp",freeLabel:"Paid"},
+  {name:"Spline AI",url:"spline.design",icon:"🌀",cat:"avatar",catLabel:"Avatar & 3D AI",dc:"#a855f7",dcp:"168,85,247",desc:"Browser-based 3D design tool with AI generation. Generate 3D objects from text, animate them with physics, and export directly to web. No 3D experience needed.",tags:["3D in Browser","Text-to-3D","Web Export"],rating:"9.1",free:"dd",freeLabel:"Freemium"},
+  {name:"Metaphysic",url:"metaphysic.ai",icon:"👤",cat:"avatar",catLabel:"Avatar & 3D AI",dc:"#ff6b6b",dcp:"255,107,107",desc:"Hyper-realistic AI avatars and deepfake technology for entertainment. Create AI alter-egos, de-age performers, and generate photorealistic digital humans for film and TV.",tags:["Deepfake Tech","De-aging","Digital Humans"],rating:"8.9",free:"dp",freeLabel:"Paid"},
+
+  /* ── EXTRA DESIGN ── */
+  {name:"Galileo AI",url:"usegalileo.ai",icon:"🔭",cat:"design",catLabel:"Design & Creative AI",dc:"#00eeff",dcp:"0,238,255",desc:"Generate editable UI designs from a text prompt in seconds. Galileo creates full app screens, component libraries, and design systems directly in Figma.",tags:["UI Generation","Figma Plugin","App Screens"],rating:"9.0",free:"dp",freeLabel:"Paid"},
+  {name:"Framer AI",url:"framer.com",icon:"🖼️",cat:"design",catLabel:"Design & Creative AI",dc:"#ec4899",dcp:"236,72,153",desc:"AI website builder that creates beautiful websites from a text prompt. Full design customization, CMS, and one-click publishing. The fastest way to build a personal site.",tags:["Website Builder","Text-to-Site","CMS"],rating:"9.2",free:"dd",freeLabel:"Freemium"},
+  {name:"Relume",url:"relume.io",icon:"🎨",cat:"design",catLabel:"Design & Creative AI",dc:"#a855f7",dcp:"168,85,247",desc:"AI website sitemap and wireframe generator for designers and agencies. Generate full website structures and component wireframes in Figma/Webflow from a prompt.",tags:["Sitemap AI","Wireframes","Figma/Webflow"],rating:"9.1",free:"dd",freeLabel:"Freemium"},
+  {name:"Magician (Figma)",url:"magician.design",icon:"🪄",cat:"design",catLabel:"Design & Creative AI",dc:"#ffd700",dcp:"255,215,0",desc:"AI design tool inside Figma. Generate icons, images, and copy from text prompts directly in your design file. AI copywriter, illustrator, and icon maker in one plugin.",tags:["Figma Plugin","Icon Generator","AI Copywriter"],rating:"8.9",free:"dd",freeLabel:"Freemium"},
+  {name:"Autodraw",url:"autodraw.com",icon:"✏️",cat:"design",catLabel:"Design & Creative AI",dc:"#4285f4",dcp:"66,133,244",desc:"Google's AI drawing tool. Sketch anything and AI instantly suggests professional icons and clipart that match your rough drawing. Free, fast, and surprisingly accurate.",tags:["AI Drawing","Google","Icon Suggest"],rating:"8.5",free:"df",freeLabel:"Free"},
+
+  /* ── EXTRA PRODUCTIVITY ── */
+  {name:"Taskade AI",url:"taskade.com",icon:"✅",cat:"productivity",catLabel:"Productivity & Workflow AI",dc:"#22c55e",dcp:"34,197,94",desc:"AI project management and collaboration. Build AI agents that work your workflows, generate tasks from prompts, and automate follow-ups — 500+ AI project templates.",tags:["AI Agents","Project Mgmt","500+ Templates"],rating:"9.0",free:"dd",freeLabel:"Freemium"},
+  {name:"Motion",url:"usemotion.com",icon:"📅",cat:"productivity",catLabel:"Productivity & Workflow AI",dc:"#0668e1",dcp:"6,104,225",desc:"AI that automatically plans your day by prioritizing tasks and scheduling them around your meetings. Rescheduling happens automatically when plans change.",tags:["Auto Schedule","Task Priority","Calendar AI"],rating:"9.2",free:"dp",freeLabel:"Paid"},
+  {name:"Fireflies.ai",url:"fireflies.ai",icon:"🦋",cat:"productivity",catLabel:"Productivity & Workflow AI",dc:"#ff6b6b",dcp:"255,107,107",desc:"AI meeting assistant that records, transcribes, and analyzes your calls. Search through meetings, track action items, and get AI summaries of every conversation.",tags:["Meeting AI","Action Items","Searchable Transcripts"],rating:"9.3",free:"dd",freeLabel:"Freemium"},
+  {name:"Superhuman",url:"superhuman.com",icon:"✉️",cat:"productivity",catLabel:"Productivity & Workflow AI",dc:"#f59e0b",dcp:"245,158,11",desc:"The fastest email experience ever built. AI triage, instant summaries, auto-drafts based on your writing style, and keyboard-only navigation for inbox zero in record time.",tags:["Email AI","Inbox Zero","Auto-Draft"],rating:"9.1",free:"dp",freeLabel:"Paid"},
+  {name:"Cleo AI",url:"meetcleo.com",icon:"💰",cat:"productivity",catLabel:"Productivity & Workflow AI",dc:"#36cfc9",dcp:"54,207,201",desc:"AI financial assistant with attitude. Tracks spending, sets budgets, saves money automatically, and roasts your bad financial decisions. 7M+ users managing money with AI.",tags:["Finance AI","Budgeting","7M Users"],rating:"8.9",free:"dd",freeLabel:"Freemium"},
+  {name:"Tome",url:"tome.app",icon:"📊",cat:"productivity",catLabel:"Productivity & Workflow AI",dc:"#a855f7",dcp:"168,85,247",desc:"AI storytelling and presentation tool. Generate entire narratives and presentations from a prompt, embed live data, 3D models, and web content into beautiful slides.",tags:["AI Presentations","Storytelling","Live Data"],rating:"9.0",free:"dd",freeLabel:"Freemium"},
+
+  /* ── CHATBOT / CONVERSATIONAL AI ── */
+  {name:"ChatGPT",url:"chat.openai.com",icon:"🤖",cat:"chat",catLabel:"Chatbot & Conversational AI",dc:"#10a37f",dcp:"16,163,127",desc:"OpenAI's flagship conversational AI. The chatbot that started the AI revolution. GPT-4o with vision, voice, file analysis, web search, and custom GPTs marketplace.",tags:["GPT-4o","Voice Mode","Custom GPTs"],rating:"9.8",free:"dd",freeLabel:"Freemium"},
+  {name:"Claude",url:"claude.ai",icon:"⚡",cat:"chat",catLabel:"Chatbot & Conversational AI",dc:"#cc785c",dcp:"204,120,92",desc:"Anthropic's safety-first AI assistant. Exceptional at nuanced writing, long documents (200K tokens), coding, analysis, and thoughtful conversation. Artifacts feature for live previews.",tags:["200K Context","Safety-First","Artifacts"],rating:"9.7",free:"dd",freeLabel:"Freemium"},
+  {name:"Google Gemini",url:"gemini.google.com",icon:"🌐",cat:"chat",catLabel:"Chatbot & Conversational AI",dc:"#4285f4",dcp:"66,133,244",desc:"Google's multimodal AI assistant with 1M+ token context and real-time Google Search integration. Native in Android, Chrome, and all Google Workspace apps.",tags:["1M Context","Google Search","Multimodal"],rating:"9.5",free:"dd",freeLabel:"Freemium"},
+  {name:"Meta AI",url:"meta.ai",icon:"🦙",cat:"chat",catLabel:"Chatbot & Conversational AI",dc:"#0668e1",dcp:"6,104,225",desc:"Meta's free AI assistant powered by Llama 3. Built into WhatsApp, Instagram, Messenger, and Facebook. Real-time image generation and web search included.",tags:["Free","WhatsApp","Instagram"],rating:"9.0",free:"df",freeLabel:"Free"},
+  {name:"Grok",url:"x.ai",icon:"💥",cat:"chat",catLabel:"Chatbot & Conversational AI",dc:"#ff6b6b",dcp:"255,107,107",desc:"xAI's bold, unfiltered AI with real-time X/Twitter data. Grok-3 achieves frontier reasoning with unique access to live trending topics and social conversations.",tags:["X/Twitter Data","Real-time","Bold Personality"],rating:"9.1",free:"dd",freeLabel:"Freemium"},
+  {name:"Microsoft Copilot",url:"copilot.microsoft.com",icon:"💼",cat:"chat",catLabel:"Chatbot & Conversational AI",dc:"#0078d4",dcp:"0,120,212",desc:"Microsoft's AI assistant powered by GPT-4o. Free, with web search, image generation (DALL-E 3), voice chat, and deep integration into Windows 11 and Microsoft 365.",tags:["Free","Web Search","Windows 11"],rating:"9.2",free:"df",freeLabel:"Free"},
+  {name:"Pi by Inflection",url:"heypi.com",icon:"🔵",cat:"chat",catLabel:"Chatbot & Conversational AI",dc:"#36cfc9",dcp:"54,207,201",desc:"Your personal AI for emotional support and conversation. Pi is empathetic, thoughtful, and remembers your conversations over time. Designed for mental wellbeing.",tags:["Emotional AI","Memory","Mental Wellbeing"],rating:"8.8",free:"df",freeLabel:"Free"},
+  {name:"Poe by Quora",url:"poe.com",icon:"🌊",cat:"chat",catLabel:"Chatbot & Conversational AI",dc:"#f59e0b",dcp:"245,158,11",desc:"Access all AI models in one place — GPT-4, Claude, Gemini, Llama, Mistral, and more. Create and share custom AI bots. The Netflix of AI chatbots with one subscription.",tags:["All Models","Custom Bots","One Subscription"],rating:"9.0",free:"dd",freeLabel:"Freemium"},
+  {name:"You.com",url:"you.com",icon:"🔍",cat:"chat",catLabel:"Chatbot & Conversational AI",dc:"#a855f7",dcp:"168,85,247",desc:"AI search engine with ChatGPT-like conversation and web citations. YouChat, YouCode, YouWrite, and YouImagine all in one privacy-focused AI search platform.",tags:["AI Search","Privacy","All-in-One"],rating:"8.9",free:"dd",freeLabel:"Freemium"},
+  {name:"Replika",url:"replika.com",icon:"💭",cat:"chat",catLabel:"Chatbot & Conversational AI",dc:"#ec4899",dcp:"236,72,153",desc:"AI companion for emotional support, conversations, and mental health. Personalize your Replika's appearance, grow a friendship, and practice social skills safely.",tags:["AI Companion","Mental Health","Social Skills"],rating:"8.6",free:"dd",freeLabel:"Freemium"},
+  {name:"Khanmigo",url:"khanacademy.org/khanmigo",icon:"📚",cat:"chat",catLabel:"Chatbot & Conversational AI",dc:"#22c55e",dcp:"34,197,94",desc:"Khan Academy's AI tutor powered by GPT-4. Guides students through problems with Socratic questioning rather than giving direct answers. Safe AI for students and teachers.",tags:["AI Tutor","Socratic Method","Safe for Students"],rating:"9.3",free:"dd",freeLabel:"Freemium"},
 ];
- 
+
 // ── RENDER DIRECTORY ─────────────────────────────────
 function renderDir(tools) {
   const grid = document.getElementById('dirGrid');
@@ -1139,12 +1245,12 @@ function renderDir(tools) {
   } else {
     grid.innerHTML = tools.map(t => buildCard(t)).join('');
   }
- 
+
   // Reobserve new fi elements
   grid.querySelectorAll('.fi:not(.vis)').forEach(el => fio.observe(el));
   document.getElementById('dirCnt').textContent = 'Showing ' + tools.filter(t => cat==='all'||t.cat===cat).length + ' tools';
 }
- 
+
 function buildCard(t) {
   const stars = '★'.repeat(Math.round(t.rating)) + '☆'.repeat(10-Math.round(t.rating));
   return `<div class="dir-card fi" style="--dc:${t.dc};--dcp:${t.dcp}" data-dn="${t.name.toLowerCase()} ${t.catLabel.toLowerCase()}" data-dc2="${t.cat}">
@@ -1170,7 +1276,7 @@ function buildCard(t) {
     </div>
   </div>`;
 }
- 
+
 // ── DIRECTORY FILTER LOGIC ───────────────────────────
 function filterDir() {
   const q = (document.getElementById('dirSearch').value || '').toLowerCase();
@@ -1183,7 +1289,7 @@ function filterDir() {
   renderDir(filtered);
   document.getElementById('dirCnt').textContent = 'Showing ' + filtered.length + ' of ' + AI_TOOLS.length + ' tools';
 }
- 
+
 document.getElementById('dirSearch').addEventListener('input', filterDir);
 document.querySelectorAll('#dirCatBtns .fb').forEach(b => {
   b.addEventListener('click', () => {
@@ -1192,7 +1298,7 @@ document.querySelectorAll('#dirCatBtns .fb').forEach(b => {
     filterDir();
   });
 });
- 
+
 // Initial render
 renderDir(AI_TOOLS);
 document.getElementById('dirCnt').textContent = 'Showing ' + AI_TOOLS.length + ' tools across all categories';
@@ -1202,15 +1308,15 @@ document.getElementById('dirCnt').textContent = 'Showing ' + AI_TOOLS.length + '
   <div class="flogo">NEXUS</div>
   <p class="ftag2">THE WORLD'S MOST POWERFUL FUTURE TECHNOLOGY INTELLIGENCE HUB</p>
   <div class="flinks"><a href="#platforms">Platforms</a><a href="#analytics">Analytics</a><a href="#comparator">Compare</a><a href="#leaderboard">Benchmark</a><a href="#papers">Papers</a><a href="#glossary">Glossary</a><a href="#industries">Industries</a><a href="#hardware">Hardware</a><a href="#worldmap">World Map</a><a href="#funding">Funding</a><a href="#future">Future Tech</a><a href="#timeline">Timeline</a><a href="#sciences">Sciences</a><a href="#ai-directory">AI Directory</a></div>
-  <div class="fchips"><span class="fc2"><span class="fcd"></span>28 AI Platforms</span><span class="fc2"><span class="fcd"></span>95+ AI Models</span><span class="fc2"><span class="fcd"></span>12 Future Technologies</span><span class="fc2"><span class="fcd"></span>9 Research Papers</span><span class="fc2"><span class="fcd"></span>50+ Glossary Terms</span><span class="fc2"><span class="fcd"></span>12 Industries</span><span class="fc2"><span class="fcd"></span>6 AI Hardware Specs</span><span class="fc2"><span class="fcd"></span>AI World Map</span><span class="fc2"><span class="fcd"></span>80+ AI Tools Listed</span><span class="fc2"><span class="fcd"></span>Funding Dashboard</span></div>
+  <div class="fchips"><span class="fc2"><span class="fcd"></span>28 AI Platforms</span><span class="fc2"><span class="fcd"></span>95+ AI Models</span><span class="fc2"><span class="fcd"></span>12 Future Technologies</span><span class="fc2"><span class="fcd"></span>9 Research Papers</span><span class="fc2"><span class="fcd"></span>50+ Glossary Terms</span><span class="fc2"><span class="fcd"></span>12 Industries</span><span class="fc2"><span class="fcd"></span>6 AI Hardware Specs</span><span class="fc2"><span class="fcd"></span>AI World Map</span><span class="fc2"><span class="fcd"></span>170+ AI Tools Listed</span><span class="fc2"><span class="fcd"></span>Funding Dashboard</span></div>
   <p class="fcopy">© 2025 NEXUS FUTURE TECH HUB · THE WORLD'S MOST POWERFUL TECHNOLOGY INTELLIGENCE PLATFORM · BUILT FOR TOMORROW</p>
 </footer>
- 
+
 <script>
 /* ═══════════════════════════════════════════════
    NEXUS — COMPLETE JAVASCRIPT ENGINE
    ═══════════════════════════════════════════════ */
- 
+
 // ── LOADER ──────────────────────────────────────
 (function(){
   const msgs=['INITIALIZING NEURAL NETWORKS...','LOADING AI PLATFORM DATA...','CALIBRATING BENCHMARK METRICS...','RENDERING WORLD MAP...','ACTIVATING INTELLIGENCE HUB...','NEXUS ONLINE'];
@@ -1224,7 +1330,7 @@ document.getElementById('dirCnt').textContent = 'Showing ' + AI_TOOLS.length + '
     if(p>=100){clearInterval(ti);ldPct.textContent='100%';ldMsg.textContent=msgs[msgs.length-1];setTimeout(()=>document.getElementById('loader').classList.add('gone'),600)}
   },80);
 })();
- 
+
 // ── CURSOR ──────────────────────────────────────
 const cur=document.getElementById('cur');
 const curR=document.getElementById('cur-ring');
@@ -1244,7 +1350,7 @@ document.querySelectorAll('a,button,.fb,.al2,.mtag,.comp-btn').forEach(el=>{
   el.addEventListener('mouseenter',()=>{cur.style.width='18px';cur.style.height='18px'});
   el.addEventListener('mouseleave',()=>{cur.style.width='10px';cur.style.height='10px'});
 });
- 
+
 // ── NEURAL NETWORK ───────────────────────────────
 (function(){
   const c=document.getElementById('neural'),ctx=c.getContext('2d');
@@ -1265,7 +1371,7 @@ document.querySelectorAll('a,button,.fb,.al2,.mtag,.comp-btn').forEach(el=>{
   }
   window.addEventListener('resize',()=>{resize();init()});resize();init();draw();
 })();
- 
+
 // ── THEME TOGGLE ────────────────────────────────
 const html=document.documentElement;
 document.getElementById('togBtn').addEventListener('click',()=>{
@@ -1274,11 +1380,11 @@ document.getElementById('togBtn').addEventListener('click',()=>{
   document.getElementById('togK').textContent=dark?'☀️':'🌙';
   rebuildCharts();
 });
- 
+
 // ── FADE-IN OBSERVER ────────────────────────────
 const fio=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('vis');fio.unobserve(x.target)}})},{threshold:.07});
 document.querySelectorAll('.fi').forEach(el=>fio.observe(el));
- 
+
 // ── COUNTERS ────────────────────────────────────
 function animCtr(el,t,d=2000){
   const s=performance.now();
@@ -1290,7 +1396,7 @@ function animCtr(el,t,d=2000){
 }
 const co=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){animCtr(x.target,+x.target.dataset.t);co.unobserve(x.target)}})},{threshold:.5});
 document.querySelectorAll('.ctr').forEach(el=>co.observe(el));
- 
+
 // ── METRIC BARS ─────────────────────────────────
 const bo=new IntersectionObserver(e=>{
   e.forEach(x=>{if(x.isIntersecting){
@@ -1299,7 +1405,7 @@ const bo=new IntersectionObserver(e=>{
   }});
 },{threshold:.15});
 document.querySelectorAll('.acard').forEach(c=>bo.observe(c));
- 
+
 // ── SEARCH & FILTER ──────────────────────────────
 function doFilter(){
   const q=(document.getElementById('psearch').value||'').toLowerCase();
@@ -1315,7 +1421,7 @@ document.getElementById('psearch').addEventListener('input',doFilter);
 document.getElementById('navQ').addEventListener('input',e=>{document.getElementById('psearch').value=e.target.value;doFilter()});
 document.querySelectorAll('.fb').forEach(b=>{b.addEventListener('click',()=>{document.querySelectorAll('.fb').forEach(x=>x.classList.remove('on'));b.classList.add('on');doFilter()})});
 doFilter();
- 
+
 // ── BENCHMARK DATA ───────────────────────────────
 const BD=[
   {rank:1,name:'OpenAI',model:'o3 / GPT-4o',mmlu:88.7,humaneval:92.1,math:91.5,gpqa:82.3,context:'128K',overall:88.7,trend:'up',color:'#10a37f'},
@@ -1350,7 +1456,7 @@ document.querySelectorAll('#btt th[data-col]').forEach(th=>{
     renderBench([...BD].sort((a,b)=>typeof b[col]==='number'?b[col]-a[col]:a[col].localeCompare(b[col])));
   });
 });
- 
+
 // ── MODEL COMPARATOR ─────────────────────────────
 const MDB={
   openai:{name:'OpenAI (GPT-4o)',color:'#10a37f',context:'128K',open:'No',multimodal:'Yes',metrics:{Reasoning:97,'Code Gen':96,Multimodal:95,Safety:90,Speed:88,Context:85,Factual:92,Writing:91,Mathematics:91,Creativity:89,'Tool Use':95,Embeddings:88,Agentic:92,Languages:85}},
@@ -1378,7 +1484,7 @@ function runComp(){
 }
 document.getElementById('compBtn').addEventListener('click',runComp);
 runComp();
- 
+
 // ── GLOSSARY ─────────────────────────────────────
 const GT=[
   {l:'A',name:'AGI (Artificial General Intelligence)',def:'AI capable of performing any intellectual task a human can, with general problem-solving across all domains.',tag:'AI Concepts'},
@@ -1440,7 +1546,7 @@ document.querySelectorAll('.al2').forEach(btn=>{
     document.querySelectorAll('.gt').forEach(el=>el.classList.toggle('hidden',l!=='all'&&el.dataset.l!==l));
   });
 });
- 
+
 // ── WORLD MAP ─────────────────────────────────────
 (function(){
   const countries=[
@@ -1488,7 +1594,7 @@ document.querySelectorAll('.al2').forEach(btn=>{
     node.addEventListener('mouseleave',()=>tt.classList.remove('show'));
   });
 })();
- 
+
 // ── CHARTS ────────────────────────────────────────
 let CI={};
 function isDark(){return html.getAttribute('data-theme')==='dark'}
@@ -1543,7 +1649,7 @@ function buildCharts(){
 function rebuildCharts(){setTimeout(buildCharts,60)}
 const cho=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){buildCharts();cho.disconnect()}})},{threshold:.05});
 cho.observe(document.getElementById('analytics'));
- 
+
 // ── ACTIVE NAV ────────────────────────────────────
 window.addEventListener('scroll',()=>{
   const y=window.scrollY+70;
@@ -1555,4 +1661,5 @@ window.addEventListener('scroll',()=>{
 },{passive:true});
 </script>
 </body>
+</html>
 
