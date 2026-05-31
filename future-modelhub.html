@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>NEXUS Models Hub — 2,000,000+ AI Models</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#020b16;--bg1:#061525;--bg2:#091e30;
+  --glass:rgba(6,21,37,.9);
+  --c1:#00eeff;--c2:#7c3aed;--c3:#00d4aa;--c4:#ff006e;--c5:#ff6a00;--c6:#00ff84;--c7:#ffd700;
+  --txt:#d8eef8;--muted:#4a6072;--dim:#1b3a50;--vdim:#0b1e2c;
+  --bdr:rgba(0,238,255,.09);--bdrb:rgba(0,238,255,.28);
+  --glow:0 0 20px rgba(0,238,255,.3);
+  --input:rgba(255,255,255,.035);--tag:rgba(255,255,255,.04);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{overflow-x:hidden}
+body{background:var(--bg);color:var(--txt);font-family:'Rajdhani',sans-serif;font-size:15px;overflow-x:hidden}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:linear-gradient(var(--c1),var(--c2));border-radius:2px}
+a{color:inherit;text-decoration:none}
+.gbg{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(0,238,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(0,238,255,.02) 1px,transparent 1px);background-size:65px 65px}
+body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,rgba(0,238,255,.011),rgba(0,238,255,.011) 1px,transparent 1px,transparent 3px);pointer-events:none;z-index:9990}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;z-index:2000;background:var(--glass);backdrop-filter:blur(28px);border-bottom:1px solid var(--bdr);height:56px;padding:0 1.4rem;display:flex;align-items:center;gap:.9rem}
+.nav::after{content:'';position:absolute;bottom:-1px;left:8%;right:8%;height:1px;background:linear-gradient(90deg,transparent,var(--c1),transparent);opacity:.3}
+.nav-logo{font-family:'Orbitron',monospace;font-size:1.1rem;font-weight:900;color:var(--c1);text-shadow:var(--glow);letter-spacing:5px;flex-shrink:0}
+.nav-logo span{color:var(--c2)}
+.nav-back{display:flex;align-items:center;gap:5px;font-family:'Share Tech Mono',monospace;font-size:.62rem;letter-spacing:2px;color:var(--muted);padding:5px 11px;border:1px solid var(--bdr);border-radius:5px;cursor:pointer;transition:all .2s;flex-shrink:0}
+.nav-back:hover{color:var(--c1);border-color:var(--bdrb)}
+.nav-back svg{width:11px;height:11px}
+.nav-search{flex:1;position:relative;max-width:580px}
+.nav-search input{width:100%;background:var(--input);border:1px solid var(--bdr);border-radius:7px;padding:7px 13px 7px 34px;color:var(--txt);font-family:'Share Tech Mono',monospace;font-size:.7rem;letter-spacing:1px;outline:none;transition:all .3s}
+.nav-search input:focus{border-color:var(--bdrb);box-shadow:var(--glow)}
+.nav-search input::placeholder{color:var(--dim)}
+.nav-search svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:13px;height:13px;color:var(--muted);pointer-events:none}
+.nav-count{font-family:'Share Tech Mono',monospace;font-size:.58rem;color:var(--muted);white-space:nowrap;flex-shrink:0}
+.nav-count span{color:var(--c1);font-weight:700}
+
+/* LAYOUT */
+.layout{display:flex;margin-top:56px;min-height:calc(100vh - 56px);position:relative;z-index:1}
+
+/* SIDEBAR */
+.sidebar{width:240px;flex-shrink:0;background:var(--bg1);border-right:1px solid var(--bdr);padding:1.2rem;overflow-y:auto;position:sticky;top:56px;height:calc(100vh - 56px)}
+.sb-h{font-family:'Orbitron',monospace;font-size:.65rem;font-weight:700;color:var(--txt);letter-spacing:2px;margin-bottom:.9rem;text-transform:uppercase}
+.sb-sec{margin-bottom:1.4rem}
+.sb-lbl{font-family:'Share Tech Mono',monospace;font-size:.56rem;letter-spacing:3px;text-transform:uppercase;color:var(--dim);margin-bottom:.5rem;padding-left:8px}
+.si{display:flex;align-items:center;justify-content:space-between;padding:5px 8px;border-radius:5px;cursor:pointer;font-size:.78rem;color:var(--muted);transition:all .2s;margin-bottom:2px;border:1px solid transparent}
+.si:hover,.si.on{background:rgba(0,238,255,.07);color:var(--c1);border-color:rgba(0,238,255,.12)}
+.si-ico{margin-right:6px;font-size:.85rem}
+.si-c{font-family:'Share Tech Mono',monospace;font-size:.55rem;color:var(--dim)}
+.si.on .si-c{color:var(--c1)}
+
+/* MAIN */
+.main{flex:1;overflow-y:auto;padding:1.2rem;min-width:0;display:flex;flex-direction:column;gap:1.1rem}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,rgba(0,238,255,.05),rgba(124,58,237,.05));border:1px solid var(--bdr);border-radius:14px;padding:1.7rem;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 20% 50%,rgba(0,238,255,.07) 0,transparent 60%);pointer-events:none}
+.hero h1{font-family:'Orbitron',monospace;font-size:clamp(1.3rem,2.8vw,2rem);font-weight:900;color:var(--txt);margin-bottom:.35rem}
+.hero h1 span{background:linear-gradient(135deg,var(--c1),var(--c3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{font-size:.88rem;color:var(--muted);margin-bottom:1.1rem;max-width:580px}
+.hero-stats{display:flex;gap:1.4rem;flex-wrap:wrap}
+.hs{text-align:left}
+.hs-v{font-family:'Orbitron',monospace;font-size:1.2rem;font-weight:900;color:var(--c1);text-shadow:var(--glow);display:block;line-height:1}
+.hs-l{font-family:'Share Tech Mono',monospace;font-size:.54rem;letter-spacing:2px;color:var(--muted);text-transform:uppercase}
+
+/* TOOLBAR */
+.toolbar{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;padding:.8rem 1.1rem;background:var(--bg1);border:1px solid var(--bdr);border-radius:10px}
+.sort-lbl{font-family:'Share Tech Mono',monospace;font-size:.58rem;letter-spacing:2px;color:var(--dim);text-transform:uppercase;flex-shrink:0}
+.sb2{font-family:'Share Tech Mono',monospace;font-size:.6rem;padding:4px 10px;border-radius:4px;cursor:pointer;border:1px solid var(--bdr);background:transparent;color:var(--muted);letter-spacing:1px;transition:all .2s}
+.sb2:hover,.sb2.on{background:rgba(0,238,255,.07);border-color:var(--c1);color:var(--c1)}
+.tr-right{display:flex;align-items:center;gap:.6rem;margin-left:auto}
+.res-info{font-family:'Share Tech Mono',monospace;font-size:.58rem;color:var(--dim)}
+.vbtn2{width:26px;height:26px;display:flex;align-items:center;justify-content:center;border:1px solid var(--bdr);border-radius:4px;cursor:pointer;background:transparent;color:var(--muted);transition:all .2s}
+.vbtn2:hover,.vbtn2.on{border-color:var(--c1);color:var(--c1);background:rgba(0,238,255,.07)}
+.vbtn2 svg{width:13px;height:13px}
+
+/* TRENDING */
+.trend-wrap{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+.trend-lbl{font-family:'Share Tech Mono',monospace;font-size:.56rem;letter-spacing:2px;color:var(--dim);text-transform:uppercase;flex-shrink:0}
+.ttag{font-family:'Share Tech Mono',monospace;font-size:.58rem;letter-spacing:1px;padding:3px 9px;border-radius:12px;cursor:pointer;background:var(--tag);border:1px solid var(--bdr);color:var(--muted);transition:all .2s}
+.ttag:hover{background:rgba(0,238,255,.07);border-color:var(--c1);color:var(--c1)}
+
+/* GRID */
+.mgrid{display:grid;gap:.9rem;grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}
+.mgrid.lv{grid-template-columns:1fr}
+
+/* MODEL CARD */
+.mcard{background:var(--bg1);border:1px solid var(--bdr);border-radius:12px;padding:1.1rem;transition:all .3s;cursor:default;position:relative;overflow:hidden;display:flex;flex-direction:column;gap:.55rem}
+.mcard::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--mc,#00eeff),transparent);opacity:0;transition:opacity .3s}
+.mcard:hover{border-color:var(--mc,#00eeff);transform:translateY(-3px);box-shadow:0 10px 30px rgba(0,0,0,.5)}
+.mcard:hover::before{opacity:1}
+.mcard.hidden{display:none}
+.mc-top{display:flex;align-items:flex-start;justify-content:space-between;gap:.5rem}
+.mc-left{flex:1;min-width:0}
+.mc-org{font-family:'Share Tech Mono',monospace;font-size:.56rem;color:var(--muted);letter-spacing:1px;display:flex;align-items:center;gap:4px}
+.mc-name{font-family:'Orbitron',monospace;font-size:.78rem;font-weight:700;color:var(--txt);word-break:break-all;line-height:1.3;margin:.15rem 0}
+.mc-ico{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;background:var(--tag);border:1px solid var(--bdr);flex-shrink:0}
+.mc-pill{display:inline-flex;align-items:center;font-family:'Share Tech Mono',monospace;font-size:.52rem;padding:2px 7px;border-radius:10px;letter-spacing:1px;text-transform:uppercase;align-self:flex-start}
+.mc-desc{font-size:.76rem;color:var(--muted);line-height:1.6;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.mc-tags{display:flex;flex-wrap:wrap;gap:3px}
+.mct{font-family:'Share Tech Mono',monospace;font-size:.5rem;padding:2px 5px;background:var(--tag);border:1px solid var(--bdr);border-radius:3px;color:var(--dim)}
+.mc-bottom{display:flex;align-items:center;gap:.8rem;padding-top:.45rem;border-top:1px solid var(--bdr);margin-top:auto;flex-wrap:wrap}
+.mc-stat{display:flex;align-items:center;gap:3px;font-family:'Share Tech Mono',monospace;font-size:.56rem;color:var(--muted)}
+.mc-stat svg{width:10px;height:10px}
+.mc-date{font-family:'Share Tech Mono',monospace;font-size:.5rem;color:var(--dim);margin-left:auto}
+.mc-new-badge{position:absolute;top:.55rem;right:.55rem;font-family:'Share Tech Mono',monospace;font-size:.48rem;padding:1px 5px;border-radius:3px;background:rgba(0,255,132,.1);color:var(--c6);border:1px solid rgba(0,255,132,.2)}
+
+/* VISIT BUTTON */
+.mc-link{
+  display:inline-flex;align-items:center;gap:5px;
+  font-family:'Share Tech Mono',monospace;font-size:.58rem;letter-spacing:1px;
+  padding:5px 11px;border-radius:5px;
+  color:var(--mc,#00eeff);border:1px solid rgba(var(--mcr,0,238,255),.3);
+  background:rgba(var(--mcr,0,238,255),.06);
+  transition:all .2s;text-decoration:none;margin-top:auto;
+  justify-content:center;
+}
+.mc-link:hover{background:rgba(var(--mcr,0,238,255),.18);box-shadow:0 0 12px rgba(var(--mcr,0,238,255),.25);transform:translateY(-1px)}
+.mc-link svg{width:10px;height:10px}
+
+/* PAGINATION */
+.pagination{display:flex;align-items:center;justify-content:center;gap:.4rem;padding:1.5rem 0;flex-wrap:wrap}
+.pg-btn{font-family:'Share Tech Mono',monospace;font-size:.62rem;width:34px;height:34px;border-radius:6px;display:flex;align-items:center;justify-content:center;border:1px solid var(--bdr);background:transparent;color:var(--muted);cursor:pointer;transition:all .2s}
+.pg-btn:hover{border-color:var(--bdrb);color:var(--c1)}
+.pg-btn.on{background:rgba(0,238,255,.1);border-color:var(--c1);color:var(--c1)}
+.pg-btn:disabled{opacity:.3;cursor:not-allowed}
+.pg-info{font-family:'Share Tech Mono',monospace;font-size:.58rem;color:var(--muted);padding:0 .8rem}
+.pg-jump{display:flex;align-items:center;gap:.4rem;font-family:'Share Tech Mono',monospace;font-size:.58rem;color:var(--muted)}
+.pg-jump input{width:50px;background:var(--input);border:1px solid var(--bdr);border-radius:4px;padding:4px 6px;color:var(--txt);font-family:'Share Tech Mono',monospace;font-size:.58rem;outline:none;text-align:center;transition:border .2s}
+.pg-jump input:focus{border-color:var(--bdrb)}
+
+/* EMPTY */
+.empty{text-align:center;padding:4rem 2rem;grid-column:1/-1}
+.empty-ic{font-size:3rem;margin-bottom:1rem;display:block;opacity:.3}
+.empty-tx{font-family:'Orbitron',monospace;font-size:.85rem;color:var(--dim)}
+
+@media(max-width:768px){.sidebar{display:none}.nav-count{display:none}}
+</style>
+</head>
+<body>
+<div class="gbg"></div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-logo">NEX<span>US</span></div>
+  <a href="future-tech-hub.html" class="nav-back">
+    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+    BACK TO HUB
+  </a>
+  <div class="nav-search">
+    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35"/></svg>
+    <input type="text" id="q" placeholder="SEARCH 2,000,000+ AI MODELS — NAME, ORG, TASK, FRAMEWORK..." autocomplete="off">
+  </div>
+  <div class="nav-count">MODELS: <span id="liveCount">2,000,847</span></div>
+</nav>
+
+<div class="layout">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sb-h">🗂 Browse</div>
+  <div class="sb-sec">
+    <div class="sb-lbl">Task</div>
+    <div class="si on" data-f="all"><span class="si-ico">🌐</span>All Models<span class="si-c">2M+</span></div>
+    <div class="si" data-f="text-generation"><span class="si-ico">✍️</span>Text Generation<span class="si-c">620K</span></div>
+    <div class="si" data-f="chat"><span class="si-ico">💬</span>Chat / Instruct<span class="si-c">480K</span></div>
+    <div class="si" data-f="code"><span class="si-ico">💻</span>Code Generation<span class="si-c">185K</span></div>
+    <div class="si" data-f="reasoning"><span class="si-ico">🧠</span>Reasoning<span class="si-c">92K</span></div>
+    <div class="si" data-f="image-generation"><span class="si-ico">🎨</span>Image Generation<span class="si-c">310K</span></div>
+    <div class="si" data-f="image-classification"><span class="si-ico">🖼️</span>Image Classification<span class="si-c">98K</span></div>
+    <div class="si" data-f="object-detection"><span class="si-ico">🎯</span>Object Detection<span class="si-c">54K</span></div>
+    <div class="si" data-f="segmentation"><span class="si-ico">✂️</span>Segmentation<span class="si-c">38K</span></div>
+    <div class="si" data-f="multimodal"><span class="si-ico">🔀</span>Multimodal<span class="si-c">142K</span></div>
+    <div class="si" data-f="speech-recognition"><span class="si-ico">🎤</span>Speech Recognition<span class="si-c">84K</span></div>
+    <div class="si" data-f="tts"><span class="si-ico">🔊</span>Text-to-Speech<span class="si-c">43K</span></div>
+    <div class="si" data-f="music"><span class="si-ico">🎵</span>Music Generation<span class="si-c">18K</span></div>
+    <div class="si" data-f="translation"><span class="si-ico">🌍</span>Translation<span class="si-c">118K</span></div>
+    <div class="si" data-f="summarization"><span class="si-ico">📋</span>Summarization<span class="si-c">48K</span></div>
+    <div class="si" data-f="embedding"><span class="si-ico">🔢</span>Embeddings<span class="si-c">89K</span></div>
+    <div class="si" data-f="video"><span class="si-ico">🎬</span>Video Generation<span class="si-c">38K</span></div>
+    <div class="si" data-f="rl"><span class="si-ico">🎮</span>Reinforcement Learning<span class="si-c">32K</span></div>
+    <div class="si" data-f="tabular"><span class="si-ico">📊</span>Tabular / Data<span class="si-c">67K</span></div>
+    <div class="si" data-f="biology"><span class="si-ico">🧬</span>Biology / Science<span class="si-c">34K</span></div>
+    <div class="si" data-f="3d"><span class="si-ico">🧊</span>3D Generation<span class="si-c">12K</span></div>
+    <div class="si" data-f="diffusion"><span class="si-ico">🌀</span>Diffusion Models<span class="si-c">245K</span></div>
+    <div class="si" data-f="lora"><span class="si-ico">🪡</span>LoRA / Fine-tunes<span class="si-c">420K</span></div>
+    <div class="si" data-f="gguf"><span class="si-ico">📦</span>GGUF Quantized<span class="si-c">210K</span></div>
+  </div>
+  <div class="sb-sec">
+    <div class="sb-lbl">Framework</div>
+    <div class="si" data-f="pytorch"><span class="si-ico">🔥</span>PyTorch<span class="si-c">1.4M</span></div>
+    <div class="si" data-f="tensorflow"><span class="si-ico">🌊</span>TensorFlow<span class="si-c">420K</span></div>
+    <div class="si" data-f="jax"><span class="si-ico">⚡</span>JAX<span class="si-c">86K</span></div>
+    <div class="si" data-f="onnx"><span class="si-ico">🔷</span>ONNX<span class="si-c">145K</span></div>
+    <div class="si" data-f="safetensors"><span class="si-ico">🛡️</span>SafeTensors<span class="si-c">890K</span></div>
+  </div>
+  <div class="sb-sec">
+    <div class="sb-lbl">License</div>
+    <div class="si" data-f="apache2"><span class="si-ico">✅</span>Apache 2.0<span class="si-c">580K</span></div>
+    <div class="si" data-f="mit"><span class="si-ico">🟢</span>MIT License<span class="si-c">320K</span></div>
+    <div class="si" data-f="cc-by"><span class="si-ico">🔵</span>CC-BY 4.0<span class="si-c">240K</span></div>
+    <div class="si" data-f="cc-nc"><span class="si-ico">🟡</span>CC-BY-NC<span class="si-c">180K</span></div>
+    <div class="si" data-f="openrail"><span class="si-ico">🚂</span>OpenRAIL<span class="si-c">95K</span></div>
+  </div>
+  <div class="sb-sec">
+    <div class="sb-lbl">Language</div>
+    <div class="si" data-f="en"><span class="si-ico">🇺🇸</span>English<span class="si-c">1.2M</span></div>
+    <div class="si" data-f="multilingual"><span class="si-ico">🌐</span>Multilingual<span class="si-c">380K</span></div>
+    <div class="si" data-f="zh"><span class="si-ico">🇨🇳</span>Chinese<span class="si-c">210K</span></div>
+    <div class="si" data-f="fr"><span class="si-ico">🇫🇷</span>French<span class="si-c">95K</span></div>
+    <div class="si" data-f="ar"><span class="si-ico">🇸🇦</span>Arabic<span class="si-c">54K</span></div>
+    <div class="si" data-f="sw"><span class="si-ico">🌍</span>Swahili<span class="si-c">12K</span></div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+  <!-- HERO -->
+  <div class="hero">
+    <h1>The World's Largest <span>AI Model Hub</span></h1>
+    <p>Browse, search, filter, and visit 2,000,000+ AI models. Every real model links directly to its official page. Updated live by the global AI community.</p>
+    <div class="hero-stats">
+      <div class="hs"><span class="hs-v" id="heroCount">2,000,847</span><span class="hs-l">Total Models</span></div>
+      <div class="hs"><span class="hs-v">148K+</span><span class="hs-l">Datasets</span></div>
+      <div class="hs"><span class="hs-v">380K+</span><span class="hs-l">Demo Spaces</span></div>
+      <div class="hs"><span class="hs-v">8.2M+</span><span class="hs-l">Downloads/Day</span></div>
+    </div>
+  </div>
+
+  <!-- TRENDING -->
+  <div class="toolbar" style="flex-direction:column;align-items:flex-start;gap:.5rem;padding:.8rem 1.1rem">
+    <div class="trend-wrap">
+      <span class="trend-lbl">🔥 TRENDING:</span>
+      <span class="ttag" onclick="setQ('llama')">llama</span>
+      <span class="ttag" onclick="setQ('flux')">flux</span>
+      <span class="ttag" onclick="setQ('mistral')">mistral</span>
+      <span class="ttag" onclick="setQ('deepseek')">deepseek</span>
+      <span class="ttag" onclick="setQ('qwen')">qwen</span>
+      <span class="ttag" onclick="setQ('stable-diffusion')">stable-diffusion</span>
+      <span class="ttag" onclick="setQ('whisper')">whisper</span>
+      <span class="ttag" onclick="setQ('phi')">phi</span>
+      <span class="ttag" onclick="setQ('gguf')">gguf</span>
+      <span class="ttag" onclick="setQ('embedding')">embedding</span>
+      <span class="ttag" onclick="setQ('lora')">lora</span>
+      <span class="ttag" onclick="setQ('reasoning')">reasoning</span>
+      <span class="ttag" onclick="setQ('gemma')">gemma</span>
+      <span class="ttag" onclick="setQ('sdxl')">sdxl</span>
+      <span class="ttag" onclick="setQ('clip')">clip</span>
+    </div>
+  </div>
+
+  <!-- TOOLBAR -->
+  <div class="toolbar">
+    <span class="sort-lbl">SORT:</span>
+    <button class="sb2 on" data-s="trending">🔥 Trending</button>
+    <button class="sb2" data-s="downloads">⬇ Downloads</button>
+    <button class="sb2" data-s="likes">❤️ Likes</button>
+    <button class="sb2" data-s="newest">🆕 Newest</button>
+    <button class="sb2" data-s="az">🔤 A–Z</button>
+    <div class="tr-right">
+      <div class="res-info" id="resInfo">Loading...</div>
+      <button class="vbtn2 on" id="gvBtn" title="Grid">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      </button>
+      <button class="vbtn2" id="lvBtn" title="List">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- GRID -->
+  <div class="mgrid" id="grid"></div>
+  <!-- PAGINATION -->
+  <div class="pagination" id="pages"></div>
+</main>
+</div>
+
+<script>
+/* =========================================================
+   NEXUS MODELS HUB — ALL REAL MODELS WITH DIRECT LINKS
+   ========================================================= */
+
+// Real HuggingFace URL helper
+const HF = (org,repo) => `https://huggingface.co/${org}/${repo}`;
+const ARXIV = (id) => `https://arxiv.org/abs/${id}`;
+const GH = (org,repo) => `https://github.com/${org}/${repo}`;
+
+// ── REAL MODEL DATABASE ──────────────────────────────────
+const MODELS = [
+
+/* ═══ META / LLAMA ═══ */
+{org:"meta-llama",name:"Llama-3.1-405B-Instruct",ico:"🦙",type:"text-generation",tl:"Text Generation",mc:"#0668e1",mr:"6,104,225",fw:"SafeTensors",lic:"Llama 3.1",lang:"en",desc:"Meta's most powerful open model. 405B parameters, 128K context. SOTA on many reasoning & coding benchmarks. The largest open-weights LLM available.",tags:["LLM","405B","128K","SOTA","Chat"],dl:"4.8M",lk:"28.4K",sz:"810 GB",upd:"2 days ago",hot:true,isNew:false,url:HF("meta-llama","Llama-3.1-405B-Instruct")},
+{org:"meta-llama",name:"Llama-3.1-70B-Instruct",ico:"🦙",type:"text-generation",tl:"Text Generation",mc:"#0668e1",mr:"6,104,225",fw:"SafeTensors",lic:"Llama 3.1",lang:"en",desc:"70B instruction-following LLM. Strong at reasoning, coding, and multilingual tasks. Best open model in the 70B range.",tags:["LLM","70B","Chat","Reasoning"],dl:"12.1M",lk:"52.8K",sz:"140 GB",upd:"1 week ago",hot:true,isNew:false,url:HF("meta-llama","Llama-3.1-70B-Instruct")},
+{org:"meta-llama",name:"Llama-3.1-8B-Instruct",ico:"🦙",type:"text-generation",tl:"Text Generation",mc:"#0668e1",mr:"6,104,225",fw:"SafeTensors",lic:"Llama 3.1",lang:"en",desc:"Efficient 8B model for consumer hardware. Near-GPT-3.5 performance, runs on a single consumer GPU.",tags:["LLM","8B","Efficient","Local"],dl:"48.2M",lk:"88.1K",sz:"16 GB",upd:"1 week ago",hot:true,isNew:false,url:HF("meta-llama","Llama-3.1-8B-Instruct")},
+{org:"meta-llama",name:"Llama-3.2-11B-Vision-Instruct",ico:"🦙",type:"multimodal",tl:"Multimodal",mc:"#0668e1",mr:"6,104,225",fw:"SafeTensors",lic:"Llama 3.2",lang:"en",desc:"Llama with vision — process images and text together. 128K context, strong visual reasoning and document understanding.",tags:["Vision","Multimodal","11B","Images"],dl:"3.2M",lk:"19.2K",sz:"22 GB",upd:"5 days ago",hot:true,isNew:false,url:HF("meta-llama","Llama-3.2-11B-Vision-Instruct")},
+{org:"meta-llama",name:"Llama-3.2-3B-Instruct",ico:"🦙",type:"text-generation",tl:"Text Generation",mc:"#0668e1",mr:"6,104,225",fw:"SafeTensors",lic:"Llama 3.2",lang:"multilingual",desc:"Tiny 3B Llama for edge and mobile deployment. Supports multilingual inference with excellent efficiency.",tags:["SLM","3B","Mobile","Edge","Multilingual"],dl:"22.4M",lk:"28.2K",sz:"6.4 GB",upd:"3 weeks ago",hot:false,isNew:false,url:HF("meta-llama","Llama-3.2-3B-Instruct")},
+{org:"meta-llama",name:"Llama-3.2-1B-Instruct",ico:"🦙",type:"text-generation",tl:"Text Generation",mc:"#0668e1",mr:"6,104,225",fw:"SafeTensors",lic:"Llama 3.2",lang:"multilingual",desc:"Ultra-compact 1B model designed for on-device AI, phones, and microcontrollers with impressive efficiency.",tags:["1B","On-Device","Phone","Tiny"],dl:"18.4M",lk:"18.8K",sz:"2.4 GB",upd:"3 weeks ago",hot:false,isNew:false,url:HF("meta-llama","Llama-3.2-1B-Instruct")},
+{org:"meta-llama",name:"Meta-Llama-3-8B-Instruct",ico:"🦙",type:"text-generation",tl:"Text Generation",mc:"#0668e1",mr:"6,104,225",fw:"SafeTensors",lic:"Llama 3",lang:"en",desc:"Llama 3 8B — still one of the most popular models for local deployment and fine-tuning worldwide.",tags:["LLM","8B","Llama 3","Chat"],dl:"62.4M",lk:"42.8K",sz:"16 GB",upd:"4 months ago",hot:false,isNew:false,url:HF("meta-llama","Meta-Llama-3-8B-Instruct")},
+{org:"meta-llama",name:"Meta-Llama-3-70B-Instruct",ico:"🦙",type:"text-generation",tl:"Text Generation",mc:"#0668e1",mr:"6,104,225",fw:"SafeTensors",lic:"Llama 3",lang:"en",desc:"Llama 3 70B instruction model. Landmark open-source release that established new quality bars for open LLMs.",tags:["LLM","70B","Llama 3","Instruction"],dl:"28.4M",lk:"36.4K",sz:"140 GB",upd:"4 months ago",hot:false,isNew:false,url:HF("meta-llama","Meta-Llama-3-70B-Instruct")},
+{org:"facebook",name:"nllb-200-distilled-600M",ico:"🌐",type:"translation",tl:"Translation",mc:"#0668e1",mr:"6,104,225",fw:"PyTorch",lic:"CC-BY-NC",lang:"multilingual",desc:"Meta's No Language Left Behind — translates 200 languages including low-resource African and Asian languages.",tags:["Translation","200 Languages","NLLB","Low-Resource"],dl:"24.8M",lk:"8.4K",sz:"2.46 GB",upd:"1 year ago",hot:false,isNew:false,url:HF("facebook","nllb-200-distilled-600M")},
+{org:"facebook",name:"musicgen-large",ico:"🎵",type:"music",tl:"Music Generation",mc:"#0668e1",mr:"6,104,225",fw:"PyTorch",lic:"CC-BY-NC",lang:"en",desc:"Meta MusicGen — generates high-quality music from text. 32kHz mono/stereo audio, up to 30-second tracks.",tags:["Music Generation","32kHz","Text-to-Music","MusicGen"],dl:"6.4M",lk:"18.8K",sz:"3.3 GB",upd:"1 year ago",hot:false,isNew:false,url:HF("facebook","musicgen-large")},
+{org:"facebook",name:"sam2-hiera-large",ico:"✂️",type:"segmentation",tl:"Segmentation",mc:"#0668e1",mr:"6,104,225",fw:"PyTorch",lic:"Apache 2.0",lang:"en",desc:"Segment Anything Model 2 — Meta's real-time image and video segmentation. Segment any object with a single click.",tags:["SAM2","Segmentation","Video","Real-time","Click-to-Segment"],dl:"9.8M",lk:"38.4K",sz:"897 MB",upd:"6 months ago",hot:true,isNew:false,url:HF("facebook","sam2-hiera-large")},
+{org:"facebook",name:"mms-tts-eng",ico:"🔊",type:"tts",tl:"Text-to-Speech",mc:"#0668e1",mr:"6,104,225",fw:"PyTorch",lic:"CC-BY-NC",lang:"en",desc:"Meta Massively Multilingual Speech TTS. Supports 1,100+ languages — the most multilingual TTS model ever built.",tags:["TTS","1100 Languages","Multilingual","Speech"],dl:"4.2M",lk:"6.8K",sz:"1.2 GB",upd:"1 year ago",hot:false,isNew:false,url:HF("facebook","mms-tts-eng")},
+
+/* ═══ MISTRAL AI ═══ */
+{org:"mistralai",name:"Mistral-7B-Instruct-v0.3",ico:"🌊",type:"text-generation",tl:"Text Generation",mc:"#f7931e",mr:"247,147,30",fw:"SafeTensors",lic:"Apache 2.0",lang:"multilingual",desc:"Mistral 7B instruction v0.3 — fast, efficient, open. Outperforms Llama 2 13B while being half the size.",tags:["LLM","7B","Apache 2.0","Efficient","Multilingual"],dl:"31.8M",lk:"44.2K",sz:"14.5 GB",upd:"2 weeks ago",hot:false,isNew:false,url:HF("mistralai","Mistral-7B-Instruct-v0.3")},
+{org:"mistralai",name:"Mixtral-8x7B-Instruct-v0.1",ico:"🌊",type:"text-generation",tl:"Text Generation",mc:"#f7931e",mr:"247,147,30",fw:"SafeTensors",lic:"Apache 2.0",lang:"multilingual",desc:"Mixture of Experts — 8 experts of 7B, only 2 active per token. Fast MoE model competitive with GPT-3.5.",tags:["MoE","LLM","8x7B","Apache 2.0"],dl:"18.4M",lk:"36.5K",sz:"93 GB",upd:"3 weeks ago",hot:false,isNew:false,url:HF("mistralai","Mixtral-8x7B-Instruct-v0.1")},
+{org:"mistralai",name:"Mixtral-8x22B-Instruct-v0.1",ico:"🌊",type:"text-generation",tl:"Text Generation",mc:"#f7931e",mr:"247,147,30",fw:"SafeTensors",lic:"Apache 2.0",lang:"multilingual",desc:"Mixtral 141B total, 39B active. Strongest multilingual and code MoE model from Mistral.",tags:["MoE","141B","Multilingual","Code"],dl:"5.2M",lk:"14.8K",sz:"281 GB",upd:"1 month ago",hot:false,isNew:false,url:HF("mistralai","Mixtral-8x22B-Instruct-v0.1")},
+{org:"mistralai",name:"Mistral-Nemo-Instruct-2407",ico:"🌊",type:"text-generation",tl:"Text Generation",mc:"#f7931e",mr:"247,147,30",fw:"SafeTensors",lic:"Apache 2.0",lang:"multilingual",desc:"Mistral NeMo — 12B model trained jointly with NVIDIA. 128K context, strong multilingual and code capabilities.",tags:["12B","128K","NVIDIA","Multilingual"],dl:"12.4M",lk:"22.4K",sz:"24.5 GB",upd:"1 month ago",hot:true,isNew:false,url:HF("mistralai","Mistral-Nemo-Instruct-2407")},
+{org:"mistralai",name:"Codestral-22B-v0.1",ico:"💻",type:"code",tl:"Code Generation",mc:"#f7931e",mr:"247,147,30",fw:"SafeTensors",lic:"Codestral",lang:"multilingual",desc:"Mistral's dedicated code model. Supports 80+ languages, 32K context, best-in-class code completion.",tags:["Code","22B","80+ Languages","32K Context"],dl:"6.4M",lk:"12.8K",sz:"44 GB",upd:"2 months ago",hot:false,isNew:false,url:HF("mistralai","Codestral-22B-v0.1")},
+
+/* ═══ DEEPSEEK ═══ */
+{org:"deepseek-ai",name:"DeepSeek-R1",ico:"🐋",type:"reasoning",tl:"Reasoning",mc:"#36cfc9",mr:"54,207,201",fw:"SafeTensors",lic:"MIT",lang:"multilingual",desc:"DeepSeek R1 — reasoning model trained with pure RL. Matches OpenAI o1 on math and coding at a fraction of the cost. Open weights.",tags:["Reasoning","Math","Code","RL","SOTA","MIT"],dl:"8.9M",lk:"62.1K",sz:"671 GB",upd:"3 days ago",hot:true,isNew:true,url:HF("deepseek-ai","DeepSeek-R1")},
+{org:"deepseek-ai",name:"DeepSeek-V3",ico:"🐋",type:"text-generation",tl:"Text Generation",mc:"#36cfc9",mr:"54,207,201",fw:"SafeTensors",lic:"MIT",lang:"multilingual",desc:"671B MoE model, 37B active parameters. Trained on 14.8T tokens. Exceptional coding, math, and reasoning. Open source.",tags:["MoE","671B","Code","Math","Open Source"],dl:"6.1M",lk:"45.3K",sz:"1.3 TB",upd:"1 week ago",hot:true,isNew:false,url:HF("deepseek-ai","DeepSeek-V3")},
+{org:"deepseek-ai",name:"DeepSeek-Coder-V2-Instruct",ico:"🐋",type:"code",tl:"Code Generation",mc:"#36cfc9",mr:"54,207,201",fw:"SafeTensors",lic:"Model License",lang:"multilingual",desc:"Best open code model — 338 programming languages, 128K context. Beats GPT-4 Turbo on coding benchmarks.",tags:["Code","338 Languages","128K","SOTA"],dl:"4.4M",lk:"21.8K",sz:"45 GB",upd:"2 weeks ago",hot:true,isNew:false,url:HF("deepseek-ai","DeepSeek-Coder-V2-Instruct")},
+{org:"deepseek-ai",name:"DeepSeek-R1-Distill-Llama-8B",ico:"🐋",type:"reasoning",tl:"Reasoning",mc:"#36cfc9",mr:"54,207,201",fw:"SafeTensors",lic:"MIT",lang:"multilingual",desc:"R1 reasoning distilled into 8B Llama. Run powerful chain-of-thought reasoning on consumer hardware.",tags:["Reasoning","8B","Distilled","Consumer"],dl:"5.8M",lk:"28.4K",sz:"16 GB",upd:"3 weeks ago",hot:true,isNew:true,url:HF("deepseek-ai","DeepSeek-R1-Distill-Llama-8B")},
+{org:"deepseek-ai",name:"DeepSeek-R1-Distill-Qwen-32B",ico:"🐋",type:"reasoning",tl:"Reasoning",mc:"#36cfc9",mr:"54,207,201",fw:"SafeTensors",lic:"MIT",lang:"multilingual",desc:"R1 distilled into Qwen 32B — best open reasoning model at 32B scale. Near o1-mini performance.",tags:["Reasoning","32B","Qwen","Distilled"],dl:"4.2M",lk:"22.4K",sz:"65 GB",upd:"3 weeks ago",hot:true,isNew:true,url:HF("deepseek-ai","DeepSeek-R1-Distill-Qwen-32B")},
+{org:"deepseek-ai",name:"deepseek-coder-33b-instruct",ico:"💻",type:"code",tl:"Code Generation",mc:"#36cfc9",mr:"54,207,201",fw:"SafeTensors",lic:"Model License",lang:"multilingual",desc:"DeepSeek Coder 33B — 2T tokens of code training data. Top performer on HumanEval and MBPP benchmarks.",tags:["Code","33B","HumanEval","2T Tokens"],dl:"3.8M",lk:"14.2K",sz:"66 GB",upd:"3 months ago",hot:false,isNew:false,url:HF("deepseek-ai","deepseek-coder-33b-instruct")},
+
+/* ═══ QWEN / ALIBABA ═══ */
+{org:"Qwen",name:"Qwen2.5-72B-Instruct",ico:"🔷",type:"text-generation",tl:"Text Generation",mc:"#ff6500",mr:"255,101,0",fw:"SafeTensors",lic:"Qwen License",lang:"multilingual",desc:"Alibaba Qwen 72B — 29 languages, 128K context, top-tier multilingual performance and coding abilities.",tags:["LLM","72B","29 Languages","128K"],dl:"7.2M",lk:"31.4K",sz:"145 GB",upd:"1 week ago",hot:true,isNew:false,url:HF("Qwen","Qwen2.5-72B-Instruct")},
+{org:"Qwen",name:"Qwen2.5-Coder-32B-Instruct",ico:"💻",type:"code",tl:"Code Generation",mc:"#ff6500",mr:"255,101,0",fw:"SafeTensors",lic:"Apache 2.0",lang:"multilingual",desc:"SOTA open code model at 32B. 5.5T training tokens. 40+ programming languages, beats GPT-4o on HumanEval.",tags:["Code","32B","SOTA","40+ Languages"],dl:"3.8M",lk:"18.6K",sz:"65 GB",upd:"2 weeks ago",hot:true,isNew:false,url:HF("Qwen","Qwen2.5-Coder-32B-Instruct")},
+{org:"Qwen",name:"Qwen2.5-7B-Instruct",ico:"🔷",type:"text-generation",tl:"Text Generation",mc:"#ff6500",mr:"255,101,0",fw:"SafeTensors",lic:"Apache 2.0",lang:"multilingual",desc:"Qwen 7B efficient model with 128K context. Excellent multilingual performance for its compact size.",tags:["LLM","7B","Multilingual","128K","Apache 2.0"],dl:"14.8M",lk:"24.4K",sz:"15 GB",upd:"2 weeks ago",hot:false,isNew:false,url:HF("Qwen","Qwen2.5-7B-Instruct")},
+{org:"Qwen",name:"Qwen2.5-14B-Instruct",ico:"🔷",type:"text-generation",tl:"Text Generation",mc:"#ff6500",mr:"255,101,0",fw:"SafeTensors",lic:"Apache 2.0",lang:"multilingual",desc:"Qwen 14B — the sweet spot for performance vs efficiency. Strong math, code, and multilingual capabilities.",tags:["LLM","14B","Math","Code","Multilingual"],dl:"8.4M",lk:"18.8K",sz:"29 GB",upd:"2 weeks ago",hot:false,isNew:false,url:HF("Qwen","Qwen2.5-14B-Instruct")},
+{org:"Qwen",name:"QwQ-32B-Preview",ico:"🧮",type:"reasoning",tl:"Reasoning",mc:"#ff6500",mr:"255,101,0",fw:"SafeTensors",lic:"Apache 2.0",lang:"multilingual",desc:"Qwen's experimental reasoning model with remarkable self-reflection. Comparable to o1-preview on math and code.",tags:["Reasoning","32B","Self-Reflection","Experimental"],dl:"6.4M",lk:"38.4K",sz:"65 GB",upd:"3 days ago",hot:true,isNew:true,url:HF("Qwen","QwQ-32B-Preview")},
+{org:"Qwen",name:"Qwen2-VL-72B-Instruct",ico:"👁️",type:"multimodal",tl:"Multimodal",mc:"#ff6500",mr:"255,101,0",fw:"SafeTensors",lic:"Qwen License",lang:"multilingual",desc:"72B vision-language model. Understands images, videos, and documents. SOTA on multiple multimodal benchmarks.",tags:["VLM","72B","Video","Document AI","SOTA"],dl:"2.8M",lk:"18.4K",sz:"145 GB",upd:"1 month ago",hot:true,isNew:false,url:HF("Qwen","Qwen2-VL-72B-Instruct")},
+{org:"Qwen",name:"Qwen2-VL-7B-Instruct",ico:"👁️",type:"multimodal",tl:"Multimodal",mc:"#ff6500",mr:"255,101,0",fw:"SafeTensors",lic:"Apache 2.0",lang:"multilingual",desc:"Efficient 7B vision-language model with strong performance on image understanding, OCR, and document parsing.",tags:["VLM","7B","OCR","Document","Apache 2.0"],dl:"8.4M",lk:"22.4K",sz:"15 GB",upd:"1 month ago",hot:true,isNew:false,url:HF("Qwen","Qwen2-VL-7B-Instruct")},
+{org:"Qwen",name:"Qwen2-Audio-7B-Instruct",ico:"🎵",type:"speech-recognition",tl:"Speech Recognition",mc:"#ff6500",mr:"255,101,0",fw:"PyTorch",lic:"Apache 2.0",lang:"multilingual",desc:"Qwen's audio language model. Understands speech, sound events, and music. Chat with audio input.",tags:["Audio","Speech","Music","7B","Chat"],dl:"2.4M",lk:"8.4K",sz:"15 GB",upd:"2 months ago",hot:false,isNew:false,url:HF("Qwen","Qwen2-Audio-7B-Instruct")},
+
+/* ═══ MICROSOFT ═══ */
+{org:"microsoft",name:"phi-4",ico:"🔬",type:"text-generation",tl:"Text Generation",mc:"#0078d4",mr:"0,120,212",fw:"SafeTensors",lic:"MIT",lang:"en",desc:"Phi-4 14B — Microsoft's SLM with exceptional reasoning on math and science. Beats much larger models on STEM.",tags:["SLM","14B","Math","Science","MIT"],dl:"12.4M",lk:"28.4K",sz:"30 GB",upd:"2 weeks ago",hot:true,isNew:true,url:HF("microsoft","phi-4")},
+{org:"microsoft",name:"Phi-3.5-mini-instruct",ico:"🔬",type:"text-generation",tl:"Text Generation",mc:"#0078d4",mr:"0,120,212",fw:"SafeTensors",lic:"MIT",lang:"multilingual",desc:"Phi-3.5 Mini 3.8B — 128K context in a tiny model. Strong multilingual performance. Perfect for mobile and edge AI.",tags:["SLM","3.8B","128K","Mobile","MIT"],dl:"22.8M",lk:"18.8K",sz:"7.6 GB",upd:"1 month ago",hot:false,isNew:false,url:HF("microsoft","Phi-3.5-mini-instruct")},
+{org:"microsoft",name:"phi-3-medium-128k-instruct",ico:"🔬",type:"text-generation",tl:"Text Generation",mc:"#0078d4",mr:"0,120,212",fw:"SafeTensors",lic:"MIT",lang:"en",desc:"Phi-3 Medium 14B with 128K context. Excellent performance for its size with extensive training on high-quality data.",tags:["SLM","14B","128K","MIT"],dl:"8.4M",lk:"12.4K",sz:"30 GB",upd:"2 months ago",hot:false,isNew:false,url:HF("microsoft","phi-3-medium-128k-instruct")},
+{org:"microsoft",name:"Florence-2-large",ico:"🌸",type:"multimodal",tl:"Multimodal Vision",mc:"#0078d4",mr:"0,120,212",fw:"PyTorch",lic:"MIT",lang:"en",desc:"Florence-2 unified vision model — captioning, detection, grounding, and segmentation from a single model with a single prompt.",tags:["Unified Vision","Captioning","Grounding","Segmentation","MIT"],dl:"4.2M",lk:"16.8K",sz:"1.6 GB",upd:"4 months ago",hot:true,isNew:false,url:HF("microsoft","Florence-2-large")},
+{org:"microsoft",name:"speecht5_tts",ico:"🔊",type:"tts",tl:"Text-to-Speech",mc:"#0078d4",mr:"0,120,212",fw:"PyTorch",lic:"MIT",lang:"en",desc:"SpeechT5 TTS — high-quality neural text-to-speech with speaker embeddings for voice customization and cloning.",tags:["TTS","Speaker Embedding","Voice Clone","Neural"],dl:"18.6M",lk:"12.4K",sz:"308 MB",upd:"1 year ago",hot:false,isNew:false,url:HF("microsoft","speecht5_tts")},
+{org:"microsoft",name:"table-transformer-detection",ico:"📋",type:"tabular",tl:"Table Detection",mc:"#0078d4",mr:"0,120,212",fw:"PyTorch",lic:"MIT",lang:"en",desc:"Detect and extract tables from documents and images. Essential for PDF parsing and document AI pipelines.",tags:["Table Detection","PDF","Document AI","MIT"],dl:"12.4M",lk:"4.8K",sz:"115 MB",upd:"1 year ago",hot:false,isNew:false,url:HF("microsoft","table-transformer-detection")},
+{org:"microsoft",name:"Orca-2-13b",ico:"🐳",type:"chat",tl:"Chat",mc:"#0078d4",mr:"0,120,212",fw:"PyTorch",lic:"Microsoft Research",lang:"en",desc:"Orca 2 — Microsoft Research's reasoning model. Shows step-by-step thinking strategies for complex tasks.",tags:["Reasoning","Chat","13B","Step-by-Step"],dl:"4.8M",lk:"8.4K",sz:"26 GB",upd:"6 months ago",hot:false,isNew:false,url:HF("microsoft","Orca-2-13b")},
+
+/* ═══ GOOGLE ═══ */
+{org:"google",name:"gemma-2-9b-it",ico:"💎",type:"text-generation",tl:"Text Generation",mc:"#4285f4",mr:"66,133,244",fw:"SafeTensors",lic:"Gemma",lang:"en",desc:"Gemma 2 9B instruction-tuned — exceptional performance for its size with novel grouped-query attention architecture.",tags:["LLM","9B","Google","Instruction","Gemma"],dl:"9.4M",lk:"18.2K",sz:"18.5 GB",upd:"2 months ago",hot:true,isNew:false,url:HF("google","gemma-2-9b-it")},
+{org:"google",name:"gemma-2-27b-it",ico:"💎",type:"text-generation",tl:"Text Generation",mc:"#4285f4",mr:"66,133,244",fw:"SafeTensors",lic:"Gemma",lang:"en",desc:"Gemma 2 27B — competitive with much larger models. Sliding window and full attention alternation for efficient long-context.",tags:["LLM","27B","Google","Gemma"],dl:"4.2M",lk:"12.4K",sz:"54.5 GB",upd:"2 months ago",hot:false,isNew:false,url:HF("google","gemma-2-27b-it")},
+{org:"google",name:"gemma-2-2b-it",ico:"💎",type:"text-generation",tl:"Text Generation",mc:"#4285f4",mr:"66,133,244",fw:"SafeTensors",lic:"Gemma",lang:"en",desc:"Gemma 2 2B — tiny but surprisingly capable. Runs on Raspberry Pi and smartphones. Perfect for on-device AI.",tags:["SLM","2B","On-Device","Phone","Google"],dl:"14.2M",lk:"14.8K",sz:"5.3 GB",upd:"2 months ago",hot:false,isNew:false,url:HF("google","gemma-2-2b-it")},
+{org:"google",name:"vit-base-patch16-224",ico:"👁️",type:"image-classification",tl:"Image Classification",mc:"#4285f4",mr:"66,133,244",fw:"PyTorch",lic:"Apache 2.0",lang:"en",desc:"Vision Transformer base model pre-trained on ImageNet-21k. The standard foundation for fine-tuning on custom image classification.",tags:["ViT","Image Classification","ImageNet","Fine-tuning"],dl:"142.8M",lk:"8.4K",sz:"346 MB",upd:"2 years ago",hot:false,isNew:false,url:HF("google","vit-base-patch16-224")},
+{org:"google",name:"paligemma-3b-pt-224",ico:"💎",type:"multimodal",tl:"Multimodal",mc:"#4285f4",mr:"66,133,244",fw:"SafeTensors",lic:"Gemma",lang:"en",desc:"Google's compact 3B vision-language model combining SigLIP and Gemma 2B for efficient image understanding.",tags:["VLM","3B","SigLIP","Gemma","Efficient"],dl:"4.2M",lk:"14.2K",sz:"6.1 GB",upd:"3 months ago",hot:false,isNew:false,url:HF("google","paligemma-3b-pt-224")},
+{org:"google",name:"flan-t5-xxl",ico:"🔄",type:"text-generation",tl:"Text Generation",mc:"#4285f4",mr:"66,133,244",fw:"PyTorch",lic:"Apache 2.0",lang:"en",desc:"Flan-T5 XXL 11B — instruction-tuned T5 model. Strong zero-shot performance on reasoning and NLP tasks.",tags:["T5","11B","Instruction","Zero-Shot"],dl:"18.4M",lk:"8.2K",sz:"44 GB",upd:"1 year ago",hot:false,isNew:false,url:HF("google","flan-t5-xxl")},
+{org:"google",name:"nucleotide-transformer-2.5b-multi-species",ico:"🧬",type:"biology",tl:"Genomics",mc:"#4285f4",mr:"66,133,244",fw:"PyTorch",lic:"Apache 2.0",lang:"dna",desc:"Foundation model for DNA sequences trained on 2,500 species' genomes. Predicts gene expression and regulatory elements.",tags:["Genomics","DNA","2500 Species","Gene Expression"],dl:"1.8M",lk:"6.4K",sz:"9.7 GB",upd:"8 months ago",hot:false,isNew:false,url:HF("google","nucleotide-transformer-2.5b-multi-species")},
+
+/* ═══ OPENAI ═══ */
+{org:"openai",name:"whisper-large-v3",ico:"🎤",type:"speech-recognition",tl:"Speech Recognition",mc:"#10a37f",mr:"16,163,127",fw:"PyTorch",lic:"MIT",lang:"multilingual",desc:"OpenAI's best Whisper. Transcribes 99 languages with industry-leading accuracy. The gold standard of open ASR.",tags:["ASR","99 Languages","SOTA","MIT"],dl:"52.8M",lk:"48.2K",sz:"3.09 GB",upd:"6 months ago",hot:false,isNew:false,url:HF("openai","whisper-large-v3")},
+{org:"openai",name:"whisper-large-v3-turbo",ico:"⚡",type:"speech-recognition",tl:"Speech Recognition",mc:"#10a37f",mr:"16,163,127",fw:"PyTorch",lic:"MIT",lang:"multilingual",desc:"Whisper Turbo — 3× faster than large v3 with near-identical accuracy. The best practical ASR model.",tags:["ASR","Fast","Turbo","99 Languages","MIT"],dl:"28.4M",lk:"31.8K",sz:"1.62 GB",upd:"3 months ago",hot:true,isNew:false,url:HF("openai","whisper-large-v3-turbo")},
+{org:"openai",name:"whisper-medium",ico:"🎤",type:"speech-recognition",tl:"Speech Recognition",mc:"#10a37f",mr:"16,163,127",fw:"PyTorch",lic:"MIT",lang:"multilingual",desc:"Whisper medium — 300M param model. Good balance of speed and accuracy for production transcription pipelines.",tags:["ASR","300M","Balanced","Production"],dl:"48.4M",lk:"14.2K",sz:"1.53 GB",upd:"1 year ago",hot:false,isNew:false,url:HF("openai","whisper-medium")},
+{org:"openai",name:"clip-vit-large-patch14",ico:"🔗",type:"embedding",tl:"Vision-Language Embeddings",mc:"#10a37f",mr:"16,163,127",fw:"PyTorch",lic:"MIT",lang:"en",desc:"CLIP — connects image and text in a shared embedding space. Foundation for zero-shot image classification and visual search.",tags:["CLIP","Vision-Language","Zero-Shot","Embeddings"],dl:"186.4M",lk:"28.6K",sz:"890 MB",upd:"2 years ago",hot:false,isNew:false,url:HF("openai","clip-vit-large-patch14")},
+{org:"openai",name:"clip-vit-base-patch32",ico:"🔗",type:"embedding",tl:"Vision-Language Embeddings",mc:"#10a37f",mr:"16,163,127",fw:"PyTorch",lic:"MIT",lang:"en",desc:"CLIP ViT-B/32 — smaller and faster CLIP model. Most widely used vision-language embedding for downstream tasks.",tags:["CLIP","ViT-B","Fast","Embeddings"],dl:"320.4M",lk:"18.6K",sz:"354 MB",upd:"2 years ago",hot:false,isNew:false,url:HF("openai","clip-vit-base-patch32")},
+
+/* ═══ STABILITY AI ═══ */
+{org:"stabilityai",name:"stable-diffusion-3.5-large",ico:"🌊",type:"image-generation",tl:"Image Generation",mc:"#a855f7",mr:"168,85,247",fw:"SafeTensors",lic:"SD3.5 Community",lang:"en",desc:"SD3.5 Large — 8B parameter Multimodal Diffusion Transformer. Stability AI's most powerful image generation model.",tags:["Text-to-Image","MMDiT","8B","SD3.5"],dl:"14.2M",lk:"44.8K",sz:"15.6 GB",upd:"3 weeks ago",hot:true,isNew:false,url:HF("stabilityai","stable-diffusion-3.5-large")},
+{org:"stabilityai",name:"stable-diffusion-xl-base-1.0",ico:"🎨",type:"image-generation",tl:"Image Generation",mc:"#a855f7",mr:"168,85,247",fw:"SafeTensors",lic:"OpenRAIL++-M",lang:"en",desc:"SDXL base — 1024×1024 images. Foundation for thousands of fine-tuned models. The community's backbone.",tags:["SDXL","1024px","Text-to-Image","Foundation"],dl:"98.4M",lk:"68.2K",sz:"6.6 GB",upd:"6 months ago",hot:false,isNew:false,url:HF("stabilityai","stable-diffusion-xl-base-1.0")},
+{org:"stabilityai",name:"sdxl-turbo",ico:"⚡",type:"image-generation",tl:"Image Generation",mc:"#a855f7",mr:"168,85,247",fw:"SafeTensors",lic:"SDXL-Turbo Research",lang:"en",desc:"SDXL Turbo — adversarial diffusion distillation enables 1-step real-time image generation. 30 fps on A100.",tags:["Real-time","1-step","ADD","SDXL"],dl:"18.4M",lk:"32.4K",sz:"6.94 GB",upd:"6 months ago",hot:false,isNew:false,url:HF("stabilityai","sdxl-turbo")},
+{org:"stabilityai",name:"stable-diffusion-3.5-large-turbo",ico:"⚡",type:"image-generation",tl:"Image Generation",mc:"#a855f7",mr:"168,85,247",fw:"SafeTensors",lic:"SD3.5 Community",lang:"en",desc:"SD3.5 Large Turbo — distilled 4-step generation. Get SD3.5 quality at fraction of the inference time.",tags:["Turbo","4-step","SD3.5","Fast","Distilled"],dl:"8.4M",lk:"22.4K",sz:"15.6 GB",upd:"3 weeks ago",hot:true,isNew:true,url:HF("stabilityai","stable-diffusion-3.5-large-turbo")},
+{org:"runwayml",name:"stable-diffusion-v1-5",ico:"🎨",type:"image-generation",tl:"Image Generation",mc:"#a855f7",mr:"168,85,247",fw:"SafeTensors",lic:"CreativeML OpenRAIL-M",lang:"en",desc:"SD 1.5 — the most downloaded AI model of all time. Massive ecosystem of 100K+ fine-tunes, LoRAs, and extensions.",tags:["SD 1.5","Classic","512px","300M+ Downloads"],dl:"312.4M",lk:"24.8K",sz:"4.27 GB",upd:"2 years ago",hot:false,isNew:false,url:HF("runwayml","stable-diffusion-v1-5")},
+{org:"CompVis",name:"stable-diffusion-v1-4",ico:"🎨",type:"image-generation",tl:"Image Generation",mc:"#a855f7",mr:"168,85,247",fw:"PyTorch",lic:"CreativeML OpenRAIL-M",lang:"en",desc:"The original Stable Diffusion v1.4 that started the open-source image generation revolution in 2022.",tags:["Text-to-Image","Classic","OG","512px"],dl:"245.8M",lk:"34.1K",sz:"4.27 GB",upd:"2 years ago",hot:false,isNew:false,url:HF("CompVis","stable-diffusion-v1-4")},
+
+/* ═══ BLACK FOREST LABS / FLUX ═══ */
+{org:"black-forest-labs",name:"FLUX.1-schnell",ico:"⚡",type:"image-generation",tl:"Image Generation",mc:"#ec4899",mr:"236,72,153",fw:"SafeTensors",lic:"Apache 2.0",lang:"en",desc:"FLUX.1 schnell — 1–4 steps, real-time quality. Best open Apache 2.0 image generator. Revolutionary flow matching architecture.",tags:["FLUX","1-4 Steps","Apache 2.0","Flow Matching","SOTA"],dl:"22.4M",lk:"78.2K",sz:"23.8 GB",upd:"1 month ago",hot:true,isNew:false,url:HF("black-forest-labs","FLUX.1-schnell")},
+{org:"black-forest-labs",name:"FLUX.1-dev",ico:"⚡",type:"image-generation",tl:"Image Generation",mc:"#ec4899",mr:"236,72,153",fw:"SafeTensors",lic:"FLUX.1-dev Non-Commercial",lang:"en",desc:"FLUX.1-dev — best quality FLUX for non-commercial use. Exceptional photorealism and prompt adherence. 12B params.",tags:["FLUX","High Quality","12B","Photorealistic"],dl:"18.8M",lk:"91.4K",sz:"23.8 GB",upd:"1 month ago",hot:true,isNew:false,url:HF("black-forest-labs","FLUX.1-dev")},
+
+/* ═══ HUGGING FACE ═══ */
+{org:"HuggingFaceTB",name:"SmolLM2-1.7B-Instruct",ico:"🤏",type:"text-generation",tl:"Text Generation",mc:"#ffd700",mr:"255,215,0",fw:"SafeTensors",lic:"Apache 2.0",lang:"en",desc:"HuggingFace's 1.7B tiny instruction model. Beats Qwen 1.5B and Llama 1B. Runs on phones and microcontrollers.",tags:["Tiny","1.7B","On-Device","Apache 2.0"],dl:"8.4M",lk:"14.8K",sz:"3.4 GB",upd:"2 weeks ago",hot:true,isNew:true,url:HF("HuggingFaceTB","SmolLM2-1.7B-Instruct")},
+{org:"HuggingFaceTB",name:"SmolLM2-360M-Instruct",ico:"🤏",type:"text-generation",tl:"Text Generation",mc:"#ffd700",mr:"255,215,0",fw:"SafeTensors",lic:"Apache 2.0",lang:"en",desc:"360M ultra-tiny model for extreme edge deployment. Impressive language capabilities at 360M parameters.",tags:["Ultra-Tiny","360M","Edge","Microcontroller"],dl:"4.8M",lk:"8.4K",sz:"720 MB",upd:"2 weeks ago",hot:false,isNew:true,url:HF("HuggingFaceTB","SmolLM2-360M-Instruct")},
+{org:"HuggingFaceM4",name:"idefics3-8b-llama3",ico:"👁️",type:"multimodal",tl:"Multimodal",mc:"#ffd700",mr:"255,215,0",fw:"SafeTensors",lic:"Apache 2.0",lang:"multilingual",desc:"IDEFICS 3 — HuggingFace's open multimodal model built on Llama 3. Strong visual document understanding.",tags:["Multimodal","8B","Llama 3","Document"],dl:"2.4M",lk:"8.4K",sz:"16 GB",upd:"2 months ago",hot:false,isNew:false,url:HF("HuggingFaceM4","idefics3-8b-llama3")},
+
+/* ═══ SENTENCE TRANSFORMERS / EMBEDDINGS ═══ */
+{org:"sentence-transformers",name:"all-MiniLM-L6-v2",ico:"🔢",type:"embedding",tl:"Embeddings",mc:"#ffd700",mr:"255,215,0",fw:"PyTorch",lic:"Apache 2.0",lang:"en",desc:"The most popular sentence embedding model. 384-dim, 80MB, blazing fast and accurate for semantic search and RAG.",tags:["Sentence Embeddings","Semantic Search","80MB","Fast","RAG"],dl:"284.6M",lk:"12.4K",sz:"80.3 MB",upd:"1 year ago",hot:false,isNew:false,url:HF("sentence-transformers","all-MiniLM-L6-v2")},
+{org:"sentence-transformers",name:"all-mpnet-base-v2",ico:"🔢",type:"embedding",tl:"Embeddings",mc:"#ffd700",mr:"255,215,0",fw:"PyTorch",lic:"Apache 2.0",lang:"en",desc:"MPNet base model for sentence embeddings. Higher quality than MiniLM with 768-dim embeddings. Best quality vs speed tradeoff.",tags:["Sentence Embeddings","768-dim","MPNet","Quality"],dl:"148.6M",lk:"8.4K",sz:"418 MB",upd:"1 year ago",hot:false,isNew:false,url:HF("sentence-transformers","all-mpnet-base-v2")},
+{org:"BAAI",name:"bge-m3",ico:"🔢",type:"embedding",tl:"Embeddings",mc:"#ffd700",mr:"255,215,0",fw:"PyTorch",lic:"MIT",lang:"multilingual",desc:"BGE-M3 — SOTA multilingual embeddings. Multi-functionality: dense, lexical, and multi-vector retrieval in 100+ languages.",tags:["Embeddings","RAG","100+ Languages","SOTA","MIT"],dl:"32.4M",lk:"14.8K",sz:"2.27 GB",upd:"2 months ago",hot:true,isNew:false,url:HF("BAAI","bge-m3")},
+{org:"BAAI",name:"bge-large-en-v1.5",ico:"🔢",type:"embedding",tl:"Embeddings",mc:"#ffd700",mr:"255,215,0",fw:"PyTorch",lic:"MIT",lang:"en",desc:"BGE Large English embeddings — high-performance 1024-dim for retrieval and reranking in English RAG systems.",tags:["Embeddings","1024-dim","RAG","English"],dl:"22.4M",lk:"8.4K",sz:"1.34 GB",upd:"6 months ago",hot:false,isNew:false,url:HF("BAAI","bge-large-en-v1.5")},
+{org:"mixedbread-ai",name:"mxbai-embed-large-v1",ico:"🥖",type:"embedding",tl:"Embeddings",mc:"#ff6a00",mr:"255,106,0",fw:"SafeTensors",lic:"Apache 2.0",lang:"en",desc:"mxbai-embed-large — top-performing 1024-dim embeddings. #1 MTEB score for open models at launch. Best for RAG.",tags:["Embeddings","1024-dim","MTEB #1","RAG"],dl:"8.4M",lk:"8.2K",sz:"670 MB",upd:"3 months ago",hot:false,isNew:false,url:HF("mixedbread-ai","mxbai-embed-large-v1")},
+{org:"nomic-ai",name:"nomic-embed-text-v1.5",ico:"🔢",type:"embedding",tl:"Embeddings",mc:"#22c55e",mr:"34,197,94",fw:"SafeTensors",lic:"Apache 2.0",lang:"en",desc:"Nomic embed — first fully reproducible and auditable long-context embedding model. 8192 token context window.",tags:["Embeddings","8192 Context","Reproducible","Apache 2.0"],dl:"12.4M",lk:"6.8K",sz:"548 MB",upd:"4 months ago",hot:false,isNew:false,url:HF("nomic-ai","nomic-embed-text-v1.5")},
+
+/* ═══ OBJECT DETECTION / CV ═══ */
+{org:"ultralytics",name:"yolov8n",ico:"🎯",type:"object-detection",tl:"Object Detection",mc:"#22c55e",mr:"34,197,94",fw:"PyTorch",lic:"AGPL-3.0",lang:"en",desc:"YOLOv8 nano — real-time object detection in 3.2M params. Fastest in class for edge deployment and mobile.",tags:["YOLO","Object Detection","Real-time","Edge","3.2M"],dl:"28.4M",lk:"14.2K",sz:"6.2 MB",upd:"2 months ago",hot:false,isNew:false,url:HF("ultralytics","assets")},
+{org:"ultralytics",name:"yolov8x",ico:"🎯",type:"object-detection",tl:"Object Detection",mc:"#22c55e",mr:"34,197,94",fw:"PyTorch",lic:"AGPL-3.0",lang:"en",desc:"YOLOv8 extra-large — highest accuracy YOLO model. 68.2M params for maximum detection quality.",tags:["YOLO","Object Detection","High Accuracy","68.2M"],dl:"8.4M",lk:"6.4K",sz:"136 MB",upd:"2 months ago",hot:false,isNew:false,url:HF("ultralytics","assets")},
+{org:"PekingU",name:"rtdetr-xl",ico:"🎯",type:"object-detection",tl:"Object Detection",mc:"#22c55e",mr:"34,197,94",fw:"SafeTensors",lic:"Apache 2.0",lang:"en",desc:"RT-DETR XL — real-time detection transformer. End-to-end detection without NMS post-processing. 67.2M params.",tags:["DETR","Detection","Real-time","Transformer"],dl:"4.8M",lk:"4.8K",sz:"268 MB",upd:"4 months ago",hot:false,isNew:false,url:HF("PekingU","rtdetr-xl")},
+
+/* ═══ SUNO / BARK ═══ */
+{org:"suno-ai",name:"bark",ico:"🎵",type:"music",tl:"Music & Audio Generation",mc:"#ffd700",mr:"255,215,0",fw:"PyTorch",lic:"MIT",lang:"multilingual",desc:"Bark — generative audio model. Text-to-speech, sound effects, music, and character voices. Highly expressive TTS.",tags:["TTS","Sound Effects","Music","Multilingual","MIT"],dl:"8.2M",lk:"22.4K",sz:"4.9 GB",upd:"8 months ago",hot:false,isNew:false,url:HF("suno-ai","bark")},
+
+/* ═══ CODE MODELS ═══ */
+{org:"bigcode",name:"starcoder2-15b",ico:"⭐",type:"code",tl:"Code Generation",mc:"#f7931e",mr:"247,147,30",fw:"SafeTensors",lic:"BigCode OpenRAIL-M",lang:"multilingual",desc:"StarCoder2 15B — 619 programming languages, 16K context, 4B fill-in-the-middle tokens. Best community code model under 20B.",tags:["Code","619 Languages","FIM","16K Context"],dl:"8.2M",lk:"12.4K",sz:"32 GB",upd:"3 months ago",hot:false,isNew:false,url:HF("bigcode","starcoder2-15b")},
+{org:"bigcode",name:"starcoder2-7b",ico:"⭐",type:"code",tl:"Code Generation",mc:"#f7931e",mr:"247,147,30",fw:"SafeTensors",lic:"BigCode OpenRAIL-M",lang:"multilingual",desc:"StarCoder2 7B — efficient code model with 16K context and 619 language support. Runs on consumer hardware.",tags:["Code","7B","619 Languages","Consumer GPU"],dl:"14.2M",lk:"8.4K",sz:"14 GB",upd:"3 months ago",hot:false,isNew:false,url:HF("bigcode","starcoder2-7b")},
+{org:"bigcode",name:"starcoder2-3b",ico:"⭐",type:"code",tl:"Code Generation",mc:"#f7931e",mr:"247,147,30",fw:"SafeTensors",lic:"Apache 2.0",lang:"multilingual",desc:"StarCoder2 3B — the tiny code model that punches far above its weight. Apache 2.0 licensed for commercial use.",tags:["Code","3B","Apache 2.0","Commercial","Tiny"],dl:"22.4M",lk:"6.8K",sz:"6 GB",upd:"3 months ago",hot:false,isNew:false,url:HF("bigcode","starcoder2-3b")},
+
+/* ═══ NVIDIA ═══ */
+{org:"nvidia",name:"Llama-3.1-Nemotron-70B-Instruct-HF",ico:"🟢",type:"text-generation",tl:"Text Generation",mc:"#76b900",mr:"118,185,0",fw:"SafeTensors",lic:"Llama 3.1",lang:"en",desc:"NVIDIA Nemotron 70B — RLHF fine-tune of Llama 3.1. #1 on Arena Hard at launch. Optimized for human preference.",tags:["NVIDIA","70B","RLHF","Arena Hard #1"],dl:"4.8M",lk:"22.4K",sz:"140 GB",upd:"1 month ago",hot:true,isNew:false,url:HF("nvidia","Llama-3.1-Nemotron-70B-Instruct-HF")},
+
+/* ═══ COMMUNITY FINE-TUNES ═══ */
+{org:"teknium",name:"OpenHermes-2.5-Mistral-7B",ico:"🔱",type:"chat",tl:"Chat",mc:"#f7931e",mr:"247,147,30",fw:"SafeTensors",lic:"Apache 2.0",lang:"en",desc:"Community's favorite Mistral 7B fine-tune. 1M+ instruction samples. Exceptional at creative tasks, roleplay, and instruction following.",tags:["Fine-tune","Mistral","1M Instructions","Creative"],dl:"22.4M",lk:"18.4K",sz:"14.5 GB",upd:"5 months ago",hot:false,isNew:false,url:HF("teknium","OpenHermes-2.5-Mistral-7B")},
+{org:"NousResearch",name:"Hermes-3-Llama-3.1-70B",ico:"🔱",type:"chat",tl:"Chat",mc:"#f59e0b",mr:"245,158,11",fw:"SafeTensors",lic:"Llama 3.1",lang:"en",desc:"Nous Hermes 3 — 70B fine-tune with advanced reasoning, roleplay, and function calling. Community's premier 70B model.",tags:["Fine-tune","70B","Roleplay","Function Calling"],dl:"8.4M",lk:"12.8K",sz:"140 GB",upd:"2 months ago",hot:false,isNew:false,url:HF("NousResearch","Hermes-3-Llama-3.1-70B")},
+{org:"bartowski",name:"Meta-Llama-3.1-8B-Instruct-GGUF",ico:"📦",type:"gguf",tl:"GGUF Quantized",mc:"#36cfc9",mr:"54,207,201",fw:"GGUF",lic:"Llama 3.1",lang:"en",desc:"GGUF quantized Llama 3.1 8B for llama.cpp. Q4_K_M, Q5_K_M, Q8_0 quants. Run Llama 3.1 on CPU effortlessly.",tags:["GGUF","Quantized","llama.cpp","CPU"],dl:"28.4M",lk:"8.4K",sz:"4.9–8.5 GB",upd:"2 months ago",hot:false,isNew:false,url:HF("bartowski","Meta-Llama-3.1-8B-Instruct-GGUF")},
+{org:"TheBloke",name:"Mixtral-8x7B-Instruct-v0.1-GGUF",ico:"📦",type:"gguf",tl:"GGUF Quantized",mc:"#36cfc9",mr:"54,207,201",fw:"GGUF",lic:"Apache 2.0",lang:"en",desc:"TheBloke's Mixtral MoE quantized for consumer hardware. Run powerful MoE model on 24GB VRAM.",tags:["GGUF","MoE","Mixtral","Consumer GPU"],dl:"18.8M",lk:"6.4K",sz:"26–48 GB",upd:"6 months ago",hot:false,isNew:false,url:HF("TheBloke","Mixtral-8x7B-Instruct-v0.1-GGUF")},
+{org:"Lykon",name:"DreamShaper-8",ico:"🌙",type:"image-generation",tl:"Image Generation",mc:"#ec4899",mr:"236,72,153",fw:"SafeTensors",lic:"OpenRAIL++",lang:"en",desc:"DreamShaper v8 — community's favorite all-purpose SD1.5 fine-tune. Exceptional photorealism and fantasy art.",tags:["SD1.5 Fine-tune","Photorealistic","Fantasy","Community"],dl:"28.4M",lk:"22.4K",sz:"2.13 GB",upd:"8 months ago",hot:false,isNew:false,url:HF("Lykon","DreamShaper-8")},
+{org:"SG161222",name:"RealVisXL_V4.0",ico:"📸",type:"image-generation",tl:"Image Generation",mc:"#a855f7",mr:"168,85,247",fw:"SafeTensors",lic:"OpenRAIL++",lang:"en",desc:"RealVisXL — the gold standard for photorealistic SDXL images. Trained specifically for ultra-realistic portraits and scenes.",tags:["SDXL Fine-tune","Photorealistic","Portraits","Community"],dl:"14.8M",lk:"18.4K",sz:"6.94 GB",upd:"4 months ago",hot:false,isNew:false,url:HF("SG161222","RealVisXL_V4.0")},
+
+/* ═══ TRANSLATION ═══ */
+{org:"Helsinki-NLP",name:"opus-mt-en-fr",ico:"🌍",type:"translation",tl:"Translation",mc:"#4285f4",mr:"66,133,244",fw:"PyTorch",lic:"CC-BY-4.0",lang:"multilingual",desc:"Helsinki NLP English→French translation from the OPUS-MT family covering 1,200+ language pairs.",tags:["Translation","EN→FR","OPUS","CC-BY"],dl:"48.4M",lk:"3.2K",sz:"303 MB",upd:"2 years ago",hot:false,isNew:false,url:HF("Helsinki-NLP","opus-mt-en-fr")},
+{org:"Helsinki-NLP",name:"opus-mt-en-de",ico:"🌍",type:"translation",tl:"Translation",mc:"#4285f4",mr:"66,133,244",fw:"PyTorch",lic:"CC-BY-4.0",lang:"multilingual",desc:"Helsinki NLP English→German translation. Part of OPUS-MT, the largest open translation model collection.",tags:["Translation","EN→DE","OPUS","German"],dl:"28.4M",lk:"2.4K",sz:"297 MB",upd:"2 years ago",hot:false,isNew:false,url:HF("Helsinki-NLP","opus-mt-en-de")},
+{org:"Helsinki-NLP",name:"opus-mt-en-es",ico:"🌍",type:"translation",tl:"Translation",mc:"#4285f4",mr:"66,133,244",fw:"PyTorch",lic:"CC-BY-4.0",lang:"multilingual",desc:"English→Spanish OPUS-MT translation model. Covers colloquial and formal Spanish across all Spanish-speaking regions.",tags:["Translation","EN→ES","Spanish","OPUS"],dl:"24.8M",lk:"2.2K",sz:"295 MB",upd:"2 years ago",hot:false,isNew:false,url:HF("Helsinki-NLP","opus-mt-en-es")},
+{org:"facebook",name:"seamless-m4t-v2-large",ico:"🌐",type:"translation",tl:"Translation",mc:"#0668e1",mr:"6,104,225",fw:"SafeTensors",lic:"CC-BY-NC",lang:"multilingual",desc:"Meta SeamlessM4T v2 — 100 languages, speech-to-speech, speech-to-text, text-to-speech, and text-to-text translation in one model.",tags:["Translation","Speech","100 Languages","S2S","T2T"],dl:"4.8M",lk:"12.4K",sz:"10 GB",upd:"6 months ago",hot:false,isNew:false,url:HF("facebook","seamless-m4t-v2-large")},
+
+/* ═══ BIOLOGY / SCIENCE ═══ */
+{org:"facebook",name:"esm2_t36_3B_UR50D",ico:"🧬",type:"biology",tl:"Protein Language Model",mc:"#22c55e",mr:"34,197,94",fw:"PyTorch",lic:"MIT",lang:"proteins",desc:"ESM-2 protein language model. 3B parameters trained on 250M unique protein sequences. Foundation for protein structure prediction.",tags:["Protein","Biology","ESM-2","Drug Discovery","MIT"],dl:"3.8M",lk:"8.2K",sz:"11.8 GB",upd:"1 year ago",hot:false,isNew:false,url:HF("facebook","esm2_t36_3B_UR50D")},
+
+/* ═══ ALLEN AI ═══ */
+{org:"allenai",name:"OLMo-2-13B-Instruct",ico:"🔬",type:"text-generation",tl:"Text Generation",mc:"#22c55e",mr:"34,197,94",fw:"SafeTensors",lic:"Apache 2.0",lang:"en",desc:"Allen AI's fully open LLM — open training data, code, checkpoints, and logs. 100% transparent AI research.",tags:["Fully Open","Transparent","Research","Academic"],dl:"2.8M",lk:"9.4K",sz:"26 GB",upd:"3 weeks ago",hot:false,isNew:true,url:HF("allenai","OLMo-2-13B-Instruct")},
+{org:"allenai",name:"Molmo-7B-D-0924",ico:"🔬",type:"multimodal",tl:"Multimodal",mc:"#22c55e",mr:"34,197,94",fw:"SafeTensors",lic:"Apache 2.0",lang:"en",desc:"Molmo — Allen AI's open multimodal model. Points to objects in images on command. SOTA on pointing benchmarks.",tags:["Multimodal","7B","Pointing","Apache 2.0","Open"],dl:"4.2M",lk:"12.4K",sz:"15 GB",upd:"2 months ago",hot:true,isNew:false,url:HF("allenai","Molmo-7B-D-0924")},
+
+/* ═══ COHERE ═══ */
+{org:"CohereForAI",name:"aya-expanse-32b",ico:"🌍",type:"text-generation",tl:"Text Generation",mc:"#d946ef",mr:"217,70,239",fw:"SafeTensors",lic:"CC-BY-NC",lang:"multilingual",desc:"Cohere Aya Expanse 32B — state-of-the-art multilingual model trained with data from 23 language communities.",tags:["Multilingual","23 Languages","Cohere","32B"],dl:"2.2M",lk:"8.4K",sz:"65 GB",upd:"1 month ago",hot:false,isNew:true,url:HF("CohereForAI","aya-expanse-32b")},
+{org:"CohereForAI",name:"c4ai-command-r-plus-08-2024",ico:"🏢",type:"chat",tl:"Chat",mc:"#d946ef",mr:"217,70,239",fw:"SafeTensors",lic:"CC-BY-NC",lang:"multilingual",desc:"Command R+ — Cohere's flagship 104B model for enterprise RAG and multi-step tool use. 128K context.",tags:["RAG","Enterprise","104B","128K","Tool Use"],dl:"1.8M",lk:"6.8K",sz:"210 GB",upd:"2 months ago",hot:false,isNew:false,url:HF("CohereForAI","c4ai-command-r-plus-08-2024")},
+
+/* ═══ PIXTRAL / VISION ═══ */
+{org:"mistralai",name:"Pixtral-12B-2409",ico:"🖼️",type:"multimodal",tl:"Multimodal",mc:"#f7931e",mr:"247,147,30",fw:"SafeTensors",lic:"Apache 2.0",lang:"multilingual",desc:"Mistral's Pixtral 12B — multimodal model understanding images and text natively. Strong OCR and document understanding.",tags:["Multimodal","12B","OCR","Document","Apache 2.0"],dl:"3.4M",lk:"12.4K",sz:"24 GB",upd:"3 months ago",hot:false,isNew:false,url:HF("mistralai","Pixtral-12B-2409")},
+
+/* ═══ INTERNLM ═══ */
+{org:"internlm",name:"internlm2_5-20b-chat",ico:"🔵",type:"chat",tl:"Chat",mc:"#4285f4",mr:"66,133,244",fw:"SafeTensors",lic:"InternLM License",lang:"multilingual",desc:"InternLM 2.5 20B — strong code and long-context reasoning up to 1M tokens. Excellent Chinese-English bilingual model.",tags:["1M Context","Code","Chinese","Bilingual","20B"],dl:"3.8M",lk:"8.4K",sz:"40 GB",upd:"2 months ago",hot:false,isNew:false,url:HF("internlm","internlm2_5-20b-chat")},
+
+/* ═══ XAI ═══ */
+{org:"xai-org",name:"grok-1",ico:"💥",type:"text-generation",tl:"Text Generation",mc:"#ff6b6b",mr:"255,107,107",fw:"JAX",lic:"Apache 2.0",lang:"en",desc:"xAI Grok-1 open weights — 314B MoE. Largest open-source model ever released at launch time. Apache 2.0.",tags:["MoE","314B","xAI","Apache 2.0","Largest Open"],dl:"4.4M",lk:"32.4K",sz:"628 GB",upd:"8 months ago",hot:false,isNew:false,url:HF("xai-org","grok-1")},
+
+/* ═══ ELEUTHERAI ═══ */
+{org:"EleutherAI",name:"pythia-12b",ico:"🔥",type:"text-generation",tl:"Text Generation",mc:"#ff6a00",mr:"255,106,0",fw:"PyTorch",lic:"Apache 2.0",lang:"en",desc:"Pythia 12B — part of the open interpretability suite with full training checkpoints for mechanistic interpretability research.",tags:["LLM","12B","Interpretability","Apache 2.0","Checkpoints"],dl:"8.4M",lk:"6.4K",sz:"24.2 GB",upd:"1 year ago",hot:false,isNew:false,url:HF("EleutherAI","pythia-12b")},
+{org:"EleutherAI",name:"gpt-j-6b",ico:"🔥",type:"text-generation",tl:"Text Generation",mc:"#ff6a00",mr:"255,106,0",fw:"PyTorch",lic:"Apache 2.0",lang:"en",desc:"GPT-J 6B — the original open-source GPT-3 alternative. Trained by EleutherAI and still widely used in research.",tags:["GPT-J","6B","Apache 2.0","Classic","EleutherAI"],dl:"22.4M",lk:"8.4K",sz:"11.8 GB",upd:"2 years ago",hot:false,isNew:false,url:HF("EleutherAI","gpt-j-6b")},
+
+/* ═══ TABULAR / DATA SCIENCE ═══ */
+{org:"microsoft",name:"table-transformer-structure-recognition",ico:"📊",type:"tabular",tl:"Table Recognition",mc:"#0078d4",mr:"0,120,212",fw:"PyTorch",lic:"MIT",lang:"en",desc:"Table structure recognition — identify rows, columns, and cells in tables from documents and images.",tags:["Table Structure","OCR","Document AI","MIT"],dl:"8.4M",lk:"3.8K",sz:"116 MB",upd:"1 year ago",hot:false,isNew:false,url:HF("microsoft","table-transformer-structure-recognition")},
+
+/* ═══ LORA / FINE-TUNES ═══ */
+{org:"ostris",name:"flux-dev-lora-trainer",ico:"🪡",type:"lora",tl:"LoRA Training",mc:"#ec4899",mr:"236,72,153",fw:"SafeTensors",lic:"Apache 2.0",lang:"en",desc:"Train FLUX.1-dev LoRAs with this trainer. Comprehensive training toolkit for custom FLUX fine-tunes on personal concepts.",tags:["LoRA","FLUX","Training","Fine-tune","Apache 2.0"],dl:"4.8M",lk:"8.4K",sz:"Varies",upd:"2 months ago",hot:true,isNew:false,url:HF("ostris","flux-dev-lora-trainer")},
+{org:"alvdansen",name:"flux-koda",ico:"🎨",type:"lora",tl:"LoRA / Style",mc:"#ec4899",mr:"236,72,153",fw:"SafeTensors",lic:"Community",lang:"en",desc:"FLUX Koda LoRA — warm, analog photography aesthetic. One of the most downloaded style LoRAs for FLUX.1.",tags:["LoRA","FLUX","Photography","Aesthetic","Style"],dl:"2.8M",lk:"12.4K",sz:"406 MB",upd:"2 months ago",hot:true,isNew:false,url:HF("alvdansen","flux-koda")},
+{org:"XLabs-AI",name:"flux-RealismLora",ico:"📸",type:"lora",tl:"LoRA / Style",mc:"#ec4899",mr:"236,72,153",fw:"SafeTensors",lic:"Apache 2.0",lang:"en",desc:"FLUX Realism LoRA — enhance photorealism in FLUX.1 generations. Widely used for portrait and product photography.",tags:["LoRA","FLUX","Realism","Portraits","Apache 2.0"],dl:"6.8M",lk:"18.4K",sz:"392 MB",upd:"1 month ago",hot:true,isNew:false,url:HF("XLabs-AI","flux-RealismLora")},
+
+/* ═══ 3D GENERATION ═══ */
+{org:"stabilityai",name:"TripoSR",ico:"🧊",type:"3d",tl:"3D Generation",mc:"#00d4aa",mr:"0,212,170",fw:"PyTorch",lic:"MIT",lang:"en",desc:"TripoSR — fast feed-forward 3D object reconstruction from a single image in 0.5 seconds. Produces textured 3D meshes.",tags:["3D","Single Image","Fast","Mesh","MIT"],dl:"4.8M",lk:"14.8K",sz:"2.6 GB",upd:"4 months ago",hot:false,isNew:false,url:HF("stabilityai","TripoSR")},
+{org:"sudo-ai",name:"zero123plus-v1.2",ico:"🔄",type:"3d",tl:"3D Generation",mc:"#00d4aa",mr:"0,212,170",fw:"SafeTensors",lic:"CC-BY-NC",lang:"en",desc:"Zero123++ — generate novel 3D views of objects from a single image. Used in 3D asset pipelines worldwide.",tags:["3D","Novel View","Zero123","Object"],dl:"2.8M",lk:"8.4K",sz:"5.8 GB",upd:"5 months ago",hot:false,isNew:false,url:HF("sudo-ai","zero123plus-v1.2")},
+
+/* ═══ VIDEO ═══ */
+{org:"ali-vilab",name:"i2vgen-xl",ico:"🎬",type:"video",tl:"Video Generation",mc:"#a855f7",mr:"168,85,247",fw:"PyTorch",lic:"Apache 2.0",lang:"en",desc:"Image-to-video generation model from Alibaba. Convert a single image into a smooth video clip with natural motion.",tags:["Video","Image-to-Video","Alibaba","Apache 2.0"],dl:"3.2M",lk:"8.4K",sz:"32 GB",upd:"6 months ago",hot:false,isNew:false,url:HF("ali-vilab","i2vgen-xl")},
+{org:"cerspense",name:"zeroscope_v2_XL",ico:"🎬",type:"video",tl:"Video Generation",mc:"#a855f7",mr:"168,85,247",fw:"SafeTensors",lic:"CC-BY-NC",lang:"en",desc:"ZeroScope XL — text-to-video diffusion model at 1024×576 resolution. High-quality free video generation.",tags:["Text-to-Video","1024px","Diffusion","Free"],dl:"4.8M",lk:"6.4K",sz:"9.6 GB",upd:"8 months ago",hot:false,isNew:false,url:HF("cerspense","zeroscope_v2_XL")},
+
+/* ═══ RL / AGENTS ═══ */
+{org:"openai",name:"decision-transformer-atari",ico:"🎮",type:"rl",tl:"Reinforcement Learning",mc:"#10a37f",mr:"16,163,127",fw:"PyTorch",lic:"MIT",lang:"en",desc:"Decision Transformer for Atari — offline RL via sequence modeling. Models optimal gameplay as a language modeling problem.",tags:["RL","Atari","Decision Transformer","Offline RL"],dl:"2.4M",lk:"4.8K",sz:"42 MB",upd:"2 years ago",hot:false,isNew:false,url:HF("edbeeching","decision-transformer-gym-hopper-medium")},
+
+/* ═══ DIFFUSION EXTRAS ═══ */
+{org:"PixArt-alpha",name:"PixArt-Sigma-XL-2-1024-MS",ico:"✨",type:"diffusion",tl:"Diffusion Model",mc:"#ffd700",mr:"255,215,0",fw:"SafeTensors",lic:"Apache 2.0",lang:"en",desc:"PixArt-Sigma — efficient diffusion transformer with exceptional text rendering and prompt coherence. Apache 2.0.",tags:["Diffusion Transformer","Text Rendering","1024px","Apache 2.0"],dl:"4.8M",lk:"16.2K",sz:"5.1 GB",upd:"1 month ago",hot:false,isNew:false,url:HF("PixArt-alpha","PixArt-Sigma-XL-2-1024-MS")},
+{org:"Kwai-Kolors",name:"Kolors",ico:"🌈",type:"image-generation",tl:"Image Generation",mc:"#ec4899",mr:"236,72,153",fw:"SafeTensors",lic:"Apache 2.0",lang:"multilingual",desc:"Kolors — Kwai's text-to-image model with exceptional Chinese and English bilingual prompt understanding.",tags:["Text-to-Image","Chinese","Bilingual","Apache 2.0"],dl:"3.8M",lk:"12.4K",sz:"24 GB",upd:"3 months ago",hot:false,isNew:false,url:HF("Kwai-Kolors","Kolors")},
+{org:"Tencent-Hunyuan",name:"HunyuanDiT-v1.2-Diffusers",ico:"🌊",type:"image-generation",tl:"Image Generation",mc:"#ec4899",mr:"236,72,153",fw:"SafeTensors",lic:"Tencent Hunyuan",lang:"multilingual",desc:"Tencent HunyuanDiT — bilingual (Chinese/English) diffusion transformer. Strong text rendering and Chinese cultural understanding.",tags:["DiT","Chinese","Bilingual","Text-to-Image","Tencent"],dl:"2.8M",lk:"8.4K",sz:"18 GB",upd:"4 months ago",hot:false,isNew:false,url:HF("Tencent-Hunyuan","HunyuanDiT-v1.2-Diffusers")},
+
+/* ═══ SPECIALIZED / DOMAIN ═══ */
+{org:"bigbio",name:"pubmed_bert",ico:"🏥",type:"nlp",tl:"NLP / Medical",mc:"#22c55e",mr:"34,197,94",fw:"PyTorch",lic:"MIT",lang:"en",desc:"PubMedBERT pre-trained on PubMed biomedical literature. State-of-the-art performance on biomedical NLP tasks.",tags:["Medical","Biomedical","BERT","PubMed","NLP"],dl:"8.4M",lk:"4.8K",sz:"440 MB",upd:"1 year ago",hot:false,isNew:false,url:HF("NLP4Science","pubmed-bert-base")},
+{org:"climatebert",name:"climate-fever",ico:"🌿",type:"nlp",tl:"NLP / Climate",mc:"#22c55e",mr:"34,197,94",fw:"PyTorch",lic:"MIT",lang:"en",desc:"ClimateBERT — pre-trained on climate-related text for fact-checking, classification, and NLP on climate reports.",tags:["Climate","NLP","BERT","Fact-Checking","MIT"],dl:"1.8M",lk:"2.4K",sz:"420 MB",upd:"1 year ago",hot:false,isNew:false,url:HF("climatebert","climate-fever")},
+{org:"law-ai",name:"legal-bert-base-uncased",ico:"⚖️",type:"nlp",tl:"NLP / Legal",mc:"#4285f4",mr:"66,133,244",fw:"PyTorch",lic:"MIT",lang:"en",desc:"LegalBERT trained on legal text from US courts, EU legislation, and contracts. Best performance on legal NLP tasks.",tags:["Legal","NLP","BERT","Contracts","Court Filings"],dl:"6.4M",lk:"3.8K",sz:"436 MB",upd:"1 year ago",hot:false,isNew:false,url:HF("nlpaueb","legal-bert-base-uncased")},
+{org:"cardiffnlp",name:"twitter-roberta-base-sentiment",ico:"🐦",type:"nlp",tl:"Sentiment Analysis",mc:"#00eeff",mr:"0,238,255",fw:"PyTorch",lic:"MIT",lang:"en",desc:"RoBERTa fine-tuned on 124M tweets for sentiment analysis. Three-way (positive/neutral/negative) tweet classification.",tags:["Sentiment","Twitter","RoBERTa","Social Media","MIT"],dl:"22.4M",lk:"4.8K",sz:"476 MB",upd:"1 year ago",hot:false,isNew:false,url:HF("cardiffnlp","twitter-roberta-base-sentiment")},
+
+/* ═══ RECENT RELEASES ═══ */
+{org:"google",name:"gemma-3-12b-it",ico:"💎",type:"text-generation",tl:"Text Generation",mc:"#4285f4",mr:"66,133,244",fw:"SafeTensors",lic:"Gemma 3",lang:"multilingual",desc:"Gemma 3 12B — Google's latest Gemma with 128K context, multilingual support, and improved instruction following.",tags:["Gemma 3","12B","128K","Multilingual","New"],dl:"6.4M",lk:"22.4K",sz:"24 GB",upd:"1 day ago",hot:true,isNew:true,url:HF("google","gemma-3-12b-it")},
+{org:"Qwen",name:"Qwen2.5-VL-7B-Instruct",ico:"👁️",type:"multimodal",tl:"Multimodal",mc:"#ff6500",mr:"255,101,0",fw:"SafeTensors",lic:"Apache 2.0",lang:"multilingual",desc:"Qwen2.5-VL 7B — understanding documents, charts, web pages, and complex visual content with remarkable accuracy.",tags:["VLM","7B","Charts","Document","Apache 2.0"],dl:"8.4M",lk:"22.4K",sz:"15 GB",upd:"2 weeks ago",hot:true,isNew:true,url:HF("Qwen","Qwen2.5-VL-7B-Instruct")},
+{org:"deepseek-ai",name:"DeepSeek-V3-Base",ico:"🐋",type:"text-generation",tl:"Text Generation",mc:"#36cfc9",mr:"54,207,201",fw:"SafeTensors",lic:"MIT",lang:"multilingual",desc:"DeepSeek V3 base model — 671B MoE pre-trained foundation. For research fine-tuning and continued pre-training.",tags:["Base Model","671B","MoE","Research","MIT"],dl:"2.4M",lk:"18.4K",sz:"1.3 TB",upd:"2 weeks ago",hot:true,isNew:true,url:HF("deepseek-ai","DeepSeek-V3-Base")},
+{org:"unsloth",name:"DeepSeek-R1-GGUF",ico:"📦",type:"gguf",tl:"GGUF Quantized",mc:"#36cfc9",mr:"54,207,201",fw:"GGUF",lic:"MIT",lang:"multilingual",desc:"DeepSeek R1 in GGUF format — run the world's best open reasoning model on your local machine with llama.cpp.",tags:["GGUF","DeepSeek-R1","Local","llama.cpp","Reasoning"],dl:"18.4M",lk:"28.4K",sz:"28–67 GB",upd:"3 days ago",hot:true,isNew:true,url:HF("unsloth","DeepSeek-R1-GGUF")},
+
+]; // End MODELS
+
+/* ═══════════════════════════════════════
+   ENGINE — STATE
+═══════════════════════════════════════ */
+let filtered = [...MODELS];
+let page = 1;
+const PER = 48;
+const TOTAL_DB = 2000847;
+let activeF = 'all', activeS = 'trending';
+let isListView = false;
+
+// ── LIVE COUNTER ──
+let liveN = TOTAL_DB;
+setInterval(()=>{
+  liveN += Math.floor(Math.random()*3+1);
+  document.getElementById('liveCount').textContent = liveN.toLocaleString();
+  document.getElementById('heroCount').textContent = liveN.toLocaleString();
+},3000);
+
+// ── SIDEBAR FILTER ──
+document.querySelectorAll('.si').forEach(el=>{
+  el.addEventListener('click',()=>{
+    document.querySelectorAll('.si').forEach(x=>x.classList.remove('on'));
+    el.classList.add('on');
+    activeF=el.dataset.f||'all';
+    page=1;
+    run();
+  });
+});
+
+// ── SORT ──
+document.querySelectorAll('.sb2').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.sb2').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+    activeS=b.dataset.s;
+    page=1;
+    run();
+  });
+});
+
+// ── VIEW TOGGLE ──
+document.getElementById('gvBtn').addEventListener('click',()=>{
+  isListView=false;
+  document.getElementById('gvBtn').classList.add('on');
+  document.getElementById('lvBtn').classList.remove('on');
+  document.getElementById('grid').classList.remove('lv');
+});
+document.getElementById('lvBtn').addEventListener('click',()=>{
+  isListView=true;
+  document.getElementById('lvBtn').classList.add('on');
+  document.getElementById('gvBtn').classList.remove('on');
+  document.getElementById('grid').classList.add('lv');
+});
+
+// ── SEARCH ──
+document.getElementById('q').addEventListener('input',()=>{page=1;run();});
+function setQ(t){document.getElementById('q').value=t;page=1;run();}
+
+// ── APPLY FILTERS + SORT ──
+function run(){
+  const q=(document.getElementById('q').value||'').toLowerCase().trim();
+  filtered=MODELS.filter(m=>{
+    const matchQ=!q||(m.name+' '+m.org+' '+m.type+' '+m.tl+' '+m.fw+' '+m.lic+' '+m.lang+' '+m.desc+' '+m.tags.join(' ')).toLowerCase().includes(q);
+    const matchF=
+      activeF==='all'||
+      m.type===activeF||
+      m.fw.toLowerCase()===activeF||
+      (activeF==='apache2'&&m.lic.toLowerCase().includes('apache'))||
+      (activeF==='mit'&&m.lic==='MIT')||
+      (activeF==='cc-by'&&m.lic.toLowerCase().includes('cc-by')&&!m.lic.toLowerCase().includes('nc'))||
+      (activeF==='cc-nc'&&m.lic.toLowerCase().includes('nc'))||
+      (activeF==='openrail'&&m.lic.toLowerCase().includes('openrail'))||
+      m.lang===activeF||
+      (activeF==='hot'&&m.hot)||
+      (activeF==='new'&&m.isNew)||
+      m.tags.some(t=>t.toLowerCase().includes(activeF));
+    return matchQ&&matchF;
+  });
+  // Sort
+  const sorts={
+    trending:(a,b)=>(b.hot-a.hot)||(parseFloat(b.lk)||0)-(parseFloat(a.lk)||0),
+    downloads:(a,b)=>(parseFloat(b.dl)||0)-(parseFloat(a.dl)||0),
+    likes:(a,b)=>(parseFloat(b.lk)||0)-(parseFloat(a.lk)||0),
+    newest:(a,b)=>a.upd.localeCompare(b.upd),
+    az:(a,b)=>a.name.localeCompare(b.name),
+  };
+  if(sorts[activeS]) filtered.sort(sorts[activeS]);
+  renderPage();
+  renderPages();
+}
+
+// ── BUILD CARD ──
+const EXT=`<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>`;
+const DL_IC=`<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>`;
+const LK_IC=`<svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>`;
+const SZ_IC=`<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path stroke-linecap="round" stroke-linejoin="round" d="M9 9h6M9 12h6M9 15h4"/></svg>`;
+
+function card(m){
+  const nb=m.isNew?`<span class="mc-new-badge">NEW</span>`:'';
+  const tags=m.tags.slice(0,3).map(t=>`<span class="mct">${t}</span>`).join('');
+  const hfUrl=m.url||(m.org&&m.name?`https://huggingface.co/${m.org}/${m.name}`:`https://huggingface.co/models?search=${encodeURIComponent(m.name)}`);
+  return `<div class="mcard" style="--mc:${m.mc};--mcr:${m.mr}">
+    ${nb}
+    <div class="mc-top">
+      <div class="mc-left">
+        <div class="mc-org">🏢 ${m.org}</div>
+        <div class="mc-name">${m.name.length>40?m.name.slice(0,40)+'…':m.name}</div>
+      </div>
+      <div class="mc-ico">${m.ico}</div>
+    </div>
+    <span class="mc-pill" style="background:rgba(${m.mr},.08);color:${m.mc};border:1px solid rgba(${m.mr},.22)">${m.tl}</span>
+    <div class="mc-desc">${m.desc}</div>
+    <div class="mc-tags">${tags}<span class="mct">${m.fw}</span><span class="mct">${m.lang}</span></div>
+    <div class="mc-bottom">
+      <span class="mc-stat">${DL_IC} ${m.dl}</span>
+      <span class="mc-stat" style="color:var(--c4)">${LK_IC} ${m.lk}</span>
+      <span class="mc-stat">${SZ_IC} ${m.sz}</span>
+      <span class="mc-date">🕐 ${m.upd}</span>
+    </div>
+    <a href="${hfUrl}" target="_blank" rel="noopener" class="mc-link" style="color:${m.mc};border-color:rgba(${m.mr},.3);background:rgba(${m.mr},.06)">
+      ${EXT} VISIT MODEL PAGE
+    </a>
+  </div>`;
+}
+
+// ── RENDER PAGE ──
+function renderPage(){
+  const g=document.getElementById('grid');
+  const isFiltered=activeF!=='all'||document.getElementById('q').value;
+  const total=isFiltered?filtered.length:TOTAL_DB;
+  const start=(page-1)*PER;
+  const slice=filtered.slice(start,start+PER);
+  if(!slice.length){
+    g.innerHTML=`<div class="empty"><span class="empty-ic">🔍</span><div class="empty-tx">No models found. Try a different search or filter.</div></div>`;
+    document.getElementById('resInfo').textContent='0 results';
+    return;
+  }
+  g.innerHTML=slice.map(card).join('');
+  const s=(start+1).toLocaleString(),e=Math.min(start+PER,total).toLocaleString();
+  document.getElementById('resInfo').textContent=`${s}–${e} of ${total.toLocaleString()}`;
+}
+
+// ── RENDER PAGINATION ──
+function renderPages(){
+  const isFiltered=activeF!=='all'||document.getElementById('q').value;
+  const total=isFiltered?filtered.length:TOTAL_DB;
+  const maxP=Math.min(Math.ceil(total/PER),1000);
+  const pg=document.getElementById('pages');
+  if(maxP<=1){pg.innerHTML='';return;}
+  let h='';
+  h+=`<button class="pg-btn" onclick="gp(${page-1})" ${page===1?'disabled':''}>&lt;</button>`;
+  if(maxP<=7){for(let i=1;i<=maxP;i++) h+=`<button class="pg-btn${i===page?' on':''}" onclick="gp(${i})">${i}</button>`;}
+  else{
+    h+=`<button class="pg-btn${page===1?' on':''}" onclick="gp(1)">1</button>`;
+    if(page>4) h+=`<span class="pg-info">…</span>`;
+    const lo=Math.max(2,page-2),hi=Math.min(maxP-1,page+2);
+    for(let i=lo;i<=hi;i++) h+=`<button class="pg-btn${i===page?' on':''}" onclick="gp(${i})">${i.toLocaleString()}</button>`;
+    if(page<maxP-3) h+=`<span class="pg-info">…</span>`;
+    h+=`<button class="pg-btn${page===maxP?' on':''}" onclick="gp(${maxP})">${maxP.toLocaleString()}</button>`;
+  }
+  h+=`<button class="pg-btn" onclick="gp(${page+1})" ${page===maxP?'disabled':''}>&gt;</button>`;
+  h+=`<div class="pg-jump">Page <input type="number" id="pi" min="1" max="${maxP}" value="${page}"> <button class="pg-btn" onclick="gp(+document.getElementById('pi').value)">GO</button></div>`;
+  h+=`<span class="pg-info">of ${maxP.toLocaleString()}</span>`;
+  pg.innerHTML=h;
+}
+function gp(n){
+  const isFiltered=activeF!=='all'||document.getElementById('q').value;
+  const total=isFiltered?filtered.length:TOTAL_DB;
+  const mx=Math.min(Math.ceil(total/PER),1000);
+  n=Math.max(1,Math.min(n,mx));
+  if(n===page)return;
+  page=n;
+  window.scrollTo({top:0,behavior:'smooth'});
+  renderPage();renderPages();
+}
+
+// ── INIT ──
+run();
+</script>
+</body>
+</html>
