@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AMRANGEL Studio — Design Fashion Without Limits</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,500&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+  :root{
+    --bg: #0a0a0f;
+    --bg-deep: #050507;
+    --panel: rgba(255,255,255,0.045);
+    --panel-border: rgba(255,255,255,0.09);
+    --thread-gold: #e8c468;
+    --thread-gold-dim: #a98a45;
+    --neon-violet: #b388ff;
+    --neon-violet-dim: #7c5cc4;
+    --ink: #f4f2fb;
+    --ink-dim: #9893ad;
+    --ink-faint: #5e5a73;
+    --display: 'Fraunces', serif;
+    --sans: 'Space Grotesk', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background: var(--bg-deep);
+    color: var(--ink);
+    font-family: var(--sans);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection{ background: var(--neon-violet); color: #0a0a0f; }
+
+  /* ambient grain */
+  body::before{
+    content:'';
+    position: fixed; inset:0; z-index: 999; pointer-events:none;
+    opacity: .035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  a{ color: inherit; text-decoration: none; }
+  button{ font-family: inherit; cursor: pointer; }
+
+  /* ---------- NAV ---------- */
+  header{
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 22px 5vw;
+    display: flex; align-items: center; justify-content: space-between;
+    backdrop-filter: blur(18px) saturate(140%);
+    background: linear-gradient(to bottom, rgba(8,8,12,0.65), rgba(8,8,12,0));
+    border-bottom: 1px solid transparent;
+    transition: border-color .4s ease, background .4s ease;
+  }
+  header.scrolled{
+    background: rgba(8,8,12,0.72);
+    border-bottom: 1px solid var(--panel-border);
+  }
+  .logo{
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 1.25rem;
+    letter-spacing: 0.02em;
+    display:flex; align-items:center; gap:10px;
+  }
+  .logo .needle-dot{
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--thread-gold);
+    box-shadow: 0 0 10px var(--thread-gold), 0 0 22px var(--thread-gold);
+  }
+  nav.links{ display:flex; gap: 2.4rem; }
+  nav.links a{
+    font-size: 0.82rem; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--ink-dim); position: relative; padding: 4px 0;
+    transition: color .25s ease;
+  }
+  nav.links a::after{
+    content:''; position:absolute; left:0; bottom:0; width:0; height:1px;
+    background: var(--thread-gold); transition: width .3s ease;
+  }
+  nav.links a:hover{ color: var(--ink); }
+  nav.links a:hover::after{ width: 100%; }
+  .nav-cta{
+    font-size: 0.78rem; letter-spacing: 0.05em; text-transform: uppercase;
+    padding: 10px 22px; border-radius: 100px;
+    background: var(--ink); color: var(--bg-deep); font-weight: 600;
+    transition: transform .25s ease, box-shadow .25s ease;
+  }
+  .nav-cta:hover{ transform: translateY(-2px); box-shadow: 0 8px 24px rgba(179,136,255,0.25); }
+  .nav-toggle{ display:none; }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position: relative;
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center;
+    padding: 0 6vw;
+    overflow: hidden;
+  }
+  #hero-canvas{ position: absolute; inset: 0; z-index: 0; opacity: 0.9; }
+  .hero-veil{
+    position:absolute; inset:0; z-index:1; pointer-events:none;
+    background: radial-gradient(ellipse 70% 55% at 50% 38%, rgba(10,10,15,0) 0%, rgba(10,10,15,0.55) 65%, rgba(5,5,7,0.96) 100%);
+  }
+  .hero-content{ position: relative; z-index: 2; max-width: 900px; }
+  .eyebrow{
+    font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--thread-gold); margin-bottom: 1.6rem; display:flex; align-items:center; justify-content:center; gap: 10px;
+    opacity:0;
+  }
+  .eyebrow .line{ width: 28px; height: 1px; background: var(--thread-gold-dim); }
+  h1.title{
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: clamp(3.2rem, 8vw, 7.2rem);
+    line-height: 0.98;
+    letter-spacing: -0.01em;
+    background: linear-gradient(180deg, #ffffff 0%, #cfc8e6 60%, var(--neon-violet) 130%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  h1.title em{ font-style: italic; font-weight: 500; }
+  .subtitle{
+    margin-top: 1.6rem;
+    font-size: clamp(1rem, 1.6vw, 1.25rem);
+    color: var(--ink-dim);
+    font-weight: 400;
+    letter-spacing: 0.01em;
+  }
+  .hero-ctas{
+    margin-top: 3rem;
+    display:flex; gap: 1rem; justify-content:center; flex-wrap: wrap;
+  }
+  .btn{
+    padding: 15px 32px; border-radius: 100px;
+    font-size: 0.85rem; letter-spacing: 0.04em; font-weight: 600;
+    border: 1px solid var(--panel-border);
+    transition: all .3s cubic-bezier(.2,.8,.2,1);
+    display:inline-flex; align-items:center; gap: 10px;
+  }
+  .btn-primary{
+    background: var(--ink); color: var(--bg-deep); border-color: var(--ink);
+  }
+  .btn-primary:hover{ box-shadow: 0 0 0 1px var(--neon-violet), 0 12px 36px rgba(179,136,255,0.35); transform: translateY(-2px); }
+  .btn-ghost{
+    background: var(--panel); color: var(--ink); backdrop-filter: blur(12px);
+  }
+  .btn-ghost:hover{ background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.2); transform: translateY(-2px); }
+  .btn-text{
+    color: var(--ink-dim); font-size: 0.82rem; padding: 15px 8px;
+  }
+  .btn-text:hover{ color: var(--thread-gold); }
+
+  .scroll-cue{
+    position: absolute; bottom: 38px; left: 50%; transform: translateX(-50%); z-index: 2;
+    display:flex; flex-direction:column; align-items:center; gap: 10px;
+    font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .scroll-cue .stitch{
+    width: 1px; height: 36px;
+    background: repeating-linear-gradient(to bottom, var(--ink-faint) 0 4px, transparent 4px 8px);
+    animation: stitchMove 1.6s linear infinite;
+  }
+  @keyframes stitchMove{ to{ background-position: 0 8px; } }
+
+  /* ---------- SEAM DIVIDER ---------- */
+  .seam{
+    position: relative; height: 90px; z-index: 3;
+  }
+  .seam svg{ width: 100%; height: 100%; display:block; }
+
+  /* ---------- SECTION SHARED ---------- */
+  section{ position: relative; padding: 7rem 6vw; max-width: 1400px; margin: 0 auto; }
+  .section-head{ max-width: 640px; margin-bottom: 3.6rem; }
+  .section-eyebrow{
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--thread-gold); margin-bottom: 1rem;
+  }
+  h2.section-title{
+    font-family: var(--display); font-weight: 500; font-size: clamp(2.1rem, 4vw, 3.2rem);
+    line-height: 1.08; letter-spacing: -0.01em;
+  }
+  .section-desc{ margin-top: 1.2rem; color: var(--ink-dim); font-size: 1.02rem; line-height: 1.6; }
+
+  /* ---------- FEATURES ---------- */
+  .feature-grid{
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4px;
+    border: 1px solid var(--panel-border); border-radius: 28px; overflow: hidden;
+    background: var(--panel-border);
+  }
+  .feature-card{
+    background: var(--bg-deep);
+    padding: 2.6rem 2.2rem;
+    position: relative;
+    transition: background .35s ease;
+    opacity: 0; transform: translateY(24px);
+  }
+  .feature-card:hover{ background: rgba(255,255,255,0.025); }
+  .feature-num{
+    font-family: var(--mono); font-size: 0.72rem; color: var(--ink-faint); letter-spacing: 0.1em;
+  }
+  .feature-icon{
+    width: 42px; height: 42px; margin: 1.6rem 0 1.4rem;
+    display:flex; align-items:center; justify-content:center;
+    border-radius: 10px; background: rgba(179,136,255,0.08); border: 1px solid rgba(179,136,255,0.18);
+  }
+  .feature-icon svg{ width: 20px; height: 20px; stroke: var(--neon-violet); }
+  .feature-card h3{
+    font-family: var(--sans); font-weight: 600; font-size: 1.12rem; margin-bottom: 0.7rem; letter-spacing: -0.01em;
+  }
+  .feature-card p{ color: var(--ink-dim); font-size: 0.92rem; line-height: 1.6; }
+
+  /* ---------- WORKFLOW / PROCESS ---------- */
+  .workflow{
+    display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+  }
+  .workflow-steps{ display:flex; flex-direction:column; }
+  .wf-step{
+    display:flex; gap: 1.6rem; padding: 1.8rem 0;
+    border-top: 1px solid var(--panel-border);
+    opacity: 0; transform: translateX(-16px);
+  }
+  .wf-step:last-child{ border-bottom: 1px solid var(--panel-border); }
+  .wf-tag{
+    font-family: var(--mono); font-size: 0.78rem; color: var(--thread-gold); white-space: nowrap; padding-top: 2px;
+  }
+  .wf-step h4{ font-size: 1.05rem; font-weight: 600; margin-bottom: 0.5rem; }
+  .wf-step p{ color: var(--ink-dim); font-size: 0.9rem; line-height: 1.55; max-width: 420px; }
+  .workflow-visual{
+    aspect-ratio: 1/1.05; border-radius: 28px; border: 1px solid var(--panel-border);
+    background:
+      radial-gradient(circle at 30% 20%, rgba(179,136,255,0.16), transparent 55%),
+      radial-gradient(circle at 75% 75%, rgba(232,196,104,0.1), transparent 55%),
+      var(--panel);
+    position: relative; overflow: hidden;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .workflow-visual svg{ width: 78%; height: 78%; opacity: 0.92; }
+
+  /* ---------- GALLERY MARQUEE ---------- */
+  .gallery-wrap{ overflow: hidden; padding: 7rem 0; }
+  .gallery-head{ padding: 0 6vw; max-width: 1400px; margin: 0 auto 3rem; }
+  .marquee{
+    display: flex; gap: 1.4rem; width: max-content;
+    animation: scrollLeft 38s linear infinite;
+  }
+  .marquee:hover{ animation-play-state: paused; }
+  @keyframes scrollLeft{ from{ transform: translateX(0); } to{ transform: translateX(-50%); } }
+  .gallery-card{
+    width: 280px; height: 360px; border-radius: 20px; flex-shrink: 0;
+    border: 1px solid var(--panel-border); position: relative; overflow: hidden;
+    display:flex; align-items:flex-end; padding: 1.6rem;
+  }
+  .gallery-card span{
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--ink-dim); background: rgba(5,5,7,0.55); backdrop-filter: blur(8px);
+    padding: 6px 12px; border-radius: 100px; border: 1px solid var(--panel-border);
+  }
+
+  /* ---------- CTA BAND ---------- */
+  .cta-band{
+    margin: 0 6vw 7rem; border-radius: 32px; padding: 5rem 4rem;
+    text-align:center; position: relative; overflow: hidden;
+    border: 1px solid var(--panel-border);
+    background: radial-gradient(ellipse 90% 130% at 50% 120%, rgba(179,136,255,0.18), transparent 60%), var(--panel);
+  }
+  .cta-band h2{ font-family: var(--display); font-weight: 500; font-size: clamp(2rem, 4vw, 3rem); max-width: 620px; margin: 0 auto 1.2rem; line-height: 1.1; }
+  .cta-band p{ color: var(--ink-dim); max-width: 460px; margin: 0 auto 2.4rem; }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    border-top: 1px solid var(--panel-border);
+    padding: 4.4rem 6vw 2.4rem;
+  }
+  .footer-grid{
+    display: grid; grid-template-columns: 1.6fr repeat(4, 1fr); gap: 2.6rem;
+    max-width: 1400px; margin: 0 auto;
+  }
+  .footer-brand p{ color: var(--ink-dim); font-size: 0.88rem; line-height: 1.6; margin-top: 1rem; max-width: 260px; }
+  .footer-col h5{
+    font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ink-faint); margin-bottom: 1.1rem;
+  }
+  .footer-col a{
+    display:block; font-size: 0.88rem; color: var(--ink-dim); padding: 6px 0; transition: color .2s ease;
+  }
+  .footer-col a:hover{ color: var(--thread-gold); }
+  .newsletter{ display:flex; margin-top: 1rem; border: 1px solid var(--panel-border); border-radius: 100px; overflow:hidden; max-width: 280px; }
+  .newsletter input{
+    flex: 1; background: transparent; border: none; outline: none; padding: 11px 16px;
+    color: var(--ink); font-family: var(--sans); font-size: 0.82rem;
+  }
+  .newsletter button{
+    background: var(--ink); color: var(--bg-deep); border:none; padding: 0 18px; font-weight: 600; font-size: 0.78rem;
+  }
+  .footer-bottom{
+    max-width: 1400px; margin: 3.6rem auto 0; padding-top: 1.8rem; border-top: 1px solid var(--panel-border);
+    display:flex; justify-content:space-between; align-items:center; flex-wrap: wrap; gap: 1rem;
+    font-size: 0.78rem; color: var(--ink-faint);
+  }
+  .footer-social{ display:flex; gap: 1.2rem; }
+
+  @media (max-width: 880px){
+    nav.links, .nav-cta{ display:none; }
+    .feature-grid{ grid-template-columns: 1fr; }
+    .workflow{ grid-template-columns: 1fr; }
+    .footer-grid{ grid-template-columns: 1fr 1fr; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{ animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<header id="siteHeader">
+  <div class="logo"><span class="needle-dot"></span>AMRANGEL<span style="color:var(--ink-faint);font-weight:400;"> STUDIO</span></div>
+  <nav class="links">
+    <a href="#features">Features</a>
+    <a href="#academy">Tutorials</a>
+    <a href="#marketplace">Marketplace</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#community">Community</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <a href="#start" class="nav-cta">Start Designing</a>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-veil"></div>
+  <div class="hero-content">
+    <div class="eyebrow"><span class="line"></span>AI-Powered 3D Fashion Atelier<span class="line"></span></div>
+    <h1 class="title">Design Fashion<br><em>Without Limits</em></h1>
+    <p class="subtitle">From first stitch to final drape — sculpt garments in real 3D, simulate the machine, and dress a living avatar, entirely in your browser.</p>
+    <div class="hero-ctas">
+      <a href="#start" class="btn btn-primary">Start Designing →</a>
+      <a href="#" class="btn btn-ghost">▶ Watch Tutorial</a>
+      <a href="#" class="btn btn-text">Explore Gallery</a>
+      <a href="#academy" class="btn btn-text">Learn Tailoring</a>
+    </div>
+  </div>
+  <div class="scroll-cue"><span>Scroll</span><span class="stitch"></span></div>
+</section>
+
+<!-- seam divider -->
+<div class="seam">
+  <svg viewBox="0 0 1400 90" preserveAspectRatio="none">
+    <path d="M0,45 Q350,10 700,45 T1400,45" fill="none" stroke="rgba(232,196,104,0.35)" stroke-width="1.5" stroke-dasharray="6 7"/>
+  </svg>
+</div>
+
+<!-- ============ FEATURES ============ -->
+<section id="features">
+  <div class="section-head">
+    <div class="section-eyebrow">// The Atelier System</div>
+    <h2 class="section-title">One studio, every step of the garment.</h2>
+    <p class="section-desc">Each tool is built on the same 3D core — so a pattern you cut becomes cloth that drapes, and cloth that drapes becomes a file you can send to production.</p>
+  </div>
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="feature-num">01</div>
+      <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M4 4l16 16M4 20L20 4" stroke-linecap="round"/></svg></div>
+      <h3>Sewing Machine Simulator</h3>
+      <p>Operate a fully animated industrial machine — needle, feed dog, bobbin, and tension — and learn the craft by doing it.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-num">02</div>
+      <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M12 3v18M3 12h18" stroke-linecap="round"/></svg></div>
+      <h3>Cloth Physics Engine</h3>
+      <p>Cotton, silk, denim, and leather each fall differently. Real weight, stretch, and wrinkle behavior on every avatar pose.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-num">03</div>
+      <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><circle cx="12" cy="8" r="3.4"/><path d="M5 21c0-4 3-6.5 7-6.5S19 17 19 21" stroke-linecap="round"/></svg></div>
+      <h3>Living Avatars</h3>
+      <p>Adjustable bodies down to the centimeter — chest, waist, sleeve, inseam — with a full pose and catwalk library.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-num">04</div>
+      <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 10h16M10 4v16" /></svg></div>
+      <h3>Pattern Generator</h3>
+      <p>Front, back, sleeve, and collar pieces, graded across sizes, with seam allowance and cutting layout — export to PDF or DXF.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-num">05</div>
+      <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M12 2l2.4 7.2H22l-6 4.4 2.3 7.4-6.3-4.6-6.3 4.6L7 13.6 1 9.2h7.6z"/></svg></div>
+      <h3>AI Design Assistant</h3>
+      <p>Describe a garment in plain language. Get a pattern, fabric pairing, palette, accessories, and a cost and time estimate.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-num">06</div>
+      <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M3 12l4-8h10l4 8-9 9-9-9z"/></svg></div>
+      <h3>Tailoring Academy</h3>
+      <p>Beginner to professional lessons with 3D simulations, quizzes, and certificates — track your progress as you go.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WORKFLOW ============ -->
+<section id="workflow">
+  <div class="section-head">
+    <div class="section-eyebrow">// From Sketch to Sample</div>
+    <h2 class="section-title">A workflow that mirrors the real atelier.</h2>
+  </div>
+  <div class="workflow">
+    <div class="workflow-steps">
+      <div class="wf-step"><span class="wf-tag">Cut</span><div><h4>Draft the pattern</h4><p>Draw, cut, mirror, and grade pieces directly in 3D space, with snap guides and live seam allowance.</p></div></div>
+      <div class="wf-step"><span class="wf-tag">Drape</span><div><h4>Simulate the fabric</h4><p>Choose a material and watch it fall, stretch, and wrinkle on the avatar under real gravity and wind.</p></div></div>
+      <div class="wf-step"><span class="wf-tag">Stitch</span><div><h4>Run the machine</h4><p>Feed the panel through the simulator — needle penetration, thread tension, and stitch formation, modeled stitch by stitch.</p></div></div>
+      <div class="wf-step"><span class="wf-tag">Ship</span><div><h4>Export production files</h4><p>Send finished garments to PDF, DXF, GLB, or OBJ — ready for a pattern maker or a game engine alike.</p></div></div>
+    </div>
+    <div class="workflow-visual">
+      <svg viewBox="0 0 200 200" fill="none" stroke="var(--neon-violet)" stroke-width="0.6" opacity="0.9">
+        <path d="M40 30 L160 30 L160 70 L120 70 L120 170 L80 170 L80 70 L40 70 Z" stroke-dasharray="3 3"/>
+        <path d="M40 30 L160 30 L160 70 L120 70 L120 170 L80 170 L80 70 L40 70 Z" stroke="var(--thread-gold)" stroke-width="0.3" opacity="0.6" transform="translate(4,4)"/>
+        <circle cx="100" cy="100" r="86" stroke-dasharray="2 4" opacity="0.4"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GALLERY MARQUEE ============ -->
+<div class="gallery-wrap">
+  <div class="gallery-head">
+    <div class="section-eyebrow">// From The Community</div>
+    <h2 class="section-title">Garments designed in studio.</h2>
+  </div>
+  <div class="marquee" id="marquee"></div>
+</div>
+
+<!-- ============ CTA BAND ============ -->
+<section style="padding-top:0;">
+  <div class="cta-band">
+    <h2>Your first garment is one stitch away.</h2>
+    <p>No install, no plugins — open the studio and start designing in your browser right now.</p>
+    <a href="#start" class="btn btn-primary">Start Designing →</a>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer id="contact">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo"><span class="needle-dot"></span>AMRANGEL</div>
+      <p>A browser-based studio for designing, simulating, and producing fashion in 3D — from first sketch to finished sample.</p>
+      <div class="newsletter"><input type="email" placeholder="Your email"><button>Join</button></div>
+    </div>
+    <div class="footer-col"><h5>Product</h5>
+      <a href="#features">Features</a><a href="#workflow">Workflow</a><a href="#pricing">Pricing</a><a href="#">Changelog</a>
+    </div>
+    <div class="footer-col"><h5>Learn</h5>
+      <a href="#academy">Academy</a><a href="#">Tutorials</a><a href="#">Certificates</a><a href="#">Glossary</a>
+    </div>
+    <div class="footer-col" id="marketplace"><h5>Marketplace</h5>
+      <a href="#">Patterns</a><a href="#">Fabric Packs</a><a href="#">3D Models</a><a href="#">Plugins</a>
+    </div>
+    <div class="footer-col" id="community"><h5>Company</h5>
+      <a href="#">About</a><a href="#community">Community</a><a href="#contact">Contact</a><a href="#">Careers</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 AMRANGEL Studio. All rights reserved.</span>
+    <div class="footer-social"><a href="#">Instagram</a><a href="#">X</a><a href="#">YouTube</a><a href="#">Discord</a></div>
+  </div>
+</footer>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+/* ---------- header scroll state ---------- */
+const header = document.getElementById('siteHeader');
+window.addEventListener('scroll', () => {
+  header.classList.toggle('scrolled', window.scrollY > 40);
+});
+
+/* ---------- hero load sequence ---------- */
+gsap.timeline({ defaults:{ ease:'power3.out' } })
+  .to('.eyebrow', { opacity: 1, duration: .8, delay: .2 })
+  .from('.title', { y: 40, opacity: 0, duration: 1.1 }, '-=.5')
+  .from('.subtitle', { y: 20, opacity: 0, duration: .9 }, '-=.7')
+  .from('.hero-ctas .btn', { y: 16, opacity: 0, duration: .7, stagger: .08 }, '-=.6');
+
+/* ---------- scroll reveals ---------- */
+gsap.utils.toArray('.feature-card').forEach((el, i) => {
+  gsap.to(el, {
+    opacity: 1, y: 0, duration: .8, ease: 'power3.out',
+    scrollTrigger: { trigger: el, start: 'top 88%' },
+    delay: (i % 3) * 0.08
+  });
+});
+gsap.utils.toArray('.wf-step').forEach((el, i) => {
+  gsap.to(el, {
+    opacity: 1, x: 0, duration: .7, ease: 'power3.out',
+    scrollTrigger: { trigger: el, start: 'top 90%' },
+    delay: i * 0.06
+  });
+});
+
+/* ---------- gallery marquee (procedural cards, no external images) ---------- */
+const garments = [
+  { name:'Silk Wrap Dress', tone:'#221a33' },
+  { name:'Tailored Suit', tone:'#1a2333' },
+  { name:'Denim Jacket', tone:'#1f2a1c' },
+  { name:'Linen Shirt', tone:'#2b2418' },
+  { name:'Wedding Gown', tone:'#2a1a26' },
+  { name:'Sport Jersey', tone:'#1a2b2b' },
+  { name:'Velvet Coat', tone:'#241a2c' },
+  { name:'African Wear', tone:'#2c2210' },
+];
+const marquee = document.getElementById('marquee');
+[...garments, ...garments].forEach(g => {
+  const card = document.createElement('div');
+  card.className = 'gallery-card';
+  card.style.background = `radial-gradient(circle at 30% 20%, ${g.tone}, #0a0a0f 75%)`;
+  card.innerHTML = `<span>${g.name}</span>`;
+  marquee.appendChild(card);
+});
+
+/* ===================================================================
+   THREE.JS HERO SCENE — abstract sewing-machine / stitch motif
+   (low-poly, stylised: needle bar, wheel, thread arc, floating panels)
+=================================================================== */
+(function(){
+  const canvas = document.getElementById('hero-canvas');
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(42, window.innerWidth/window.innerHeight, 0.1, 100);
+  camera.position.set(0, 0.4, 9);
+
+  function resize(){
+    const w = canvas.clientWidth || window.innerWidth;
+    const h = canvas.clientHeight || window.innerHeight;
+    renderer.setSize(w, h, false);
+    camera.aspect = w/h;
+    camera.updateProjectionMatrix();
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  // lights
+  scene.add(new THREE.AmbientLight(0x6a5ea8, 0.6));
+  const key = new THREE.PointLight(0xb388ff, 2.4, 30);
+  key.position.set(4, 4, 6);
+  scene.add(key);
+  const rim = new THREE.PointLight(0xe8c468, 1.6, 30);
+  rim.position.set(-5, -2, 4);
+  scene.add(rim);
+
+  const goldMat = new THREE.MeshStandardMaterial({ color: 0xe8c468, metalness: 0.85, roughness: 0.3, emissive: 0x4a3a14, emissiveIntensity: 0.3 });
+  const violetMat = new THREE.MeshStandardMaterial({ color: 0xb388ff, metalness: 0.6, roughness: 0.35, emissive: 0x2a1a4a, emissiveIntensity: 0.4 });
+  const darkMat = new THREE.MeshStandardMaterial({ color: 0x1a1a22, metalness: 0.7, roughness: 0.4 });
+  const wireMat = new THREE.LineBasicMaterial({ color: 0xe8c468, transparent: true, opacity: 0.5 });
+
+  const rig = new THREE.Group();
+  scene.add(rig);
+
+  // machine "body" — abstracted arm + base, low-poly
+  const base = new THREE.Mesh(new THREE.BoxGeometry(3.2, 0.5, 1.4, 1,1,1), darkMat);
+  base.position.set(0, -1.6, 0);
+  rig.add(base);
+
+  const arm = new THREE.Mesh(new THREE.CapsuleGeometry(0.32, 2.6, 4, 8), darkMat);
+  arm.rotation.z = Math.PI/2;
+  arm.position.set(-0.4, 0.4, 0);
+  rig.add(arm);
+
+  const head = new THREE.Mesh(new THREE.SphereGeometry(0.42, 16, 16), darkMat);
+  head.position.set(0.95, 0.05, 0);
+  rig.add(head);
+
+  // hand wheel
+  const wheelGroup = new THREE.Group();
+  wheelGroup.position.set(-1.55, 0.45, 0.2);
+  const wheel = new THREE.Mesh(new THREE.TorusGeometry(0.42, 0.07, 12, 28), goldMat);
+  wheel.rotation.y = Math.PI/2;
+  wheelGroup.add(wheel);
+  const spoke = new THREE.Mesh(new THREE.BoxGeometry(0.78, 0.05, 0.05), goldMat);
+  wheelGroup.add(spoke);
+  const spoke2 = spoke.clone(); spoke2.rotation.x = Math.PI/2;
+  wheelGroup.add(spoke2);
+  rig.add(wheelGroup);
+
+  // needle bar (animated up/down)
+  const needleGroup = new THREE.Group();
+  needleGroup.position.set(0.95, -0.35, 0);
+  const needle = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.01, 1.0, 8), goldMat);
+  needle.position.y = -0.5;
+  needleGroup.add(needle);
+  rig.add(needleGroup);
+
+  // fabric plane below
+  const fabricGeo = new THREE.PlaneGeometry(3.6, 2.2, 24, 16);
+  const fabricMat = new THREE.MeshStandardMaterial({ color: 0x14101e, side: THREE.DoubleSide, roughness: 0.9, metalness: 0.05, wireframe: false, transparent:true, opacity:0.85 });
+  const fabric = new THREE.Mesh(fabricGeo, fabricMat);
+  fabric.rotation.x = -Math.PI/2.3;
+  fabric.position.set(0.3, -1.55, 1.2);
+  rig.add(fabric);
+  const fabricPos = fabricGeo.attributes.position;
+  const fabricBase = Float32Array.from(fabricPos.array);
+
+  // thread arc (orbiting stitched line)
+  const curvePts = [];
+  for(let i=0;i<=64;i++){
+    const t = i/64 * Math.PI * 2;
+    curvePts.push(new THREE.Vector3(Math.cos(t)*2.4, Math.sin(t*2)*0.25 + 0.4, Math.sin(t)*2.4));
+  }
+  const threadGeo = new THREE.BufferGeometry().setFromPoints(curvePts);
+  const threadLine = new THREE.LineLoop(threadGeo, wireMat);
+  scene.add(threadLine);
+
+  // floating particles
+  const PARTICLES = 220;
+  const pGeo = new THREE.BufferGeometry();
+  const positions = new Float32Array(PARTICLES * 3);
+  for(let i=0;i<PARTICLES;i++){
+    positions[i*3] = (Math.random()-0.5) * 14;
+    positions[i*3+1] = (Math.random()-0.5) * 9;
+    positions[i*3+2] = (Math.random()-0.5) * 10 - 2;
+  }
+  pGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  const pMat = new THREE.PointsMaterial({ color: 0xcbb8ff, size: 0.028, transparent: true, opacity: 0.55 });
+  const particles = new THREE.Points(pGeo, pMat);
+  scene.add(particles);
+
+  // floating glass-ish panels (UI motif)
+  const panelGroup = new THREE.Group();
+  [[3.4,1.6,-2,0.9,0.6],[ -3.6,-0.6,-1.5,0.7,1.0],[3.0,-1.6,-1,0.6,0.45]].forEach(([x,y,z,w,h])=>{
+    const p = new THREE.Mesh(new THREE.PlaneGeometry(w,h), new THREE.MeshBasicMaterial({ color: 0xb388ff, transparent:true, opacity:0.06, side:THREE.DoubleSide }));
+    p.position.set(x,y,z);
+    p.rotation.y = (Math.random()-0.5)*0.6;
+    const edges = new THREE.LineSegments(new THREE.EdgesGeometry(p.geometry), new THREE.LineBasicMaterial({color:0xb388ff, transparent:true, opacity:0.3}));
+    p.add(edges);
+    panelGroup.add(p);
+  });
+  scene.add(panelGroup);
+
+  rig.position.y = -0.3;
+  rig.scale.setScalar(0.92);
+
+  let mouseX = 0, mouseY = 0;
+  window.addEventListener('mousemove', e => {
+    mouseX = (e.clientX / window.innerWidth - 0.5);
+    mouseY = (e.clientY / window.innerHeight - 0.5);
+  });
+
+  const clock = new THREE.Clock();
+  function animate(){
+    requestAnimationFrame(animate);
+    const t = clock.getElapsedTime();
+
+    wheelGroup.rotation.x = t * 1.4;
+    spoke.rotation.x = t * 1.4;
+    needleGroup.position.y = -0.35 + Math.sin(t * 1.4) * 0.22;
+
+    // fabric ripple
+    for(let i=0;i<fabricPos.count;i++){
+      const ix = i*3;
+      const x = fabricBase[ix], y = fabricBase[ix+1];
+      const wave = Math.sin(x*1.4 + t*1.1) * 0.05 + Math.cos(y*1.6 + t*0.8) * 0.04;
+      fabricPos.setZ(i, wave + Math.sin(t*1.4)*0.015);
+    }
+    fabricPos.needsUpdate = true;
+
+    threadLine.rotation.y = t * 0.15;
+    threadLine.rotation.x = Math.sin(t*0.2) * 0.1;
+
+    particles.rotation.y = t * 0.02;
+    panelGroup.rotation.y = Math.sin(t*0.1) * 0.05;
+    panelGroup.children.forEach((p,i)=> p.position.y += Math.sin(t*0.5 + i)*0.0006 );
+
+    rig.rotation.y = THREE.MathUtils.lerp(rig.rotation.y, mouseX * 0.4, 0.04);
+    camera.position.x = THREE.MathUtils.lerp(camera.position.x, mouseX * 0.6, 0.03);
+    camera.position.y = THREE.MathUtils.lerp(camera.position.y, 0.4 - mouseY * 0.4, 0.03);
+    camera.lookAt(0,0,0);
+
+    renderer.render(scene, camera);
+  }
+  animate();
+})();
+</script>
+</body>
+</html>
