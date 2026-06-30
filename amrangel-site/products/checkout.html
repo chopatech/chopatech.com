@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Request Order — Amrangel</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets-shared.css">
+
+<style>
+  body{ background:var(--linen); color:var(--ink); }
+  .eyebrow{ color:var(--rust); }
+  h1,h2,h3{ color:var(--ink); }
+  header.site{ background:linear-gradient(to bottom, rgba(247,242,233,0.95), rgba(247,242,233,0)); }
+  header.site.scrolled{ background:rgba(247,242,233,0.95); border-bottom:1px solid rgba(14,12,10,0.1); }
+  .logo{ color:var(--ink); }
+  nav.links a{ color:#5b5648; }
+  nav.links a:hover, nav.links a.is-current{ color:var(--ink); }
+  .nav-cta{ border-color:rgba(14,12,10,0.2); color:var(--ink); }
+  .cart-btn{ border-color:rgba(14,12,10,0.2); color:var(--ink); }
+  .menu-toggle span{ background:var(--ink); }
+  .mobile-menu{ background:var(--linen); }
+  .mobile-menu a{ color:var(--ink); border-bottom-color:rgba(14,12,10,0.1); }
+  .breadcrumb{ color:#857f6e; }
+  .breadcrumb a:hover{ color:var(--ink); }
+
+  .checkout{ padding:150px 0 100px; }
+  .checkout-grid{ display:grid; grid-template-columns:1fr 1fr; gap:clamp(32px,5vw,72px); align-items:start; }
+  @media (max-width:880px){ .checkout-grid{ grid-template-columns:1fr; } }
+
+  .order-summary{ background:#fff; border:1px solid rgba(14,12,10,0.1); border-radius:4px; padding:28px; }
+  .summary-row{ display:flex; gap:14px; padding:14px 0; border-bottom:1px solid rgba(14,12,10,0.08); }
+  .summary-row img{ width:54px; height:68px; object-fit:cover; border-radius:2px; }
+  .summary-row .info{ flex:1; }
+  .summary-row h6{ font-family:var(--display); font-size:14.5px; font-weight:500; }
+  .summary-row .meta{ font-family:var(--mono); font-size:11px; color:#857f6e; margin-top:3px; }
+  .summary-total{ display:flex; justify-content:space-between; padding-top:18px; font-family:var(--display); font-size:20px; font-weight:600; }
+  .empty-cart-msg{ text-align:center; padding:40px 0; color:#857f6e; font-family:var(--mono); font-size:13px; }
+
+  .checkout-form-box{ background:#fff; border:1px solid rgba(14,12,10,0.1); border-radius:4px; padding:28px; }
+  .checkout-form-box .form-field label{ color:#857f6e; }
+  .checkout-form-box .form-field input, .checkout-form-box .form-field textarea{ background:var(--linen); border-color:rgba(14,12,10,0.18); color:var(--ink); }
+
+  footer{ background:var(--ink); }
+</style>
+</head>
+<body>
+
+<header class="site" id="siteHeader">
+  <div class="wrap nav-row">
+    <a href="../index.html" class="logo">Amran<span>gel</span></a>
+    <nav class="links">
+      <a href="../index.html">Home</a>
+      <a href="../academie/index.html">Acad&eacute;mie</a>
+      <a href="index.html" class="is-current">Apothecary</a>
+      <a href="../runway/index.html">Runway</a>
+      <a href="../studio/index.html">Studio</a>
+    </nav>
+    <div class="nav-right">
+      <button class="cart-btn" aria-label="Open cart">&#128715;<span class="cart-count" data-count="0">0</span></button>
+      <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <nav>
+    <a href="../index.html"><span class="num">00</span>Home</a>
+    <a href="../academie/index.html"><span class="num">01</span>Acad&eacute;mie</a>
+    <a href="index.html"><span class="num">02</span>Apothecary</a>
+    <a href="../runway/index.html"><span class="num">03</span>Runway</a>
+    <a href="../studio/index.html"><span class="num">04</span>Studio</a>
+  </nav>
+</div>
+
+<main>
+  <div class="wrap checkout">
+    <div class="breadcrumb"><a href="../index.html">Home</a><span class="sep">/</span><a href="index.html">Apothecary</a><span class="sep">/</span><span>Request Order</span></div>
+    <div class="eyebrow">Order Request</div>
+    <h1 style="font-size:clamp(28px,4vw,44px); margin:10px 0 8px;">Confirm what you'd like, we'll handle the rest.</h1>
+    <p style="color:#5b5648; max-width:54ch; margin-bottom:48px;">There's no live checkout yet &mdash; this sends your order as a request. We'll reply by email within one business day to confirm stock and arrange payment.</p>
+
+    <div class="checkout-grid">
+      <div class="order-summary">
+        <h3 style="font-size:17px; margin-bottom:10px;">Your Order</h3>
+        <div id="summaryItems"></div>
+        <div class="summary-total"><span>Total</span><span id="summaryTotal">$0.00</span></div>
+      </div>
+
+      <div class="checkout-form-box">
+        <h3 style="font-size:17px; margin-bottom:18px;">Your Details</h3>
+        <form id="orderForm" data-ajax-form data-success-message="Order request sent — check your email for confirmation." action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+          <input type="hidden" name="_subject" value="Amrangel order request">
+          <input type="hidden" name="order_summary" id="orderSummaryField" value="">
+          <div class="form-row">
+            <div class="form-field"><label for="ckName">Name</label><input type="text" name="name" id="ckName" required autocomplete="name"></div>
+            <div class="form-field"><label for="ckEmail">Email</label><input type="email" name="email" id="ckEmail" required autocomplete="email"></div>
+          </div>
+          <div class="form-field"><label for="ckAddress">Delivery address</label><textarea name="address" id="ckAddress" rows="2" required></textarea></div>
+          <div class="form-field"><label for="ckNotes">Notes (optional)</label><textarea name="notes" id="ckNotes" rows="2" placeholder="Preferred delivery window, substitutions, etc."></textarea></div>
+          <button type="submit" class="btn btn-primary" id="orderSubmitBtn" style="width:100%; justify-content:center;">Send Order Request &#8594;</button>
+          <div class="form-status"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <a href="../index.html" class="logo" style="font-size:24px; color:var(--linen);">Amran<span>gel</span></a>
+        <p style="margin-top:14px; font-size:13.5px; max-width:34ch; color:var(--linen-dim);">From raw fiber to finished form &mdash; clothing, care, and the craft behind both.</p>
+      </div>
+      <div><h5>Make</h5><ul><li><a href="../index.html#atelier">Atelier</a></li><li><a href="../runway/index.html">Runway</a></li><li><a href="../academie/index.html">Materials &amp; Machines</a></li></ul></div>
+      <div><h5>Care &amp; Learn</h5><ul><li><a href="index.html">Apothecary</a></li><li><a href="../studio/index.html">Studio Consults</a></li><li><a href="../academie/index.html">Acad&eacute;mie</a></li></ul></div>
+      <div><h5>Studio</h5><ul><li><a href="#">Dar es Salaam Atelier</a></li><li><a href="#">Press</a></li><li><a href="#">Careers</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><span>&copy; 2026 Amrangel. All rights reserved.</span><span>Fiber &middot; Form &middot; Finish</span></div>
+  </div>
+</footer>
+
+<div class="cart-drawer-overlay" id="cartDrawerOverlay"></div>
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-header"><h3>Your Cart</h3><button class="modal-close" id="cartClose" aria-label="Close cart" style="position:static;">&times;</button></div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-footer">
+    <div class="cart-subtotal"><span>Subtotal</span><span id="cartSubtotal">$0.00</span></div>
+    <a href="checkout.html" class="btn btn-primary" style="width:100%; justify-content:center;">Request Order &#8594;</a>
+  </div>
+</div>
+
+<script src="../products-data.js"></script>
+<script src="../assets-shared.js"></script>
+<script>
+  function renderSummary(){
+    const items = window.AmrangelCart.getCart();
+    const container = document.getElementById('summaryItems');
+    const totalEl = document.getElementById('summaryTotal');
+    const submitBtn = document.getElementById('orderSubmitBtn');
+
+    if(items.length === 0){
+      container.innerHTML = '<div class="empty-cart-msg">Your cart is empty. <a href="index.html" style="color:var(--rust);">Browse the shop</a> first.</div>';
+      totalEl.textContent = '$0.00';
+      submitBtn.setAttribute('disabled', 'disabled');
+    }else{
+      container.innerHTML = items.map(i => `
+        <div class="summary-row">
+          <img src="${i.image}" alt="${i.name}">
+          <div class="info">
+            <h6>${i.name}</h6>
+            <div class="meta">Qty ${i.qty} &middot; $${i.price.toFixed(2)} each</div>
+          </div>
+        </div>
+      `).join('');
+      totalEl.textContent = '$' + window.AmrangelCart.cartTotal().toFixed(2);
+      submitBtn.removeAttribute('disabled');
+
+      // build a plain-text order summary for the hidden form field
+      const summaryText = items.map(i => `${i.qty}x ${i.name} ($${(i.price*i.qty).toFixed(2)})`).join('; ')
+        + ` — Total: $${window.AmrangelCart.cartTotal().toFixed(2)}`;
+      document.getElementById('orderSummaryField').value = summaryText;
+    }
+  }
+
+  renderSummary();
+
+  document.getElementById('orderForm').addEventListener('submit', () => {
+    // clear cart after successful AJAX submit handled in assets-shared.js;
+    // we optimistically clear here once Formspree responds OK via a small delay check
+    setTimeout(() => {
+      const statusEl = document.querySelector('#orderForm .form-status');
+      if(statusEl && statusEl.classList.contains('is-success')){
+        localStorage.removeItem('amrangel_cart_v1');
+        renderSummary();
+      }
+    }, 1200);
+  });
+</script>
+
+</body>
+</html>

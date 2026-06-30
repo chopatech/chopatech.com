@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apothecary — Amrangel</title>
+<meta name="description" content="Natural skin and hair formulations from Amrangel — formulated ingredient-first, the same way we build a pattern.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets-shared.css">
+
+<style>
+  body{ background:var(--linen); color:var(--ink); }
+  .eyebrow{ color:var(--rust); }
+  h1,h2,h3{ color:var(--ink); }
+  header.site{ background:linear-gradient(to bottom, rgba(247,242,233,0.95), rgba(247,242,233,0)); }
+  header.site.scrolled{ background:rgba(247,242,233,0.95); border-bottom:1px solid rgba(14,12,10,0.1); }
+  .logo{ color:var(--ink); }
+  nav.links a{ color:#5b5648; }
+  nav.links a:hover, nav.links a.is-current{ color:var(--ink); }
+  .nav-cta{ border-color:rgba(14,12,10,0.2); color:var(--ink); }
+  .nav-cta:hover{ background:var(--rust); border-color:var(--rust); color:var(--linen); }
+  .cart-btn{ border-color:rgba(14,12,10,0.2); color:var(--ink); }
+  .menu-toggle span{ background:var(--ink); }
+  .mobile-menu{ background:var(--linen); }
+  .mobile-menu a{ color:var(--ink); border-bottom-color:rgba(14,12,10,0.1); }
+
+  .page-hero-bg{ opacity:0.18; }
+  .page-hero-bg::after{ background:linear-gradient(180deg, rgba(247,242,233,0.2), var(--linen) 95%); }
+  .page-hero{ border-bottom-color:rgba(14,12,10,0.1); }
+  .page-hero p{ color:#5b5648; }
+  .breadcrumb{ color:#857f6e; }
+  .breadcrumb a:hover{ color:var(--ink); }
+
+  .filter-row{ display:flex; gap:10px; margin-bottom:40px; flex-wrap:wrap; }
+  .filter-btn{
+    font-family:var(--mono); font-size:11.5px; text-transform:uppercase; letter-spacing:0.07em;
+    padding:9px 18px; border:1px solid rgba(14,12,10,0.18); border-radius:20px; cursor:pointer;
+    background:none; color:#5b5648; transition:all 0.2s ease;
+  }
+  .filter-btn.is-active, .filter-btn:hover{ background:var(--ink); color:var(--linen); border-color:var(--ink); }
+
+  .shop-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:32px; }
+  @media (max-width: 880px){ .shop-grid{ grid-template-columns:repeat(2,1fr); gap:20px; } }
+  @media (max-width: 560px){ .shop-grid{ grid-template-columns:1fr; } }
+
+  .product-card{ display:flex; flex-direction:column; }
+  .product-image{ position:relative; aspect-ratio:4/5; border-radius:4px; overflow:hidden; background:#e7e0d2; margin-bottom:16px; }
+  .product-image img{ width:100%; height:100%; object-fit:cover; transition:transform 0.5s ease; }
+  .product-card:hover .product-image img{ transform:scale(1.04); }
+  .product-cat{ position:absolute; top:12px; left:12px; }
+  .product-card h4{ font-family:var(--display); font-size:18px; font-weight:500; color:var(--ink); margin-bottom:4px; }
+  .product-card .short{ font-size:13px; color:#857f6e; margin-bottom:10px; line-height:1.45; }
+  .product-card .row{ display:flex; justify-content:space-between; align-items:center; margin-top:auto; }
+  .product-price{ font-family:var(--display); font-size:17px; font-weight:600; color:var(--ink); }
+  .add-btn{
+    font-family:var(--mono); font-size:10.5px; text-transform:uppercase; letter-spacing:0.06em;
+    padding:9px 14px; border:1px solid var(--ink); border-radius:2px; background:none; color:var(--ink);
+    cursor:pointer; transition:all 0.2s ease;
+  }
+  .add-btn:hover{ background:var(--ink); color:var(--linen); }
+  .add-btn.is-added{ background:var(--rust); border-color:var(--rust); color:var(--linen); }
+
+  footer{ background:var(--ink); }
+</style>
+</head>
+<body>
+
+<header class="site" id="siteHeader">
+  <div class="wrap nav-row">
+    <a href="../index.html" class="logo">Amran<span>gel</span></a>
+    <nav class="links">
+      <a href="../index.html">Home</a>
+      <a href="../academie/index.html">Acad&eacute;mie</a>
+      <a href="index.html" class="is-current">Apothecary</a>
+      <a href="../runway/index.html">Runway</a>
+      <a href="../studio/index.html">Studio</a>
+    </nav>
+    <div class="nav-right">
+      <button class="cart-btn" aria-label="Open cart">&#128715;<span class="cart-count" data-count="0">0</span></button>
+      <a href="#" class="nav-cta desktop-only js-open-modal" data-topic="General Consult" data-desc="Tell us what you'd like help with and we'll point you to the right person.">Book a Consult</a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <nav>
+    <a href="../index.html"><span class="num">00</span>Home</a>
+    <a href="../academie/index.html"><span class="num">01</span>Acad&eacute;mie</a>
+    <a href="index.html"><span class="num">02</span>Apothecary</a>
+    <a href="../runway/index.html"><span class="num">03</span>Runway</a>
+    <a href="../studio/index.html"><span class="num">04</span>Studio</a>
+  </nav>
+  <a href="#" class="btn btn-primary mobile-cta js-open-modal" data-topic="General Consult" data-desc="Tell us what you'd like help with and we'll point you to the right person.">Book a Consult &#8594;</a>
+</div>
+
+<main>
+  <section class="page-hero">
+    <div class="page-hero-bg" style="background-image:url('https://images.unsplash.com/photo-1556228720-195a672e8a03?w=1600&q=70&auto=format&fit=crop');"></div>
+    <div class="wrap">
+      <div class="breadcrumb"><a href="../index.html">Home</a><span class="sep">/</span><span>Apothecary</span></div>
+      <div class="eyebrow">Apothecary</div>
+      <h1>Care for what's underneath the fabric.</h1>
+      <p>Skin and hair formulations made the same way we make a pattern: by ingredient, by ratio, by purpose. No filler, nothing you can't pronounce.</p>
+    </div>
+  </section>
+
+  <section style="padding-top:56px;">
+    <div class="wrap">
+      <div class="filter-row reveal">
+        <button class="filter-btn is-active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="Skin">Skin</button>
+        <button class="filter-btn" data-filter="Hair">Hair</button>
+      </div>
+      <div class="shop-grid reveal" id="shopGrid"></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <a href="../index.html" class="logo" style="font-size:24px; color:var(--linen);">Amran<span>gel</span></a>
+        <p style="margin-top:14px; font-size:13.5px; max-width:34ch; color:var(--linen-dim);">From raw fiber to finished form &mdash; clothing, care, and the craft behind both.</p>
+      </div>
+      <div>
+        <h5>Make</h5>
+        <ul><li><a href="../index.html#atelier">Atelier</a></li><li><a href="../runway/index.html">Runway</a></li><li><a href="../academie/index.html">Materials &amp; Machines</a></li></ul>
+      </div>
+      <div>
+        <h5>Care &amp; Learn</h5>
+        <ul><li><a href="index.html">Apothecary</a></li><li><a href="../studio/index.html">Studio Consults</a></li><li><a href="../academie/index.html">Acad&eacute;mie</a></li></ul>
+      </div>
+      <div>
+        <h5>Studio</h5>
+        <ul><li><a href="#">Dar es Salaam Atelier</a></li><li><a href="#">Press</a></li><li><a href="#">Careers</a></li></ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 Amrangel. All rights reserved.</span>
+      <span>Fiber &middot; Form &middot; Finish</span>
+    </div>
+  </div>
+</footer>
+
+<!-- cart drawer -->
+<div class="cart-drawer-overlay" id="cartDrawerOverlay"></div>
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-header"><h3>Your Cart</h3><button class="modal-close" id="cartClose" aria-label="Close cart" style="position:static;">&times;</button></div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-footer">
+    <div class="cart-subtotal"><span>Subtotal</span><span id="cartSubtotal">$0.00</span></div>
+    <p class="cart-note">This sends an order inquiry — we'll confirm availability and payment details by email before charging anything.</p>
+    <a href="checkout.html" class="btn btn-primary" style="width:100%; justify-content:center;">Request Order &#8594;</a>
+  </div>
+</div>
+
+<!-- booking modal -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box" id="modalBox">
+    <button class="modal-close" id="modalClose" aria-label="Close">&times;</button>
+    <div id="modalFormView">
+      <h3 id="modalTitle">Book a Consult</h3>
+      <p class="modal-sub" id="modalDesc">Fill this out and a member of the team will get back to you within two business days.</p>
+      <form id="bookingForm" data-ajax-form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+        <input type="hidden" name="_subject" value="Amrangel consult request">
+        <input type="hidden" name="topic" id="bookTopic" value="General Consult">
+        <div class="form-field"><label for="bookName">Name</label><input type="text" name="name" id="bookName" required autocomplete="name"></div>
+        <div class="form-field"><label for="bookEmail">Email</label><input type="email" name="email" id="bookEmail" required autocomplete="email"></div>
+        <div class="form-field"><label for="bookMessage">What do you need help with?</label><textarea name="message" id="bookMessage" rows="3"></textarea></div>
+        <button type="submit" class="btn btn-primary">Submit Request</button>
+        <div class="form-status"></div>
+      </form>
+    </div>
+    <div id="modalSuccessView" class="modal-success" style="display:none;">
+      <div class="check">&#10003;</div><h3>Request sent</h3><p>We've got your details — expect a reply within two business days.</p>
+    </div>
+  </div>
+</div>
+
+<script src="../products-data.js"></script>
+<script src="../assets-shared.js"></script>
+<script>
+  const grid = document.getElementById('shopGrid');
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  let currentFilter = 'all';
+
+  function renderProducts(){
+    const items = window.AMRANGEL_PRODUCTS.filter(p => currentFilter === 'all' || p.category === currentFilter);
+    grid.innerHTML = items.map(p => `
+      <div class="product-card reveal is-visible">
+        <a href="product.html?id=${p.id}" class="product-image">
+          <span class="tag-pill product-cat">${p.category}</span>
+          <img src="${p.image}" alt="${p.name}" loading="lazy">
+        </a>
+        <a href="product.html?id=${p.id}"><h4>${p.name}</h4></a>
+        <p class="short">${p.short}</p>
+        <div class="row">
+          <span class="product-price">$${p.price.toFixed(2)}</span>
+          <button class="add-btn" data-add="${p.id}">Add to Cart</button>
+        </div>
+      </div>
+    `).join('');
+
+    grid.querySelectorAll('[data-add]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const product = window.AMRANGEL_PRODUCTS.find(p => p.id === btn.dataset.add);
+        window.AmrangelCart.addToCart({ id: product.id, name: product.name, price: product.price, image: product.image });
+        btn.textContent = 'Added ✓';
+        btn.classList.add('is-added');
+        setTimeout(() => { btn.textContent = 'Add to Cart'; btn.classList.remove('is-added'); }, 1600);
+      });
+    });
+  }
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('is-active'));
+      btn.classList.add('is-active');
+      currentFilter = btn.dataset.filter;
+      renderProducts();
+    });
+  });
+
+  renderProducts();
+</script>
+
+</body>
+</html>

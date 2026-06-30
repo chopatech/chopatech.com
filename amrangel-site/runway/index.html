@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Runway — Amrangel</title>
+<meta name="description" content="Amrangel collection lookbooks — structured tailoring, raw-edge minimal, draped movement, and considered color.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets-shared.css">
+
+<style>
+  .lookbook{ margin-bottom:8px; }
+  .lookbook-head{ display:flex; justify-content:space-between; align-items:flex-end; gap:24px; margin-bottom:24px; flex-wrap:wrap; }
+  .lookbook-head h3{ font-size:clamp(24px,3.4vw,36px); }
+  .lookbook-head .num{ font-family:var(--mono); font-size:12px; color:var(--rust); }
+  .lookbook-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line); border:1px solid var(--line); margin-bottom:90px; }
+  @media (max-width:980px){ .lookbook-grid{ grid-template-columns:repeat(2,1fr); } }
+  .look-card{ background:var(--ink-soft); aspect-ratio:3/4; position:relative; overflow:hidden; cursor:pointer; }
+  .look-card img{ width:100%; height:100%; object-fit:cover; filter:grayscale(0.35) contrast(1.05); transition:transform 0.6s cubic-bezier(.2,.8,.2,1), filter 0.5s ease; }
+  .look-card:hover img{ transform:scale(1.06); filter:grayscale(0) contrast(1.1); }
+  .look-meta{ position:absolute; left:0; right:0; bottom:0; padding:16px; background:linear-gradient(to top, rgba(14,12,10,0.92), transparent); }
+  .look-meta .num-tag{ font-family:var(--mono); font-size:10.5px; color:var(--linen-dim); }
+</style>
+</head>
+<body>
+
+<header class="site" id="siteHeader">
+  <div class="wrap nav-row">
+    <a href="../index.html" class="logo">Amran<span>gel</span></a>
+    <nav class="links">
+      <a href="../index.html">Home</a>
+      <a href="../academie/index.html">Acad&eacute;mie</a>
+      <a href="../products/index.html">Apothecary</a>
+      <a href="index.html" class="is-current">Runway</a>
+      <a href="../studio/index.html">Studio</a>
+    </nav>
+    <div class="nav-right">
+      <button class="cart-btn" aria-label="Open cart">&#128715;<span class="cart-count" data-count="0">0</span></button>
+      <a href="#" class="nav-cta desktop-only js-open-modal" data-topic="Personal Styling" data-desc="Wardrobe and silhouette guidance built around you.">Request Styling</a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <nav>
+    <a href="../index.html"><span class="num">00</span>Home</a>
+    <a href="../academie/index.html"><span class="num">01</span>Acad&eacute;mie</a>
+    <a href="../products/index.html"><span class="num">02</span>Apothecary</a>
+    <a href="index.html"><span class="num">03</span>Runway</a>
+    <a href="../studio/index.html"><span class="num">04</span>Studio</a>
+  </nav>
+  <a href="#" class="btn btn-primary mobile-cta js-open-modal" data-topic="Personal Styling" data-desc="Wardrobe and silhouette guidance built around you.">Request Styling &#8594;</a>
+</div>
+
+<main>
+  <section class="page-hero">
+    <div class="page-hero-bg" style="background-image:url('https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=1600&q=70&auto=format&fit=crop');"></div>
+    <div class="wrap">
+      <div class="breadcrumb"><a href="../index.html">Home</a><span class="sep">/</span><span>Runway</span></div>
+      <div class="eyebrow">Runway</div>
+      <h1>What the construction becomes.</h1>
+      <p>Four current lines, each built on the same techniques shown in our Atelier &mdash; tailored structure, raw-edge minimalism, draped silhouettes, and considered color.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+
+      <div class="lookbook reveal">
+        <div class="lookbook-head"><div><span class="num">Line 01</span><h3>Structured Tailoring</h3></div></div>
+        <div class="lookbook-grid">
+          <div class="look-card"><img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=900&q=80&auto=format&fit=crop" alt="Structured tailoring look 1" loading="lazy"><div class="look-meta"><span class="num-tag">01 / Look 01</span></div></div>
+          <div class="look-card"><img src="https://images.unsplash.com/photo-1507114845806-0347f6150324?w=900&q=80&auto=format&fit=crop" alt="Structured tailoring look 2" loading="lazy"><div class="look-meta"><span class="num-tag">01 / Look 02</span></div></div>
+          <div class="look-card"><img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=900&q=80&auto=format&fit=crop" alt="Structured tailoring look 3" loading="lazy"><div class="look-meta"><span class="num-tag">01 / Look 03</span></div></div>
+          <div class="look-card"><img src="https://images.unsplash.com/photo-1485968579580-b6d095142e6e?w=900&q=80&auto=format&fit=crop" alt="Structured tailoring look 4" loading="lazy"><div class="look-meta"><span class="num-tag">01 / Look 04</span></div></div>
+        </div>
+      </div>
+
+      <div class="lookbook reveal">
+        <div class="lookbook-head"><div><span class="num">Line 02</span><h3>Raw-Edge Minimal</h3></div></div>
+        <div class="lookbook-grid">
+          <div class="look-card"><img src="https://images.unsplash.com/photo-1551803091-e20673f15770?w=900&q=80&auto=format&fit=crop" alt="Raw-edge minimal look 1" loading="lazy"><div class="look-meta"><span class="num-tag">02 / Look 01</span></div></div>
+          <div class="look-card"><img src="https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?w=900&q=80&auto=format&fit=crop" alt="Raw-edge minimal look 2" loading="lazy"><div class="look-meta"><span class="num-tag">02 / Look 02</span></div></div>
+          <div class="look-card"><img src="https://images.unsplash.com/photo-1492707892479-7bc8d5a4ee93?w=900&q=80&auto=format&fit=crop" alt="Raw-edge minimal look 3" loading="lazy"><div class="look-meta"><span class="num-tag">02 / Look 03</span></div></div>
+          <div class="look-card"><img src="https://images.unsplash.com/photo-1485125639709-a60c3a500bf1?w=900&q=80&auto=format&fit=crop" alt="Raw-edge minimal look 4" loading="lazy"><div class="look-meta"><span class="num-tag">02 / Look 04</span></div></div>
+        </div>
+      </div>
+
+      <div class="lookbook reveal">
+        <div class="lookbook-head"><div><span class="num">Line 03</span><h3>Draped Movement</h3></div></div>
+        <div class="lookbook-grid">
+          <div class="look-card"><img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=900&q=80&auto=format&fit=crop" alt="Draped movement look 1" loading="lazy"><div class="look-meta"><span class="num-tag">03 / Look 01</span></div></div>
+          <div class="look-card"><img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=900&q=80&auto=format&fit=crop" alt="Draped movement look 2" loading="lazy"><div class="look-meta"><span class="num-tag">03 / Look 02</span></div></div>
+          <div class="look-card"><img src="https://images.unsplash.com/photo-1485462537746-965f33f7f6a7?w=900&q=80&auto=format&fit=crop" alt="Draped movement look 3" loading="lazy"><div class="look-meta"><span class="num-tag">03 / Look 03</span></div></div>
+          <div class="look-card"><img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=900&q=80&auto=format&fit=crop" alt="Draped movement look 4" loading="lazy"><div class="look-meta"><span class="num-tag">03 / Look 04</span></div></div>
+        </div>
+      </div>
+
+      <div class="lookbook reveal">
+        <div class="lookbook-head"><div><span class="num">Line 04</span><h3>Considered Color</h3></div></div>
+        <div class="lookbook-grid">
+          <div class="look-card"><img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=900&q=80&auto=format&fit=crop" alt="Considered color look 1" loading="lazy"><div class="look-meta"><span class="num-tag">04 / Look 01</span></div></div>
+          <div class="look-card"><img src="https://images.unsplash.com/photo-1490114538077-0a7f8cb49891?w=900&q=80&auto=format&fit=crop" alt="Considered color look 2" loading="lazy"><div class="look-meta"><span class="num-tag">04 / Look 02</span></div></div>
+          <div class="look-card"><img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=900&q=80&auto=format&fit=crop" alt="Considered color look 3" loading="lazy"><div class="look-meta"><span class="num-tag">04 / Look 03</span></div></div>
+          <div class="look-card"><img src="https://images.unsplash.com/photo-1469398715555-76331a6c7c9b?w=900&q=80&auto=format&fit=crop" alt="Considered color look 4" loading="lazy"><div class="look-meta"><span class="num-tag">04 / Look 04</span></div></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <a href="../index.html" class="logo" style="font-size:24px;">Amran<span>gel</span></a>
+        <p style="margin-top:14px; font-size:13.5px; max-width:34ch; color:var(--linen-dim);">From raw fiber to finished form &mdash; clothing, care, and the craft behind both.</p>
+      </div>
+      <div><h5>Make</h5><ul><li><a href="../index.html#atelier">Atelier</a></li><li><a href="index.html">Runway</a></li><li><a href="../academie/index.html">Materials &amp; Machines</a></li></ul></div>
+      <div><h5>Care &amp; Learn</h5><ul><li><a href="../products/index.html">Apothecary</a></li><li><a href="../studio/index.html">Studio Consults</a></li><li><a href="../academie/index.html">Acad&eacute;mie</a></li></ul></div>
+      <div><h5>Studio</h5><ul><li><a href="#">Dar es Salaam Atelier</a></li><li><a href="#">Press</a></li><li><a href="#">Careers</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><span>&copy; 2026 Amrangel. All rights reserved.</span><span>Fiber &middot; Form &middot; Finish</span></div>
+  </div>
+</footer>
+
+<div class="cart-drawer-overlay" id="cartDrawerOverlay"></div>
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-header"><h3>Your Cart</h3><button class="modal-close" id="cartClose" aria-label="Close cart" style="position:static;">&times;</button></div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-footer">
+    <div class="cart-subtotal"><span>Subtotal</span><span id="cartSubtotal">$0.00</span></div>
+    <a href="../products/checkout.html" class="btn btn-primary" style="width:100%; justify-content:center;">Request Order &#8594;</a>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box" id="modalBox">
+    <button class="modal-close" id="modalClose" aria-label="Close">&times;</button>
+    <div id="modalFormView">
+      <h3 id="modalTitle">Book a Consult</h3>
+      <p class="modal-sub" id="modalDesc">Fill this out and a member of the team will get back to you within two business days.</p>
+      <form id="bookingForm" data-ajax-form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+        <input type="hidden" name="_subject" value="Amrangel consult request">
+        <input type="hidden" name="topic" id="bookTopic" value="General Consult">
+        <div class="form-field"><label for="bookName">Name</label><input type="text" name="name" id="bookName" required autocomplete="name"></div>
+        <div class="form-field"><label for="bookEmail">Email</label><input type="email" name="email" id="bookEmail" required autocomplete="email"></div>
+        <div class="form-field"><label for="bookMessage">What do you need help with?</label><textarea name="message" id="bookMessage" rows="3"></textarea></div>
+        <button type="submit" class="btn btn-primary">Submit Request</button>
+        <div class="form-status"></div>
+      </form>
+    </div>
+    <div id="modalSuccessView" class="modal-success" style="display:none;">
+      <div class="check">&#10003;</div><h3>Request sent</h3><p>We've got your details — expect a reply within two business days.</p>
+    </div>
+  </div>
+</div>
+
+<script src="../assets-shared.js"></script>
+</body>
+</html>
