@@ -15,7 +15,7 @@
      Every form on the site (newsletter, consult booking,
      enrollment, order inquiry) uses this same endpoint.
   ---------------------------------------------------------- */
-  const FORMSPREE_ENDPOINT = "https://formspree.io/f/YOUR_FORM_ID";
+  const FORMSPREE_ENDPOINT = "https://formspree.io/f/xgojlyoz";
 
   /* ---------------- header scroll state ---------------- */
   const header = document.getElementById('siteHeader');
