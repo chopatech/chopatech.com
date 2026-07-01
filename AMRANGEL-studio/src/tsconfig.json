@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "target": "ES2025",
+    "module": "ES2025",
+    "moduleResolution": "Bundler",
+    "strict": true,
+    "skipLibCheck": true
+  }
+}
