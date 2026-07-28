@@ -1,0 +1,57 @@
+/* =========================================================
+   MIHAYO'S SAFARIS — Responsive Layer
+   Mobile-first overrides layered on top of style.css
+   ========================================================= */
+
+@media (max-width: 1220px) {
+  .nav-links { display: none; }
+  .nav-toggle { display: inline-flex; align-items: center; justify-content: center; }
+}
+
+@media (max-width: 1100px) {
+  .card-grid { grid-template-columns: repeat(2, 1fr); }
+  .card-grid.cols-4 { grid-template-columns: repeat(2, 1fr); }
+  footer .foot-grid { grid-template-columns: 1fr 1fr; }
+  .search-card { grid-template-columns: repeat(2, 1fr); }
+  .masonry { columns: 3 200px; }
+}
+
+@media (max-width: 900px) {
+  .brand { font-size: 1.05rem; gap: 8px; }
+  .brand-logo { width: 38px; height: 38px; }
+  .two-col { grid-template-columns: 1fr; gap: 32px; }
+  .hero-stats { grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .form-row { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 720px) {
+  .section { padding: 64px 0; }
+  .card-grid, .card-grid.cols-2, .card-grid.cols-4 { grid-template-columns: 1fr; }
+  .search-card { grid-template-columns: 1fr; margin-top: -40px; padding: 20px; }
+  footer .foot-grid { grid-template-columns: 1fr; gap: 30px; }
+  .hero-inner { padding: 150px 0 60px; }
+  .hero-actions { flex-direction: column; align-items: stretch; }
+  .hero-stats { grid-template-columns: 1fr 1fr; }
+  .cta-band { padding: 40px 24px; }
+  .masonry { columns: 2 160px; }
+  .form-card { padding: 24px; }
+  .scroll-cue { display: none; }
+  .foot-bottom { flex-direction: column; align-items: flex-start; }
+  .foot-bottom a { margin-left: 0; margin-right: 16px; }
+}
+
+@media (max-width: 480px) {
+  .hero-stats { grid-template-columns: 1fr; gap: 14px; }
+  .masonry { columns: 1; }
+  .container { padding: 0 18px; }
+}
+
+/* Mobile off-canvas nav (JS toggles .open on body) */
+.mobile-nav {
+  position: fixed; inset: 0; z-index: 1200; background: var(--c-primary-dark);
+  display: flex; flex-direction: column; padding: 100px 32px 40px;
+  transform: translateX(100%); transition: transform .35s ease;
+}
+body.nav-open .mobile-nav { transform: translateX(0); }
+.mobile-nav a { color: #fff; font-size: 1.3rem; font-weight: 700; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.12); }
+.mobile-nav .close-btn { position: absolute; top: 26px; right: 26px; background: none; border: none; color: #fff; font-size: 1.6rem; cursor: pointer; }
