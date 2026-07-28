@@ -1,658 +1,197 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Modern Contact Page</title>
-
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
-  <style>
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-      font-family:'Inter',sans-serif;
-    }
-
-    body{
-      overflow:hidden;
-      background:#020617;
-      color:white;
-    }
-
-    canvas{
-      position:fixed;
-      top:0;
-      left:0;
-      width:100%;
-      height:100%;
-      z-index:-2;
-    }
-
-    .overlay{
-      position:fixed;
-      inset:0;
-      background:
-      radial-gradient(circle at top,#0f172a99,#020617ee),
-      linear-gradient(to bottom,#020617aa,#000000dd);
-      z-index:-1;
-    }
-
-    nav{
-      width:100%;
-      position:fixed;
-      top:0;
-      left:0;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      padding:25px 60px;
-      z-index:100;
-      backdrop-filter:blur(12px);
-    }
-
-    .logo{
-      font-size:28px;
-      font-weight:800;
-      letter-spacing:2px;
-      background:linear-gradient(90deg,#38bdf8,#ffffff,#818cf8);
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
-    }
-
-    .menu{
-      display:flex;
-      gap:30px;
-    }
-
-    .menu a{
-      text-decoration:none;
-      color:white;
-      font-size:15px;
-      transition:0.3s;
-      position:relative;
-    }
-
-    .menu a::after{
-      content:'';
-      position:absolute;
-      left:0;
-      bottom:-8px;
-      width:0;
-      height:2px;
-      background:#38bdf8;
-      transition:0.4s;
-    }
-
-    .menu a:hover::after{
-      width:100%;
-    }
-
-    .hamburger{
-      display:none;
-      flex-direction:column;
-      gap:6px;
-      cursor:pointer;
-    }
-
-    .hamburger span{
-      width:30px;
-      height:3px;
-      background:white;
-      border-radius:10px;
-    }
-
-    .container{
-      width:100%;
-      height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:100px;
-      position:relative;
-    }
-
-    .contact-box{
-      width:100%;
-      max-width:1250px;
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:60px;
-      background:rgba(255,255,255,0.05);
-      border:1px solid rgba(255,255,255,0.08);
-      backdrop-filter:blur(18px);
-      border-radius:35px;
-      overflow:hidden;
-      box-shadow:
-      0 0 40px rgba(56,189,248,0.15),
-      0 0 120px rgba(99,102,241,0.1);
-    }
-
-    .left{
-      padding:70px;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-      position:relative;
-    }
-
-    .left::before{
-      content:'';
-      position:absolute;
-      width:300px;
-      height:300px;
-      background:#38bdf8;
-      filter:blur(150px);
-      opacity:0.15;
-      top:-100px;
-      left:-100px;
-    }
-
-    .left h4{
-      color:#38bdf8;
-      font-size:16px;
-      margin-bottom:15px;
-      letter-spacing:2px;
-      text-transform:uppercase;
-    }
-
-    .left h1{
-      font-size:65px;
-      line-height:1.1;
-      margin-bottom:25px;
-      font-weight:800;
-    }
-
-    .left p{
-      color:#cbd5e1;
-      line-height:1.8;
-      margin-bottom:40px;
-      max-width:500px;
-    }
-
-    .info-box{
-      display:flex;
-      flex-direction:column;
-      gap:20px;
-    }
-
-    .info{
-      display:flex;
-      align-items:center;
-      gap:15px;
-      background:rgba(255,255,255,0.04);
-      padding:18px 22px;
-      border-radius:18px;
-      border:1px solid rgba(255,255,255,0.05);
-      transition:0.4s;
-    }
-
-    .info:hover{
-      transform:translateX(10px);
-      background:rgba(56,189,248,0.1);
-    }
-
-    .icon{
-      width:50px;
-      height:50px;
-      border-radius:50%;
-      background:linear-gradient(135deg,#0ea5e9,#6366f1);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size:20px;
-      flex-shrink:0;
-    }
-
-    .right{
-      padding:70px;
-      background:rgba(255,255,255,0.03);
-      position:relative;
-    }
-
-    .right::before{
-      content:'';
-      position:absolute;
-      width:250px;
-      height:250px;
-      background:#6366f1;
-      filter:blur(120px);
-      opacity:0.2;
-      bottom:-100px;
-      right:-100px;
-    }
-
-    form{
-      display:flex;
-      flex-direction:column;
-      gap:25px;
-      position:relative;
-      z-index:2;
-    }
-
-    .input-group{
-      position:relative;
-    }
-
-    input,
-    textarea{
-      width:100%;
-      padding:20px;
-      background:rgba(255,255,255,0.05);
-      border:1px solid rgba(255,255,255,0.08);
-      outline:none;
-      border-radius:18px;
-      color:white;
-      font-size:15px;
-      transition:0.4s;
-    }
-
-    textarea{
-      min-height:180px;
-      resize:none;
-    }
-
-    input:focus,
-    textarea:focus{
-      border-color:#38bdf8;
-      box-shadow:0 0 20px rgba(56,189,248,0.25);
-      transform:translateY(-2px);
-    }
-
-    input::placeholder,
-    textarea::placeholder{
-      color:#94a3b8;
-    }
-
-    button{
-      padding:18px;
-      border:none;
-      border-radius:18px;
-      background:linear-gradient(90deg,#0ea5e9,#6366f1);
-      color:white;
-      font-size:16px;
-      font-weight:700;
-      cursor:pointer;
-      transition:0.4s;
-      letter-spacing:1px;
-      box-shadow:0 0 30px rgba(56,189,248,0.3);
-    }
-
-    button:hover{
-      transform:translateY(-5px) scale(1.02);
-      box-shadow:0 0 40px rgba(56,189,248,0.5);
-    }
-
-    .planet-label{
-      position:absolute;
-      bottom:30px;
-      right:30px;
-      background:rgba(255,255,255,0.05);
-      padding:12px 20px;
-      border-radius:20px;
-      backdrop-filter:blur(10px);
-      border:1px solid rgba(255,255,255,0.05);
-      color:#cbd5e1;
-      font-size:14px;
-      z-index:10;
-    }
-
-    @media(max-width:1100px){
-      .contact-box{
-        grid-template-columns:1fr;
-        overflow-y:auto;
-        height:85vh;
-      }
-
-      .left h1{
-        font-size:50px;
-      }
-
-      body{
-        overflow:auto;
-      }
-
-      .container{
-        height:auto;
-        padding-top:140px;
-        padding-bottom:50px;
-      }
-    }
-
-    @media(max-width:768px){
-      nav{
-        padding:20px 25px;
-      }
-
-      .menu{
-        position:fixed;
-        top:80px;
-        right:-100%;
-        width:260px;
-        height:calc(100vh - 80px);
-        background:#020617;
-        flex-direction:column;
-        padding:40px;
-        transition:0.5s;
-      }
-
-      .menu.active{
-        right:0;
-      }
-
-      .hamburger{
-        display:flex;
-      }
-
-      .container{
-        padding:25px;
-      }
-
-      .left,
-      .right{
-        padding:35px 25px;
-      }
-
-      .left h1{
-        font-size:38px;
-      }
-    }
-
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact & Plan Your Trip | Mihayo's Safaris</title>
+<meta name="description" content="Get in touch with Mihayo's Safaris in Arusha, Tanzania — send a trip enquiry, WhatsApp us directly, or find our office hours and location.">
+<link rel="canonical" href="https://mihayossafaris.com/contact.html">
+<meta name="robots" content="index, follow">
+<link rel="icon" href="images/favicon-logo.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/responsive.css">
 </head>
 <body>
 
-  <canvas id="bg"></canvas>
-  <div class="overlay"></div>
-
-  <nav>
-    <div class="logo">CHOPATECH</div>
-
-    <div class="menu" id="menu">
-      <a href="#">Home</a>
-      <a href="#">Projects</a>
-      <a href="#">Services</a>
-      <a href="#">About</a>
-      <a href="#">Contact</a>
-    </div>
-
-    <div class="hamburger" id="hamburger">
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
-  </nav>
-
-  <section class="container">
-
-    <div class="contact-box">
-
-      <div class="left">
-
-        <h4>CONTACT US</h4>
-
-        <h1>
-          Build Future <br>
-          With Innovation
-        </h1>
-
-        <p>
-          Welcome to our futuristic contact experience powered by advanced modern UI design, glassmorphism, cinematic effects and immersive solar system animation using Three.js technology.
-        </p>
-
-        <div class="info-box">
-
-          <div class="info">
-            <div class="icon">📍</div>
-            <div>
-              <h3>Location</h3>
-              <p>Dar es Salaam, Tanzania</p>
-            </div>
-          </div>
-
-          <div class="info">
-            <div class="icon">📧</div>
-            <div>
-              <h3>Email</h3>
-              <p>contact@chopatech.com</p>
-            </div>
-          </div>
-
-          <div class="info">
-            <div class="icon">📱</div>
-            <div>
-              <h3>Phone</h3>
-              <p>+255 000 000 000</p>
-            </div>
-          </div>
-
+<header class="navbar">
+  <div class="container">
+    <a href="index.html" class="brand"><img src="images/logo.png" alt="Mihayo's Safaris logo" class="brand-logo"> Mihayo's Safaris</a>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="index.html" data-i18n="nav.home">Home</a></li>
+        <li><a href="about.html" data-i18n="nav.about">About</a></li>
+        <li><a href="destinations.html" data-i18n="nav.destinations">Destinations</a></li>
+        <li><a href="safaris.html" data-i18n="nav.safaris">Safaris</a></li>
+        <li><a href="kilimanjaro.html" data-i18n="nav.kilimanjaro">Kilimanjaro</a></li>
+        <li><a href="zanzibar.html" data-i18n="nav.zanzibar">Zanzibar</a></li>
+        <li><a href="hotels.html" data-i18n="nav.hotels">Hotels</a></li>
+        <li><a href="contact.html" class="active" data-i18n="nav.contact">Contact</a></li>
+      </ul>
+    </nav>
+    <div class="nav-right">
+      <div class="lang-switch">
+        <button class="lang-btn" aria-label="Change language"><i class="fa-solid fa-globe"></i> <span class="lang-current">EN</span></button>
+        <div class="lang-menu">
+          <button data-lang-option="en" class="active">English</button>
+          <button data-lang-option="sw">Kiswahili</button>
+          <button data-lang-option="es">Español</button>
+          <button data-lang-option="fr">Français</button>
         </div>
+      </div>
+      <button class="theme-toggle" aria-label="Toggle dark mode"><i class="fa-solid fa-moon"></i></button>
+      <a href="contact.html" class="btn btn-gold btn-sm" data-i18n="nav.book">Plan My Safari</a>
+      <button class="nav-toggle" aria-label="Open menu"><i class="fa-solid fa-bars"></i></button>
+    </div>
+  </div>
+</header>
 
+<div class="mobile-nav">
+  <button class="close-btn" aria-label="Close menu"><i class="fa-solid fa-xmark"></i></button>
+  <a href="index.html" data-i18n="nav.home">Home</a>
+  <a href="about.html" data-i18n="nav.about">About</a>
+  <a href="destinations.html" data-i18n="nav.destinations">Destinations</a>
+  <a href="safaris.html" data-i18n="nav.safaris">Safaris</a>
+  <a href="kilimanjaro.html" data-i18n="nav.kilimanjaro">Kilimanjaro</a>
+  <a href="zanzibar.html" data-i18n="nav.zanzibar">Zanzibar</a>
+  <a href="hotels.html" data-i18n="nav.hotels">Hotels</a>
+  <a href="contact.html" data-i18n="nav.contact">Contact</a>
+</div>
+
+<section class="page-hero" style="background-image: linear-gradient(180deg, rgba(7,61,44,0.55), rgba(7,61,44,0.92)), url('https://picsum.photos/seed/arushaoffice/1800/900');">
+  <div class="container">
+    <div class="breadcrumb"><a href="index.html">Home</a> / <span data-i18n="nav.contact">Contact</span></div>
+    <span class="eyebrow" data-i18n="contact.eyebrow" style="margin-top:16px;">TALK TO A HUMAN</span>
+    <h1 data-i18n="contact.title">Plan Your Trip</h1>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="two-col" style="align-items:start;">
+
+      <div data-aos>
+        <p class="text-muted" style="margin-bottom:26px;" data-i18n="contact.sub">Real answers within one business day from someone who has actually driven the route you're asking about.</p>
+        <div class="form-card">
+          <form data-validate novalidate>
+            <div class="form-row">
+              <div class="form-group">
+                <label data-i18n="contact.form.name">Full Name</label>
+                <input type="text" required>
+                <div class="invalid-feedback">Please enter your name.</div>
+              </div>
+              <div class="form-group">
+                <label data-i18n="contact.form.email">Email</label>
+                <input type="email" required>
+                <div class="invalid-feedback">Please enter a valid email.</div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label data-i18n="contact.form.phone">Phone / WhatsApp</label>
+                <input type="tel">
+              </div>
+              <div class="form-group">
+                <label data-i18n="contact.form.dates">Approximate Travel Dates</label>
+                <input type="text" placeholder="e.g. September 2026">
+              </div>
+            </div>
+            <div class="form-group">
+              <label data-i18n="contact.form.message">Tell us what you have in mind</label>
+              <textarea required></textarea>
+              <div class="invalid-feedback">Let us know a bit about your trip.</div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block"><i class="fa-solid fa-paper-plane"></i> <span data-i18n="contact.form.submit">Send Enquiry</span></button>
+            <p class="form-note">By submitting, you agree to be contacted about your enquiry. We don't share your details with third parties.</p>
+          </form>
+          <div class="form-success" style="display:none; text-align:center; padding:20px 0;">
+            <i class="fa-solid fa-circle-check" style="font-size:2.4rem; color:var(--c-primary);"></i>
+            <h3 style="margin:14px 0 8px;">Enquiry received</h3>
+            <p class="text-muted">A member of the ground team will reply within one business day.</p>
+          </div>
+        </div>
       </div>
 
-      <div class="right">
-
-        <form>
-
-          <div class="input-group">
-            <input type="text" placeholder="Your Name">
-          </div>
-
-          <div class="input-group">
-            <input type="email" placeholder="Email Address">
-          </div>
-
-          <div class="input-group">
-            <input type="text" placeholder="Subject">
-          </div>
-
-          <div class="input-group">
-            <textarea placeholder="Write Your Message..."></textarea>
-          </div>
-
-          <button type="submit">SEND MESSAGE</button>
-
-        </form>
-
+      <div data-aos>
+        <div class="info-card">
+          <h4><i class="fa-solid fa-location-dot" style="color:var(--c-primary);"></i> <span data-i18n="contact.office.title">Office</span></h4>
+          <p>Serengeti Road, Njiro<br>Arusha, Tanzania</p>
+        </div>
+        <div class="info-card">
+          <h4><i class="fa-solid fa-clock" style="color:var(--c-primary);"></i> <span data-i18n="contact.hours.title">Business Hours</span></h4>
+          <p data-i18n="contact.hours.text">Mon – Sat, 8:00 – 18:00 (EAT). WhatsApp answered 7 days.</p>
+        </div>
+        <div class="info-card">
+          <h4><i class="fa-solid fa-envelope" style="color:var(--c-primary);"></i> Direct Contact</h4>
+          <p>sizyakatema@yahoo.com<br>+44 7504 988729</p>
+        </div>
+        <div class="map-embed">
+          <iframe title="Map of Mihayo's Safaris office in Arusha, Tanzania" loading="lazy" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3979.0!2d36.6989!3d-3.3869!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zM8KwMjMnMTIuOSJTIDM2wrA0MScyMy45IkU!5e0!3m2!1sen!2stz"></iframe>
+        </div>
       </div>
 
     </div>
+  </div>
+</section>
 
-    <div class="planet-label">
-      🌍 Interactive Solar System Background
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div><img src="images/logo.png" alt="Mihayo's Safaris logo" style="width:64px;height:64px;border-radius:50%;background:#FDF8ED;padding:3px;margin-bottom:14px;">
+        <h4 data-i18n="footer.about.title">Mihayo's Safaris</h4><p data-i18n="footer.about.text">Tanzanian-owned safari and travel operator based in Arusha, running trips across the Northern and Southern Circuits, Kilimanjaro, and Zanzibar since 2009.</p><div class="social-row"><a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a><a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a></div></div>
+      <div><h4 data-i18n="footer.links.title">Quick Links</h4><ul><li><a href="about.html" data-i18n="nav.about">About</a></li><li><a href="safaris.html" data-i18n="nav.safaris">Safaris</a></li><li><a href="kilimanjaro.html" data-i18n="nav.kilimanjaro">Kilimanjaro</a></li><li><a href="zanzibar.html" data-i18n="nav.zanzibar">Zanzibar</a></li><li><a href="faq.html">FAQ</a></li></ul></div>
+      <div><h4 data-i18n="footer.destinations.title">Top Destinations</h4><ul><li><a href="destinations.html">Serengeti</a></li><li><a href="destinations.html">Ngorongoro</a></li><li><a href="zanzibar.html">Zanzibar</a></li></ul></div>
+      <div><h4 data-i18n="footer.newsletter.title">Field Dispatch</h4><p data-i18n="footer.newsletter.text">One email a month: migration timing, weather notes, route changes. No spam.</p><form class="foot-newsletter-form"><input type="email" required data-i18n-ph="footer.newsletter.ph" placeholder="Your email"><button type="submit" class="btn btn-gold btn-sm" data-i18n="footer.newsletter.btn">Subscribe</button></form></div>
     </div>
-
-  </section>
-
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-
-  <script>
-
-    const scene = new THREE.Scene();
-
-    const camera = new THREE.PerspectiveCamera(
-      75,
-      window.innerWidth / window.innerHeight,
-      0.1,
-      1000
-    );
-
-    const renderer = new THREE.WebGLRenderer({
-      canvas: document.getElementById('bg'),
-      antialias:true,
-      alpha:true
-    });
-
-    renderer.setSize(window.innerWidth,window.innerHeight);
-    renderer.setPixelRatio(window.devicePixelRatio);
-
-
-    // STARS
-
-    const starGeometry = new THREE.BufferGeometry();
-    const starCount = 6000;
-
-    const starVertices = [];
-
-    for(let i=0;i<starCount;i++){
-      const x = (Math.random()-0.5)*2000;
-      const y = (Math.random()-0.5)*2000;
-      const z = (Math.random()-0.5)*2000;
-
-      starVertices.push(x,y,z);
-    }
-
-    starGeometry.setAttribute(
-      'position',
-      new THREE.Float32BufferAttribute(starVertices,3)
-    );
-
-    const starMaterial = new THREE.PointsMaterial({
-      color:0xffffff,
-      size:0.7
-    });
-
-    const stars = new THREE.Points(starGeometry,starMaterial);
-    scene.add(stars);
-
-
-    // SUN
-
-    const sunGeometry = new THREE.SphereGeometry(4,64,64);
-    const sunMaterial = new THREE.MeshBasicMaterial({
-      color:0xffaa00
-    });
-
-    const sun = new THREE.Mesh(sunGeometry,sunMaterial);
-    scene.add(sun);
-
-
-    // GLOW
-
-    const glowGeometry = new THREE.SphereGeometry(5.5,64,64);
-
-    const glowMaterial = new THREE.MeshBasicMaterial({
-      color:0xff8800,
-      transparent:true,
-      opacity:0.35
-    });
-
-    const glow = new THREE.Mesh(glowGeometry,glowMaterial);
-    scene.add(glow);
-
-
-    // PLANETS
-
-    function createPlanet(size,color,distance,speed){
-
-      const geometry = new THREE.SphereGeometry(size,32,32);
-
-      const material = new THREE.MeshStandardMaterial({
-        color:color,
-        roughness:0.5,
-        metalness:0.3
-      });
-
-      const planet = new THREE.Mesh(geometry,material);
-
-      scene.add(planet);
-
-      return {
-        planet,
-        distance,
-        speed,
-        angle:Math.random()*Math.PI*2
-      }
-    }
-
-    const planets = [
-      createPlanet(1,'#3b82f6',10,0.01),
-      createPlanet(1.5,'#22c55e',16,0.008),
-      createPlanet(2,'#a855f7',23,0.006),
-      createPlanet(1.2,'#ef4444',30,0.004)
-    ];
-
-
-    // LIGHTS
-
-    const pointLight = new THREE.PointLight(0xffffff,2);
-    scene.add(pointLight);
-
-    const ambientLight = new THREE.AmbientLight(0xffffff,0.4);
-    scene.add(ambientLight);
-
-
-    camera.position.z = 45;
-
-
-    // MOUSE EFFECT
-
-    let mouseX = 0;
-    let mouseY = 0;
-
-    document.addEventListener('mousemove',(event)=>{
-      mouseX = (event.clientX/window.innerWidth - 0.5)*2;
-      mouseY = (event.clientY/window.innerHeight - 0.5)*2;
-    });
-
-
-    // ANIMATION
-
-    function animate(){
-
-      requestAnimationFrame(animate);
-
-      stars.rotation.y += 0.0002;
-      stars.rotation.x += 0.0001;
-
-      sun.rotation.y += 0.004;
-      glow.rotation.y += 0.002;
-
-      planets.forEach(obj=>{
-
-        obj.angle += obj.speed;
-
-        obj.planet.position.x = Math.cos(obj.angle)*obj.distance;
-        obj.planet.position.z = Math.sin(obj.angle)*obj.distance;
-
-        obj.planet.rotation.y += 0.01;
-      });
-
-      camera.position.x += (mouseX*5 - camera.position.x)*0.03;
-      camera.position.y += (-mouseY*5 - camera.position.y)*0.03;
-
-      camera.lookAt(scene.position);
-
-      renderer.render(scene,camera);
-    }
-
-    animate();
-
-
-    // RESPONSIVE
-
-    window.addEventListener('resize',()=>{
-
-      camera.aspect = window.innerWidth/window.innerHeight;
-
-      camera.updateProjectionMatrix();
-
-      renderer.setSize(window.innerWidth,window.innerHeight);
-    });
-
-
-    // MOBILE MENU
-
-    const hamburger = document.getElementById('hamburger');
-    const menu = document.getElementById('menu');
-
-    hamburger.addEventListener('click',()=>{
-      menu.classList.toggle('active');
-    });
-
-  </script>
-
+    <div class="foot-bottom"><span>&copy; 2026 Mihayo's Safaris. <span data-i18n="footer.rights">All rights reserved.</span></span><div><a href="#" data-i18n="footer.privacy">Privacy Policy</a><a href="#" data-i18n="footer.terms">Terms of Service</a></div></div>
+  </div>
+</footer>
+
+<div class="floating-actions">
+  <a href="https://wa.me/447504988729" class="fab fab-whatsapp" aria-label="Chat on WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+  <a href="tel:+447504988729" class="fab fab-call" aria-label="Call us"><i class="fa-solid fa-phone"></i></a>
+  <button class="fab fab-top" aria-label="Back to top"><i class="fa-solid fa-arrow-up"></i></button>
+</div>
+
+<!-- ============ MIHAYO AI ASSISTANT ============ -->
+<button class="ai-fab" id="aiFab" aria-label="Chat with Mihayo AI">
+  <img src="images/mihayo-ai-mascot.png" alt="Mihayo AI">
+  <span class="ai-fab-dot" aria-hidden="true"></span>
+</button>
+
+<div class="ai-panel" id="aiPanel">
+  <div class="ai-header">
+    <img src="images/mihayo-ai-mascot.png" alt="Mihayo AI">
+    <div class="ai-h-text">
+      <div class="ai-h-name" data-i18n="ai.name">Mihayo AI</div>
+      <div class="ai-h-role"><span class="dot"></span> <span data-i18n="ai.role">Your safari assistant</span></div>
+    </div>
+    <button id="aiCloseBtn" aria-label="Close chat"><i class="fa-solid fa-xmark"></i></button>
+  </div>
+  <div class="ai-messages" id="aiMessages"></div>
+  <div class="ai-chips">
+    <button class="ai-chip" data-intent="bestTime" data-i18n="ai.chip.bestTime">Best time to visit?</button>
+    <button class="ai-chip" data-intent="kili" data-i18n="ai.chip.kili">Kilimanjaro routes</button>
+    <button class="ai-chip" data-intent="prices" data-i18n="ai.chip.prices">Safari prices</button>
+    <button class="ai-chip" data-intent="zanzibar" data-i18n="ai.chip.zanzibar">Zanzibar tips</button>
+    <button class="ai-chip" data-intent="packing" data-i18n="ai.chip.packing">What to pack</button>
+    <button class="ai-chip" data-intent="migration" data-i18n="ai.chip.migration">Great Migration</button>
+    <button class="ai-chip" data-intent="weather" data-i18n="ai.chip.weather">Check live weather</button>
+    <button class="ai-chip" data-intent="human" data-i18n="ai.chip.human">Talk to a human</button>
+  </div>
+  <div class="ai-input-row">
+    <input type="text" id="aiInput" data-i18n-ph="ai.placeholder" placeholder="Ask about Tanzania, safaris, prices…">
+    <button id="aiSendBtn" aria-label="Send"><i class="fa-solid fa-paper-plane"></i></button>
+  </div>
+  <div class="ai-disclaimer" data-i18n="ai.disclaimer">Mihayo AI answers common questions instantly. For anything else, our human team replies within a business day.</div>
+</div>
+
+<script src="js/translations.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/darkmode.js"></script>
+<script src="js/main.js"></script>
+<script src="js/mihayo-ai.js"></script>
 </body>
 </html>

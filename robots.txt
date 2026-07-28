@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://chopatech.com/sitemap.xml
+Sitemap: https://mihayossafaris.com/sitemap.xml
