@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payment status — DPO Payments Demo</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="page">
+    <header class="site-header">
+      <div class="brand">DPO<span>Store</span></div>
+    </header>
+
+    <main class="status-page">
+      <div id="status-icon" class="status-icon pending">⏳</div>
+      <h1 id="status-title">Checking your payment…</h1>
+      <p class="muted" id="status-subtitle">Hang tight while we confirm this with DPO.</p>
+
+      <div class="receipt" id="receipt" hidden>
+        <div class="receipt-row"><span>Order</span><span id="r-order">—</span></div>
+        <div class="receipt-row"><span>Amount</span><span id="r-amount">—</span></div>
+        <div class="receipt-row"><span>Status</span><span id="r-status">—</span></div>
+      </div>
+
+      <a href="index.html" class="btn btn-primary">Back to store</a>
+    </main>
+
+    <footer class="site-footer">
+      <p class="muted small">Secured by DPO Pay · Cloudflare Workers</p>
+    </footer>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script>
+    (async function () {
+      const params = new URLSearchParams(window.location.search);
+      const orderRef = params.get("order") || sessionStorage.getItem("dpo_last_order_ref");
+
+      const iconEl = document.getElementById("status-icon");
+      const titleEl = document.getElementById("status-title");
+      const subtitleEl = document.getElementById("status-subtitle");
+      const receiptEl = document.getElementById("receipt");
+
+      if (!orderRef) {
+        iconEl.className = "status-icon error";
+        iconEl.textContent = "!";
+        titleEl.textContent = "We couldn't find that order";
+        subtitleEl.textContent = "If you completed a payment, check your email for a receipt.";
+        return;
+      }
+
+      try {
+        const res = await fetch(`${window.APP_CONFIG.API_BASE_URL}/api/orders/${encodeURIComponent(orderRef)}`);
+        const data = await res.json();
+
+        if (!res.ok || !data.ok) throw new Error("lookup_failed");
+
+        const order = data.order;
+        document.getElementById("r-order").textContent = order.order_ref;
+        document.getElementById("r-amount").textContent = `${order.currency} ${Number(order.amount).toLocaleString()}`;
+        document.getElementById("r-status").textContent = order.status;
+        receiptEl.hidden = false;
+
+        if (order.status === "paid") {
+          iconEl.className = "status-icon success";
+          iconEl.textContent = "✓";
+          titleEl.textContent = "Payment successful";
+          subtitleEl.textContent = "Thank you — your order is confirmed.";
+        } else if (order.status === "pending" && order.dpo_transaction_token) {
+          // Redirect just landed before the webhook fired — force a check.
+          const verifyRes = await fetch(
+            `${window.APP_CONFIG.API_BASE_URL}/api/payments/${order.dpo_transaction_token}/verify`
+          );
+          const verifyData = await verifyRes.json();
+
+          if (verifyData.ok && verifyData.paid) {
+            iconEl.className = "status-icon success";
+            iconEl.textContent = "✓";
+            titleEl.textContent = "Payment successful";
+            subtitleEl.textContent = "Thank you — your order is confirmed.";
+            document.getElementById("r-status").textContent = "paid";
+          } else {
+            iconEl.className = "status-icon pending";
+            iconEl.textContent = "⏳";
+            titleEl.textContent = "Payment still processing";
+            subtitleEl.textContent = "This can take a minute. Refresh this page shortly.";
+          }
+        } else {
+          iconEl.className = "status-icon error";
+          iconEl.textContent = "!";
+          titleEl.textContent = "Payment not completed";
+          subtitleEl.textContent = "No charge was confirmed for this order.";
+        }
+      } catch {
+        iconEl.className = "status-icon error";
+        iconEl.textContent = "!";
+        titleEl.textContent = "Couldn't check payment status";
+        subtitleEl.textContent = "Please refresh, or contact support with your order reference.";
+      }
+    })();
+  </script>
+</body>
+</html>
