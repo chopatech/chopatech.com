@@ -90,7 +90,7 @@ function renderShell() {
             <input placeholder="${t("search_placeholder")}" />
           </div>
           <div class="topbar-right">
-            <div class="router-select-pill" id="routerPill"><span class="dot-status"></span> ${t("all_routers")} ${ICON("chevronDown")}</div>
+            <div class="router-select-pill" id="routerPill"><span class="dot-status"></span><span>${t("all_routers")}</span>${ICON("chevronDown")}</div>
             <span class="topbar-divider"></span>
             <div class="icon-cluster">
               <button class="icon-btn" id="langBtn" title="${t("language")}">${lang.toUpperCase()}</button>
@@ -119,6 +119,7 @@ function renderShell() {
         <main class="content" id="content"></main>
       </div>
     </div>
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
     <div class="toast-region" id="toastRegion"></div>
   `);
 
@@ -135,8 +136,17 @@ function renderShell() {
     });
   });
 
-  qsa("[data-nav]").forEach(n => n.addEventListener("click", () => goTo(n.dataset.nav)));
-  qs("#collapseBtn").addEventListener("click", () => qs("#appShell").classList.toggle("collapsed"));
+  qsa("[data-nav]").forEach(n => n.addEventListener("click", () => { goTo(n.dataset.nav); closeMobileNav(); }));
+  const isMobile = () => window.matchMedia("(max-width: 980px)").matches;
+  qs("#collapseBtn").addEventListener("click", () => {
+    if (isMobile()) {
+      qs("#appShell").classList.toggle("mobile-open");
+    } else {
+      qs("#appShell").classList.toggle("collapsed");
+    }
+  });
+  qs("#sidebarBackdrop").addEventListener("click", closeMobileNav);
+  window.addEventListener("resize", () => { if (!isMobile()) closeMobileNav(); });
   qs("#themeBtn").addEventListener("click", toggleTheme);
   qs("#langBtn").addEventListener("click", () => setLanguage(getLang() === "en" ? "sw" : "en"));
   qs("#notifBtn").addEventListener("click", (e) => { e.stopPropagation(); togglePanel("notifPanel"); });
@@ -151,6 +161,10 @@ function renderShell() {
   const savedTheme = localStorage.getItem("chopa_theme") || "dark";
   document.documentElement.setAttribute("data-theme", savedTheme);
   qs("#themeBtn").innerHTML = ICON(savedTheme === "light" ? "sun" : "moon");
+}
+
+function closeMobileNav() {
+  qs("#appShell")?.classList.remove("mobile-open");
 }
 
 function togglePanel(id) {

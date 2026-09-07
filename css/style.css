@@ -110,7 +110,13 @@ button{font-family:inherit}
    AUTH SCREENS
    ========================================================= */
 .auth-shell{ min-height:100vh; display:grid; grid-template-columns: 1fr 1fr; position:relative; z-index:1; }
-@media (max-width: 900px){ .auth-shell{ grid-template-columns:1fr; } .auth-visual{ display:none; } }
+@media (max-width: 900px){ .auth-shell{ grid-template-columns:minmax(0,1fr); } .auth-visual{ display:none; } }
+@media (max-width: 480px){
+  .auth-panel{ padding:20px 16px; }
+  .auth-card{ max-width:none; }
+  #authLangBtn{ top:14px !important; right:14px !important; }
+  .auth-card h1{ font-size:19px; }
+}
 
 .auth-visual{
   position:relative; background:var(--ink-2); border-right:1px solid var(--line);
@@ -153,6 +159,14 @@ button{font-family:inherit}
   padding:10px 16px; font-weight:600; font-size:13px; cursor:pointer; font-family:var(--font-body);
   transition:background .12s, border-color .12s, opacity .12s, transform .08s;
 }
+/* Icons from ICON() ship with no width/height attribute, only a viewBox, so
+   any icon not already covered by a scoped `X svg{ width; height; }` rule
+   falls back to the browser's default replaced-element sizing. That's mostly
+   invisible on desktop but blows up to huge on mobile, where buttons like
+   `.page-head .actions .btn` stretch to fill the row (flex:1 1 auto) and give
+   the icon far more box to scale into. This is a global floor so no icon can
+   grow past 16px unless something more specific overrides it. */
+svg:not([width]):not([height]){ width:16px; height:16px; flex:0 0 auto; }
 .btn:active{ transform:scale(.97); }
 .btn-block{ width:100%; }
 .btn-primary{ background:var(--signal); color:#fff; }
@@ -177,7 +191,7 @@ button{font-family:inherit}
 /* =========================================================
    APP SHELL
    ========================================================= */
-.app-shell{ display:grid; grid-template-columns: var(--sidebar-w) 1fr; min-height:100vh; position:relative; z-index:1; transition:grid-template-columns .2s ease; }
+.app-shell{ display:grid; grid-template-columns: var(--sidebar-w) minmax(0, 1fr); min-height:100vh; position:relative; z-index:1; transition:grid-template-columns .2s ease; }
 .app-shell.collapsed{ grid-template-columns: var(--sidebar-w-collapsed) 1fr; }
 
 .sidebar{
@@ -247,6 +261,7 @@ button{font-family:inherit}
 @media (max-width:1160px){ .user-chip .meta{ display:none; } }
 
 .dropdown{ position:relative; }
+.sidebar-backdrop{ display:none; position:fixed; inset:0; background:rgba(4,4,6,.55); z-index:90; }
 .dropdown-panel{ position:absolute; right:0; top:calc(100% + 8px); width:310px; background:var(--panel-raised); border:1px solid var(--line-strong); border-radius:var(--radius); box-shadow:0 16px 40px -12px rgba(0,0,0,.5); padding:6px; display:none; z-index:50; }
 .dropdown-panel.open{ display:block; }
 .dropdown-panel h4{ margin:6px 10px 4px; font-size:11px; color:var(--text-low); font-weight:500; }
@@ -281,15 +296,22 @@ button{font-family:inherit}
 .card-head .head-ico{ width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center; background:var(--panel-raised); color:var(--text-mid); flex:0 0 auto; }
 
 .grid{ display:grid; gap:14px; }
-.grid-2{ grid-template-columns:2fr 1fr; }
-.grid-3{ grid-template-columns:repeat(3,1fr); }
-.grid-4{ grid-template-columns:repeat(4,1fr); }
-@media (max-width:1240px){ .grid-2{grid-template-columns:1fr;} }
-@media (max-width:760px){ .grid-3,.grid-4{grid-template-columns:repeat(2,1fr);} }
+/* minmax(0, ...) on every track, not bare 1fr/2fr: grid items default to
+   min-width:auto, so a track sized with a bare fr unit won't shrink below
+   its content's natural min-content width. That's what let a wide table or
+   a row of status cards force these grids (and the whole page) wider than
+   the viewport at some widths. minmax(0, Nfr) keeps the same proportions
+   but allows the track to actually shrink and let content wrap/scroll
+   internally instead. Applies at every breakpoint, not just mobile. */
+.grid-2{ grid-template-columns:minmax(0,2fr) minmax(0,1fr); }
+.grid-3{ grid-template-columns:repeat(3,minmax(0,1fr)); }
+.grid-4{ grid-template-columns:repeat(4,minmax(0,1fr)); }
+@media (max-width:1240px){ .grid-2{grid-template-columns:minmax(0,1fr);} }
+@media (max-width:760px){ .grid-3,.grid-4{grid-template-columns:repeat(2,minmax(0,1fr));} }
 
 .dash-grid{ display:grid; grid-template-columns: 2.1fr 1fr; gap:14px; align-items:start; }
 .dash-rail{ display:flex; flex-direction:column; gap:14px; }
-@media (max-width:1240px){ .dash-grid{ grid-template-columns:1fr; } }
+@media (max-width:1240px){ .dash-grid{ grid-template-columns:minmax(0,1fr); } }
 
 .ticker{ display:grid; grid-template-columns: 1.3fr 1fr 1fr; grid-template-rows: auto auto; gap:12px; }
 .ticker-seg{
@@ -301,10 +323,10 @@ button{font-family:inherit}
 .ticker-seg.feature .t-spark{ display:flex; align-items:flex-end; gap:4px; height:34px; margin-top:14px; }
 .ticker-seg.feature .t-spark i{ flex:1; background:var(--seg-accent, var(--signal)); opacity:.8; border-radius:2px 2px 0 0; height:0; transition:height .8s cubic-bezier(.16,.84,.44,1); }
 @media (max-width:900px){
-  .ticker{ grid-template-columns:1fr 1fr; }
+  .ticker{ grid-template-columns:repeat(2,minmax(0,1fr)); }
   .ticker-seg.feature{ grid-column:1 / 3; grid-row:auto; }
 }
-@media (max-width:560px){ .ticker{ grid-template-columns:1fr; } .ticker-seg.feature{ grid-column:auto; } }
+@media (max-width:560px){ .ticker{ grid-template-columns:minmax(0,1fr); } .ticker-seg.feature{ grid-column:auto; } }
 .ticker-seg .t-label{ font-size:11px; color:var(--text-low); display:flex; align-items:center; gap:6px; }
 .ticker-seg .t-label svg{ width:13px;height:13px; }
 .ticker-seg .t-value{ font-size:21px; font-weight:700; margin-top:8px; font-family:var(--font-display); letter-spacing:-.01em; }
@@ -340,7 +362,7 @@ button{font-family:inherit}
 .signal-panel-row .sp-main span{ font-size:11px; color:var(--text-low); }
 
 .ops-board{ display:grid; grid-template-columns:repeat(4,1fr); gap:0; border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; }
-@media (max-width:900px){ .ops-board{ grid-template-columns:repeat(2,1fr); } }
+@media (max-width:900px){ .ops-board{ grid-template-columns:repeat(2,minmax(0,1fr)); } }
 .ops-col{ border-right:1px solid var(--line); min-width:0; }
 .ops-col:last-child{ border-right:none; }
 .ops-col-head{ display:flex; align-items:center; justify-content:space-between; padding:11px 14px; border-bottom:1px solid var(--line); background:var(--panel-raised); }
@@ -402,7 +424,12 @@ button{font-family:inherit}
 /* generic bar-track used for router CPU/RAM meters and the reports trend chart */
 .bar-track{ width:100%; height:8px; background:var(--panel-raised); border-radius:99px; overflow:hidden; border:1px solid var(--line); }
 .bar-fill{ height:100%; background:var(--signal); border-radius:99px; width:0; transition:width .8s cubic-bezier(.16,.84,.44,1); }
-.bar-chart{ display:flex; align-items:flex-end; gap:10px; height:110px; padding-top:10px; }
+/* 30 daily bars at a fixed gap need real width to stay readable — same
+   situation as .table-scroll, so it scrolls within its own card instead of
+   forcing the whole page to scroll sideways on narrow phones. */
+#revChart{ overflow-x:auto; }
+.bar-chart{ display:flex; align-items:flex-end; gap:10px; height:110px; padding-top:10px; min-width:min-content; }
+.bar-chart .bar-col{ min-width:20px; }
 .bar-chart .bar-col{ display:flex; flex-direction:column; align-items:center; gap:7px; flex:1; }
 .bar-chart .bar-track{ height:80px; max-width:22px; display:flex; align-items:flex-end; }
 .bar-chart .bar-fill{ width:100%; height:0; border-radius:3px 3px 0 0; transition:height .8s cubic-bezier(.16,.84,.44,1); }
@@ -417,15 +444,30 @@ button{font-family:inherit}
 .table-toolbar .search-box input{ width:100%; background:var(--input-bg); border:1px solid var(--line); color:var(--text-hi); padding:7px 11px 7px 30px; border-radius:var(--radius); font-size:12px; outline:none;}
 .table-toolbar select{ background:var(--input-bg); border:1px solid var(--line); color:var(--text-mid); padding:7px 9px; border-radius:var(--radius); font-size:12px; }
 
-.table-scroll{ overflow-x:auto; }
+/* overflow-x:auto alone hides the scrollbar until hovered on most
+   platforms (and touch devices never show one at all), so a table wider
+   than its card gave no visual sign there was more to see off-screen —
+   the Status column was effectively invisible on tablets. A persistent
+   thin scrollbar makes the extra content discoverable. */
+.table-scroll{ overflow-x:auto; scrollbar-width:thin; scrollbar-color: var(--text-low) transparent; }
+.table-scroll::-webkit-scrollbar{ height:7px; }
+.table-scroll::-webkit-scrollbar-thumb{ background:var(--text-low); border-radius:99px; }
+.table-scroll::-webkit-scrollbar-track{ background:transparent; }
 table.data-table{ width:100%; border-collapse:collapse; min-width:720px; }
 .data-table thead th{ text-align:left; font-size:10.5px; color:var(--text-low); padding:11px 16px; border-bottom:1px solid var(--line); white-space:nowrap; font-weight:600; background:var(--panel-raised); }
 .data-table tbody td{ padding:12px 16px; border-bottom:1px solid var(--line); font-size:12.5px; white-space:nowrap; }
 .data-table tbody tr:last-child td{ border-bottom:none; }
 .data-table tbody tr:hover{ background:var(--panel-hover); }
+/* Every .data-table's last column is Status — the one field users most
+   need without having to scroll. Pinning it means it's always visible on
+   narrow/tablet screens no matter how far right the table has scrolled,
+   instead of being the very thing hidden off-screen. */
+.data-table th:last-child, .data-table td:last-child{ position:sticky; right:0; background:var(--panel); box-shadow:-8px 0 8px -8px rgba(0,0,0,.35); }
+.data-table thead th:last-child{ background:var(--panel-raised); }
+.data-table tbody tr:hover td:last-child{ background:var(--panel-hover); }
 .cell-strong{ font-weight:600; }
 .cell-sub{ color:var(--text-low); font-size:11px; }
-.row-actions{ display:flex; gap:6px; }
+.row-actions{ display:flex; gap:6px; flex-wrap:wrap; }
 
 .badge{ display:inline-flex; align-items:center; gap:5px; font-size:10.5px; font-weight:600; padding:3px 8px; border-radius:var(--radius-chip); white-space:nowrap; }
 .badge::before{ content:''; width:5px;height:5px;border-radius:99px; background:currentColor; }
@@ -484,9 +526,70 @@ table.data-table{ width:100%; border-collapse:collapse; min-width:720px; }
 .switch input:checked + .track::before{ transform:translateX(16px); background:#fff; }
 
 @media (max-width: 980px){
-  .app-shell{ grid-template-columns: 0 1fr; }
-  .sidebar{ position:fixed; z-index:100; width:var(--sidebar-w); transform:translateX(-100%); transition:transform .18s; }
-  .app-shell.mobile-open .sidebar{ transform:none; }
+  /* .sidebar becomes position:fixed below, which takes it out of grid flow
+     entirely, leaving the app-shell with only one grid item (the content
+     wrapper). With two tracks still defined, that lone item was falling into
+     the first (0-width) column and squashing every card's content. One
+     full-width track fixes it since the sidebar now overlays on top instead. */
+  .app-shell{ grid-template-columns: minmax(0, 1fr); }
+  .sidebar{ position:fixed; z-index:100; width:min(240px, 82vw); transform:translateX(-100%); transition:transform .2s ease; box-shadow:0 0 0 transparent; }
+  .app-shell.mobile-open .sidebar{ transform:none; box-shadow:20px 0 40px -20px rgba(0,0,0,.5); }
+  .sidebar-backdrop{ display:none; }
+  .app-shell.mobile-open ~ .sidebar-backdrop{ display:block; }
   .topbar-search{ display:none; }
+  .topbar{ padding:0 14px; gap:10px; }
+  .topbar-title #pageTitle{ font-size:13.5px; }
   .content{ padding:14px; }
+}
+@media (max-width: 760px){
+  .router-select-pill span:not(.dot-status){ display:none; }
+  .router-select-pill{ padding:8px; }
+  .topbar-divider{ display:none; }
+  .user-chip .meta{ display:none; }
+  .dropdown-panel{ width:300px; max-width:calc(100vw - 28px); }
+}
+@media (max-width: 480px){
+  .grid-3, .grid-4{ grid-template-columns:minmax(0,1fr); }
+  .ops-board{ grid-template-columns:minmax(0,1fr); }
+  .ops-col{ border-right:none; border-bottom:1px solid var(--line); }
+  .ops-col:last-child{ border-bottom:none; }
+  .page-head h1{ font-size:17px; }
+  .page-head .actions{ width:100%; flex-wrap:wrap; }
+  .page-head .actions .btn{ flex:1 1 auto; min-width:120px; }
+  .modal-overlay{ padding:10px; }
+  .modal-body, .modal-head, .modal-foot{ padding-left:14px; padding-right:14px; }
+  .icon-cluster #langBtn, .icon-cluster .icon-btn{ width:32px; }
+  .topbar-title #pageTitle{ max-width:34vw; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .topbar-title .datestamp{ display:none; }
+}
+/* Below ~400px the topbar's right-hand cluster (icon-cluster + user chip)
+   no longer fits next to the page title even with the router pill already
+   hidden above — it was forcing the whole page to scroll sideways on
+   longer titles like "Payment Settings". This must come after the 480px
+   block above so its narrower title cap actually wins the cascade at these
+   widths (same specificity, so source order decides). */
+@media (max-width: 430px){
+  .router-select-pill{ display:none; }
+  .topbar{ padding:0 10px; gap:8px; }
+  .topbar-right{ gap:6px; }
+  .topbar-title #pageTitle{ max-width:78px; }
+}
+/* Foldable-cover-screen widths (~280px, e.g. Galaxy Z Flip/Fold's outer
+   display) need a bit more shaved off the topbar's icon cluster and user
+   chip than 430px did, since the title has nowhere left to shrink. */
+@media (max-width: 300px){
+  .icon-cluster #langBtn, .icon-cluster .icon-btn{ width:28px; }
+  .user-chip .chevron, .user-chip svg:last-child{ display:none; }
+}
+/* Inputs at 16px on touch-sized screens prevents iOS Safari's automatic
+   zoom-on-focus, which otherwise disrupts the layout on every form field. */
+@media (max-width: 640px){
+  .field input, .field select, .field textarea,
+  .table-toolbar input, .table-toolbar select{ font-size:16px; }
+}
+/* Slightly larger tap targets on touch-sized screens. */
+@media (max-width: 640px){
+  .icon-btn, .btn-icon{ width:38px; height:38px; }
+  .nav-item{ padding:10px 12px; }
+  .btn{ padding:11px 16px; }
 }
