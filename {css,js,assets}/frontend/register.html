@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Create account — CHOPA TECH</title>
+<link rel="stylesheet" href="css/style.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
+<script src="js/three-bg.js" defer></script>
+</head>
+<body>
+<div class="auth-shell">
+  <div class="auth-visual">
+    <div class="brand-mark"><div class="dot">CT</div> CHOPA TECH</div>
+    <div><div class="headline" id="regHeadline">Set up your hotspot business in minutes</div><p class="sub" id="regSub">Add your first MikroTik router, create packages, and start selling vouchers today.</p></div>
+    <div class="signal-rows">
+      <div class="signal-row"><div class="bars"><i style="height:5px"></i><i style="height:8px"></i><i style="height:11px"></i><i style="height:14px"></i></div><span class="s-label" id="sigRoles">Roles supported</span><span class="s-val">6</span></div>
+      <div class="signal-row"><div class="bars"><i style="height:5px"></i><i style="height:8px"></i><i style="height:11px"></i><i style="height:14px"></i></div><span class="s-label" id="sigSetupTime">Avg. setup time</span><span class="s-val">2 min</span></div>
+    </div>
+  </div>
+  <div class="auth-panel">
+    <button id="authLangBtn" class="btn-icon" style="position:absolute; top:24px; right:24px; width:auto; padding:8px 12px; font-family:var(--font-mono); font-size:11px; font-weight:600;">EN</button>
+    <div class="auth-card">
+      <h1 id="lblCreateTitle">Create your account</h1>
+      <p class="lead" id="lblCreateLead">Start your CHOPA TECH workspace.</p>
+      <div class="form-error" id="regError"></div>
+      <form id="regForm">
+        <div class="field"><label id="lblBizName">Business / company name</label><input required placeholder="e.g. Chopa Shop WiFi"/></div>
+        <div class="field"><label id="lblFullName">Full name</label><input id="regName" required placeholder="Your name"/></div>
+        <div class="field"><label id="lblEmail">Email</label><input id="regEmail" type="email" required placeholder="you@company.com"/></div>
+        <div class="field"><label id="lblPassword">Password</label><input id="regPass" type="password" required placeholder="At least 8 characters"/></div>
+        <label class="checkbox-row" style="margin-bottom:18px"><input type="checkbox" required/> <span id="lblAgreeTerms">I agree to the Terms and Privacy Policy</span></label>
+        <button class="btn btn-primary btn-block" type="submit" id="regBtn">Create account</button>
+      </form>
+      <p class="auth-foot" id="lblAlreadyHave">Already have an account? <a href="login.html" id="lblSignInLink">Sign in</a></p>
+    </div>
+  </div>
+</div>
+<script src="js/mock-data.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/api.js"></script>
+<script>
+(function(){
+  const map = {
+    regHeadline: "register_headline", regSub: "register_sub",
+    sigRoles: "register_roles_supported", sigSetupTime: "register_setup_time",
+    lblCreateTitle: "create_account_title", lblCreateLead: "create_account_lead",
+    lblBizName: "label_business_name", lblFullName: "label_full_name",
+    lblEmail: "label_email", lblPassword: "label_password", lblAgreeTerms: "agree_terms",
+  };
+  for (const [id, key] of Object.entries(map)) { const el = document.getElementById(id); if (el) el.textContent = t(key); }
+  document.getElementById("regBtn").textContent = t("create_account_btn");
+  document.getElementById("lblAlreadyHave").firstChild.textContent = t("already_have_account") + " ";
+  document.getElementById("lblSignInLink").textContent = t("sign_in_btn");
+  document.getElementById("authLangBtn").textContent = getLang().toUpperCase();
+  document.getElementById("authLangBtn").addEventListener("click", () => setLanguage(getLang() === "en" ? "sw" : "en"));
+})();
+
+document.getElementById("regForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const btn = document.getElementById("regBtn");
+  const errBox = document.getElementById("regError");
+  errBox.style.display = "none";
+  btn.disabled = true; btn.textContent = t("creating_account");
+  try {
+    await Api.register({
+      name: document.getElementById("regName").value,
+      email: document.getElementById("regEmail").value,
+      password: document.getElementById("regPass").value,
+    });
+    location.href = "login.html";
+  } catch (err) {
+    errBox.textContent = t("register_error_msg");
+    errBox.style.display = "block";
+  } finally {
+    btn.disabled = false; btn.textContent = t("create_account_btn");
+  }
+});
+</script>
+</body>
+</html>

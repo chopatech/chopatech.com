@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Sign in — CHOPA TECH</title>
+<link rel="stylesheet" href="css/style.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
+<script src="js/three-bg.js" defer></script>
+</head>
+<body>
+<div class="auth-shell">
+  <div class="auth-visual">
+    <div class="brand-mark"><div class="dot">CT</div> CHOPA TECH</div>
+    <div>
+      <div class="headline" id="loginHeadline">Smart WiFi billing & network management</div>
+      <p class="sub" id="loginSub">Run vouchers, MikroTik routers, payments and reports for every hotspot, café or campus you manage — from one dashboard.</p>
+    </div>
+    <div class="signal-rows">
+      <div class="signal-row"><div class="bars"><i style="height:5px"></i><i style="height:8px"></i><i style="height:11px"></i><i style="height:14px"></i></div><span class="s-label" id="sigRouters">Routers connected</span><span class="s-val">4</span></div>
+      <div class="signal-row"><div class="bars"><i style="height:5px"></i><i style="height:8px"></i><i style="height:11px"></i><i style="height:14px"></i></div><span class="s-label" id="sigCollected">Collected this month</span><span class="s-val">TSH 73,000</span></div>
+      <div class="signal-row"><div class="bars"><i style="height:5px"></i><i style="height:8px"></i><i style="height:11px"></i><i style="height:14px;background:var(--amber)"></i></div><span class="s-label" id="sigUptime">Uptime target</span><span class="s-val">99.9%</span></div>
+    </div>
+  </div>
+  <div class="auth-panel">
+    <button id="authLangBtn" class="btn-icon" style="position:absolute; top:24px; right:24px; width:auto; padding:8px 12px; font-family:var(--font-mono); font-size:11px; font-weight:600;">EN</button>
+    <div class="auth-card">
+      <h1 id="lblWelcome">Welcome back</h1>
+      <p class="lead" id="lblSignInLead">Sign in to your CHOPA TECH dashboard.</p>
+      <div class="form-error" id="loginError"></div>
+      <form id="loginForm">
+        <div class="field"><label id="lblEmailUser">Email or username</label><input id="loginUser" type="text" required placeholder="you@chopatech.co.tz" autocomplete="username"/></div>
+        <div class="field">
+          <div class="field-row"><label id="lblPassword">Password</label><a href="forgot-password.html" id="lblForgot" style="font-size:12px;color:var(--signal)">Forgot password?</a></div>
+          <input id="loginPass" type="password" required placeholder="••••••••" autocomplete="current-password"/>
+        </div>
+        <label class="checkbox-row" style="margin-bottom:18px"><input type="checkbox" checked/> <span id="lblKeepSignedIn">Keep me signed in</span></label>
+        <button class="btn btn-primary btn-block" type="submit" id="loginBtn">Sign in</button>
+      </form>
+      <div class="auth-divider" id="lblOrDemo">or continue with demo</div>
+      <button class="btn btn-ghost btn-block" id="demoBtn">Explore demo dashboard</button>
+      <p class="auth-foot" id="lblNoAccount">Don't have an account? <a href="register.html" id="lblCreateOne">Create one</a></p>
+    </div>
+  </div>
+</div>
+<script src="js/mock-data.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/api.js"></script>
+<script>
+// apply translations
+(function(){
+  const map = {
+    loginHeadline: "login_headline", loginSub: "login_sub",
+    sigRouters: "login_routers_connected", sigCollected: "login_collected_month", sigUptime: "login_uptime_target",
+    lblWelcome: "welcome_back", lblSignInLead: "sign_in_lead",
+    lblEmailUser: "label_email_username", lblPassword: "label_password", lblForgot: "forgot_password",
+    lblKeepSignedIn: "keep_signed_in", lblOrDemo: "or_continue_demo",
+  };
+  for (const [id, key] of Object.entries(map)) { const el = document.getElementById(id); if (el) el.textContent = t(key); }
+  document.getElementById("loginBtn").textContent = t("sign_in_btn");
+  document.getElementById("demoBtn").textContent = t("explore_demo_btn");
+  document.getElementById("lblNoAccount").firstChild.textContent = t("no_account") + " ";
+  document.getElementById("lblCreateOne").textContent = t("create_one");
+  document.getElementById("authLangBtn").textContent = getLang().toUpperCase();
+  document.getElementById("authLangBtn").addEventListener("click", () => setLanguage(getLang() === "en" ? "sw" : "en"));
+})();
+
+document.getElementById("loginForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const btn = document.getElementById("loginBtn");
+  const errBox = document.getElementById("loginError");
+  errBox.style.display = "none";
+  btn.disabled = true; btn.textContent = t("signing_in");
+  try {
+    const res = await Api.login(document.getElementById("loginUser").value, document.getElementById("loginPass").value);
+    localStorage.setItem("chopa_token", res.token);
+    localStorage.setItem("chopa_user", JSON.stringify(res.user));
+    location.href = "index.html";
+  } catch (err) {
+    errBox.textContent = t("login_error_msg");
+    errBox.style.display = "block";
+  } finally {
+    btn.disabled = false; btn.textContent = t("sign_in_btn");
+  }
+});
+document.getElementById("demoBtn").addEventListener("click", () => {
+  localStorage.setItem("chopa_token", "demo-session");
+  localStorage.setItem("chopa_user", JSON.stringify(DEMO.currentUser));
+  location.href = "index.html";
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,367 @@
+// CHOPA TECH — database schema
+// Run `npx prisma migrate dev --name init` after configuring DATABASE_URL.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  SUPER_ADMIN
+  ADMIN
+  MANAGER
+  OPERATOR
+  RESELLER
+  VIEWER
+}
+
+enum RouterStatus {
+  ONLINE
+  OFFLINE
+  ERROR
+  CONNECTING
+}
+
+enum VoucherStatus {
+  AVAILABLE
+  ACTIVE
+  USED
+  EXPIRED
+  DISABLED
+}
+
+enum TransactionStatus {
+  PENDING
+  SUCCESS
+  FAILED
+  CANCELLED
+  REFUNDED
+}
+
+enum PaymentMethod {
+  CASH
+  MANUAL
+  MOBILE_MONEY
+  GATEWAY
+}
+
+enum SessionStatus {
+  ACTIVE
+  EXPIRED
+  DISCONNECTED
+}
+
+model User {
+  id            String    @id @default(uuid())
+  name          String
+  username      String    @unique
+  email         String    @unique
+  passwordHash  String
+  role          Role      @default(OPERATOR)
+  status        String    @default("ACTIVE") // ACTIVE | DISABLED
+  lastLoginAt   DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  deletedAt     DateTime?
+
+  auditLogs     AuditLog[]
+  vouchersMade  VoucherBatch[]
+  resellerOf    ResellerProfile?
+}
+
+model ResellerProfile {
+  id           String   @id @default(uuid())
+  user         User     @relation(fields: [userId], references: [id])
+  userId       String   @unique
+  balance      Decimal  @default(0)
+  commissionPct Decimal @default(0)
+  routerLimit  Int      @default(1)
+  createdAt    DateTime @default(now())
+}
+
+model Router {
+  id          String       @id @default(uuid())
+  name        String
+  host        String
+  apiPort     Int          @default(8728)
+  useSsl      Boolean      @default(false)
+  location    String?
+  description String?
+  status      RouterStatus @default(OFFLINE)
+  routerOsVer String?
+  lastSeenAt  DateTime?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  deletedAt   DateTime?
+
+  credential  RouterCredential?
+  plans       Plan[]
+  vouchers    Voucher[]
+  hotspotUsers HotspotUser[]
+  sessions    HotspotSession[]
+  batches     VoucherBatch[]
+  transactions Transaction[]
+  portals     Portal[]
+
+  @@index([status])
+}
+
+// Credentials are stored separately and encrypted at rest (see src/utils/crypto.js).
+// They are NEVER returned by any API response.
+model RouterCredential {
+  id           String   @id @default(uuid())
+  router       Router   @relation(fields: [routerId], references: [id])
+  routerId     String   @unique
+  username     String
+  passwordEnc  String   // AES-256-GCM ciphertext
+  updatedAt    DateTime @updatedAt
+}
+
+model Plan {
+  id            String   @id @default(uuid())
+  name          String
+  price         Decimal
+  durationMins  Int
+  downloadMbps  Int?
+  uploadMbps    Int?
+  dataLimitMb   Int?     // null = unlimited
+  simultaneous  Int      @default(1)
+  status        String   @default("ACTIVE")
+  router        Router?  @relation(fields: [routerId], references: [id])
+  routerId      String?  // null = applies to all routers
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  deletedAt     DateTime?
+
+  vouchers      Voucher[]
+}
+
+model VoucherBatch {
+  id          String   @id @default(uuid())
+  quantity    Int
+  prefix      String
+  codeLength  Int
+  plan        Plan?    @relation(fields: [planId], references: [id])
+  planId      String?
+  router      Router?  @relation(fields: [routerId], references: [id])
+  routerId    String?
+  createdBy   User     @relation(fields: [createdById], references: [id])
+  createdById String
+  succeeded   Int      @default(0)
+  failed      Int      @default(0)
+  createdAt   DateTime @default(now())
+
+  vouchers    Voucher[]
+}
+
+model Voucher {
+  id            String        @id @default(uuid())
+  code          String        @unique
+  username      String
+  passwordHash  String        // hashed hotspot password, never plaintext at rest
+  plan          Plan          @relation(fields: [planId], references: [id])
+  planId        String
+  router        Router        @relation(fields: [routerId], references: [id])
+  routerId      String
+  batch         VoucherBatch? @relation(fields: [batchId], references: [id])
+  batchId       String?
+  status        VoucherStatus @default(AVAILABLE)
+  mikrotikSynced Boolean      @default(false)
+  activatedAt   DateTime?
+  expiresAt     DateTime?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  transactions  Transaction[]
+  sessions      HotspotSession[]
+
+  @@index([status])
+  @@index([routerId])
+}
+
+model Customer {
+  id        String   @id @default(uuid())
+  name      String?
+  phone     String?  @unique
+  email     String?
+  createdAt DateTime @default(now())
+
+  transactions Transaction[]
+  invoices     Invoice[]
+}
+
+model Transaction {
+  id            String             @id @default(uuid())
+  reference     String             @unique
+  customer      Customer?          @relation(fields: [customerId], references: [id])
+  customerId    String?
+  amount        Decimal
+  method        PaymentMethod
+  provider      String?            // e.g. mpesa, airtel_money, mixx_yas, halopesa
+  voucher       Voucher?           @relation(fields: [voucherId], references: [id])
+  voucherId     String?
+  router        Router?            @relation(fields: [routerId], references: [id])
+  routerId      String?
+  status        TransactionStatus  @default(PENDING)
+  idempotencyKey String            @unique
+  rawWebhook    Json?
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
+
+  payment       Payment?
+  invoice       Invoice?
+}
+
+model Payment {
+  id             String   @id @default(uuid())
+  transaction    Transaction @relation(fields: [transactionId], references: [id])
+  transactionId  String   @unique
+  provider       String
+  externalId     String?
+  status         TransactionStatus @default(PENDING)
+  webhookVerified Boolean @default(false)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model Invoice {
+  id            String   @id @default(uuid())
+  number        String   @unique
+  customer      Customer? @relation(fields: [customerId], references: [id])
+  customerId    String?
+  transaction   Transaction? @relation(fields: [transactionId], references: [id])
+  transactionId String?  @unique
+  subtotal      Decimal
+  tax           Decimal  @default(0)
+  total         Decimal
+  status        String   @default("PENDING") // PENDING | PAID | VOID
+  createdAt     DateTime @default(now())
+}
+
+model HotspotUser {
+  id          String   @id @default(uuid())
+  username    String
+  router      Router   @relation(fields: [routerId], references: [id])
+  routerId    String
+  profile     String
+  ipAddress   String?
+  macAddress  String?
+  status      String   @default("OFFLINE") // ONLINE | OFFLINE | EXPIRED
+  dataUsedMb  Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([routerId])
+}
+
+model HotspotSession {
+  id          String        @id @default(uuid())
+  voucher     Voucher?      @relation(fields: [voucherId], references: [id])
+  voucherId   String?
+  router      Router        @relation(fields: [routerId], references: [id])
+  routerId    String
+  ipAddress   String?
+  macAddress  String?
+  startedAt   DateTime      @default(now())
+  endedAt     DateTime?
+  bytesIn     BigInt        @default(0)
+  bytesOut    BigInt        @default(0)
+  status      SessionStatus @default(ACTIVE)
+
+  @@index([routerId])
+  @@index([status])
+}
+
+model SMSProvider {
+  id        String   @id @default(uuid())
+  name      String
+  isActive  Boolean  @default(false)
+  configJson Json?   // non-secret config only; API keys live in env/secret manager
+  createdAt DateTime @default(now())
+}
+
+model SMSMessage {
+  id         String   @id @default(uuid())
+  to         String
+  body       String
+  template   String?
+  status     String   @default("PENDING") // PENDING | SENT | FAILED
+  providerRef String?
+  createdAt  DateTime @default(now())
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  title     String
+  body      String
+  type      String   // payment | voucher | router | sms | system
+  tone      String   @default("info") // good | warn | bad | info
+  readAt    DateTime?
+  createdAt DateTime @default(now())
+}
+
+model Portal {
+  id            String   @id @default(uuid())
+  router        Router?  @relation(fields: [routerId], references: [id])
+  routerId      String?
+  template      String   @default("Modern")
+  welcomeText   String   @default("Welcome to CHOPA WiFi")
+  primaryColor  String   @default("#2563EB")
+  buttonColor   String   @default("#FF5B34")
+  logoUrl       String?
+  backgroundUrl String?
+  supportPhone  String?
+  footerText    String?
+  configJson    Json?
+  updatedAt     DateTime @updatedAt
+}
+
+model AuditLog {
+  id         String   @id @default(uuid())
+  user       User?    @relation(fields: [userId], references: [id])
+  userId     String?
+  action     String
+  resource   String
+  resourceId String?
+  ipAddress  String?
+  metadata   Json?
+  createdAt  DateTime @default(now())
+
+  @@index([resource, resourceId])
+}
+
+model Setting {
+  key       String   @id
+  value     Json
+  updatedAt DateTime @updatedAt
+}
+
+// ---- RADIUS-ready tables (unused until RADIUS_ENABLED=true) ----
+model RadCheck {
+  id        Int    @id @default(autoincrement())
+  username  String
+  attribute String
+  op        String @default("==")
+  value     String
+}
+model RadReply {
+  id        Int    @id @default(autoincrement())
+  username  String
+  attribute String
+  op        String @default("=")
+  value     String
+}
+model RadAcct {
+  radacctid   BigInt   @id @default(autoincrement())
+  acctsessionid String
+  username    String
+  nasipaddress String
+  acctstarttime DateTime?
+  acctstoptime  DateTime?
+  acctinputoctets  BigInt @default(0)
+  acctoutputoctets BigInt @default(0)
+}
