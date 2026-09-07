@@ -1,0 +1,44 @@
+name = "chopa-tech-wifi-billing"
+main = "src/index.js"
+compatibility_date = "2025-01-01"
+compatibility_flags = ["nodejs_compat"]
+
+# --- Database (Cloudflare D1 — SQLite) ---
+# Create it with: wrangler d1 create chopa-tech-db
+# Then paste the database_id it prints below.
+[[d1_databases]]
+binding = "DB"
+database_name = "chopa-tech-db"
+database_id = "REPLACE_WITH_YOUR_D1_DATABASE_ID"
+
+# --- Static frontend (served by the same Worker) ---
+# Everything in /frontend is served directly; any request under /api/*
+# is handled by src/index.js instead (see "run_worker_first" below).
+[assets]
+directory = "./frontend"
+binding = "ASSETS"
+run_worker_first = ["/api/*"]
+
+# --- Non-secret config (safe to commit) ---
+[vars]
+APP_URL = "https://chopa-tech-wifi-billing.<your-subdomain>.workers.dev"
+TIMEZONE = "Africa/Dar_es_Salaam"
+CURRENCY = "TZS"
+JWT_EXPIRES_IN = "8h"
+PAYMENTS_MODE = "mock"   # mock | live
+SMS_MODE = "mock"        # mock | live
+SMS_PROVIDER = ""        # e.g. beem
+RATE_LIMIT_WINDOW_MS = "900000"
+RATE_LIMIT_MAX = "300"
+
+# --- Secrets (NEVER put these here — set with `wrangler secret put NAME`) ---
+# JWT_SECRET
+# ROUTER_CREDENTIALS_ENCRYPTION_KEY
+# MPESA_CONSUMER_KEY / MPESA_CONSUMER_SECRET / MPESA_SHORTCODE / MPESA_PASSKEY / MPESA_WEBHOOK_SECRET
+# SMS_API_KEY / SMS_API_SECRET / SMS_SENDER_ID
+
+# --- CPU/duration limits ---
+# MikroTik calls and voucher-batch generation can run long. On the Workers
+# Paid plan you can raise the CPU budget per request (default 30s):
+[limits]
+cpu_ms = 30000

@@ -1,0 +1,23 @@
+{
+  "name": "chopa-tech-workers",
+  "version": "1.0.0",
+  "description": "CHOPA TECH WiFi Billing & Hotspot Management System — Cloudflare Workers + D1 + MikroTik build",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "db:migrate:local": "wrangler d1 migrations apply chopa-tech-db --local",
+    "db:migrate:remote": "wrangler d1 migrations apply chopa-tech-db --remote",
+    "db:seed:local": "wrangler d1 execute chopa-tech-db --local --file=./migrations/seed.sql",
+    "db:seed:remote": "wrangler d1 execute chopa-tech-db --remote --file=./migrations/seed.sql"
+  },
+  "dependencies": {
+    "hono": "^4.6.9",
+    "jose": "^5.9.6",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "wrangler": "^3.90.0"
+  }
+}
