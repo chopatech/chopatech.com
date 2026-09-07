@@ -159,6 +159,14 @@ button{font-family:inherit}
   padding:10px 16px; font-weight:600; font-size:13px; cursor:pointer; font-family:var(--font-body);
   transition:background .12s, border-color .12s, opacity .12s, transform .08s;
 }
+/* Icons from ICON() ship with no width/height attribute, only a viewBox, so
+   any icon not already covered by a scoped `X svg{ width; height; }` rule
+   falls back to the browser's default replaced-element sizing. That's mostly
+   invisible on desktop but blows up to huge on mobile, where buttons like
+   `.page-head .actions .btn` stretch to fill the row (flex:1 1 auto) and give
+   the icon far more box to scale into. This is a global floor so no icon can
+   grow past 16px unless something more specific overrides it. */
+svg:not([width]):not([height]){ width:16px; height:16px; flex:0 0 auto; }
 .btn:active{ transform:scale(.97); }
 .btn-block{ width:100%; }
 .btn-primary{ background:var(--signal); color:#fff; }
@@ -491,7 +499,12 @@ table.data-table{ width:100%; border-collapse:collapse; min-width:720px; }
 .switch input:checked + .track::before{ transform:translateX(16px); background:#fff; }
 
 @media (max-width: 980px){
-  .app-shell{ grid-template-columns: 0 1fr; }
+  /* .sidebar becomes position:fixed below, which takes it out of grid flow
+     entirely, leaving the app-shell with only one grid item (the content
+     wrapper). With two tracks still defined, that lone item was falling into
+     the first (0-width) column and squashing every card's content. One
+     full-width track fixes it since the sidebar now overlays on top instead. */
+  .app-shell{ grid-template-columns: minmax(0, 1fr); }
   .sidebar{ position:fixed; z-index:100; width:min(240px, 82vw); transform:translateX(-100%); transition:transform .2s ease; box-shadow:0 0 0 transparent; }
   .app-shell.mobile-open .sidebar{ transform:none; box-shadow:20px 0 40px -20px rgba(0,0,0,.5); }
   .sidebar-backdrop{ display:none; }

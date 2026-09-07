@@ -504,9 +504,8 @@ VIEW_BUILDERS.reports = async function () {
       <div class="card stat-card tone-good"><div class="icon-wrap">${ICON("ticket")}</div><div class="label">Best package</div><div class="value" style="font-size:16px">24 Hours</div></div>
       <div class="card stat-card tone-warn"><div class="icon-wrap">${ICON("router")}</div><div class="label">Top router</div><div class="value" style="font-size:16px">CHOPA SHOP</div></div>
     </div>
-    <div class="card" style="margin-top:16px"><div class="card-head"><h3>Revenue trend</h3></div><div id="repChart"></div></div>`;
+    <div class="card" style="margin-top:16px"><div class="card-head"><h3>Revenue trend</h3></div><div id="revChart"></div></div>`;
   drawRevBars(data.revenueSeries["30d"]);
-  qs("#repChart").innerHTML = qs("#revChart") ? qs("#revChart").innerHTML : "";
 };
 
 /* ---------------- PAYMENT SETTINGS / GATEWAYS ---------------- */
